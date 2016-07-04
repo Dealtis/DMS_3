@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Paths>
+  <Jars></Jars>
+  <ResolvedResourceDirectories>
+    <ResolvedResourceDirectory>C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\obj\Debug\__library_projects__\AndHUD\library_project_imports\res</ResolvedResourceDirectory>
+    <ResolvedResourceDirectory>C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\obj\Debug\__library_projects__\AndroidEasingFunctions\library_project_imports\res</ResolvedResourceDirectory>
+    <ResolvedResourceDirectory>C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\obj\Debug\__library_projects__\AutoFitTextView\library_project_imports\res</ResolvedResourceDirectory>
+    <ResolvedResourceDirectory>C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\obj\Debug\__library_projects__\FortySevenDeg.SwipeListView\library_project_imports\res</ResolvedResourceDirectory>
+    <ResolvedResourceDirectory>C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\obj\Debug\__library_projects__\Xamarin.Insights\library_project_imports\res</ResolvedResourceDirectory>
+  </ResolvedResourceDirectories>
+  <ResolvedAssetDirectories>
+    <ResolvedAssetDirectory>C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\obj\Debug\__library_projects__\AndHUD\library_project_imports\assets</ResolvedAssetDirectory>
+    <ResolvedAssetDirectory>C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\obj\Debug\__library_projects__\AndroidEasingFunctions\library_project_imports\assets</ResolvedAssetDirectory>
+    <ResolvedAssetDirectory>C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\obj\Debug\__library_projects__\AutoFitTextView\library_project_imports\assets</ResolvedAssetDirectory>
+    <ResolvedAssetDirectory>C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\obj\Debug\__library_projects__\FortySevenDeg.SwipeListView\library_project_imports\assets</ResolvedAssetDirectory>
+    <ResolvedAssetDirectory>C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\obj\Debug\__library_projects__\Xamarin.Insights\library_project_imports\assets</ResolvedAssetDirectory>
+  </ResolvedAssetDirectories>
+  <ResolvedEnvironmentFiles />
+  <ResolvedResourceDirectoryStamps>
+    <ResolvedResourceDirectoryStamp>C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\obj\Debug\__library_projects__\AndHUD.stamp</ResolvedResourceDirectoryStamp>
+    <ResolvedResourceDirectoryStamp>C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\obj\Debug\__library_projects__\AndroidEasingFunctions.stamp</ResolvedResourceDirectoryStamp>
+    <ResolvedResourceDirectoryStamp>C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\obj\Debug\__library_projects__\AutoFitTextView.stamp</ResolvedResourceDirectoryStamp>
+    <ResolvedResourceDirectoryStamp>C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\obj\Debug\__library_projects__\FortySevenDeg.SwipeListView.stamp</ResolvedResourceDirectoryStamp>
+    <ResolvedResourceDirectoryStamp>C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\obj\Debug\__library_projects__\Xamarin.Insights.stamp</ResolvedResourceDirectoryStamp>
+  </ResolvedResourceDirectoryStamps>
+</Paths>
