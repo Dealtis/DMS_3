@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{04E2529E-E36B-4115-8AF5-B4227741CC2C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DMS_3</RootNamespace>
+    <AndroidApplication>True</AndroidApplication>
+    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
+    <AndroidResgenClass>Resource</AndroidResgenClass>
+    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
+    <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+    <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
+    <AssemblyName>DMS_3</AssemblyName>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Mono.Android" />
+    <Reference Include="AndHUD">
+      <HintPath>..\Components\AndHUD-1.3.1\lib\android\AndHUD.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Json" />
+    <Reference Include="NineOldAndroids">
+      <HintPath>..\packages\NineOldAndroids.2.4.0\lib\MonoAndroid23\NineOldAndroids.dll</HintPath>
+    </Reference>
+    <Reference Include="AndroidEasingFunctions">
+      <HintPath>..\packages\AndroidEasingFunctions.1.0.2.0\lib\MonoAndroid23\AndroidEasingFunctions.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoFitTextView">
+      <HintPath>..\packages\AutoFitTextView.0.2.1.0\lib\MonoAndroid403\AutoFitTextView.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="Xamarin.Insights">
+      <HintPath>..\packages\Xamarin.Insights.1.12.3\lib\MonoAndroid10\Xamarin.Insights.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Data.Sqlite" />
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.23.1.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.AppCompat">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.23.1.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainActivity.cs" />
+    <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BDD\DBRepository.cs" />
+    <Compile Include="BDD\TableUser.cs" />
+    <Compile Include="SplashActivity.cs" />
+    <Compile Include="HomeActivity.cs" />
+    <Compile Include="Data.cs" />
+    <Compile Include="BDD\TablePositions.cs" />
+    <Compile Include="ListeLivraisonsActivity.cs" />
+    <Compile Include="ListViewAdapter.cs" />
+    <Compile Include="DetailActivity.cs" />
+    <Compile Include="BDD\TableStatutPositions.cs" />
+    <Compile Include="ProcessDMS.cs" />
+    <Compile Include="AnomalieActivity.cs" />
+    <Compile Include="ListeTraitee.cs" />
+    <Compile Include="BDD\TableNotifications.cs" />
+    <Compile Include="BDD\TableMessages.cs" />
+    <Compile Include="MessageActivity.cs" />
+    <Compile Include="ListeViewMessageAdapter.cs" />
+    <Compile Include="BDD\TableLogService.cs" />
+    <Compile Include="BDD\TableLogApp.cs" />
+    <Compile Include="BDD\SQLite.cs" />
+    <Compile Include="ValidationActivity.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AboutResources.txt" />
+    <None Include="Properties\AndroidManifest.xml" />
+    <None Include="Assets\AboutAssets.txt" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Main.axml" />
+    <AndroidResource Include="Resources\mipmap-hdpi\Icon.png" />
+    <AndroidResource Include="Resources\mipmap-mdpi\Icon.png" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\Icon.png" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\Icon.png" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable\splash_screen.xml" />
+    <AndroidResource Include="Resources\drawable\iconapp.png" />
+    <AndroidResource Include="Resources\values\style.xml" />
+    <AndroidResource Include="Resources\values\colors.xml" />
+    <AndroidResource Include="Resources\values\strings.xml" />
+    <AndroidResource Include="Resources\drawable\gray_button.axml" />
+    <AndroidResource Include="Resources\drawable\bleu_button.xml" />
+    <AndroidResource Include="Resources\drawable\whitefield.png" />
+    <AndroidResource Include="Resources\layout\Home.axml" />
+    <AndroidResource Include="Resources\drawable\dealtis_fonte.png" />
+    <AndroidResource Include="Resources\drawable\delivery.png" />
+    <AndroidResource Include="Resources\drawable\Logout.png" />
+    <AndroidResource Include="Resources\drawable\newMsg.png" />
+    <AndroidResource Include="Resources\drawable\peekup.png" />
+    <AndroidResource Include="Resources\drawable\SBBadgeBG.png" />
+    <AndroidResource Include="Resources\drawable\SBBadgeBGUP.png" />
+    <AndroidResource Include="Resources\layout\ListeLivraisons.axml" />
+    <AndroidResource Include="Resources\layout\ListeViewRow.axml" />
+    <AndroidResource Include="Resources\layout\ListeViewRowEnlevement.axml" />
+    <AndroidResource Include="Resources\layout\ListeViewRowValide.axml" />
+    <AndroidResource Include="Resources\layout\ListeViewRowAnomalie.axml" />
+    <AndroidResource Include="Resources\layout\ListeViewRowAnomaliePJ.axml" />
+    <AndroidResource Include="Resources\drawable\choice_selected.xml" />
+    <AndroidResource Include="Resources\drawable\choice_unselected.xml" />
+    <AndroidResource Include="Resources\layout\Anomalie.axml" />
+    <AndroidResource Include="Resources\layout\boxsearch.axml" />
+    <AndroidResource Include="Resources\layout\DetailPosition.axml" />
+    <AndroidResource Include="Resources\layout\swipe.axml" />
+    <AndroidResource Include="Resources\Raw\beep4.mp3" />
+    <AndroidResource Include="Resources\Raw\msg3.mp3" />
+    <AndroidResource Include="Resources\anim\slideIn_right.xml" />
+    <AndroidResource Include="Resources\layout\ChatLayout.axml" />
+    <AndroidResource Include="Resources\layout\RowLeft.axml" />
+    <AndroidResource Include="Resources\layout\RowRight.axml" />
+    <AndroidResource Include="Resources\layout\valideDialBox.axml" />
+    <AndroidResource Include="Resources\drawable\row_valide_background.xml" />
+    <AndroidResource Include="Resources\drawable\Anom.png" />
+    <AndroidResource Include="Resources\drawable\Anompj.png" />
+    <AndroidResource Include="Resources\drawable\Enl.png" />
+    <AndroidResource Include="Resources\drawable\Liv.png" />
+    <AndroidResource Include="Resources\drawable\LivAdr.png" />
+    <AndroidResource Include="Resources\drawable\Val.png" />
+    <AndroidResource Include="Resources\drawable\row_anomalie_background.xml" />
+    <AndroidResource Include="Resources\drawable\row_null_background.xml" />
+    <AndroidResource Include="Resources\drawable\button_white_background.xml" />
+    <AndroidResource Include="Resources\drawable\magnifier13.png" />
+    <AndroidResource Include="Resources\anim\slideOut_left.xml" />
+    <AndroidResource Include="Resources\drawable\send.png" />
+    <AndroidResource Include="Resources\layout\ListeViewRowStroke.axml" />
+    <AndroidResource Include="Resources\drawable\row_stroke_background.xml" />
+    <AndroidResource Include="Resources\layout\ListeViewDelete.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\drawable\" />
+    <Folder Include="BDD\" />
+    <Folder Include="Resources\Raw\" />
+    <Folder Include="Resources\anim\" />
+    <Folder Include="Assets\fonts\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <Import Project="..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.12.3\build\MonoAndroid10\Xamarin.Insights.targets')" />
+  <ItemGroup>
+    <XamarinComponentReference Include="AndHUD">
+      <Version>1.3.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="AndroidViewAnimations">
+      <Version>1.1.3.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="AutoFitTextView">
+      <Version>0.2.1.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="xamandroidsupportv7appcompat">
+      <Version>23.1.1.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\fonts\Lato-Black.ttf" />
+    <AndroidAsset Include="Assets\fonts\Lato-Bold.ttf" />
+    <AndroidAsset Include="Assets\fonts\Lato-Light.ttf" />
+    <AndroidAsset Include="Assets\fonts\Lato-Medium.ttf" />
+    <AndroidAsset Include="Assets\fonts\Lato-Regular.ttf" />
+  </ItemGroup>
+</Project>

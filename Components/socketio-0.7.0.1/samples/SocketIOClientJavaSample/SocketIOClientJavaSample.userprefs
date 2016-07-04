@@ -1,0 +1,32 @@
+﻿<Properties StartupItem="SocketIOClientJavaSample\SocketIOClientJavaSample.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.14361521650225" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\..\DMS_3\AnomalieActivity.cs">
+    <Files>
+      <File FileName="..\..\..\..\DMS_3\SplashActivity.cs" Line="1" Column="1" />
+      <File FileName="..\..\..\..\DMS_3\MainActivity.cs" Line="1" Column="1" />
+      <File FileName="..\..\..\..\DMS_3\ProcessDMS.cs" Line="370" Column="4" />
+      <File FileName="SocketIOClientJavaSample\Data.cs" Line="1" Column="1" />
+      <File FileName="..\..\..\..\DMS_3\BDD\DBRepository.cs" Line="1" Column="1" />
+      <File FileName="..\..\..\..\DMS_3\HomeActivity.cs" Line="1" Column="1" />
+      <File FileName="..\..\..\..\DMS_3\DMS_3.csproj" Line="20" Column="19" />
+      <File FileName="..\..\..\..\DMS_3\AnomalieActivity.cs" Line="196" Column="23" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\ServiceDmsReceiver.cs" line="27" column="1" />
+      <Breakpoint file="C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\ProcessDMS.cs" line="578" column="1" />
+      <Breakpoint file="C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\ProcessDMS.cs" line="557" column="1" />
+      <Breakpoint file="C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\ProcessDMS.cs" line="539" column="1" />
+      <Breakpoint file="C:\Users\rvanardois.JEANTET\Documents\APP\DMS\C#\DMS_3\DMS_3\HomeActivity.cs" line="339" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

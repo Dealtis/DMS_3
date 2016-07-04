@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/layoutanomalie">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout1" />
+    <Spinner
+        android:id="@+id/spinnerAnomalie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:phoneNumber="false"
+        android:password="false"
+        android:inputType="textLongMessage" />
+    <CheckBox
+        android:text="Particulier"
+        android:id="@+id/checkBoxPartic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_gravity="center" />
+    <ImageView
+        android:src="@android:drawable/ic_menu_gallery"
+        android:layout_width="match_parent"
+        android:id="@+id/imageView1"
+        android:layout_height="223.9dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:weightSum="1.0">
+        <Button
+            android:text="@string/Valider"
+            android:layout_width="@dimen/dim150"
+            android:layout_height="@dimen/dim50"
+            android:id="@+id/valider"
+            android:layout_gravity="bottom"
+            android:layout_alignParentLeft="true"
+            android:layout_weight=".5"
+            android:textColor="@color/white"
+            android:background="@drawable/row_valide_background" />
+        <Button
+            android:text="Photo"
+            android:layout_width="@dimen/dim150"
+            android:layout_height="@dimen/dim50"
+            android:id="@+id/openCamera"
+            android:layout_gravity="bottom"
+            android:layout_alignParentRight="true"
+            android:layout_weight=".5"
+            android:textColor="@color/white"
+            android:background="@drawable/row_null_background" />
+    </RelativeLayout>
+</LinearLayout>
