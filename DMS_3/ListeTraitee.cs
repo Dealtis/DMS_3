@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using DMS_3.BDD;
+using FortySevenDeg.SwipeListView;
 using SQLite;
 using AndroidHUD;
 namespace DMS_3

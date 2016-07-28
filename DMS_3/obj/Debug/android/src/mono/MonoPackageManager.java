@@ -99,6 +99,7 @@ class MonoPackageManager_Resources {
 	public static final String[] Assemblies = new String[]{
 		/* We need to ensure that "DMS_3.dll" comes first in this list. */
 		"DMS_3.dll",
+<<<<<<< HEAD
 		"Java.Interop.dll",
 		"AndHUD.dll",
 		"NineOldAndroids.dll",
@@ -107,6 +108,17 @@ class MonoPackageManager_Resources {
 		"Xamarin.Insights.dll",
 		"Xamarin.Android.Support.v4.dll",
 		"Xamarin.Android.Support.v7.AppCompat.dll",
+=======
+		"AndHUD.dll",
+		"AndroidEasingFunctions.dll",
+		"AutoFitTextView.dll",
+		"FortySevenDeg.SwipeListView.dll",
+		"NineOldAndroids.dll",
+		"Xamarin.Android.Support.v4.dll",
+		"Xamarin.Android.Support.v7.AppCompat.dll",
+		"Xamarin.Insights.dll",
+		"Java.Interop.dll",
+>>>>>>> master
 		"System.ServiceModel.Internals.dll",
 	};
 	public static final String[] Dependencies = new String[]{

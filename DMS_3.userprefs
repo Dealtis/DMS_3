@@ -1,18 +1,17 @@
-﻿<Properties StartupItem="DMS_3/DMS_3.csproj" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/HomeActivity.cs">
-    <Files>
-      <File FileName="DMS_3/ListeLivraisonsActivity.cs" Line="27" Column="9" />
-      <File FileName="DMS_3/AnomalieActivity.cs" Line="24" Column="23" />
-      <File FileName="DMS_3/BDD/TableUser.cs" Line="14" Column="14" />
-      <File FileName="DMS_3/MainActivity.cs" Line="55" Column="4" />
-      <File FileName="DMS_3/HomeActivity.cs" Line="83" Column="11" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="DMS_3\DMS_3.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench>
+    <Files>
+      <File FileName="DMS_3\DetailActivity.cs" Line="58" Column="4" />
+      <File FileName="DMS_3\AnomalieActivity.cs" Line="233" Column="37" />
+      <File FileName="DMS_3\SplashActivity.cs" Line="13" Column="25" />
+      <File FileName="DMS_3\ValidationActivity.cs" Line="15" Column="18" NotebookId="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.DMS__3 AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Xamarin_Android_API_15" />
   <AuthorInfo Name="rvanardois" Email="" Copyright="rvanardois" Company="" Trademark="" />
-  <MonoDevelop.Ide.ItemProperties.DMS__3 AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Android_ARMv7a" />
 </Properties>

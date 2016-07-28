@@ -9,6 +9,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using DMS_3.BDD;
+using FortySevenDeg.SwipeListView;
 using SQLite;
 using AndroidHUD;
 namespace DMS_3
@@ -16,9 +17,10 @@ namespace DMS_3
 	
 	[Activity (Label = "ListeLivraisonsActivity",Theme = "@android:style/Theme.Black.NoTitleBar")]			
 	public class ListeLivraisonsActivity : Activity
-	{
+	{	
 
 		string[] Arraygrp = new string[10];
+
 		public List<TablePositions> bodyItems;
 		public ListView bodyListView;
 		public bool insertdone;

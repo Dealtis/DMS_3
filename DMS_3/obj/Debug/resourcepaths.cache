@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Paths>
   <AdditionalAndroidResourcePaths>
+<<<<<<< HEAD
     <AdditionalAndroidResourcePath>/Users/eXtRa/.local/share/Xamarin/Xamarin.Android.Support.v4/23.1.1.0/embedded</AdditionalAndroidResourcePath>
     <AdditionalAndroidResourcePath>/Users/eXtRa/.local/share/Xamarin/Xamarin.Android.Support.v7.AppCompat/23.1.1.0/embedded</AdditionalAndroidResourcePath>
   </AdditionalAndroidResourcePaths>
@@ -8,6 +9,15 @@
     <AdditionalJavaLibraryReference>/Users/eXtRa/.local/share/Xamarin/Xamarin.Android.Support.v4/23.1.1.0/embedded/classes.jar</AdditionalJavaLibraryReference>
     <AdditionalJavaLibraryReference>/Users/eXtRa/.local/share/Xamarin/Xamarin.Android.Support.v4/23.1.1.0/embedded/libs/internal_impl-23.1.1.jar</AdditionalJavaLibraryReference>
     <AdditionalJavaLibraryReference>/Users/eXtRa/.local/share/Xamarin/Xamarin.Android.Support.v7.AppCompat/23.1.1.0/embedded/classes.jar</AdditionalJavaLibraryReference>
+=======
+    <AdditionalAndroidResourcePath>C:\Users\rvanardois.JEANTET\AppData\Local\Xamarin\Xamarin.Android.Support.v4\23.1.1.0\embedded</AdditionalAndroidResourcePath>
+    <AdditionalAndroidResourcePath>C:\Users\rvanardois.JEANTET\AppData\Local\Xamarin\Xamarin.Android.Support.v7.AppCompat\23.1.1.0\embedded</AdditionalAndroidResourcePath>
+  </AdditionalAndroidResourcePaths>
+  <AdditionalJavaLibraryReferences>
+    <AdditionalJavaLibraryReference>C:\Users\rvanardois.JEANTET\AppData\Local\Xamarin\Xamarin.Android.Support.v4\23.1.1.0\embedded\classes.jar</AdditionalJavaLibraryReference>
+    <AdditionalJavaLibraryReference>C:\Users\rvanardois.JEANTET\AppData\Local\Xamarin\Xamarin.Android.Support.v4\23.1.1.0\embedded\libs\internal_impl-23.1.1.jar</AdditionalJavaLibraryReference>
+    <AdditionalJavaLibraryReference>C:\Users\rvanardois.JEANTET\AppData\Local\Xamarin\Xamarin.Android.Support.v7.AppCompat\23.1.1.0\embedded\classes.jar</AdditionalJavaLibraryReference>
+>>>>>>> master
   </AdditionalJavaLibraryReferences>
   <AdditionalNativeLibraryReferences />
 </Paths>
