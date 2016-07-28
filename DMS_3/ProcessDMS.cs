@@ -51,15 +51,10 @@ namespace DMS_3
 		//string log_file;
 		public override StartCommandResult OnStartCommand (Android.Content.Intent intent, StartCommandFlags flags, int startId)
 		{			
-			var t = DateTime.Now.ToString("dd_MM_yy");
-			string dir_log = (Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)).ToString();
-			ISharedPreferences pref = Application.Context.GetSharedPreferences("AppInfo", FileCreationMode.Private);
-			string log = pref.GetString("Log", String.Empty);
 			//GetTelId
 			TelephonyManager tel = (TelephonyManager)this.GetSystemService(Context.TelephonyService);
 			var telId = tel.DeviceId;
 			//provisoire
-			DBRepository dbr = new DBRepository ();
 			userAndsoft = dbr.getUserAndsoft ();
 			userTransics = dbr.getUserTransics ();
 
@@ -153,7 +148,7 @@ namespace DMS_3
 							}
 						}
 
-						string dir_log = (Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)).ToString();
+						//string dir_log = (Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)).ToString();
 						ISharedPreferences pref = Application.Context.GetSharedPreferences("AppInfo", FileCreationMode.Private);
 						ISharedPreferencesEditor edit = pref.Edit();
 						edit.PutLong("Service",DateTime.Now.Ticks);
@@ -249,7 +244,7 @@ namespace DMS_3
 					//var jsonArr = jsonVal;							
 					if (jsonVal["etat"].ToString() == "\"CLO\""){
 							//suppression du groupage en question si clo
-							var suppgrp = dbr.supp_grp(numGroupage);
+							dbr.supp_grp(numGroupage);
 					}					
 				}
 				catch (Exception ex) {
@@ -439,7 +434,7 @@ namespace DMS_3
 
 				var tablemessage = db.Query<TableMessages> ("SELECT * FROM TableMessages WHERE statutMessage = 2 or statutMessage = 5");
 				foreach (var item in tablemessage) {
-					var updatestatutmessage = db.Query<TableMessages> ("UPDATE TableMessages SET statutMessage = 3 WHERE _Id = ?",item.Id);
+					db.Query<TableMessages> ("UPDATE TableMessages SET statutMessage = 3 WHERE _Id = ?",item.Id);
 				}
 				//dbr.InsertLogService("",DateTime.Now,"WebClient_UploadStringStatutCompleted Done");
 			} catch (Exception ex) {
@@ -508,7 +503,7 @@ namespace DMS_3
 			DBRepository dbr = new DBRepository ();
 			try {
 				if (texteMessage.ToString().Length < 9) {
-					var resinteg = dbr.InsertDataMessage (codeChauffeur, utilisateurEmetteur, texteMessage,0,DateTime.Now,1,numMessage);
+					dbr.InsertDataMessage (codeChauffeur, utilisateurEmetteur, texteMessage,0,DateTime.Now,1,numMessage);
 					//TODO
 					//var resintegstatut = dbr.InsertDataStatutMessage(0,DateTime.Now,numMessage,"","");
 					alertsms ();	
@@ -516,18 +511,18 @@ namespace DMS_3
 					switch(texteMessage.ToString().Substring(0,9))
 					{
 					case "%%SUPPLIV":
-						var updatestat = dbr.updatePositionSuppliv((texteMessage.ToString()).Remove((texteMessage.ToString()).Length - 2).Substring(10));
+						dbr.updatePositionSuppliv((texteMessage.ToString()).Remove((texteMessage.ToString()).Length - 2).Substring(10));
 						dbr.InsertDataStatutMessage (1,DateTime.Now,numMessage,"","");
 						dbr.InsertDataMessage (codeChauffeur, utilisateurEmetteur,"La position "+(texteMessage.ToString()).Remove((texteMessage.ToString()).Length - 2).Substring(10)+" a été supprimée de votre tournée",0,DateTime.Now,1, numMessage);
 						//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"[SYSTEM]Réception d'un SUPPLIV à "+DateTime.Now.ToString("t")+"\n");
 						break;
 					case "%%RETOLIV":
-						var updatestattretour = db.Query<TablePositions>("UPDATE TablePositions SET imgpath = null WHERE numCommande = ?",(texteMessage.ToString()).Remove((texteMessage.ToString()).Length - 2).Substring(10));
-						var resstatutbis = dbr.InsertDataStatutMessage (1,DateTime.Now,numMessage,"","");
+						db.Query<TablePositions>("UPDATE TablePositions SET imgpath = null WHERE numCommande = ?",(texteMessage.ToString()).Remove((texteMessage.ToString()).Length - 2).Substring(10));
+						dbr.InsertDataStatutMessage (1,DateTime.Now,numMessage,"","");
 						break;
 					case "%%SUPPGRP":
-						var supgrp = db.Query<TablePositions>("DELETE from TablePositions where groupage = ?",(texteMessage.ToString()).Remove((texteMessage.ToString()).Length - 2).Substring(10));
-						var ressupgrp = dbr.InsertDataStatutMessage (1,DateTime.Now,numMessage,"","");
+						db.Query<TablePositions>("DELETE from TablePositions where groupage = ?",(texteMessage.ToString()).Remove((texteMessage.ToString()).Length - 2).Substring(10));
+						dbr.InsertDataStatutMessage (1,DateTime.Now,numMessage,"","");
 						break;
 					case "%%GETFLOG":
 						//ftp://77.158.93.75 or ftp://10.1.2.75
@@ -580,7 +575,7 @@ namespace DMS_3
 							}
 							rowMsg.Remove(rowMsg.Length -1);
 							rowMsg += "]";
-							var rMsg = dbr.InsertDataMessage (Data.userAndsoft, "", rowMsg, 5, DateTime.Now, 5, 0);
+							dbr.InsertDataMessage (Data.userAndsoft, "", rowMsg, 5, DateTime.Now, 5, 0);
 							//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]REQUETE Execute " + rowMsg + "\n");
 							break;
 						case"TableNotifications":
@@ -593,7 +588,7 @@ namespace DMS_3
 							}
 							rowNotif.Remove(rowNotif.Length -1);
 							rowNotif += "]";
-							var rNotif = dbr.InsertDataMessage (Data.userAndsoft, "", rowNotif, 5, DateTime.Now, 5, 0);
+							dbr.InsertDataMessage (Data.userAndsoft, "", rowNotif, 5, DateTime.Now, 5, 0);
 							//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]REQUETE Execute " + rowNotif + "\n");
 							break;
 						case"TablePositions":
@@ -606,7 +601,7 @@ namespace DMS_3
 							}
 							rowPos.Remove(rowPos.Length -1);
 							rowPos += "]";
-							var rPOS = dbr.InsertDataMessage (Data.userAndsoft, "", rowPos, 5, DateTime.Now, 5, 0);
+							dbr.InsertDataMessage (Data.userAndsoft, "", rowPos, 5, DateTime.Now, 5, 0);
 							//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]REQUETE Execute " + rowPos + "\n");
 							break;
 						case"TableStatutPositions":
@@ -619,7 +614,7 @@ namespace DMS_3
 							}
 							rowStatut.Remove(rowStatut.Length -1);
 							rowStatut += "]";
-							var rSTATLIV = dbr.InsertDataMessage (Data.userAndsoft, "", rowStatut, 5, DateTime.Now, 5, 0);
+							dbr.InsertDataMessage (Data.userAndsoft, "", rowStatut, 5, DateTime.Now, 5, 0);
 							//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]REQUETE Execute " + rowStatut + "\n");
 							break;
 						case"TableUser":
@@ -632,7 +627,7 @@ namespace DMS_3
 							}
 							rowUser.Remove(rowUser.Length -1);
 							rowUser += "]";
-							var rMUSER = dbr.InsertDataMessage (Data.userAndsoft, "", rowUser, 5, DateTime.Now, 5, 0);
+							dbr.InsertDataMessage (Data.userAndsoft, "", rowUser, 5, DateTime.Now, 5, 0);
 							break;
 						case"TableLogService":
 							var selLog = db.Query<TableLogService> (texteMessageInputSplit [3]);
@@ -661,7 +656,7 @@ namespace DMS_3
 						default:
 							//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]Réception d'un REQUETE\n");
 							var execreq = db.Execute (texteMessageInputSplit [3]);
-							var rEXEC = dbr.InsertDataMessage (Data.userAndsoft, "", execreq+" lignes traitées : "+texteMessageInputSplit [3], 5, DateTime.Now, 5, 0);
+							dbr.InsertDataMessage (Data.userAndsoft, "", execreq+" lignes traitées : "+texteMessageInputSplit [3], 5, DateTime.Now, 5, 0);
 							//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]REQUETE Execute " + execreq +" pour "+texteMessageInputSplit [3]+"\n");
 							break;
 						}
@@ -718,7 +713,7 @@ namespace DMS_3
 				stream.Close();
 				FtpWebResponse res = (FtpWebResponse)req.GetResponse();
 				//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"Upload file"+fileName+" good\n");
-				Console.Out.Write("Upload file"+fileName+" good\n");
+				Console.Out.Write("Upload file"+fileName+" : "+res);
 				return true;
 			} catch (Exception ex) {
 				Insights.Report(ex);

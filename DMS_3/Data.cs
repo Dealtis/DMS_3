@@ -17,8 +17,6 @@ namespace DMS_3
 {
 	class Data
 	{
-		public static Java.Lang.Thread CheckService;
-
 		//Instance
 		private static Data instance;
 		//DATA User
@@ -107,13 +105,13 @@ namespace DMS_3
 				stream.Write(data, 0, data.Length);
 				stream.Close();
 				FtpWebResponse res = (FtpWebResponse)req.GetResponse();
-				File.AppendAllText(Data.log_file,"Upload file"+fileName+" good\n");
-				Console.Out.Write("Upload file"+fileName+" good\n");
+				//File.AppendAllText(Data.log_file,"Upload file"+fileName+" good\n");
+				Console.Out.Write("Upload file"+fileName+" : "+res);
 				return true;
 
 			} catch (Exception ex) {
 				Insights.Report(ex);
-				File.AppendAllText(Data.log_file,"Upload file"+fileName+" error :"+ex+"\n");
+				//File.AppendAllText(Data.log_file,"Upload file"+fileName+" error :"+ex+"\n");
 				Console.Out.Write("Upload file"+fileName+" error\n");
 				return false;
 			}
@@ -172,7 +170,7 @@ namespace DMS_3
 					//var jsonArr = jsonVal;							
 					if (jsonVal["etat"].ToString() == "\"CLO\""){
 						//suppression du groupage en question si clo
-						var suppgrp = dbr.supp_grp(numGroupage);
+						dbr.supp_grp(numGroupage);
 					}					
 				}
 				catch (Exception ex) {

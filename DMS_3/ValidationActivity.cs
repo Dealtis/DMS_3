@@ -154,9 +154,8 @@ namespace DMS_3
 						{
 							rbmp.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg, 100, fs);
 						}
-						bool statutuploadfile = false;
-							//ftp://77.158.93.75 ftp://10.1.2.75
-							statutuploadfile = Data.Instance.UploadFile("ftp://77.158.93.75", compImg, "DMS", "Linuxr00tn", "");
+						//ftp://77.158.93.75 ftp://10.1.2.75
+						Data.Instance.UploadFile("ftp://77.158.93.75", compImg, "DMS", "Linuxr00tn", "");
 						uploadone = true;
 						bmp.Recycle();
 						rbmp.Recycle();

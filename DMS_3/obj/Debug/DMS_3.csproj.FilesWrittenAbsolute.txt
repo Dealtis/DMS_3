@@ -69,6 +69,9 @@
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/NineOldAndroids.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/AndroidEasingFunctions.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/AutoFitTextView.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/FortySevenDeg.SwipeListView.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/Xamarin.Insights.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/Xamarin.Android.Support.v4.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/Xamarin.Android.Support.Vector.Drawable.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/Xamarin.Android.Support.Animated.Vector.Drawable.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/Xamarin.Android.Support.v7.AppCompat.dll

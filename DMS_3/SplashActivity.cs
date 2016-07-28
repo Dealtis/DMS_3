@@ -20,7 +20,6 @@ namespace DMS_3
 	[Activity (Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
 	public class SplashActivity : AppCompatActivity
 	{
-		static readonly string TAG = "X:" + typeof(SplashActivity).Name;
 		BackgroundWorker bgService;
 
 
@@ -139,12 +138,12 @@ namespace DMS_3
 		while (true) {
 				Thread.Sleep(600000);
 				try {
-					DBRepository dbr = new DBRepository();
+					//DBRepository dbr = new DBRepository();
 					//dbr.InsertLogApp("",DateTime.Now,"Check Service Start");
 					Console.WriteLine ("Check Service Start"+DateTime.Now.ToString("T"));
 					//verification de la date de la pre Service
 					//si la diff est > 10 min relancer le service
-					string dir_log = (Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)).ToString();
+					//string dir_log = (Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)).ToString();
 					ISharedPreferences pref = Application.Context.GetSharedPreferences("AppInfo", FileCreationMode.Private);
 					long servicedate = pref.GetLong("Service",0L);
 

@@ -42,7 +42,6 @@ namespace DMS_3
 		RelativeLayout peekupBadge;
 		RelativeLayout newMsgBadge;
 		System.Timers.Timer indicatorTimer;
-		System.Timers.Timer serviceTimer;
 		public ProcessDMSBinder binder;
 		ProcessDMSConnection processDMSConnection;
 

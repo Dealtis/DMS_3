@@ -17,7 +17,6 @@ namespace DMS_3
 	public class ListViewAdapterMenu : BaseAdapter<TablePositions> {
 		private List<TablePositions> mItems;
 		private Context mContext;
-		string txtspinner;
 		public ListViewAdapterMenu(Context context,List<TablePositions> items) : base() {
 			mItems = items;
 			mContext = context;

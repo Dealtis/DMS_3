@@ -1,17 +1,23 @@
-﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="DMS_3\DMS_3.csproj">
+﻿<Properties StartupItem="DMS_3/DMS_3.csproj" RefactoringSettings.EnableRefactorings="True">
+  <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/Resources/values/style.xml">
+    <Files>
+      <File FileName="DMS_3/MainActivity.cs" Line="111" Column="8" />
+      <File FileName="DMS_3/BDD/DBRepository.cs" Line="431" Column="15" />
+      <File FileName="DMS_3/SplashActivity.cs" Line="16" Column="15" />
+      <File FileName="DMS_3/Data.cs" Line="175" Column="7" />
+      <File FileName="DMS_3/ProcessDMS.cs" Line="155" Column="20" />
+      <File FileName="DMS_3/AnomalieActivity.cs" Line="224" Column="8" />
+      <File FileName="DMS_3/MessageActivity.cs" Line="105" Column="4" />
+      <File FileName="DMS_3/ValidationActivity.cs" Line="157" Column="7" />
+      <File FileName="DMS_3/HomeActivity.cs" Line="44" Column="38" />
+      <File FileName="DMS_3/Resources/values/style.xml" Line="2" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench>
-    <Files>
-      <File FileName="DMS_3\DetailActivity.cs" Line="58" Column="4" />
-      <File FileName="DMS_3\AnomalieActivity.cs" Line="233" Column="37" />
-      <File FileName="DMS_3\SplashActivity.cs" Line="13" Column="25" />
-      <File FileName="DMS_3\ValidationActivity.cs" Line="15" Column="18" NotebookId="1" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.DMS__3 AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Xamarin_Android_API_15" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <AuthorInfo Name="rvanardois" Email="" Copyright="rvanardois" Company="" Trademark="" />
+  <MonoDevelop.Ide.ItemProperties.DMS__3 AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Android_Accelerated_x86" />
 </Properties>

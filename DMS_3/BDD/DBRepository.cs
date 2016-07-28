@@ -428,12 +428,7 @@ namespace DMS_3.BDD
 		//suppresion d'un GRP
 		public string supp_grp(string numGroupage)
 		{
-			try {
-				return "Y";
-			} catch (Exception ex) {
-				return "N";
-			}
-
+			return "N";
 		}
 
 		public string purgeLog(){			
