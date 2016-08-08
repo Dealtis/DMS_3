@@ -1,17 +1,36 @@
 ﻿<Properties StartupItem="DMS_3/DMS_3.csproj" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/Resources/values/style.xml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/ValidationActivity.cs">
     <Files>
       <File FileName="DMS_3/MainActivity.cs" Line="111" Column="8" />
       <File FileName="DMS_3/BDD/DBRepository.cs" Line="431" Column="15" />
-      <File FileName="DMS_3/SplashActivity.cs" Line="16" Column="15" />
-      <File FileName="DMS_3/Data.cs" Line="175" Column="7" />
-      <File FileName="DMS_3/ProcessDMS.cs" Line="155" Column="20" />
-      <File FileName="DMS_3/AnomalieActivity.cs" Line="224" Column="8" />
+      <File FileName="DMS_3/SplashActivity.cs" Line="31" Column="38" />
+      <File FileName="DMS_3/Data.cs" Line="20" Column="3" />
+      <File FileName="DMS_3/ProcessDMS.cs" Line="146" Column="15" />
+      <File FileName="DMS_3/AnomalieActivity.cs" Line="32" Column="8" />
       <File FileName="DMS_3/MessageActivity.cs" Line="105" Column="4" />
-      <File FileName="DMS_3/ValidationActivity.cs" Line="157" Column="7" />
+      <File FileName="DMS_3/ValidationActivity.cs" Line="38" Column="8" />
       <File FileName="DMS_3/HomeActivity.cs" Line="44" Column="38" />
-      <File FileName="DMS_3/Resources/values/style.xml" Line="2" Column="1" />
+      <File FileName="DMS_3/Resources/values/style.xml" Line="10" Column="36" />
+      <File FileName="DMS_3/ListViewAdapter.cs" Line="20" Column="3" />
+      <File FileName="DMS_3/DetailActivity.cs" Line="23" Column="13" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="DMS_3" expanded="True">
+            <Node name="DMS_3" expanded="True">
+              <Node name="ComponentReferenceFolder" expanded="True" />
+              <Node name="Packages" expanded="True" />
+              <Node name="BDD" expanded="True" />
+              <Node name="Resources" expanded="True">
+                <Node name="values" expanded="True" />
+              </Node>
+              <Node name="ValidationActivity.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
