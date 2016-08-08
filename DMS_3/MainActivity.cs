@@ -1,14 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Json;
 using System.Net;
 using System.Threading;
-using System.Threading.Tasks;
-using System.ComponentModel;
 using Android.App;
 using Android.Content;
-using Android.Net;
 using Android.OS;
-using Android.Preferences;
 using Android.Widget;
 using AndroidHUD;
 using DMS_3.BDD;

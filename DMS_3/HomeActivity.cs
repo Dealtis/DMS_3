@@ -1,31 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.IO;
-using System.Json;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
-using Android.Locations;
-using Android.Net;
 using Android.OS;
-using Android.Runtime;
-using Android.Support.V4;
-using Android.Telephony;
-using Android.Support.V7;
 using Android.Views;
 using Android.Widget;
 using AndroidHUD;
 using DMS_3.BDD;
-using Java.Text;
-using SQLite;
 using Xamarin;
-using Environment = System.Environment;
-using Thread = Java.Lang.Thread;
 
 namespace DMS_3
 {
@@ -147,13 +129,6 @@ namespace DMS_3
 			base.OnStart();
 		}
 
-		void OnServiceTimerHandler ()
-		{
-			while (true) {				
-				Thread.Sleep (120000);
-			}
-				
-		}
 		protected override void OnResume()
 		{
 			base.OnResume();
@@ -162,33 +137,6 @@ namespace DMS_3
 				Intent intent = new Intent (this, typeof(MainActivity));
 				this.StartActivity (intent);
 				//this.OverridePendingTransition (Resource.Animation.abc_slide_in_top,Resource.Animation.abc_slide_out_bottom);
-			}
-			var t = DateTime.Now.ToString ("dd_MM_yy");
-			string dir_log = (Android.OS.Environment.GetExternalStoragePublicDirectory (Android.OS.Environment.DirectoryDownloads)).ToString ();
-			//Shared Preference
-			ISharedPreferences pref = Application.Context.GetSharedPreferences ("AppInfo", FileCreationMode.Private);
-			string log = pref.GetString ("Log", String.Empty);
-			//GetTelId
-			TelephonyManager tel = (TelephonyManager)this.GetSystemService (Context.TelephonyService);
-			var telId = tel.DeviceId;
-			//Si il n'y a pas de shared pref
-			if (log == String.Empty) {
-				Data.log_file = Path.Combine (dir_log, t + "_" + telId + "_log.txt");
-				ISharedPreferencesEditor edit = pref.Edit ();
-				edit.PutString ("Log", Data.log_file);
-				edit.Apply ();
-			} else {
-				//il y a des shared pref
-				Data.log_file = pref.GetString("Log", String.Empty);
-				if (!(Data.log_file.Substring(26,Math.Min(Data.log_file.Length,2)).Equals(DateTime.Now.Day.ToString("00")))) {
-					File.Delete(Data.log_file);
-					Data.log_file = Path.Combine (dir_log, t+"_"+telId+"_log.txt");
-					ISharedPreferencesEditor edit = pref.Edit();
-					edit.PutString("Log",Data.log_file);
-					edit.Apply();
-					Data.log_file = pref.GetString("Log", String.Empty);
-				}
-
 			}
 
 			var user = dbr.getUserAndsoft ();
