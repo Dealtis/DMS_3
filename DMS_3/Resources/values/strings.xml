@@ -14,6 +14,7 @@
 	<string name="anomalie">Anomalie</string>
 	<string name="Recherche">Recherche</string>
 	<string name="tablechargee">Table chargée avec succès</string>
+	<string name="takeflash">Flashage</string>
 
 
 	<string-array name="anomalielivraisonlist">

@@ -60,6 +60,8 @@
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/layout/listeviewrowstroke.xml
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/row_stroke_background.xml
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/layout/listeviewdelete.xml
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/layout/flashagequai.xml
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/menu/flash.xml
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/R.cs.flag
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/com.dealtis.dms_3-Signed.apk
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/uploadflags.txt
@@ -72,3 +74,7 @@
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/Xamarin.Insights.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/Xamarin.Android.Support.v4.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/Xamarin.Android.Support.v7.AppCompat.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/Newtonsoft.Json.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/zxing.portable.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/ZXing.Net.Mobile.Core.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/ZXingNetMobile.dll

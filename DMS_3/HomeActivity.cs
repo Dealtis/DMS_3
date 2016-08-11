@@ -71,6 +71,7 @@ namespace DMS_3
 			LinearLayout btn_Livraison = FindViewById<LinearLayout> (Resource.Id.columnlayout1_1);
 			LinearLayout btn_Enlevement = FindViewById<LinearLayout> (Resource.Id.columnlayout1_2);
 			LinearLayout btn_Message = FindViewById<LinearLayout> (Resource.Id.columnlayout2_1);
+			LinearLayout btn_Flash = FindViewById<LinearLayout> (Resource.Id.columnlayout2_2);
 			LinearLayout btn_Config = FindViewById<LinearLayout> (Resource.Id.columnlayout4_2);
 
 
@@ -79,6 +80,7 @@ namespace DMS_3
 			//btn_Livraison.LongClick += Btn_Livraison_LongClick;
 			btn_Config.LongClick += Btn_Config_LongClick;
 			btn_Message.Click += delegate { btn_Message_Click();};
+			btn_Flash.Click += delegate { btn_Flash_Click();};
 
 			//FONTS
 			txtLivraison.SetTypeface (Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);
@@ -148,13 +150,6 @@ namespace DMS_3
 			base.OnStart();
 		}
 
-		void OnServiceTimerHandler ()
-		{
-			while (true) {				
-				Thread.Sleep (120000);
-			}
-				
-		}
 		protected override void OnResume()
 		{
 			base.OnResume();
@@ -255,6 +250,13 @@ namespace DMS_3
 			this.StartActivity (intent);
 			Finish();
 			//this.OverridePendingTransition (Resource.Animation.abc_slide_in_top,Resource.Animation.abc_slide_out_bottom);
+		}
+
+		void btn_Flash_Click()
+		{
+			Intent intent = new Intent(this, typeof(FlashageQuaiActivity));
+			this.StartActivity(intent);
+			Finish();
 		}
 
 		void btn_Enlevement_Click ()
