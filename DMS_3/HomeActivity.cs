@@ -1,31 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.IO;
-using System.Json;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
-using Android.Locations;
-using Android.Net;
 using Android.OS;
-using Android.Runtime;
-using Android.Support.V4;
 using Android.Telephony;
-using Android.Support.V7;
 using Android.Views;
 using Android.Widget;
 using AndroidHUD;
 using DMS_3.BDD;
-using Java.Text;
-using SQLite;
 using Xamarin;
-using Environment = System.Environment;
-using Thread = Java.Lang.Thread;
 
 namespace DMS_3
 {

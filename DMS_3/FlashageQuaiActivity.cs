@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Json;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -10,11 +8,11 @@ using Android.Views;
 using Android.Widget;
 using AndroidHUD;
 using ZXing.Mobile;
-using Newtonsoft.Json;
+using Android.Views.InputMethods;
 
 namespace DMS_3
 {
-	[Activity(Label = "", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+	[Activity(Label = "",Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
 	public class FlashageQuaiActivity : Activity
 	{
 		EditText barcode;
@@ -27,6 +25,8 @@ namespace DMS_3
 		TextView nbcolisflash;
 		TextView zoneflash;
 		TextView zonetheo;
+		Button manuedit;
+		Button btn_barcode;
 
 		MobileBarcodeScanner scanner;
 
@@ -39,6 +39,7 @@ namespace DMS_3
 
 			//déclaration items
 			barcode = FindViewById<EditText>(Resource.Id.barcode);
+			btn_barcode = FindViewById<Button>(Resource.Id.btn_barcode);
 			infonumero = FindViewById<TextView>(Resource.Id.infonumero);
 			infonomdest = FindViewById<TextView>(Resource.Id.infonomdest);
 			infocpdest = FindViewById<TextView>(Resource.Id.infocpdest);
@@ -48,23 +49,24 @@ namespace DMS_3
 			nbcolisflash = FindViewById<TextView>(Resource.Id.nbcolisflash);
 			zoneflash = FindViewById<TextView>(Resource.Id.zoneflash);
 			zonetheo = FindViewById<TextView>(Resource.Id.zonetheo);
+			manuedit = FindViewById<Button>(Resource.Id.manuedit);
 
 			//scan
 
 			// Initialize the scanner first so we can track the current context
 			MobileBarcodeScanner.Initialize(Application);
 
-
-
 			//Create a new instance of our Scanner
 			scanner = new MobileBarcodeScanner();
 
 		}
+
 		protected override void OnResume()
 		{
 			base.OnResume();
 			barcode.RequestFocus();
 
+			//barcode.Visibility = ViewStates.Invisible;
 			infonumero.Visibility = ViewStates.Gone;
 			infonomdest.Visibility = ViewStates.Gone;
 			infocpdest.Visibility = ViewStates.Gone;
@@ -84,6 +86,38 @@ namespace DMS_3
 				barcode.EditableText.Clear();
 			};
 
+			barcode.InputType = 0;
+			InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Context.InputMethodService);
+			barcode.Click += delegate
+			{
+				inputMethodManager.HideSoftInputFromWindow(barcode.WindowToken, 0);
+
+			};
+
+			btn_barcode.Click += delegate {
+				//Start scanning
+				scan();
+			};
+
+			manuedit.Click += delegate
+			{
+				Dialog dialog = new Dialog(this);
+				dialog.Window.RequestFeature(WindowFeatures.NoTitle); 
+				//dialog.Window.SetBackgroundDrawableResource(Resource.Drawable.bktransbox);
+				dialog.SetContentView(Resource.Layout.BoxManuEdit);
+				Button valid = dialog.FindViewById<Button>(Resource.Id.btn_valid);
+				EditText barrecode = dialog.FindViewById<EditText>(Resource.Id.barrecode);
+
+				valid.Click += delegate
+				{
+					ShowProgress(progress => AndHUD.Shared.Show(this, "Récupération ... " + progress + "%", progress, MaskType.Clear), barrecode.Text);
+					dialog.Dismiss();
+				};
+
+				dialog.SetCancelable(true);
+				dialog.Show();
+			};
+
 		}
 
 
@@ -97,27 +131,13 @@ namespace DMS_3
 		}
 
 
-		public override bool OnCreatePanelMenu(int featureId, Android.Views.IMenu menu)
-		{
-			var inflater = MenuInflater;
-			inflater.Inflate(Resource.Menu.Flash, menu);
-			return true;
-		}
+		//public override bool OnCreatePanelMenu(int featureId, Android.Views.IMenu menu)
+		//{
+		//	var inflater = MenuInflater;
+		//	inflater.Inflate(Resource.Menu.Flash, menu);
+		//	return true;
+		//}
 
-		public override bool OnOptionsItemSelected(IMenuItem item)
-		{
-			switch (item.ItemId)
-			{
-				case Resource.Id.takeflash:
-
-
-					//Start scanning
-					scan();
-
-					return true;
-			}
-			return base.OnOptionsItemSelected(item);
-		}
 		void HandleScanResult(ZXing.Result result)
 		{
 
@@ -162,11 +182,12 @@ namespace DMS_3
 
 					string json = @"" + dataWS + "";
 					var bob = Newtonsoft.Json.Linq.JObject.Parse(json);
-					if ((string)bob["FLAOTSNUM"] != "")
+					if (bob["FLAOTSNUM"].ToString() != "")
 					{
+						RunOnUiThread(() => infonumero.Visibility = ViewStates.Visible);
 						RunOnUiThread(() => infonumero.Text = (string)bob["FLAOTSNUM"]);
 
-						if ((string)bob["FLANOMDEST"] != "")
+						if (bob["FLANOMDEST"].ToString() != "")
 						{
 							RunOnUiThread(() => infonomdest.Visibility = ViewStates.Visible);
 							RunOnUiThread(() => infonomdest.Text = (string)bob["FLANOMDEST"]);
@@ -176,7 +197,8 @@ namespace DMS_3
 							RunOnUiThread(() => infonomdest.Visibility = ViewStates.Gone);
 						}
 
-						if ((string)bob["FLAADRDEST"] == ""){
+						if (bob["FLAADRDEST"].ToString() != "")
+						{
 							RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Visible);
 							RunOnUiThread(() => infoadrdest.Text = (string)bob["FLAADRDEST"]);
 						}
@@ -185,7 +207,7 @@ namespace DMS_3
 							RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Gone);
 						}
 
-						if ((string)bob["FLACPDEST"] != "")
+						if (bob["FLACPDEST"].ToString() != "")
 						{
 							RunOnUiThread(() => infocpdest.Visibility = ViewStates.Visible);
 							RunOnUiThread(() => infocpdest.Text = (string)bob["FLACPDEST"]);
@@ -195,7 +217,7 @@ namespace DMS_3
 							RunOnUiThread(() => infocpdest.Visibility = ViewStates.Gone);
 						}
 
-						if ((string)bob["FLAVILLEDEST"] != "")
+						if (bob["FLAVILLEDEST"].ToString() != "")
 						{
 							RunOnUiThread(() => infovilledest.Visibility = ViewStates.Visible);
 							RunOnUiThread(() => infovilledest.Text = (string)bob["FLAVILLEDEST"]);
@@ -205,14 +227,14 @@ namespace DMS_3
 							RunOnUiThread(() => infovilledest.Visibility = ViewStates.Gone);
 						}
 
-
+						RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Visible);
 						RunOnUiThread(() => infonbcnbpP.Text = "NB COLIS: " + (string)bob[" "] + "NB PAL: " + (string)bob["FLAPAL"] + " POIDS: " + (string)bob["FLAPDS"]);
 
 
-
+						RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
 						RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHER: " + (string)bob["FLANBFLASHER"] + "/" + (string)bob["FLANBCOLIS"]);
 
-						if ((string)bob["FLAZONEFLASHER"] != "")
+						if (bob["FLAZONEFLASHER"].ToString() != "")
 						{
 							RunOnUiThread(() => zoneflash.Visibility = ViewStates.Visible);
 							RunOnUiThread(() => zoneflash.Text = (string)bob["FLAZONEFLASHER"]);
@@ -223,7 +245,7 @@ namespace DMS_3
 						}
 
 
-						if ((string)bob["FLAZONETHEORIQUE"] != null)
+						if (bob["FLAZONETHEORIQUE"].ToString() != null)
 						{
 							RunOnUiThread(() => zonetheo.Visibility = ViewStates.Visible);
 							RunOnUiThread(() => zonetheo.Text = (string)bob["FLAZONETHEORIQUE"]);

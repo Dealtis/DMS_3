@@ -4,7 +4,7 @@
 <item
     android:id="@+id/takeflash"
     android:title="@string/takeflash"
-	android:icon="@drawable/Anom"
+	android:icon="@drawable/barcode"
     android:orderInCategory="100"
     android:showAsAction="always"/>
 </menu>
