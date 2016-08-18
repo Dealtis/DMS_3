@@ -51,6 +51,7 @@
     </string-array>
 
 
+	<dimen name="dim0">0dp</dimen>
 	<dimen name="dim5">5dp</dimen>
 	<dimen name="dim10">10dp</dimen>
 	<dimen name="dim14">14dp</dimen>

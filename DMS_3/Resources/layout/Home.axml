@@ -200,7 +200,7 @@
             <ImageView
                 d1p1:layout_width="64dp"
                 d1p1:layout_height="match_parent"
-                d1p1:src="@drawable/LivAdr"
+                d1p1:src="@drawable/barcodehome"
                 d1p1:layout_gravity="center_horizontal"
                 d1p1:id="@+id/imageView3" />
         </LinearLayout>

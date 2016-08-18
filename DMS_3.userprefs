@@ -1,16 +1,17 @@
 ﻿<Properties StartupItem="DMS_3/DMS_3.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/FlashageQuaiActivity.cs">
     <Files>
-      <File FileName="DMS_3/HomeActivity.cs" Line="248" Column="62" />
+      <File FileName="DMS_3/HomeActivity.cs" Line="22" Column="25" />
       <File FileName="DMS_3/MainActivity.cs" Line="111" Column="10" />
-      <File FileName="DMS_3/FlashageQuaiActivity.cs" Line="179" Column="44" />
+      <File FileName="DMS_3/FlashageQuaiActivity.cs" Line="6" Column="18" />
+      <File FileName="DMS_3/Resources/values/strings.xml" Line="54" Column="22" />
+      <File FileName="DMS_3/Resources/values/style.xml" Line="7" Column="39" />
+      <File FileName="DMS_3/Resources/Menu/Flash.xml" Line="7" Column="33" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="179" column="44" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <AuthorInfo Name="rvanardois" Email="" Copyright="rvanardois" Company="" Trademark="" />
