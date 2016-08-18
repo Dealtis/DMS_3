@@ -178,6 +178,7 @@
     <AndroidResource Include="Resources\drawable\barcode.png" />
     <AndroidResource Include="Resources\drawable\telephone.png" />
     <AndroidResource Include="Resources\drawable\barcodeHome.png" />
+    <AndroidResource Include="Resources\drawable\camera.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

@@ -9,10 +9,18 @@ using Android.Widget;
 using AndroidHUD;
 using ZXing.Mobile;
 using Android.Views.InputMethods;
+using Android.Provider;
+using System.Collections.Generic;
+using Android.Content.PM;
+using Uri = Android.Net.Uri;
+using Android.Graphics;
+using DMS_3.BDD;
+using System.Threading;
+using System.IO;
 
 namespace DMS_3
 {
-	[Activity(Label = "",Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+	[Activity(Label = "", Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
 	public class FlashageQuaiActivity : Activity
 	{
 		EditText barcode;
@@ -27,6 +35,13 @@ namespace DMS_3
 		TextView zonetheo;
 		Button manuedit;
 		Button btn_barcode;
+		Button btn_photo;
+		Button btn_detail;
+		Button btn_valider;
+		Button btn_anomalie;
+		ImageView _imageView;
+
+		string numero;
 
 		MobileBarcodeScanner scanner;
 
@@ -51,6 +66,18 @@ namespace DMS_3
 			zonetheo = FindViewById<TextView>(Resource.Id.zonetheo);
 			manuedit = FindViewById<Button>(Resource.Id.manuedit);
 
+			btn_detail = FindViewById<Button>(Resource.Id.btn_detail);
+			btn_valider = FindViewById<Button>(Resource.Id.btn_valider);
+			btn_anomalie = FindViewById<Button>(Resource.Id.btn_anomalie);
+
+			if (IsThereAnAppToTakePictures())
+			{
+				CreateDirectoryForPictures();
+				btn_photo = FindViewById<Button>(Resource.Id.btn_photo);
+				_imageView = FindViewById<ImageView>(Resource.Id._imageView);
+				btn_photo.Click += TakeAPicture;
+			}
+
 			//scan
 
 			// Initialize the scanner first so we can track the current context
@@ -67,20 +94,32 @@ namespace DMS_3
 			barcode.RequestFocus();
 
 			//barcode.Visibility = ViewStates.Invisible;
-			infonumero.Visibility = ViewStates.Gone;
-			infonomdest.Visibility = ViewStates.Gone;
-			infocpdest.Visibility = ViewStates.Gone;
-			infovilledest.Visibility = ViewStates.Gone;
-			infoadrdest.Visibility = ViewStates.Gone;
-			infonbcnbpP.Visibility = ViewStates.Gone;
-			nbcolisflash.Visibility = ViewStates.Gone;
-			zoneflash.Visibility = ViewStates.Gone;
-			zonetheo.Visibility = ViewStates.Gone;
+			//infonumero.Visibility = ViewStates.Gone;
+			//infonomdest.Visibility = ViewStates.Gone;
+			//infocpdest.Visibility = ViewStates.Gone;
+			//infovilledest.Visibility = ViewStates.Gone;
+			//infoadrdest.Visibility = ViewStates.Gone;
+			//infonbcnbpP.Visibility = ViewStates.Gone;
+			//nbcolisflash.Visibility = ViewStates.Gone;
+			//zoneflash.Visibility = ViewStates.Gone;
+			//zonetheo.Visibility = ViewStates.Gone;
+			btn_detail.Visibility = ViewStates.Gone;
+			btn_valider.Visibility = ViewStates.Gone;
+			btn_photo.Visibility = ViewStates.Gone;
+			btn_anomalie.Visibility = ViewStates.Gone;
+
+			if (numero != null)
+			{
+				btn_photo.Visibility = ViewStates.Visible;
+			}
 
 			barcode.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) =>
 			{
 				if (e.Text.ToString() != String.Empty)
 				{
+					Data.bitmap = null;
+					_imageView.SetImageBitmap(null);
+					numero = e.Text.ToString();
 					ShowProgress(progress => AndHUD.Shared.Show(this, "Chargement ... " + progress + "%", progress, MaskType.Clear), e.Text.ToString());
 				}
 				barcode.EditableText.Clear();
@@ -94,7 +133,8 @@ namespace DMS_3
 
 			};
 
-			btn_barcode.Click += delegate {
+			btn_barcode.Click += delegate
+			{
 				//Start scanning
 				scan();
 			};
@@ -102,7 +142,7 @@ namespace DMS_3
 			manuedit.Click += delegate
 			{
 				Dialog dialog = new Dialog(this);
-				dialog.Window.RequestFeature(WindowFeatures.NoTitle); 
+				dialog.Window.RequestFeature(WindowFeatures.NoTitle);
 				//dialog.Window.SetBackgroundDrawableResource(Resource.Drawable.bktransbox);
 				dialog.SetContentView(Resource.Layout.BoxManuEdit);
 				Button valid = dialog.FindViewById<Button>(Resource.Id.btn_valid);
@@ -129,14 +169,6 @@ namespace DMS_3
 			this.StartActivity(intent);
 			Finish();
 		}
-
-
-		//public override bool OnCreatePanelMenu(int featureId, Android.Views.IMenu menu)
-		//{
-		//	var inflater = MenuInflater;
-		//	inflater.Inflate(Resource.Menu.Flash, menu);
-		//	return true;
-		//}
 
 		void HandleScanResult(ZXing.Result result)
 		{
@@ -274,6 +306,8 @@ namespace DMS_3
 							row.AddView(b);
 							RunOnUiThread(() => tl.AddView(row));
 						}
+						RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
+
 					}
 					else {
 						RunOnUiThread(() => infonumero.Text = "Pas de résultat");
@@ -297,6 +331,128 @@ namespace DMS_3
 					Console.WriteLine(ex);
 				}
 			});
+		}
+
+		private void CreateDirectoryForPictures()
+		{
+			Data._dir = new Java.IO.File(Android.OS.Environment.GetExternalStoragePublicDirectory(
+					Android.OS.Environment.DirectoryPictures), "DMSIMG");
+			if (!Data._dir.Exists())
+			{
+				Data._dir.Mkdirs();
+			}
+		}
+
+		private bool IsThereAnAppToTakePictures()
+		{
+			Intent intent = new Intent(MediaStore.ActionImageCapture);
+			IList<ResolveInfo> availableActivities =
+				PackageManager.QueryIntentActivities(intent, PackageInfoFlags.MatchDefaultOnly);
+			return availableActivities != null && availableActivities.Count > 0;
+		}
+
+		private void TakeAPicture(object sender, EventArgs eventArgs)
+		{
+			Intent intent = new Intent(MediaStore.ActionImageCapture);
+			Data._file = new Java.IO.File(Data._dir, String.Format("" + DateTime.Now.ToString("ddMM") + "_" + numero + ".jpg", Guid.NewGuid()));
+			intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(Data._file));
+			StartActivityForResult(intent, 0);
+		}
+
+		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+		{
+			base.OnActivityResult(requestCode, resultCode, data);
+			// Make it available in the gallery
+			if (resultCode == Result.Ok)
+			{
+				Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
+				Uri contentUri = Uri.FromFile(Data._file);
+				mediaScanIntent.SetData(contentUri);
+				SendBroadcast(mediaScanIntent);
+
+				// Display in ImageView. We will resize the bitmap to fit the display.
+				// Loading the full sized image will consume to much memory
+				// and cause the application to crash.
+
+				int height = Resources.DisplayMetrics.HeightPixels;
+				int width = _imageView.Height;
+
+				Thread threadUpload = new Thread(() =>
+					{
+						try
+						{
+							Android.Graphics.Bitmap bmp = DecodeSmallFile(Data._file.Path, 1000, 1000);
+							Bitmap rbmp = Bitmap.CreateScaledBitmap(bmp, bmp.Width / 2, bmp.Height / 2, true);
+							string compImg = Data._file.Path.Replace(".jpg", "-1_1.jpg");
+							using (var fs = new FileStream(compImg, FileMode.OpenOrCreate))
+							{
+								rbmp.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg, 100, fs);
+							}
+							//ftp://77.158.93.75 ftp://10.1.2.75
+							Data.Instance.UploadFile("ftp://77.158.93.75", compImg, "DMS", "Linuxr00tn", "");
+							bmp.Recycle();
+							rbmp.Recycle();
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine("\n" + ex);
+						}
+					});
+				//threadUpload.Start();
+
+				Data.bitmap = Data._file.Path.LoadAndResizeBitmap(width, height);
+				if (Data.bitmap != null)
+				{
+					infonumero.Visibility = ViewStates.Visible;
+					infonomdest.Visibility = ViewStates.Visible;
+					infocpdest.Visibility = ViewStates.Visible;
+					infovilledest.Visibility = ViewStates.Visible;
+					infoadrdest.Visibility = ViewStates.Visible;
+					infonbcnbpP.Visibility = ViewStates.Visible;
+					nbcolisflash.Visibility = ViewStates.Visible;
+					zoneflash.Visibility = ViewStates.Visible;
+					zonetheo.Visibility = ViewStates.Visible;
+					btn_photo.Visibility = ViewStates.Visible;
+					_imageView.SetImageBitmap(Data.bitmap);
+				}
+				GC.Collect();
+			}
+			else {
+				infonumero.Visibility = ViewStates.Visible;
+				infonomdest.Visibility = ViewStates.Visible;
+				infocpdest.Visibility = ViewStates.Visible;
+				infovilledest.Visibility = ViewStates.Visible;
+				infoadrdest.Visibility = ViewStates.Visible;
+				infonbcnbpP.Visibility = ViewStates.Visible;
+				nbcolisflash.Visibility = ViewStates.Visible;
+				zoneflash.Visibility = ViewStates.Visible;
+				zonetheo.Visibility = ViewStates.Visible;
+				btn_photo.Visibility = ViewStates.Visible;
+			}
+
+		}
+		private Bitmap DecodeSmallFile(String filename, int width, int height)
+		{
+			var options = new BitmapFactory.Options { InJustDecodeBounds = true };
+			BitmapFactory.DecodeFile(filename, options);
+			options.InSampleSize = CalculateInSampleSize(options, width, height);
+			options.InJustDecodeBounds = false;
+			return BitmapFactory.DecodeFile(filename, options);
+		}
+
+		public static int CalculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
+		{
+			int height = options.OutHeight;
+			int width = options.OutWidth;
+			int inSampleSize = 1;
+
+			if (height > reqHeight || width > reqWidth)
+			{
+				var heightRatio = (int)Math.Round(height / (double)reqHeight);
+				var widthRatio = (int)Math.Round(width / (double)reqWidth);
+				inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+			}
+			return inSampleSize;
 		}
 	}
 

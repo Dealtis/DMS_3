@@ -1,19 +1,23 @@
 ﻿<Properties StartupItem="DMS_3/DMS_3.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/FlashageQuaiActivity.cs">
     <Files>
-      <File FileName="DMS_3/HomeActivity.cs" Line="22" Column="25" />
-      <File FileName="DMS_3/MainActivity.cs" Line="111" Column="10" />
-      <File FileName="DMS_3/FlashageQuaiActivity.cs" Line="6" Column="18" />
-      <File FileName="DMS_3/Resources/values/strings.xml" Line="54" Column="22" />
-      <File FileName="DMS_3/Resources/values/style.xml" Line="7" Column="39" />
-      <File FileName="DMS_3/Resources/Menu/Flash.xml" Line="7" Column="33" />
+      <File FileName="DMS_3/Resources/values/strings.xml" Line="1" Column="1" />
+      <File FileName="DMS_3/Resources/values/style.xml" Line="1" Column="1" />
+      <File FileName="DMS_3/FlashageQuaiActivity.cs" Line="361" Column="4" />
+      <File FileName="DMS_3/ValidationActivity.cs" Line="177" Column="25" />
+      <File FileName="DMS_3/AnomalieActivity.cs" Line="60" Column="5" />
+      <File FileName="DMS_3/BDD/TableLogApp.cs" Line="1" Column="1" />
+      <File FileName="DMS_3/BDD/TableLogService.cs" Line="17" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="397" column="1" />
+      <Breakpoint file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="360" column="33" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <AuthorInfo Name="rvanardois" Email="" Copyright="rvanardois" Company="" Trademark="" />
-  <MonoDevelop.Ide.ItemProperties.DMS__3 AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Android_Accelerated_x86" AndroidDesignerPreferredTheme="Theme.Material.Light" />
+  <MonoDevelop.Ide.ItemProperties.DMS__3 AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.8f32f44c" />
 </Properties>
