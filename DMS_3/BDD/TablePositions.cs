@@ -44,9 +44,11 @@ namespace DMS_3
 		public String groupage { get; set; }
 		public String ADRLiv { get; set; }
 		public String ADRGrp { get; set; }
+		public String poidsADR { get; set; }
 		public String planDeTransport { get; set; }
 		public String typeMission { get; set; }
 		public String typeSegment { get; set; }
+		public String positionPole { get; set; }
 		public int idSegment { get; set; }
 		public String CR { get; set; }
 		public String nomClientLivraison{ get; set; }

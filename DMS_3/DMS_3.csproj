@@ -107,6 +107,7 @@
     <Compile Include="BDD\SQLite.cs" />
     <Compile Include="ValidationActivity.cs" />
     <Compile Include="FlashageQuaiActivity.cs" />
+    <Compile Include="BDD\TableColis.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
