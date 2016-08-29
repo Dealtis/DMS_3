@@ -83,3 +83,4 @@
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/ZXingNetMobile.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/barcodehome.png
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/camera.png
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/layout/societe.xml

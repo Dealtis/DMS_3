@@ -15,8 +15,6 @@
 	<string name="Recherche">Recherche</string>
 	<string name="tablechargee">Table chargée avec succès</string>
 	<string name="takeflash">Flashage</string>
-
-
 	<string-array name="anomalielivraisonlist">
 		<item>Choisir une anomalie</item>
 		<item>Restaure en non traite</item>
@@ -36,21 +34,37 @@
 		<item>Rendu non liv : compl. adresse</item>
 		<item>Rendu non justifie</item>
 		<item>Fermeture hebdomadaire</item>
-        <item>Non charge</item>
-        <item>Inventaire</item>
-        <item>Refuse manquant partiel</item>
-    </string-array>
-    <string-array name="anomalieramasselist">
-    	<item>Choisir une anomalie</item>
-        <item>Restaure en non traite</item>       
-        <item>Ramasse pas faite</item>
-        <item>Positions non chargees</item>
-        <item>Avis de passage</item>
-        <item>Fermeture hebdomadaire</item>
-        <item>Ramasse diverse</item>
-    </string-array>
-
-
+		<item>Non charge</item>
+		<item>Inventaire</item>
+		<item>Refuse manquant partiel</item>
+	</string-array>
+	<string-array name="anomalieramasselist">
+		<item>Choisir une anomalie</item>
+		<item>Restaure en non traite</item>
+		<item>Ramasse pas faite</item>
+		<item>Positions non chargees</item>
+		<item>Avis de passage</item>
+		<item>Fermeture hebdomadaire</item>
+		<item>Ramasse diverse</item>
+	</string-array>
+	<string-array name="societelist">
+		<item>ATS25</item>
+		<item>COM</item>
+		<item>DEA25</item>
+		<item>DIS49</item>
+		<item>MJU39</item>
+		<item>ROD69</item>
+		<item>SCO25</item>
+		<item>SDT70</item>
+		<item>STJ25</item>
+		<item>STP25</item>
+		<item>TJO</item>
+		<item>SCO25</item>
+		<item>SDT70</item>
+		<item>TJO</item>
+		<item>STP25</item>
+		<item>TRA77</item>
+	</string-array>
 	<dimen name="dim0">0dp</dimen>
 	<dimen name="dim5">5dp</dimen>
 	<dimen name="dim10">10dp</dimen>

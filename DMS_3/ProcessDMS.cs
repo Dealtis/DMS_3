@@ -247,8 +247,6 @@ namespace DMS_3
 			{
 				content_integdata = "[]";
 				Console.WriteLine("\n" + ex);
-				//dbr.InsertLogService(ex.ToString(),DateTime.Now,"Insert Data Error");
-				//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"][ERROR] InserData : "+ex+" à "+DateTime.Now.ToString("t")+"\n");
 				Insights.Report(ex);
 			}
 

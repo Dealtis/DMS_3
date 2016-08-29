@@ -108,6 +108,7 @@
     <Compile Include="ValidationActivity.cs" />
     <Compile Include="FlashageQuaiActivity.cs" />
     <Compile Include="BDD\TableColis.cs" />
+    <Compile Include="SocActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -180,6 +181,7 @@
     <AndroidResource Include="Resources\drawable\telephone.png" />
     <AndroidResource Include="Resources\drawable\barcodeHome.png" />
     <AndroidResource Include="Resources\drawable\camera.png" />
+    <AndroidResource Include="Resources\layout\societe.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

@@ -17,6 +17,14 @@ public class ProgressWheel
 	}
 
 
+	public ProgressWheel (android.content.Context p0) throws java.lang.Throwable
+	{
+		super (p0);
+		if (getClass () == ProgressWheel.class)
+			mono.android.TypeManager.Activate ("AndroidHUD.ProgressWheel, AndHUD, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null", "Android.Content.Context, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065", this, new java.lang.Object[] { p0 });
+	}
+
+
 	public ProgressWheel (android.content.Context p0, android.util.AttributeSet p1) throws java.lang.Throwable
 	{
 		super (p0, p1);
