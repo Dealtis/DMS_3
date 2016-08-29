@@ -58,6 +58,10 @@ DMS_3.FlashageQuaiActivity, DMS_3;md53b01c1a732a0ec5279e1e72f40e0c864.FlashageQu
 DMS_3.FlashageQuaiActivity, DMS_3, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md53b01c1a732a0ec5279e1e72f40e0c864.FlashageQuaiActivity
 DMS_3.FlashageQuaiActivity;md53b01c1a732a0ec5279e1e72f40e0c864.FlashageQuaiActivity
 dms_3.FlashageQuaiActivity;md53b01c1a732a0ec5279e1e72f40e0c864.FlashageQuaiActivity
+DMS_3.SocActivity, DMS_3;md53b01c1a732a0ec5279e1e72f40e0c864.SocActivity
+DMS_3.SocActivity, DMS_3, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md53b01c1a732a0ec5279e1e72f40e0c864.SocActivity
+DMS_3.SocActivity;md53b01c1a732a0ec5279e1e72f40e0c864.SocActivity
+dms_3.SocActivity;md53b01c1a732a0ec5279e1e72f40e0c864.SocActivity
 AndroidHUD.ProgressWheel, AndHUD;md5539939fcd5322368b18e9187b5e77d3d.ProgressWheel
 AndroidHUD.ProgressWheel, AndHUD, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null;md5539939fcd5322368b18e9187b5e77d3d.ProgressWheel
 AndroidHUD.ProgressWheel;md5539939fcd5322368b18e9187b5e77d3d.ProgressWheel

@@ -25,6 +25,7 @@ public final class R {
     public static final class array {
         public static final int anomalielivraisonlist=0x7f0e0000;
         public static final int anomalieramasselist=0x7f0e0001;
+        public static final int societelist=0x7f0e0002;
     }
     public static final class attr {
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -1837,7 +1838,7 @@ containing a value of this type.
         public static final int btnlogin=0x7f0d00b6;
         public static final int buttonPanel=0x7f0d002b;
         public static final int cancel_action=0x7f0d00b8;
-        public static final int checkBox1=0x7f0d00c8;
+        public static final int checkBox1=0x7f0d00ca;
         public static final int checkBoxPartic=0x7f0d0054;
         public static final int checkbox=0x7f0d0039;
         public static final int chronometer=0x7f0d00be;
@@ -1850,7 +1851,7 @@ containing a value of this type.
         public static final int columnlayout2_2=0x7f0d0099;
         public static final int columnlayout4_2=0x7f0d009b;
         public static final int commande=0x7f0d0061;
-        public static final int contentFrame=0x7f0d00ce;
+        public static final int contentFrame=0x7f0d00d0;
         public static final int contentPanel=0x7f0d0031;
         public static final int custom=0x7f0d0037;
         public static final int customPanel=0x7f0d0036;
@@ -1921,18 +1922,18 @@ containing a value of this type.
         public static final int normal=0x7f0d000a;
         public static final int openCamera=0x7f0d0057;
         public static final int parentPanel=0x7f0d002d;
-        public static final int partic=0x7f0d00c7;
+        public static final int partic=0x7f0d00c9;
         public static final int password=0x7f0d00b5;
         public static final int peekupBadge=0x7f0d0090;
         public static final int peekupBadgeText=0x7f0d0092;
         public static final int progress_circular=0x7f0d0005;
         public static final int progress_horizontal=0x7f0d0006;
         public static final int radio=0x7f0d003b;
-        public static final int radioButton1=0x7f0d00cd;
-        public static final int radioButton2=0x7f0d00cc;
-        public static final int radioGroup1=0x7f0d00cb;
+        public static final int radioButton1=0x7f0d00cf;
+        public static final int radioButton2=0x7f0d00ce;
+        public static final int radioGroup1=0x7f0d00cd;
         public static final int relativeLayout1=0x7f0d006b;
-        public static final int relativeLayout2=0x7f0d00ca;
+        public static final int relativeLayout2=0x7f0d00cc;
         public static final int rowLayout1=0x7f0d0086;
         public static final int rowLayout2=0x7f0d0093;
         public static final int rowLayout4=0x7f0d009a;
@@ -1959,6 +1960,7 @@ containing a value of this type.
         public static final int space1=0x7f0d00a5;
         public static final int spacer=0x7f0d002c;
         public static final int spinnerAnomalie=0x7f0d0052;
+        public static final int spinnerSoc=0x7f0d00c6;
         public static final int split_action_bar=0x7f0d0007;
         public static final int src_atop=0x7f0d0015;
         public static final int src_in=0x7f0d0016;
@@ -1970,13 +1972,13 @@ containing a value of this type.
         public static final int tableLayout1=0x7f0d0060;
         public static final int tableRow1=0x7f0d00c4;
         public static final int tableload=0x7f0d00b3;
-        public static final int takeflash=0x7f0d00cf;
+        public static final int takeflash=0x7f0d00d1;
         public static final int text=0x7f0d00c1;
         public static final int text2=0x7f0d00bf;
         public static final int textSpacerNoButtons=0x7f0d0034;
         public static final int textView1=0x7f0d00a9;
         public static final int textViewStatus=0x7f0d00b0;
-        public static final int textcr=0x7f0d00c9;
+        public static final int textcr=0x7f0d00cb;
         public static final int textds=0x7f0d00c5;
         public static final int textleft=0x7f0d00ab;
         public static final int textmid=0x7f0d00ad;
@@ -1993,8 +1995,9 @@ containing a value of this type.
         public static final int useLogo=0x7f0d0012;
         public static final int user=0x7f0d00b4;
         public static final int valide=0x7f0d006c;
+        public static final int valideSoc=0x7f0d00c7;
         public static final int valider=0x7f0d0056;
-        public static final int velocity_text_view=0x7f0d00c6;
+        public static final int velocity_text_view=0x7f0d00c8;
         public static final int withText=0x7f0d001f;
         public static final int wrap_content=0x7f0d0020;
         public static final int zoneflash=0x7f0d007b;
@@ -2065,11 +2068,12 @@ containing a value of this type.
         public static final int select_dialog_item_material=0x7f040036;
         public static final int select_dialog_multichoice_material=0x7f040037;
         public static final int select_dialog_singlechoice_material=0x7f040038;
-        public static final int support_simple_spinner_dropdown_item=0x7f040039;
-        public static final int swipe=0x7f04003a;
-        public static final int validedialbox=0x7f04003b;
-        public static final int zxingscanneractivitylayout=0x7f04003c;
-        public static final int zxingscannerfragmentlayout=0x7f04003d;
+        public static final int societe=0x7f040039;
+        public static final int support_simple_spinner_dropdown_item=0x7f04003a;
+        public static final int swipe=0x7f04003b;
+        public static final int validedialbox=0x7f04003c;
+        public static final int zxingscanneractivitylayout=0x7f04003d;
+        public static final int zxingscannerfragmentlayout=0x7f04003e;
     }
     public static final class menu {
         public static final int flash=0x7f0f0000;

@@ -9,11 +9,11 @@
     <ResolvedResourceDirectory>/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/__library_projects__/ZXingNetMobile/library_project_imports/res</ResolvedResourceDirectory>
   </ResolvedResourceDirectories>
   <ResolvedAssetDirectories>
-    <ResolvedAssetDirectory>/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/__library_projects__/AndHUD/library_project_imports/assets</ResolvedAssetDirectory>
-    <ResolvedAssetDirectory>/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/__library_projects__/AndroidEasingFunctions/library_project_imports/assets</ResolvedAssetDirectory>
-    <ResolvedAssetDirectory>/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/__library_projects__/AutoFitTextView/library_project_imports/assets</ResolvedAssetDirectory>
-    <ResolvedAssetDirectory>/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/__library_projects__/Xamarin.Insights/library_project_imports/assets</ResolvedAssetDirectory>
-    <ResolvedAssetDirectory>/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/__library_projects__/ZXingNetMobile/library_project_imports/assets</ResolvedAssetDirectory>
+    <ResolvedAssetDirectory>obj/Debug/__library_projects__/AndHUD/library_project_imports/assets</ResolvedAssetDirectory>
+    <ResolvedAssetDirectory>obj/Debug/__library_projects__/AndroidEasingFunctions/library_project_imports/assets</ResolvedAssetDirectory>
+    <ResolvedAssetDirectory>obj/Debug/__library_projects__/AutoFitTextView/library_project_imports/assets</ResolvedAssetDirectory>
+    <ResolvedAssetDirectory>obj/Debug/__library_projects__/Xamarin.Insights/library_project_imports/assets</ResolvedAssetDirectory>
+    <ResolvedAssetDirectory>obj/Debug/__library_projects__/ZXingNetMobile/library_project_imports/assets</ResolvedAssetDirectory>
   </ResolvedAssetDirectories>
   <ResolvedEnvironmentFiles />
   <ResolvedResourceDirectoryStamps>
