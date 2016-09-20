@@ -1,9 +1,10 @@
-﻿<Properties StartupItem="Sample.Android/Sample.Android.csproj">
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../../../DMS_3/FlashageQuaiActivity.cs">
+﻿<Properties StartupConfiguration="{660D9346-D70B-4C54-8402-E5F6DF48E9AC}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../../../DMS_3/AnomalieActivity.cs">
     <Files>
-      <File FileName="../../../../DMS_3/HomeActivity.cs" Line="248" Column="62" />
-      <File FileName="../../../../DMS_3/MainActivity.cs" Line="111" Column="10" />
-      <File FileName="../../../../DMS_3/FlashageQuaiActivity.cs" Line="68" Column="6" />
+      <File FileName="../../../../DMS_3/FlashageQuaiActivity.cs" Line="414" Column="7" />
+      <File FileName="Sample.Android/MainActivity.cs" Line="24" Column="4" />
+      <File FileName="../../../../DMS_3/Resources/values/strings.xml" Line="1" Column="1" />
+      <File FileName="../../../../DMS_3/AnomalieActivity.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -12,11 +13,9 @@
             <Node name="DMS_3" expanded="True">
               <Node name="ComponentReferenceFolder" expanded="True" />
               <Node name="Resources" expanded="True">
-                <Node name="layout" expanded="True" />
-                <Node name="Menu" expanded="True" />
                 <Node name="values" expanded="True" />
               </Node>
-              <Node name="FlashageQuaiActivity.cs" selected="True" />
+              <Node name="AnomalieActivity.cs" selected="True" />
             </Node>
           </Node>
           <Node name="Sample.Android" expanded="True">
@@ -28,11 +27,10 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="170" column="1" />
-      <Breakpoint file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="165" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.ItemProperties.Sample.Android PreferredExecutionTarget="Android.8f32f44c" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Sample.Android PreferredExecutionTarget="Android.288788da" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="../../../../DMS_3/BDD/DBRepository.cs" line="489" offsetX="443" offsetY="7320" expression="item.dateflashage.Date" liveUpdate="True" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>

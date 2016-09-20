@@ -20,7 +20,7 @@ using System.IO;
 
 namespace DMS_3
 {
-	[Activity(Label = "", Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+	[Activity(Label = "", Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden)]
 	public class FlashageQuaiActivity : Activity
 	{
 		EditText barcode;
@@ -51,6 +51,7 @@ namespace DMS_3
 		{
 			base.OnCreate(savedInstanceState);
 
+			MobileBarcodeScanner.Initialize(Application);
 
 			SetContentView(Resource.Layout.FlashageQuai);
 
@@ -90,12 +91,24 @@ namespace DMS_3
 
 			//scan
 
-			// Initialize the scanner first so we can track the current context
-			MobileBarcodeScanner.Initialize(Application);
-
 			//Create a new instance of our Scanner
 			scanner = new MobileBarcodeScanner();
 
+			btn_barcode.Click += async delegate
+			{
+
+				//Tell our scanner to use the default overlay
+				scanner.UseCustomOverlay = false;
+
+				//We can customize the top and bottom text of the default overlay
+				scanner.TopText = "Hold the camera up to the barcode\nAbout 6 inches away";
+				scanner.BottomText = "Wait for the barcode to automatically scan!";
+
+				//Start scanning
+				var result = await scanner.Scan();
+
+				HandleScanResult(result);
+			};
 		}
 
 		protected override void OnResume()
@@ -138,11 +151,12 @@ namespace DMS_3
 
 			};
 
-			btn_barcode.Click += delegate
-			{
-				//Start scanning
-				scan();
-			};
+			//btn_barcode.Click += delegate
+			//{
+			//	//Start scanning
+			//	scan();
+			//};
+
 
 
 
@@ -180,20 +194,17 @@ namespace DMS_3
 
 		void HandleScanResult(ZXing.Result result)
 		{
-
-			if (result.Text != String.Empty)
+			if (result != null && !string.IsNullOrEmpty(result.Text))
 			{
 				numero = result.Text;
 				ShowProgress(progress => AndHUD.Shared.Show(this, "Récupération ... " + progress + "%", progress, MaskType.Clear), result.Text);
+				barcode.EditableText.Clear();
 			}
-			barcode.EditableText.Clear();
-		}
+			else {
+				this.RunOnUiThread(() => Toast.MakeText(this, "Annuler", ToastLength.Short).Show());
+			}
 
-		public async Task scan()
-		{
-			var result = await scanner.Scan();
 
-			HandleScanResult(result);
 		}
 
 		void ShowProgress(Action<int> action, string num)

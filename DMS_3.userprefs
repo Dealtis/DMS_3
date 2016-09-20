@@ -1,8 +1,10 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupConfiguration="{04E2529E-E36B-4115-8AF5-B4227741CC2C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/BDD/DBRepository.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/AnomalieActivity.cs">
     <Files>
-      <File FileName="DMS_3/FlashageQuaiActivity.cs" Line="39" Column="21" />
-      <File FileName="DMS_3/BDD/DBRepository.cs" Line="1" Column="1" />
+      <File FileName="DMS_3/FlashageQuaiActivity.cs" Line="414" Column="7" />
+      <File FileName="Components/zxing.net.mobile-2.1.12/samples/Sample.Android/Sample.Android/MainActivity.cs" Line="24" Column="4" />
+      <File FileName="DMS_3/Resources/values/strings.xml" Line="1" Column="1" />
+      <File FileName="DMS_3/AnomalieActivity.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -10,12 +12,14 @@
           <Node name="DMS_3" expanded="True">
             <Node name="DMS_3" expanded="True">
               <Node name="ComponentReferenceFolder" expanded="True" />
-              <Node name="Packages" expanded="True" />
-              <Node name="Assets" expanded="True" />
-              <Node name="BDD" expanded="True">
-                <Node name="DBRepository.cs" selected="True" />
+              <Node name="Resources" expanded="True">
+                <Node name="values" expanded="True" />
               </Node>
+              <Node name="AnomalieActivity.cs" selected="True" />
             </Node>
+          </Node>
+          <Node name="Sample.Android" expanded="True">
+            <Node name="Sample.Android" expanded="True" />
           </Node>
         </State>
       </Pad>
@@ -29,5 +33,5 @@
     <Watch file="DMS_3/BDD/DBRepository.cs" line="489" offsetX="443" offsetY="7320" expression="item.dateflashage.Date" liveUpdate="True" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
   <AuthorInfo Name="rvanardois" Email="" Copyright="rvanardois" Company="" Trademark="" />
-  <MonoDevelop.Ide.ItemProperties.DMS__3 AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.288788da" />
+  <MonoDevelop.Ide.ItemProperties.DMS__3 AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Android_Accelerated_x86" />
 </Properties>
