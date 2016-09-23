@@ -64,28 +64,37 @@ namespace DMS_3
 							string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
 							ISharedPreferences pref = Application.Context.GetSharedPreferences("AppInfo", FileCreationMode.Private);
 							string soc = pref.GetString("SOC", String.Empty);
-							var webClient = new WebClient();
-							webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-							string userData = "";
-							webClient.QueryString.Add("societe", soc);
-							userData = webClient.DownloadString(_url);
-							System.Console.WriteLine("\n Webclient User Terminé ...");
-							//GESTION DU XML
-							JsonArray jsonVal = JsonArray.Parse(userData) as JsonArray;
-							var jsonArr = jsonVal;
-							foreach (var row in jsonArr)
+
+							if (soc == String.Empty)
 							{
-								var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], "true");
-								Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
-								if (!checkUser)
-								{
-									var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], "true");
-									Console.WriteLine("\n" + IntegUser);
-								}
+								App_Connec = true;
+								RunOnUiThread(() => StartActivity(new Intent(Application.Context, typeof(SocActivity))));
 							}
-							//execute de la requete
-							Data.tableuserload = true;
-							App_Connec = true;
+							else
+							{
+								var webClient = new WebClient();
+								webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+								string userData = "";
+								webClient.QueryString.Add("societe", soc);
+								userData = webClient.DownloadString(_url);
+								System.Console.WriteLine("\n Webclient User Terminé ...");
+								//GESTION DU XML
+								JsonArray jsonVal = JsonArray.Parse(userData) as JsonArray;
+								var jsonArr = jsonVal;
+								foreach (var row in jsonArr)
+								{
+									var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], "true");
+									Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
+									if (!checkUser)
+									{
+										var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], "true");
+										Console.WriteLine("\n" + IntegUser);
+									}
+								}
+								//execute de la requete
+								Data.tableuserload = true;
+								App_Connec = true;
+							}
 						}
 						catch (System.Exception ex)
 						{

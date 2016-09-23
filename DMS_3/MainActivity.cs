@@ -138,10 +138,13 @@ namespace DMS_3
 			try {
 				DBRepository dbr = new DBRepository ();
 				string _url = "http://dmsv3.jeantettransport.com/api/authen?chaufmdp=";
+				ISharedPreferences pref = Application.Context.GetSharedPreferences("AppInfo", FileCreationMode.Private);
+				string soc = pref.GetString("SOC", String.Empty);
 				var webClient = new WebClient ();
 				webClient.Headers [HttpRequestHeader.ContentType] = "application/json";
 				string userData = "";
-				userData = webClient.DownloadString (_url);
+				webClient.QueryString.Add("societe", soc);
+				userData = webClient.DownloadString(_url);
 				System.Console.WriteLine ("\n Webclient User Terminé ...");
 				//GESTION DU XML
 				JsonArray jsonVal = JsonArray.Parse (userData) as JsonArray;
