@@ -201,7 +201,6 @@ namespace DMS_3
 
 		protected override void OnRestart()
 		{
-			File.AppendAllText(Data.log_file, "[" + DateTime.Now.ToString("t") + "]" + "OnRestart le " + DateTime.Now.ToString("G") + "\n");
 			base.OnRestart();
 		}
 

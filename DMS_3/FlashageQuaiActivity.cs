@@ -244,6 +244,7 @@ namespace DMS_3
 		{
 			Data.bitmap = null;
 			_imageView.SetImageBitmap(null);
+
 			Task.Factory.StartNew(() =>
 			{
 				try
@@ -256,12 +257,15 @@ namespace DMS_3
 
 
 					DBRepository dbr = new DBRepository();
-					if (actionP != null)
-					{
-						dbr.updateColisFlash(num);
-					}
+
 
 					//check is_colis_in_truck
+					if (num.IndexOf("POLE") != -1)
+					{
+						var numSplit = num.Split('.');
+						num = numSplit[1].Remove(numSplit[1].Length - 1);
+					}
+
 					var is_colis_in_truck = dbr.is_colis_in_truck(num);
 					if (is_colis_in_truck != int.MinValue)
 					{
@@ -269,6 +273,8 @@ namespace DMS_3
 
 						if (dbr.is_colis_in_currentPos(num, numCommande))
 						{
+
+							dbr.updateColisFlash(num);
 							string JSONNOTIF = "{\"codesuiviliv\":\"FLASHAGE\",\"memosuiviliv\":\"" + num + "\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
 							dbr.insertDataStatutpositions("FLASHAGE", "1", "FLASHAGE", data.numCommande, num, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);
 
@@ -345,19 +351,25 @@ namespace DMS_3
 									intent.PutExtra("TYPE", type);
 									this.StartActivity(intent);
 								}
-
-
 							}
 
 						}
 						else
 						{
-							AndHUD.Shared.ShowError(activityContext, "Attention mauvais colis !", MaskType.Black, TimeSpan.FromSeconds(2));
-							//Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Long).Show();
+							if (action == null)
+							{
+								//AFFICHER LES DATAS
+
+
+							}
+							else
+							{
+								RunOnUiThread(() => Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Long).Show());
+							}
+
 						}
 					}
-					else
-					{
+					else {
 						var is_pos_in_truck = dbr.is_position_in_truck(num);
 						if (is_pos_in_truck == int.MinValue)
 						{
@@ -497,10 +509,13 @@ namespace DMS_3
 							else
 							{
 								//Show an error image with a message with a Dimmed background, and auto-dismiss after 2 seconds
-								AndHUD.Shared.ShowError(activityContext, "Attention mauvais colis !", MaskType.Black, TimeSpan.FromSeconds(2));
-								//Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Long).Show();
+								//AndHUD.Shared.ShowError(this, "Attention mauvais colis !", MaskType.Black, TimeSpan.FromSeconds(2));
+
+
+								RunOnUiThread(() => Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Long).Show());
 							}
-						}else
+						}
+						else
 						{
 							data = dbr.GetPositionsData(is_pos_in_truck);
 
@@ -734,9 +749,6 @@ namespace DMS_3
 							var bob = Newtonsoft.Json.Linq.JObject.Parse(json);
 							if (bob["FLAOTSNUM"].ToString() != "")
 							{
-
-
-
 								RunOnUiThread(() => infonumero.Visibility = ViewStates.Visible);
 								RunOnUiThread(() => infonumero.Text = (string)bob["FLAOTSNUM"]);
 
@@ -845,8 +857,7 @@ namespace DMS_3
 						}
 						else
 						{
-							//Show an error image with a message with a Dimmed background, and auto-dismiss after 2 seconds
-							AndHUD.Shared.ShowError(this, "Attention mauvais colis !", MaskType.Black, TimeSpan.FromSeconds(2));
+							RunOnUiThread(() => Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Long).Show());
 						}
 
 					}
