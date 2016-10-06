@@ -53,10 +53,6 @@ namespace DMS_3
 
 			//declaration des clicks btns
 			btngrpAll = FindViewById<Button> (Resource.Id.btn_all);
-			btngrp1 = FindViewById<Button> (Resource.Id.btn_1);
-			btngrp2 = FindViewById<Button> (Resource.Id.btn_2);
-			btngrp3 = FindViewById<Button> (Resource.Id.btn_3);
-			btngrp4 = FindViewById<Button> (Resource.Id.btn_4);
 			btnsearch = FindViewById<LinearLayout> (Resource.Id.btn_search);
 			btntrait = FindViewById<Button> (Resource.Id.btn_traite);
 
@@ -72,18 +68,8 @@ namespace DMS_3
 
 		protected override void OnResume()
 		{
-			base.OnResume ();
 			btngrpAll.Click += delegate {
 				btngrpAll_Click();
-			};
-			btngrp1.Click += delegate {
-				btngrp1_Click();
-			};
-			btngrp2.Click += delegate {
-				btngrp2_Click();
-			};
-			btngrp3.Click += delegate {
-				btngrp3_Click();
 			};
 			btnsearch.Click += delegate {
 				btnsearch_Click();

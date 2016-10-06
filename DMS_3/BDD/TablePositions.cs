@@ -1,25 +1,12 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-
+﻿using System;
 using SQLite;
 
 namespace DMS_3
 {
-	[Table ("TablePositions")]			
+	[Table("TablePositions")]
 	public class TablePositions
-	{		
+	{
 		//Table Positions
-
 		[PrimaryKey, AutoIncrement, Column("_Id")]
 		public int Id { get; set; }
 		public String codeLivraison { get; set; }
@@ -42,24 +29,23 @@ namespace DMS_3
 		public String StatutLivraison { get; set; }
 		public String instrucLivraison { get; set; }
 		public String groupage { get; set; }
-		public String ADRLiv { get; set; }
-		public String ADRGrp { get; set; }
 		public String poidsADR { get; set; }
+		public String poidsQL { get; set; }
 		public String planDeTransport { get; set; }
 		public String typeMission { get; set; }
 		public String typeSegment { get; set; }
 		public String positionPole { get; set; }
 		public int idSegment { get; set; }
 		public String CR { get; set; }
-		public String nomClientLivraison{ get; set; }
-		public String villeClientLivraison{ get; set; }
-		public String Datemission{ get; set; }
-		public int Ordremission{ get; set; }
-		public String Userandsoft{ get; set; }
+		public String nomClientLivraison { get; set; }
+		public String villeClientLivraison { get; set; }
+		public String Datemission { get; set; }
+		public int Ordremission { get; set; }
+		public String Userandsoft { get; set; }
 		public String remarque { get; set; }
 		public String codeAnomalie { get; set; }
 		public String libeAnomalie { get; set; }
-		public String imgpath{ get; set; }
+		public String imgpath { get; set; }
 		public int dateBDD { get; set; }
 	}
 }

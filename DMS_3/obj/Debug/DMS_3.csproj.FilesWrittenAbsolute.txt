@@ -68,6 +68,15 @@
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/barcodehome.png
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/camera.png
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/layout/societe.xml
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/adr_100.png
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/ql_.png
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/liv_ql.png
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/liv_adr.png
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/layout/btn_groupage.xml
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/ql_100.png
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/livadr_100.png
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/liv_100.png
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/logo_pole.png
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/R.cs.flag
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/com.dealtis.dms_3-Signed.apk
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/uploadflags.txt
@@ -88,3 +97,5 @@
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/ZXingNetMobile.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLitePCL.raw.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLite-net.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/logo_pole_50.png
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/adr_background.xml

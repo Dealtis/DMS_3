@@ -26,6 +26,7 @@ namespace DMS_3
 		RelativeLayout deliveryBadge;
 		RelativeLayout peekupBadge;
 		RelativeLayout newMsgBadge;
+		ImageView ico_adr;
 		System.Timers.Timer indicatorTimer;
 		System.Timers.Timer serviceTimer;
 		public ProcessDMSBinder binder;
@@ -47,6 +48,7 @@ namespace DMS_3
 			deliveryBadge = FindViewById<RelativeLayout>(Resource.Id.deliveryBadge);
 			peekupBadge = FindViewById<RelativeLayout>(Resource.Id.peekupBadge);
 			newMsgBadge = FindViewById<RelativeLayout>(Resource.Id.newMsgBadge);
+			ico_adr = FindViewById<ImageView>(Resource.Id.ico_adr);
 			peekupBadge.Visibility = ViewStates.Gone;
 			deliveryBadge.Visibility = ViewStates.Gone;
 			newMsgBadge.Visibility = ViewStates.Gone;
@@ -98,19 +100,6 @@ namespace DMS_3
 
 		void Btn_Livraison_LongClick(object sender, View.LongClickEventArgs e)
 		{
-			RunOnUiThread(() =>
-			{
-				try
-				{
-					Data.Instance.InsertData();
-					AndHUD.Shared.ShowSuccess(this, "Mise à jour réussit!", MaskType.Clear, TimeSpan.FromSeconds(2));
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine("\n" + ex);
-					AndHUD.Shared.ShowError(this, "Error : " + ex, MaskType.Black, TimeSpan.FromSeconds(2));
-				}
-			});
 		}
 
 		void Btn_Config_LongClick(object sender, View.LongClickEventArgs e)
@@ -147,41 +136,12 @@ namespace DMS_3
 		{
 			base.OnResume();
 			DBRepository dbr = new DBRepository();
+
 			if (dbr.is_user_Log_In() == "false")
 			{
 				Intent intent = new Intent(this, typeof(MainActivity));
 				this.StartActivity(intent);
 				//this.OverridePendingTransition (Resource.Animation.abc_slide_in_top,Resource.Animation.abc_slide_out_bottom);
-			}
-			var t = DateTime.Now.ToString("dd_MM_yy");
-			string dir_log = (Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)).ToString();
-			//Shared Preference
-			ISharedPreferences pref = Application.Context.GetSharedPreferences("AppInfo", FileCreationMode.Private);
-			string log = pref.GetString("Log", String.Empty);
-			//GetTelId
-			TelephonyManager tel = (TelephonyManager)this.GetSystemService(Context.TelephonyService);
-			var telId = tel.DeviceId;
-			//Si il n'y a pas de shared pref
-			if (log == String.Empty)
-			{
-				Data.log_file = Path.Combine(dir_log, t + "_" + telId + "_log.txt");
-				ISharedPreferencesEditor edit = pref.Edit();
-				edit.PutString("Log", Data.log_file);
-				edit.Apply();
-			}
-			else {
-				//il y a des shared pref
-				Data.log_file = pref.GetString("Log", String.Empty);
-				if (!(Data.log_file.Substring(26, Math.Min(Data.log_file.Length, 2)).Equals(DateTime.Now.Day.ToString("00"))))
-				{
-					File.Delete(Data.log_file);
-					Data.log_file = Path.Combine(dir_log, t + "_" + telId + "_log.txt");
-					ISharedPreferencesEditor edit = pref.Edit();
-					edit.PutString("Log", Data.log_file);
-					edit.Apply();
-					Data.log_file = pref.GetString("Log", String.Empty);
-				}
-
 			}
 
 			var user = dbr.getUserAndsoft();
@@ -197,9 +157,8 @@ namespace DMS_3
 			indicatorTimer.Enabled = true;
 			indicatorTimer.Start();
 
-			//			if (!Data.CheckService.IsAlive) {
-			//				Data.CheckService.Start();
-			//			}
+
+
 		}
 
 		void OnIndicatorTimerHandler(object sender, System.Timers.ElapsedEventArgs e)
@@ -250,6 +209,7 @@ namespace DMS_3
 		{
 			Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
 			intent.PutExtra("TYPE", "LIV");
+			intent.PutExtra("TRAIT", "false");
 			this.StartActivity(intent);
 			Finish();
 			//this.OverridePendingTransition (Resource.Animation.abc_slide_in_top,Resource.Animation.abc_slide_out_bottom);
@@ -266,6 +226,7 @@ namespace DMS_3
 		{
 			Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
 			intent.PutExtra("TYPE", "RAM");
+			intent.PutExtra("TRAIT", "false");
 			this.StartActivity(intent);
 			Finish();
 			//this.OverridePendingTransition (Resource.Animation.abc_slide_in_top,Resource.Animation.abc_slide_out_bottom);

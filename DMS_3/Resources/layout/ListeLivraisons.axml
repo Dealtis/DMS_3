@@ -10,62 +10,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="1.0"
-        android:id="@+id/relativeLayout1">
+        android:id="@+id/layout_groupage"
+        android:layout_gravity="center">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="@string/all"
-            android:minWidth="@dimen/dim50"
-            android:minHeight="@dimen/dim50"
-            android:layout_weight=".2"
             android:id="@+id/btn_all"
             android:background="@drawable/button_white_background"
-            android:textColor="@color/primary" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:minWidth="@dimen/dim50"
-            android:minHeight="@dimen/dim50"
-            android:layout_weight=".4"
-            android:id="@+id/btn_1"
-            android:visibility="gone"
-            android:background="@drawable/button_white_background"
-            android:textColor="@color/primary" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:minWidth="@dimen/dim50"
-            android:minHeight="@dimen/dim50"
-            android:layout_weight=".4"
-            android:id="@+id/btn_2"
-            android:visibility="gone"
-            android:background="@drawable/button_white_background"
-            android:textColor="@color/primary" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:minWidth="@dimen/dim50"
-            android:minHeight="@dimen/dim50"
+            android:textColor="@color/primary"
             android:layout_weight=".2"
-            android:id="@+id/btn_3"
-            android:visibility="gone"
-            android:background="@drawable/button_white_background"
-            android:textColor="@color/primary" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:minWidth="@dimen/dim50"
             android:minHeight="@dimen/dim50"
-            android:layout_weight=".2"
-            android:id="@+id/btn_4"
-            android:visibility="gone"
-            android:background="@drawable/button_white_background"
-            android:textColor="@color/primary" />
+            android:minWidth="@dimen/dim50" />
     </LinearLayout>
     <ListView
         android:minWidth="25px"

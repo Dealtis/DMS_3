@@ -177,5 +177,11 @@
             android:drawableBottom="@drawable/anom"
             android:layout_weight="1"
             android:layout_marginTop="0.0dp" />
+        <Button
+            android:text="Terminer"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/btn_termine"
+            android:layout_weight="0.01" />
     </LinearLayout>
 </LinearLayout>

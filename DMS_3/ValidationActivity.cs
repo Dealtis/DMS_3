@@ -266,7 +266,7 @@ namespace DMS_3
 			{
 				if (data.StatutLivraison == "1" || data.StatutLivraison == "2")
 				{
-					Intent intent = new Intent(this, typeof(ListeTraitee));
+					Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
 					intent.PutExtra("TYPE", type);
 					this.StartActivity(intent);
 					Finish();

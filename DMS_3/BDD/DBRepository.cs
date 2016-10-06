@@ -2,6 +2,7 @@
 using SQLite;
 using Xamarin;
 using Mono.Data.Sqlite;
+using System.Collections.Generic;
 
 namespace DMS_3.BDD
 {
@@ -11,6 +12,7 @@ namespace DMS_3.BDD
 		public static SQLiteConnection db;
 
 		public static SqliteConnection connection;
+
 		//CREATE BDD
 		public string CreateDB()
 		{
@@ -89,7 +91,7 @@ namespace DMS_3.BDD
 		}
 
 		//Insertion des donnes des positions
-		public string InsertDataPosition(string codeLivraison, string numCommande, string refClient, string nomPayeur, string nomExpediteur, string adresseExpediteur, string villeExpediteur, string CpExpediteur, string dateExpe, string nomClient, string adresseLivraison, string villeLivraison, string CpLivraison, string dateHeure, string poids, string nbrPallette, string nbrColis, string instrucLivraison, string typeMission, string typeSegment, string GROUPAGE, string AdrLiv, string AdrGrp, string statutLivraison, string CR, int dateBDD, string Datemission, int Ordremission, string planDeTransport, string Userandsoft, string nomClientLivraison, string villeClientLivraison, string imgpath)
+		public string InsertDataPosition(string codeLivraison, string numCommande, string refClient, string nomPayeur, string nomExpediteur, string adresseExpediteur, string villeExpediteur, string CpExpediteur, string dateExpe, string nomClient, string adresseLivraison, string villeLivraison, string CpLivraison, string dateHeure, string poids, string nbrPallette, string nbrColis, string instrucLivraison, string typeMission, string typeSegment, string GROUPAGE, string poidsADR, string poidsQL, string statutLivraison, string CR, int dateBDD, string Datemission, int Ordremission, string planDeTransport, string Userandsoft, string nomClientLivraison, string villeClientLivraison, string imgpath)
 		{
 			try
 			{
@@ -114,8 +116,8 @@ namespace DMS_3.BDD
 				item.nomExpediteur = nomExpediteur;
 				item.instrucLivraison = instrucLivraison;
 				item.groupage = GROUPAGE;
-				item.ADRLiv = AdrLiv;
-				item.ADRGrp = AdrGrp;
+				item.poidsADR = poidsADR;
+				item.poidsQL = poidsQL;
 				item.typeMission = typeMission;
 				item.typeSegment = typeSegment;
 				item.StatutLivraison = statutLivraison;
@@ -376,6 +378,33 @@ namespace DMS_3.BDD
 
 		}
 
+		internal int is_position_in_truck(string num)
+		{
+			var output = int.MinValue;
+			var query = db.Table<TableColis>().Where(v => v.numCommande.Equals(num));
+			foreach (var item in query)
+			{
+				var req = db.Table<TablePositions>().Where(v => v.numCommande.Equals(item.numCommande));
+				foreach (var row in req)
+				{
+					output = row.Id;
+				}
+			}
+			return output;
+		}
+
+		internal bool is_colis_in_currentPos(string numColis, string numCommande)
+		{
+			bool output = false;
+			var query = db.Table<TableColis>().Where(v => v.numColis.Equals(numColis)).Where(v => v.numCommande.Equals(numCommande));
+
+			foreach (var item in query)
+			{
+				output = true;
+			}
+			return output;
+		}
+
 		//USER CHECK LOGIN
 		public string is_user_Log_In()
 		{
@@ -487,6 +516,12 @@ namespace DMS_3.BDD
 		{
 			return db.Table<TableColis>().Where(v => v.numCommande.Equals(num)).Where(v => v.flashage.Equals(true)).Count();
 		}
+
+		public List<TablePositions> CountMatiereDang(string groupage)
+		{
+			return db.Query<TablePositions>("SELECT SUM(poidsADR) as poidsADR, SUM(poidsQL) as poidsQL FROM TablePositions WHERE StatutLivraison ='0' AND groupage = ?", groupage);
+		}
+
 
 		public string logout()
 		{
@@ -611,8 +646,8 @@ namespace DMS_3.BDD
 			data.StatutLivraison = item.StatutLivraison;
 			data.instrucLivraison = item.instrucLivraison;
 			data.groupage = item.groupage;
-			data.ADRLiv = item.ADRLiv;
-			data.ADRGrp = item.ADRGrp;
+			data.poidsADR = item.poidsADR;
+			data.poidsQL = item.poidsQL;
 			data.planDeTransport = item.planDeTransport;
 			data.typeMission = item.typeMission;
 			data.typeSegment = item.typeSegment;
@@ -627,6 +662,7 @@ namespace DMS_3.BDD
 			data.libeAnomalie = item.libeAnomalie;
 			data.imgpath = item.imgpath;
 			data.Id = item.Id;
+			data.positionPole = item.positionPole;
 
 			if (Convert.ToDouble((item.poids).Replace('.', ',')) < 1)
 			{

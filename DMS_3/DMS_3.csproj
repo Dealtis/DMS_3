@@ -193,6 +193,17 @@
     <AndroidResource Include="Resources\drawable\barcodeHome.png" />
     <AndroidResource Include="Resources\drawable\camera.png" />
     <AndroidResource Include="Resources\layout\societe.axml" />
+    <AndroidResource Include="Resources\drawable\adr_100.png" />
+    <AndroidResource Include="Resources\drawable\ql_.png" />
+    <AndroidResource Include="Resources\drawable\Liv_QL.png" />
+    <AndroidResource Include="Resources\drawable\Liv_adr.png" />
+    <AndroidResource Include="Resources\layout\btn_groupage.axml" />
+    <AndroidResource Include="Resources\drawable\ql_100.png" />
+    <AndroidResource Include="Resources\drawable\LivADR_100.png" />
+    <AndroidResource Include="Resources\drawable\Liv_100.png" />
+    <AndroidResource Include="Resources\drawable\logo_pole.png" />
+    <AndroidResource Include="Resources\drawable\logo_pole_50.png" />
+    <AndroidResource Include="Resources\drawable\adr_background.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

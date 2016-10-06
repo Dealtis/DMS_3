@@ -20,8 +20,7 @@ namespace DMS_3
 		//RECUP ID 
 		string id;
 		int i;
-		int idprev;
-		int idnext;
+		string trait;
 
 		TablePositions data;
 
@@ -36,6 +35,7 @@ namespace DMS_3
 		TextView anomalie;
 		TextView destfinal;
 		ImageView _imageView;
+		LinearLayout boxPole;
 
 		Button btnvalide;
 
@@ -53,13 +53,12 @@ namespace DMS_3
 
 			id = Intent.GetStringExtra("ID");
 			i = int.Parse(id);
+			trait = Intent.GetStringExtra("TRAIT");
 
 			type = Intent.GetStringExtra("TYPE");
 
 			DBRepository dbr = new DBRepository();
 			data = dbr.GetPositionsData(i);
-			idprev = dbr.GetidPrev(i);
-			idnext = dbr.GetidNext(i);
 
 			SetContentView(Resource.Layout.DetailPosition);
 			_gestureDetector = new GestureDetector(this);
@@ -76,7 +75,9 @@ namespace DMS_3
 			anomalie = FindViewById<TextView>(Resource.Id.infoanomalie);
 			destfinal = FindViewById<TextView>(Resource.Id.destfinal);
 			_imageView = FindViewById<ImageView>(Resource.Id._imageView);
+			boxPole = FindViewById<LinearLayout>(Resource.Id.boxPole);
 			btnvalide = FindViewById<Button>(Resource.Id.valide);
+
 
 			Button btnanomalie = FindViewById<Button>(Resource.Id.anomalie);
 
@@ -102,6 +103,12 @@ namespace DMS_3
 			if (data.StatutLivraison == "1")
 			{
 				btnvalide.Visibility = ViewStates.Gone;
+			}
+
+			//POLE
+			if (data.positionPole == "0")
+			{
+				boxPole.Visibility = ViewStates.Gone;
 			}
 
 
@@ -177,29 +184,61 @@ namespace DMS_3
 
 		void Btnvalide_Click(object sender, EventArgs e)
 		{
-			Intent intent = new Intent(this, typeof(ValidationActivity));
-			intent.PutExtra("ID", Convert.ToString(i));
-			intent.PutExtra("TYPE", type);
-			this.StartActivity(intent);
-			Finish();
-			if (imgbitmap != null)
+			if (data.positionPole == "0")
 			{
-				imgbitmap.Recycle();
+				Intent intent = new Intent(this, typeof(ValidationActivity));
+				intent.PutExtra("ID", Convert.ToString(i));
+				intent.PutExtra("TYPE", type);
+				this.StartActivity(intent);
+				Finish();
+				if (imgbitmap != null)
+				{
+					imgbitmap.Recycle();
+				}
 			}
+			else {
+				Intent intent = new Intent(this, typeof(FlashageQuaiActivity));
+				intent.PutExtra("ID", Convert.ToString(i));
+				intent.PutExtra("NUMCOM", data.numCommande);
+				intent.PutExtra("TYPE", type);
+				intent.PutExtra("ACTION", "VALID");
+				this.StartActivity(intent);
+				Finish();
+				if (imgbitmap != null)
+				{
+					imgbitmap.Recycle();
+				}
+			}
+
 		}
 
 		void Btnanomalie_Click(object sender, EventArgs e)
 		{
-			Intent intent = new Intent(this, typeof(AnomalieActivity));
-			intent.PutExtra("ID", Convert.ToString(i));
-			intent.PutExtra("TYPE", type);
-			this.StartActivity(intent);
-			Finish();
-			if (imgbitmap != null)
+			if (data.positionPole == "0")
 			{
-				imgbitmap.Recycle();
+				Intent intent = new Intent(this, typeof(AnomalieActivity));
+				intent.PutExtra("ID", Convert.ToString(i));
+				intent.PutExtra("TYPE", type);
+				this.StartActivity(intent);
+				Finish();
+				if (imgbitmap != null)
+				{
+					imgbitmap.Recycle();
+				}
 			}
-			//this.OverridePendingTransition (Android.Resource.Animation.SlideInLeft,Android.Resource.Animation.SlideOutRight);
+			else {
+				Intent intent = new Intent(this, typeof(FlashageQuaiActivity));
+				intent.PutExtra("ID", Convert.ToString(i));
+				intent.PutExtra("NUMCOM", data.numCommande);
+				intent.PutExtra("TYPE", type);
+				intent.PutExtra("ACTION", "ANOM");
+				this.StartActivity(intent);
+				Finish();
+				if (imgbitmap != null)
+				{
+					imgbitmap.Recycle();
+				}
+			}
 		}
 		public override bool OnTouchEvent(MotionEvent e)
 		{
@@ -230,7 +269,7 @@ namespace DMS_3
 				{
 					if (data.StatutLivraison == "1" || data.StatutLivraison == "2")
 					{
-						Intent intent = new Intent(this, typeof(ListeTraitee));
+						Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
 						intent.PutExtra("TYPE", type);
 						this.StartActivity(intent);
 						//this.OverridePendingTransition (Android.Resource.Animation.SlideInLeft,Android.Resource.Animation.SlideOutRight);
@@ -267,60 +306,33 @@ namespace DMS_3
 
 		public override void OnBackPressed()
 		{
-			if (data.StatutLivraison == "1" || data.StatutLivraison == "2")
+			Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
+			intent.PutExtra("TYPE", type);
+			intent.PutExtra("TRAIT", trait);
+			this.StartActivity(intent);
+			if (imgbitmap != null)
 			{
-				Intent intent = new Intent(this, typeof(ListeTraitee));
-				intent.PutExtra("TYPE", type);
-				this.StartActivity(intent);
-				if (imgbitmap != null)
-				{
-					imgbitmap.Recycle();
-				}
-				_imageView.Dispose();
-				GC.Collect();
-				_imageView.Dispose();
-				codelivraison.Dispose();
-				commande.Dispose();
-				infolivraison.Dispose();
-				title.Dispose();
-				infosupp.Dispose();
-				infoclient.Dispose();
-				client.Dispose();
-				anomaliet.Dispose();
-				anomalie.Dispose();
-				destfinal.Dispose();
-				_imageView.Dispose();
-				btnvalide.Dispose();
-
-				Finish();
-				//this.OverridePendingTransition (Android.Resource.Animation.SlideInLeft,Android.Resource.Animation.SlideOutRight);
+				imgbitmap.Recycle();
 			}
-			else {
-				Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
-				intent.PutExtra("TYPE", type);
-				this.StartActivity(intent);
+			_imageView.Dispose();
+			GC.Collect();
+			_imageView.Dispose();
+			codelivraison.Dispose();
+			commande.Dispose();
+			infolivraison.Dispose();
+			title.Dispose();
+			infosupp.Dispose();
+			infoclient.Dispose();
+			client.Dispose();
+			anomaliet.Dispose();
+			anomalie.Dispose();
+			destfinal.Dispose();
+			_imageView.Dispose();
+			btnvalide.Dispose();
 
-				if (imgbitmap != null)
-				{
-					imgbitmap.Recycle();
-				}
-				_imageView.Dispose();
-				codelivraison.Dispose();
-				commande.Dispose();
-				infolivraison.Dispose();
-				title.Dispose();
-				infosupp.Dispose();
-				infoclient.Dispose();
-				client.Dispose();
-				anomaliet.Dispose();
-				anomalie.Dispose();
-				destfinal.Dispose();
-				_imageView.Dispose();
-				btnvalide.Dispose();
-				GC.Collect();
-				Finish();
-				//this.OverridePendingTransition (Android.Resource.Animation.SlideInLeft,Android.Resource.Animation.SlideOutRight);
-			}
+			Finish();
+			//this.OverridePendingTransition (Android.Resource.Animation.SlideInLeft,Android.Resource.Animation.SlideOutRight);
+
 		}
 	}
 }

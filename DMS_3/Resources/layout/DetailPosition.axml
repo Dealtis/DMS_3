@@ -24,12 +24,38 @@
                 android:text="@string/commande"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <TextView
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/codelivraison"
-                android:textSize="22dp"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:id="@+id/linearLayout1"
+                android:layout_width="wrap_content">
+                <TextView
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/codelivraison"
+                    android:textSize="22dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:gravity="center"
+                    android:text="NUMERO DE POS" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:id="@+id/boxPole"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:paddingBottom="@dimen/dim10">
+                <ImageView
+                    android:src="@drawable/logo_pole_50"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imageView1" />
+            </LinearLayout>
             <TextView
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/destfinal"

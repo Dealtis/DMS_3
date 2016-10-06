@@ -22,19 +22,28 @@
         android:layout_height="match_parent"
         android:background="@drawable/row_null_background">
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:orientation="vertical"
             android:layout_height="match_parent"
-            android:id="@+id/linearLayout1">
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content">
             <ImageView
-                android:src="@drawable/liv"
                 android:id="@+id/imageView1"
                 android:layoutDirection="ltr"
                 android:paddingLeft="@dimen/dim10"
-                android:tint="@color/gray"
+                android:layout_width="@dimen/dim50"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/dim10"
+                android:src="@drawable/liv_100"
+                android:layout_weight="1" />
+            <ImageView
                 android:layout_width="@dimen/dim50"
                 android:layout_height="match_parent"
-                android:paddingRight="@dimen/dim10" />
+                android:id="@+id/logo_pole"
+                android:src="@drawable/logo_pole"
+                android:layout_weight="1"
+                android:paddingBottom="@dimen/dim5"
+                xmlns:tools="http://schemas.android.com/tools"
+                tools:visibility="visible" />
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"

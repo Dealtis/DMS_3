@@ -1,29 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
-using System.Net;
 using System.Json;
 using System.Linq;
-using System.Text;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Android.Net;
 using Android.App;
 using Android.Content;
 using Android.Locations;
-using Android.OS;
-using Android.Runtime;
-using Android.Util;
-using Android.Views;
-using Android.Widget;
-using DMS_3.BDD;
-using Java.Text;
-using SQLite;
-using Environment = System.Environment;
-using Xamarin;
 using Android.Media;
+using Android.Net;
+using Android.OS;
 using Android.Telephony;
+using DMS_3.BDD;
+using SQLite;
+using Xamarin;
+using Environment = System.Environment;
 
 namespace DMS_3
 {
@@ -38,28 +31,18 @@ namespace DMS_3
 		string userAndsoft;
 		string userTransics;
 		string GPS;
-		string GPSTemp = string.Empty;
 		Location previousLocation;
 		string _locationProvider;
 		string stringValues;
 		string stringNotif;
 		string stringColis;
 
-		Task task;
 		DBRepository dbr = new DBRepository();
 
 
 		//string log_file;
 		public override StartCommandResult OnStartCommand(Android.Content.Intent intent, StartCommandFlags flags, int startId)
 		{
-			var t = DateTime.Now.ToString("dd_MM_yy");
-			string dir_log = (Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)).ToString();
-			ISharedPreferences pref = Application.Context.GetSharedPreferences("AppInfo", FileCreationMode.Private);
-			string log = pref.GetString("Log", String.Empty);
-			//GetTelId
-			TelephonyManager tel = (TelephonyManager)this.GetSystemService(Context.TelephonyService);
-			var telId = tel.DeviceId;
-			//provisoire
 			DBRepository dbr = new DBRepository();
 			userAndsoft = dbr.getUserAndsoft();
 			userTransics = dbr.getUserTransics();
@@ -127,7 +110,7 @@ namespace DMS_3
 			//
 			//			}, null, 0, 120000);
 
-			task = Task.Factory.StartNew(() =>
+			Task.Factory.StartNew(() =>
 				{
 					while (true)
 					{
@@ -188,7 +171,7 @@ namespace DMS_3
 			try
 			{
 				//string _url = "http://dmsv3.jeantettransport.com/api/commandeWSV3?codechauffeur=" + userTransics + "&datecommande=" + datedujour + "";
-				string _url = "http://dmsv3.jeantettransport.com/api/commandeWsv4?codechauffeur=SMART_ALEX&datecommande=20160817";
+				string _url = "http://dmsv3.jeantettransport.com/api/commandeWsv4?codechauffeur=" + userTransics + "&datecommande=" + datedujour + "";
 				var webClient = new WebClient();
 				webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 				webClient.Encoding = System.Text.Encoding.UTF8;
@@ -207,12 +190,11 @@ namespace DMS_3
 						bool checkpos = dbr.pos_AlreadyExist(row["numCommande"], row["groupage"], row["typeMission"], row["typeSegment"]);
 						if (!checkpos)
 						{
-							stringValues += " SELECT " + row["codeLivraison"].ToString() + "," + row["numCommande"].ToString() + "," + row["nomClient"].ToString() + "," + row["refClient"].ToString() + "," + row["nomPayeur"].ToString() + "," + row["adresseLivraison"].ToString() + "," + row["CpLivraison"].ToString() + "," + row["villeLivraison"].ToString() + "," + row["dateExpe"].ToString() + "," + row["nbrColis"].ToString() + "," + row["nbrPallette"].ToString() + "," + row["poids"].ToString() + "," + row["adresseExpediteur"].ToString() + "," + row["CpExpediteur"].ToString() + "," + row["dateExpe"].ToString() + "," + row["villeExpediteur"].ToString() + "," + row["nomExpediteur"].ToString() + "," + row["instrucLivraison"].ToString() + "," + row["groupage"].ToString() + "," + row["ADRCom"].ToString() + "," + row["ADRGrp"].ToString() + "," + row["typeMission"].ToString() + "," + row["typeSegment"].ToString() + ",0," + row["CR"].ToString() + "," + DateTime.Now.Day + "," + row["Datemission"].ToString() + "," + row["Ordremission"].ToString() + "," + row["planDeTransport"].ToString() + ",\"" + userAndsoft + "\"," + row["nomClientLivraison"].ToString() + "," + row["villeClientLivraison"].ToString() + ",\"null\" UNION ALL";
-							//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"][TASK]Intégration d'une position "+row["numCommande"]+" "+row["groupage"]+"\n");
+							stringValues += " SELECT " + row["codeLivraison"].ToString() + "," + row["numCommande"].ToString() + "," + row["nomClient"].ToString() + "," + row["refClient"].ToString() + "," + row["nomPayeur"].ToString() + "," + row["adresseLivraison"].ToString() + "," + row["CpLivraison"].ToString() + "," + row["villeLivraison"].ToString() + "," + row["dateExpe"].ToString() + "," + row["nbrColis"].ToString() + "," + row["nbrPallette"].ToString() + "," + row["poids"].ToString() + "," + row["adresseExpediteur"].ToString() + "," + row["CpExpediteur"].ToString() + "," + row["dateExpe"].ToString() + "," + row["villeExpediteur"].ToString() + "," + row["nomExpediteur"].ToString() + "," + row["instrucLivraison"].ToString() + "," + row["groupage"].ToString() + "," + row["PoidsADR"].ToString() + "," + row["PoidsQL"].ToString() + "," + row["typeMission"].ToString() + "," + row["typeSegment"].ToString() + ",0," + row["CR"].ToString() + "," + DateTime.Now.Day + "," + row["Datemission"].ToString() + "," + row["Ordremission"].ToString() + "," + row["planDeTransport"].ToString() + ",\"" + userAndsoft + "\"," + row["nomClientLivraison"].ToString() + "," + row["villeClientLivraison"].ToString() + "," + row["PositionPole"].ToString() + ",\"null\" UNION ALL";
 
 							foreach (JsonValue item in row["detailColis"])
 							{
-								dbr.InsertDataColis(item["NumColis"],row["numCommande"]);
+								dbr.InsertDataColis(item["NumColis"], row["numCommande"]);
 							}
 						}
 						//NOTIF
@@ -221,7 +203,7 @@ namespace DMS_3
 					if (stringValues != string.Empty)
 					{
 						string stringinsertpos = "INSERT INTO ";
-						stringinsertpos += "TablePositions ( codeLivraison, numCommande, nomClient, refClient, nomPayeur, adresseLivraison, CpLivraison, villeLivraison, dateHeure, nbrColis, nbrPallette, poids, adresseExpediteur, CpExpediteur, dateExpe, villeExpediteur, nomExpediteur, instrucLivraison, GROUPAGE, AdrLiv, AdrGrp, typeMission, typeSegment, statutLivraison, CR, dateBDD, Datemission, Ordremission,planDeTransport, Userandsoft, nomClientLivraison, villeClientLivraison, imgpath )";
+						stringinsertpos += "TablePositions ( codeLivraison, numCommande, nomClient, refClient, nomPayeur, adresseLivraison, CpLivraison, villeLivraison, dateHeure, nbrColis, nbrPallette, poids, adresseExpediteur, CpExpediteur, dateExpe, villeExpediteur, nomExpediteur, instrucLivraison, GROUPAGE, poidsADR, poidsQL, typeMission, typeSegment, statutLivraison, CR, dateBDD, Datemission, Ordremission,planDeTransport, Userandsoft, nomClientLivraison, villeClientLivraison, positionPole,imgpath)";
 						stringinsertpos += " ";
 						stringinsertpos += stringValues.Remove(stringValues.Length - 9);
 						var execreq = db.Execute(stringinsertpos);
@@ -496,7 +478,7 @@ namespace DMS_3
 				var tablemessage = db.Query<TableMessages>("SELECT * FROM TableMessages WHERE statutMessage = 2 or statutMessage = 5");
 				foreach (var item in tablemessage)
 				{
-					var updatestatutmessage = db.Query<TableMessages>("UPDATE TableMessages SET statutMessage = 3 WHERE _Id = ?", item.Id);
+					db.Query<TableMessages>("UPDATE TableMessages SET statutMessage = 3 WHERE _Id = ?", item.Id);
 				}
 				//dbr.InsertLogService("",DateTime.Now,"WebClient_UploadStringStatutCompleted Done");
 			}
@@ -573,7 +555,7 @@ namespace DMS_3
 			{
 				if (texteMessage.ToString().Length < 9)
 				{
-					var resinteg = dbr.InsertDataMessage(codeChauffeur, utilisateurEmetteur, texteMessage, 0, DateTime.Now, 1, numMessage);
+					dbr.InsertDataMessage(codeChauffeur, utilisateurEmetteur, texteMessage, 0, DateTime.Now, 1, numMessage);
 					//TODO
 					//var resintegstatut = dbr.InsertDataStatutMessage(0,DateTime.Now,numMessage,"","");
 					alertsms();
@@ -582,18 +564,18 @@ namespace DMS_3
 					switch (texteMessage.ToString().Substring(0, 9))
 					{
 						case "%%SUPPLIV":
-							var updatestat = dbr.updatePositionSuppliv((texteMessage.ToString()).Remove((texteMessage.ToString()).Length - 2).Substring(10));
+							dbr.updatePositionSuppliv((texteMessage.ToString()).Remove((texteMessage.ToString()).Length - 2).Substring(10));
 							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
 							dbr.InsertDataMessage(codeChauffeur, utilisateurEmetteur, "La position " + (texteMessage.ToString()).Remove((texteMessage.ToString()).Length - 2).Substring(10) + " a été supprimée de votre tournée", 0, DateTime.Now, 1, numMessage);
 							//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"[SYSTEM]Réception d'un SUPPLIV à "+DateTime.Now.ToString("t")+"\n");
 							break;
 						case "%%RETOLIV":
-							var updatestattretour = db.Query<TablePositions>("UPDATE TablePositions SET imgpath = null WHERE numCommande = ?", (texteMessage.ToString()).Remove((texteMessage.ToString()).Length - 2).Substring(10));
-							var resstatutbis = dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
+							db.Query<TablePositions>("UPDATE TablePositions SET imgpath = null WHERE numCommande = ?", (texteMessage.ToString()).Remove((texteMessage.ToString()).Length - 2).Substring(10));
+							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
 							break;
 						case "%%SUPPGRP":
-							var supgrp = db.Query<TablePositions>("DELETE from TablePositions where groupage = ?", (texteMessage.ToString()).Remove((texteMessage.ToString()).Length - 2).Substring(10));
-							var ressupgrp = dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
+							db.Query<TablePositions>("DELETE from TablePositions where groupage = ?", (texteMessage.ToString()).Remove((texteMessage.ToString()).Length - 2).Substring(10));
+							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
 							break;
 						case "%%GETFLOG":
 							//ftp://77.158.93.75 or ftp://10.1.2.75
@@ -653,7 +635,7 @@ namespace DMS_3
 									}
 									rowMsg.Remove(rowMsg.Length - 1);
 									rowMsg += "]";
-									var rMsg = dbr.InsertDataMessage(Data.userAndsoft, "", rowMsg, 5, DateTime.Now, 5, 0);
+									dbr.InsertDataMessage(Data.userAndsoft, "", rowMsg, 5, DateTime.Now, 5, 0);
 									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]REQUETE Execute " + rowMsg + "\n");
 									break;
 								case "TableNotifications":
@@ -667,7 +649,7 @@ namespace DMS_3
 									}
 									rowNotif.Remove(rowNotif.Length - 1);
 									rowNotif += "]";
-									var rNotif = dbr.InsertDataMessage(Data.userAndsoft, "", rowNotif, 5, DateTime.Now, 5, 0);
+									dbr.InsertDataMessage(Data.userAndsoft, "", rowNotif, 5, DateTime.Now, 5, 0);
 									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]REQUETE Execute " + rowNotif + "\n");
 									break;
 								case "TablePositions":
@@ -681,7 +663,7 @@ namespace DMS_3
 									}
 									rowPos.Remove(rowPos.Length - 1);
 									rowPos += "]";
-									var rPOS = dbr.InsertDataMessage(Data.userAndsoft, "", rowPos, 5, DateTime.Now, 5, 0);
+									dbr.InsertDataMessage(Data.userAndsoft, "", rowPos, 5, DateTime.Now, 5, 0);
 									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]REQUETE Execute " + rowPos + "\n");
 									break;
 								case "TableStatutPositions":
@@ -695,7 +677,7 @@ namespace DMS_3
 									}
 									rowStatut.Remove(rowStatut.Length - 1);
 									rowStatut += "]";
-									var rSTATLIV = dbr.InsertDataMessage(Data.userAndsoft, "", rowStatut, 5, DateTime.Now, 5, 0);
+									dbr.InsertDataMessage(Data.userAndsoft, "", rowStatut, 5, DateTime.Now, 5, 0);
 									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]REQUETE Execute " + rowStatut + "\n");
 									break;
 								case "TableUser":
@@ -709,7 +691,7 @@ namespace DMS_3
 									}
 									rowUser.Remove(rowUser.Length - 1);
 									rowUser += "]";
-									var rMUSER = dbr.InsertDataMessage(Data.userAndsoft, "", rowUser, 5, DateTime.Now, 5, 0);
+									dbr.InsertDataMessage(Data.userAndsoft, "", rowUser, 5, DateTime.Now, 5, 0);
 									break;
 								case "TableLogService":
 									var selLog = db.Query<TableLogService>(texteMessageInputSplit[3]);
@@ -740,7 +722,7 @@ namespace DMS_3
 								default:
 									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]Réception d'un REQUETE\n");
 									var execreq = db.Execute(texteMessageInputSplit[3]);
-									var rEXEC = dbr.InsertDataMessage(Data.userAndsoft, "", execreq + " lignes traitées : " + texteMessageInputSplit[3], 5, DateTime.Now, 5, 0);
+									dbr.InsertDataMessage(Data.userAndsoft, "", execreq + " lignes traitées : " + texteMessageInputSplit[3], 5, DateTime.Now, 5, 0);
 									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]REQUETE Execute " + execreq +" pour "+texteMessageInputSplit [3]+"\n");
 									break;
 							}

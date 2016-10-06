@@ -39,11 +39,20 @@ namespace DMS_3
 		Button btn_detail;
 		Button btn_valider;
 		Button btn_anomalie;
+		Button btn_termine;
 		ImageView _imageView;
+		Context activityContext;
 
 		TablePositions data;
 
 		string numero;
+		string id;
+		string numCommande;
+		string actionP;
+		string type;
+
+		bool flashinprogress;
+
 
 		MobileBarcodeScanner scanner;
 
@@ -68,6 +77,7 @@ namespace DMS_3
 			zoneflash = FindViewById<TextView>(Resource.Id.zoneflash);
 			zonetheo = FindViewById<TextView>(Resource.Id.zonetheo);
 			manuedit = FindViewById<Button>(Resource.Id.manuedit);
+			btn_termine = FindViewById<Button>(Resource.Id.btn_termine);
 
 			btn_detail = FindViewById<Button>(Resource.Id.btn_detail);
 			btn_valider = FindViewById<Button>(Resource.Id.btn_valider);
@@ -87,7 +97,29 @@ namespace DMS_3
 			btn_valider.Visibility = ViewStates.Gone;
 			btn_photo.Visibility = ViewStates.Gone;
 			btn_anomalie.Visibility = ViewStates.Gone;
+			btn_termine.Visibility = ViewStates.Gone;
+
 			//_imageView.Visibility = ViewStates.Gone;
+
+
+			btn_termine.Click += delegate
+			{
+				flashinprogress = false;
+
+				Intent intent;
+				if (actionP == "VALID")
+				{
+					intent = new Intent(this, typeof(ValidationActivity));
+				}
+				else
+				{
+					intent = new Intent(this, typeof(AnomalieActivity));
+				}
+
+				intent.PutExtra("ID", id);
+				intent.PutExtra("TYPE", type);
+				this.StartActivity(intent);
+			};
 
 			//scan
 
@@ -101,8 +133,8 @@ namespace DMS_3
 				scanner.UseCustomOverlay = false;
 
 				//We can customize the top and bottom text of the default overlay
-				scanner.TopText = "Hold the camera up to the barcode\nAbout 6 inches away";
-				scanner.BottomText = "Wait for the barcode to automatically scan!";
+				//scanner.TopText = "Hold the camera up to the barcode\nAbout 6 inches away";
+				//scanner.BottomText = "Wait for the barcode to automatically scan!";
 
 				//Start scanning
 				var result = await scanner.Scan();
@@ -116,21 +148,26 @@ namespace DMS_3
 			base.OnResume();
 			barcode.RequestFocus();
 
-			//barcode.Visibility = ViewStates.Invisible;
-			//infonumero.Visibility = ViewStates.Gone;
-			//infonomdest.Visibility = ViewStates.Gone;
-			//infocpdest.Visibility = ViewStates.Gone;
-			//infovilledest.Visibility = ViewStates.Gone;
-			//infoadrdest.Visibility = ViewStates.Gone;
-			//infonbcnbpP.Visibility = ViewStates.Gone;
-			//nbcolisflash.Visibility = ViewStates.Gone;
-			//zoneflash.Visibility = ViewStates.Gone;
-			//zonetheo.Visibility = ViewStates.Gone;
-
-
 			if (numero != null)
 			{
 				btn_photo.Visibility = ViewStates.Visible;
+			}
+
+			id = Intent.GetStringExtra("ID");
+			numCommande = Intent.GetStringExtra("NUMCOM");
+			type = Intent.GetStringExtra("TYPE");
+			actionP = Intent.GetStringExtra("ACTION");
+
+			activityContext = this;
+
+			if (numCommande != null)
+			{
+				flashinprogress = true;
+				GetInfoNumcommande(progress => AndHUD.Shared.Show(this, "Chargement ... " + progress + "%", progress, MaskType.Clear), numCommande);
+			}
+			else
+			{
+				flashinprogress = false;
 			}
 
 			barcode.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) =>
@@ -145,17 +182,13 @@ namespace DMS_3
 
 			barcode.InputType = 0;
 			InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Context.InputMethodService);
+
+
 			barcode.Click += delegate
 			{
 				inputMethodManager.HideSoftInputFromWindow(barcode.WindowToken, 0);
 
 			};
-
-			//btn_barcode.Click += delegate
-			//{
-			//	//Start scanning
-			//	scan();
-			//};
 
 
 
@@ -222,192 +255,334 @@ namespace DMS_3
 					action(progress);
 
 
-					//update dateflash
 					DBRepository dbr = new DBRepository();
-					dbr.updateColisFlash(num);
+					if (actionP != null)
+					{
+						dbr.updateColisFlash(num);
+					}
 
 					//check is_colis_in_truck
 					var is_colis_in_truck = dbr.is_colis_in_truck(num);
 					if (is_colis_in_truck != int.MinValue)
 					{
-
 						data = dbr.GetPositionsData(is_colis_in_truck);
 
-						string JSONNOTIF = "{\"codesuiviliv\":\"FLASHAGE\",\"memosuiviliv\":\"" + num + "\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
-						dbr.insertDataStatutpositions("FLASHAGE", "1", "FLASHAGE", data.numCommande, num, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);
+						if (dbr.is_colis_in_currentPos(num, numCommande))
+						{
+							string JSONNOTIF = "{\"codesuiviliv\":\"FLASHAGE\",\"memosuiviliv\":\"" + num + "\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
+							dbr.insertDataStatutpositions("FLASHAGE", "1", "FLASHAGE", data.numCommande, num, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);
 
-						RunOnUiThread(() => btn_detail.Click += delegate
+							RunOnUiThread(() => btn_detail.Click += delegate
+								{
+									Intent intent = new Intent(this, typeof(DetailActivity));
+									intent.PutExtra("ID", Convert.ToString(data.Id));
+									intent.PutExtra("TYPE", data.typeSegment);
+									this.StartActivity(intent);
+									Finish();
+								});
+
+							RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
+
+							RunOnUiThread(() => infovilledest.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
+
+							//get info de la tablePositions
+
+							RunOnUiThread(() => infonomdest.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => infocpdest.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => infonumero.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
+
+							RunOnUiThread(() => infonomdest.Text = data.nomClientLivraison);
+							RunOnUiThread(() => infocpdest.Text = data.CpLivraison);
+							RunOnUiThread(() => infovilledest.Text = data.villeLivraison);
+							RunOnUiThread(() => infoadrdest.Text = data.adresseLivraison);
+							RunOnUiThread(() => infonumero.Text = data.numCommande);
+
+							int colisFlasher = dbr.CountColisFlash(data.numCommande);
+
+							int colisPosition = dbr.CountColis(data.numCommande);
+
+
+							RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHES: " + colisFlasher + "/" + colisPosition);
+
+							TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
+							RunOnUiThread(() => tl.Visibility = ViewStates.Gone);
+
+							if (action == null)
 							{
-								Intent intent = new Intent(this, typeof(DetailActivity));
-								intent.PutExtra("ID", Convert.ToString(data.Id));
-								intent.PutExtra("TYPE", data.typeSegment);
-								this.StartActivity(intent);
-								Finish();
-							});
+								RunOnUiThread(() => btn_termine.Visibility = ViewStates.Gone);
+							}
+							else
+							{
+								RunOnUiThread(() => btn_termine.Visibility = ViewStates.Visible);
+							}
+							if (colisFlasher == colisPosition)
+							{
+								if (action == null)
+								{
+									RunOnUiThread(() => btn_termine.Visibility = ViewStates.Gone);
+									//afficher les btn valider et anomalie
+								}
+								else
+								{
+									flashinprogress = false;
 
-						//RunOnUiThread(() => btn_valider.Visibility = ViewStates.Visible);
-						//RunOnUiThread(() => btn_anomalie.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => btn_detail.Visibility = ViewStates.Visible);
+									Intent intent;
+									if (actionP == "VALID")
+									{
+										intent = new Intent(this, typeof(ValidationActivity));
+									}
+									else
+									{
+										intent = new Intent(this, typeof(AnomalieActivity));
+									}
 
-						RunOnUiThread(() => infovilledest.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
-
-						//get info de la tablePositions
-
-						RunOnUiThread(() => infonomdest.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => infocpdest.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => infonumero.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
+									intent.PutExtra("ID", id);
+									intent.PutExtra("TYPE", type);
+									this.StartActivity(intent);
+								}
 
 
+							}
 
-
-
-						RunOnUiThread(() => infonomdest.Text = data.nomClientLivraison);
-						RunOnUiThread(() => infocpdest.Text = data.CpLivraison);
-						RunOnUiThread(() => infovilledest.Text = data.villeLivraison);
-						RunOnUiThread(() => infoadrdest.Text = data.adresseLivraison);
-						RunOnUiThread(() => infonumero.Text = data.numCommande);
-
-						RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHER: " + dbr.CountColisFlash(data.numCommande) + "/" + dbr.CountColis(data.numCommande));
-
-						TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
-						RunOnUiThread(() => tl.Visibility = ViewStates.Gone);
+						}
+						else
+						{
+							AndHUD.Shared.ShowError(activityContext, "Attention mauvais colis !", MaskType.Black, TimeSpan.FromSeconds(2));
+							//Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Long).Show();
+						}
 					}
 					else
 					{
-						//RunOnUiThread(() => btn_valider.Visibility = ViewStates.Gone);
-						//RunOnUiThread(() => btn_anomalie.Visibility = ViewStates.Gone);
-						RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
-
-
-						//get infos  WS
-						string _url = "http://dms.jeantettransport.com/api/flash?val=" + num;
-						//string _url = "http://10.1.2.70/mvcdms/api/flash?val=" + num;
-						var webClient = new WebClient();
-						webClient.Encoding = System.Text.Encoding.UTF8;
-						webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-						dataWS = webClient.DownloadString(_url);
-
-						progress += 50;
-						action(progress);
-
-						//.Replace("\\", "")).Replace("\"", "'")
-
-						string json = @"" + dataWS + "";
-						var bob = Newtonsoft.Json.Linq.JObject.Parse(json);
-						if (bob["FLAOTSNUM"].ToString() != "")
+						var is_pos_in_truck = dbr.is_position_in_truck(num);
+						if (is_pos_in_truck == int.MinValue)
 						{
-
-
-
-							RunOnUiThread(() => infonumero.Visibility = ViewStates.Visible);
-							RunOnUiThread(() => infonumero.Text = (string)bob["FLAOTSNUM"]);
-
-							if (bob["FLANOMDEST"].ToString() != "")
+							if (!flashinprogress)
 							{
-								RunOnUiThread(() => infonomdest.Visibility = ViewStates.Visible);
-								RunOnUiThread(() => infonomdest.Text = (string)bob["FLANOMDEST"]);
+								//RunOnUiThread(() => btn_valider.Visibility = ViewStates.Gone);
+								//RunOnUiThread(() => btn_anomalie.Visibility = ViewStates.Gone);
+								RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
+
+
+								//get infos  WS
+								string _url = "http://dms.jeantettransport.com/api/flash?val=" + num;
+								//string _url = "http://10.1.2.70/mvcdms/api/flash?val=" + num;
+								var webClient = new WebClient();
+								webClient.Encoding = System.Text.Encoding.UTF8;
+								webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+								dataWS = webClient.DownloadString(_url);
+
+								progress += 50;
+								action(progress);
+
+								//.Replace("\\", "")).Replace("\"", "'")
+
+								string json = @"" + dataWS + "";
+								var bob = Newtonsoft.Json.Linq.JObject.Parse(json);
+								if (bob["FLAOTSNUM"].ToString() != "")
+								{
+
+
+
+									RunOnUiThread(() => infonumero.Visibility = ViewStates.Visible);
+									RunOnUiThread(() => infonumero.Text = (string)bob["FLAOTSNUM"]);
+
+									if (bob["FLANOMDEST"].ToString() != "")
+									{
+										RunOnUiThread(() => infonomdest.Visibility = ViewStates.Visible);
+										RunOnUiThread(() => infonomdest.Text = (string)bob["FLANOMDEST"]);
+									}
+									else
+									{
+										RunOnUiThread(() => infonomdest.Visibility = ViewStates.Gone);
+									}
+
+									if (bob["FLAADRDEST"].ToString() != "")
+									{
+										RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Visible);
+										RunOnUiThread(() => infoadrdest.Text = (string)bob["FLAADRDEST"]);
+									}
+									else
+									{
+										RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Gone);
+									}
+
+									if (bob["FLACPDEST"].ToString() != "")
+									{
+										RunOnUiThread(() => infocpdest.Visibility = ViewStates.Visible);
+										RunOnUiThread(() => infocpdest.Text = (string)bob["FLACPDEST"]);
+									}
+									else
+									{
+										RunOnUiThread(() => infocpdest.Visibility = ViewStates.Gone);
+									}
+
+									if (bob["FLAVILLEDEST"].ToString() != "")
+									{
+										RunOnUiThread(() => infovilledest.Visibility = ViewStates.Visible);
+										RunOnUiThread(() => infovilledest.Text = (string)bob["FLAVILLEDEST"]);
+									}
+									else
+									{
+										RunOnUiThread(() => infovilledest.Visibility = ViewStates.Gone);
+									}
+
+									RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Visible);
+									RunOnUiThread(() => infonbcnbpP.Text = "NB COLIS: " + (string)bob["FLANBCOLIS"] + "NB PAL: " + (string)bob["FLAPAL"] + " POIDS: " + (string)bob["FLAPDS"]);
+
+
+									RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
+									RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHEE: " + (string)bob["FLANBFLASHER"] + "/" + (string)bob["FLANBCOLIS"]);
+
+									if (bob["FLAZONEFLASHER"].ToString() != "")
+									{
+										RunOnUiThread(() => zoneflash.Visibility = ViewStates.Visible);
+										RunOnUiThread(() => zoneflash.Text = (string)bob["FLAZONEFLASHER"]);
+									}
+									else
+									{
+										RunOnUiThread(() => zoneflash.Visibility = ViewStates.Gone);
+									}
+
+
+									if (bob["FLAZONETHEORIQUE"].ToString() != null)
+									{
+										RunOnUiThread(() => zonetheo.Visibility = ViewStates.Visible);
+										RunOnUiThread(() => zonetheo.Text = (string)bob["FLAZONETHEORIQUE"]);
+									}
+									else
+									{
+										RunOnUiThread(() => zonetheo.Visibility = ViewStates.Gone);
+									}
+
+									TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
+
+
+									RunOnUiThread(() => tl.RemoveAllViews());
+
+									foreach (var item in bob["FLAEVE"])
+									{
+										TableRow row = new TableRow(this);
+										TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WrapContent, TableLayout.LayoutParams.WrapContent);
+
+										//layoutParams.SetMargins(5, 5, 5, 5);
+										row.LayoutParameters = layoutParams;
+										row.SetGravity(Android.Views.GravityFlags.Center);
+										TextView b = new TextView(this);
+										b.Gravity = Android.Views.GravityFlags.Center;
+										b.Text = (string)item["EVEDATE"] + " " + (string)item["EVECODE"] + " " + (string)item["EVEOTEVAL1"];
+										row.AddView(b);
+										RunOnUiThread(() => tl.AddView(row));
+									}
+									RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
+
+
+								}
+								else {
+									RunOnUiThread(() => infonumero.Text = "Pas de résultat");
+									RunOnUiThread(() => infonomdest.Visibility = ViewStates.Gone);
+									RunOnUiThread(() => infocpdest.Visibility = ViewStates.Gone);
+									RunOnUiThread(() => infovilledest.Visibility = ViewStates.Gone);
+									RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Gone);
+									RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Gone);
+									RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Gone);
+									RunOnUiThread(() => zoneflash.Visibility = ViewStates.Gone);
+									RunOnUiThread(() => zonetheo.Visibility = ViewStates.Gone);
+								}
 							}
 							else
 							{
-								RunOnUiThread(() => infonomdest.Visibility = ViewStates.Gone);
+								//Show an error image with a message with a Dimmed background, and auto-dismiss after 2 seconds
+								AndHUD.Shared.ShowError(activityContext, "Attention mauvais colis !", MaskType.Black, TimeSpan.FromSeconds(2));
+								//Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Long).Show();
 							}
+						}else
+						{
+							data = dbr.GetPositionsData(is_pos_in_truck);
 
-							if (bob["FLAADRDEST"].ToString() != "")
-							{
-								RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Visible);
-								RunOnUiThread(() => infoadrdest.Text = (string)bob["FLAADRDEST"]);
-							}
-							else
-							{
-								RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Gone);
-							}
+							RunOnUiThread(() => btn_detail.Click += delegate
+								{
+									Intent intent = new Intent(this, typeof(DetailActivity));
+									intent.PutExtra("ID", Convert.ToString(data.Id));
+									intent.PutExtra("TYPE", data.typeSegment);
+									this.StartActivity(intent);
+									Finish();
+								});
 
-							if (bob["FLACPDEST"].ToString() != "")
-							{
-								RunOnUiThread(() => infocpdest.Visibility = ViewStates.Visible);
-								RunOnUiThread(() => infocpdest.Text = (string)bob["FLACPDEST"]);
-							}
-							else
-							{
-								RunOnUiThread(() => infocpdest.Visibility = ViewStates.Gone);
-							}
+							RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
 
-							if (bob["FLAVILLEDEST"].ToString() != "")
-							{
-								RunOnUiThread(() => infovilledest.Visibility = ViewStates.Visible);
-								RunOnUiThread(() => infovilledest.Text = (string)bob["FLAVILLEDEST"]);
-							}
-							else
-							{
-								RunOnUiThread(() => infovilledest.Visibility = ViewStates.Gone);
-							}
-
-							RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Visible);
-							RunOnUiThread(() => infonbcnbpP.Text = "NB COLIS: " + (string)bob["FLANBCOLIS"] + "NB PAL: " + (string)bob["FLAPAL"] + " POIDS: " + (string)bob["FLAPDS"]);
-
-
-							RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
-							RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHER: " + (string)bob["FLANBFLASHER"] + "/" + (string)bob["FLANBCOLIS"]);
-
-							if (bob["FLAZONEFLASHER"].ToString() != "")
-							{
-								RunOnUiThread(() => zoneflash.Visibility = ViewStates.Visible);
-								RunOnUiThread(() => zoneflash.Text = (string)bob["FLAZONEFLASHER"]);
-							}
-							else
-							{
-								RunOnUiThread(() => zoneflash.Visibility = ViewStates.Gone);
-							}
-
-
-							if (bob["FLAZONETHEORIQUE"].ToString() != null)
-							{
-								RunOnUiThread(() => zonetheo.Visibility = ViewStates.Visible);
-								RunOnUiThread(() => zonetheo.Text = (string)bob["FLAZONETHEORIQUE"]);
-							}
-							else
-							{
-								RunOnUiThread(() => zonetheo.Visibility = ViewStates.Gone);
-							}
-
-							TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
-
-
-							RunOnUiThread(() => tl.RemoveAllViews());
-
-							foreach (var item in bob["FLAEVE"])
-							{
-								TableRow row = new TableRow(this);
-								TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WrapContent, TableLayout.LayoutParams.WrapContent);
-
-								//layoutParams.SetMargins(5, 5, 5, 5);
-								row.LayoutParameters = layoutParams;
-								row.SetGravity(Android.Views.GravityFlags.Center);
-								TextView b = new TextView(this);
-								b.Gravity = Android.Views.GravityFlags.Center;
-								b.Text = (string)item["EVEDATE"] + " " + (string)item["EVECODE"] + " " + (string)item["EVEOTEVAL1"];
-								row.AddView(b);
-								RunOnUiThread(() => tl.AddView(row));
-							}
+							RunOnUiThread(() => infovilledest.Visibility = ViewStates.Visible);
 							RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
 
+							//get info de la tablePositions
 
-						}
-						else {
-							RunOnUiThread(() => infonumero.Text = "Pas de résultat");
-							RunOnUiThread(() => infonomdest.Visibility = ViewStates.Gone);
-							RunOnUiThread(() => infocpdest.Visibility = ViewStates.Gone);
-							RunOnUiThread(() => infovilledest.Visibility = ViewStates.Gone);
-							RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Gone);
-							RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Gone);
-							RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Gone);
-							RunOnUiThread(() => zoneflash.Visibility = ViewStates.Gone);
-							RunOnUiThread(() => zonetheo.Visibility = ViewStates.Gone);
+							RunOnUiThread(() => infonomdest.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => infocpdest.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => infonumero.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
+
+							RunOnUiThread(() => infonomdest.Text = data.nomClientLivraison);
+							RunOnUiThread(() => infocpdest.Text = data.CpLivraison);
+							RunOnUiThread(() => infovilledest.Text = data.villeLivraison);
+							RunOnUiThread(() => infoadrdest.Text = data.adresseLivraison);
+							RunOnUiThread(() => infonumero.Text = data.numCommande);
+
+							int colisFlasher = dbr.CountColisFlash(data.numCommande);
+
+							int colisPosition = dbr.CountColis(data.numCommande);
+
+
+							RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHES: " + colisFlasher + "/" + colisPosition);
+
+							TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
+							RunOnUiThread(() => tl.Visibility = ViewStates.Gone);
+
+							if (action == null)
+							{
+								RunOnUiThread(() => btn_termine.Visibility = ViewStates.Gone);
+							}
+							else
+							{
+								RunOnUiThread(() => btn_termine.Visibility = ViewStates.Visible);
+							}
+
+							if (colisFlasher == colisPosition)
+							{
+								if (action == null)
+								{
+									RunOnUiThread(() => btn_termine.Visibility = ViewStates.Gone);
+									//afficher les btn valider et anomalie
+								}
+								else
+								{
+									flashinprogress = false;
+
+									Intent intent;
+									if (actionP == "VALID")
+									{
+										intent = new Intent(this, typeof(ValidationActivity));
+									}
+									else
+									{
+										intent = new Intent(this, typeof(AnomalieActivity));
+									}
+
+									intent.PutExtra("ID", id);
+									intent.PutExtra("TYPE", type);
+									this.StartActivity(intent);
+								}
+
+
+							}
+
+
 						}
 
 
@@ -426,6 +601,268 @@ namespace DMS_3
 			});
 		}
 
+		void GetInfoNumcommande(Action<int> action, string num)
+		{
+			Data.bitmap = null;
+			_imageView.SetImageBitmap(null);
+			Task.Factory.StartNew(() =>
+			{
+				try
+				{
+					int progress = 0;
+					string dataWS;
+
+					progress += 20;
+					action(progress);
+
+
+					//update dateflash
+					DBRepository dbr = new DBRepository();
+
+
+					//check is_colis_in_truck
+					var is_colis_in_truck = dbr.is_position_in_truck(num);
+					if (is_colis_in_truck != int.MinValue)
+					{
+						flashinprogress = true;
+						data = dbr.GetPositionsData(is_colis_in_truck);
+
+						string JSONNOTIF = "{\"codesuiviliv\":\"FLASHAGE\",\"memosuiviliv\":\"" + num + "\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
+						dbr.insertDataStatutpositions("FLASHAGE", "1", "FLASHAGE", data.numCommande, num, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);
+
+						RunOnUiThread(() => btn_detail.Click += delegate
+							{
+								Intent intent = new Intent(this, typeof(DetailActivity));
+								intent.PutExtra("ID", Convert.ToString(data.Id));
+								intent.PutExtra("TYPE", data.typeSegment);
+								this.StartActivity(intent);
+								Finish();
+							});
+
+						RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
+
+						RunOnUiThread(() => infovilledest.Visibility = ViewStates.Visible);
+						RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
+
+						//get info de la tablePositions
+
+						RunOnUiThread(() => infonomdest.Visibility = ViewStates.Visible);
+						RunOnUiThread(() => infocpdest.Visibility = ViewStates.Visible);
+						RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Visible);
+						RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
+						RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Visible);
+						RunOnUiThread(() => infonumero.Visibility = ViewStates.Visible);
+						RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
+
+						RunOnUiThread(() => infonomdest.Text = data.nomClientLivraison);
+						RunOnUiThread(() => infocpdest.Text = data.CpLivraison);
+						RunOnUiThread(() => infovilledest.Text = data.villeLivraison);
+						RunOnUiThread(() => infoadrdest.Text = data.adresseLivraison);
+						RunOnUiThread(() => infonumero.Text = data.numCommande);
+
+						int colisFlasher = dbr.CountColisFlash(data.numCommande);
+
+						int colisPosition = dbr.CountColis(data.numCommande);
+
+
+						RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHER: " + colisFlasher + "/" + colisPosition);
+
+						TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
+						RunOnUiThread(() => tl.Visibility = ViewStates.Gone);
+
+						if (action == null)
+						{
+							RunOnUiThread(() => btn_termine.Visibility = ViewStates.Gone);
+						}
+						else
+						{
+							RunOnUiThread(() => btn_termine.Visibility = ViewStates.Visible);
+						}
+						if (colisFlasher == colisPosition)
+						{
+							if (action == null)
+							{
+								RunOnUiThread(() => btn_termine.Visibility = ViewStates.Gone);
+								//afficher les btn valider et anomalie
+							}
+							else
+							{
+								flashinprogress = false;
+
+								Intent intent;
+								if (actionP == "VALID")
+								{
+									intent = new Intent(this, typeof(ValidationActivity));
+								}
+								else
+								{
+									intent = new Intent(this, typeof(AnomalieActivity));
+								}
+
+								intent.PutExtra("ID", id);
+								intent.PutExtra("TYPE", type);
+								this.StartActivity(intent);
+							}
+
+
+						}
+					}
+					else
+					{
+
+						if (!flashinprogress)
+						{
+							//RunOnUiThread(() => btn_valider.Visibility = ViewStates.Gone);
+							//RunOnUiThread(() => btn_anomalie.Visibility = ViewStates.Gone);
+							RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
+
+
+							//get infos  WS
+							string _url = "http://dms.jeantettransport.com/api/flash?val=" + num;
+							//string _url = "http://10.1.2.70/mvcdms/api/flash?val=" + num;
+							var webClient = new WebClient();
+							webClient.Encoding = System.Text.Encoding.UTF8;
+							webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+							dataWS = webClient.DownloadString(_url);
+
+							progress += 50;
+							action(progress);
+
+							//.Replace("\\", "")).Replace("\"", "'")
+
+							string json = @"" + dataWS + "";
+							var bob = Newtonsoft.Json.Linq.JObject.Parse(json);
+							if (bob["FLAOTSNUM"].ToString() != "")
+							{
+
+
+
+								RunOnUiThread(() => infonumero.Visibility = ViewStates.Visible);
+								RunOnUiThread(() => infonumero.Text = (string)bob["FLAOTSNUM"]);
+
+								if (bob["FLANOMDEST"].ToString() != "")
+								{
+									RunOnUiThread(() => infonomdest.Visibility = ViewStates.Visible);
+									RunOnUiThread(() => infonomdest.Text = (string)bob["FLANOMDEST"]);
+								}
+								else
+								{
+									RunOnUiThread(() => infonomdest.Visibility = ViewStates.Gone);
+								}
+
+								if (bob["FLAADRDEST"].ToString() != "")
+								{
+									RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Visible);
+									RunOnUiThread(() => infoadrdest.Text = (string)bob["FLAADRDEST"]);
+								}
+								else
+								{
+									RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Gone);
+								}
+
+								if (bob["FLACPDEST"].ToString() != "")
+								{
+									RunOnUiThread(() => infocpdest.Visibility = ViewStates.Visible);
+									RunOnUiThread(() => infocpdest.Text = (string)bob["FLACPDEST"]);
+								}
+								else
+								{
+									RunOnUiThread(() => infocpdest.Visibility = ViewStates.Gone);
+								}
+
+								if (bob["FLAVILLEDEST"].ToString() != "")
+								{
+									RunOnUiThread(() => infovilledest.Visibility = ViewStates.Visible);
+									RunOnUiThread(() => infovilledest.Text = (string)bob["FLAVILLEDEST"]);
+								}
+								else
+								{
+									RunOnUiThread(() => infovilledest.Visibility = ViewStates.Gone);
+								}
+
+								RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Visible);
+								RunOnUiThread(() => infonbcnbpP.Text = "NB COLIS: " + (string)bob["FLANBCOLIS"] + "NB PAL: " + (string)bob["FLAPAL"] + " POIDS: " + (string)bob["FLAPDS"]);
+
+
+								RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
+								RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHER: " + (string)bob["FLANBFLASHER"] + "/" + (string)bob["FLANBCOLIS"]);
+
+								if (bob["FLAZONEFLASHER"].ToString() != "")
+								{
+									RunOnUiThread(() => zoneflash.Visibility = ViewStates.Visible);
+									RunOnUiThread(() => zoneflash.Text = (string)bob["FLAZONEFLASHER"]);
+								}
+								else
+								{
+									RunOnUiThread(() => zoneflash.Visibility = ViewStates.Gone);
+								}
+
+
+								if (bob["FLAZONETHEORIQUE"].ToString() != null)
+								{
+									RunOnUiThread(() => zonetheo.Visibility = ViewStates.Visible);
+									RunOnUiThread(() => zonetheo.Text = (string)bob["FLAZONETHEORIQUE"]);
+								}
+								else
+								{
+									RunOnUiThread(() => zonetheo.Visibility = ViewStates.Gone);
+								}
+
+								TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
+
+
+								RunOnUiThread(() => tl.RemoveAllViews());
+
+								foreach (var item in bob["FLAEVE"])
+								{
+									TableRow row = new TableRow(this);
+									TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WrapContent, TableLayout.LayoutParams.WrapContent);
+
+									//layoutParams.SetMargins(5, 5, 5, 5);
+									row.LayoutParameters = layoutParams;
+									row.SetGravity(Android.Views.GravityFlags.Center);
+									TextView b = new TextView(this);
+									b.Gravity = Android.Views.GravityFlags.Center;
+									b.Text = (string)item["EVEDATE"] + " " + (string)item["EVECODE"] + " " + (string)item["EVEOTEVAL1"];
+									row.AddView(b);
+									RunOnUiThread(() => tl.AddView(row));
+								}
+								RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
+
+
+							}
+							else {
+								RunOnUiThread(() => infonumero.Text = "Pas de résultat");
+								RunOnUiThread(() => infonomdest.Visibility = ViewStates.Gone);
+								RunOnUiThread(() => infocpdest.Visibility = ViewStates.Gone);
+								RunOnUiThread(() => infovilledest.Visibility = ViewStates.Gone);
+								RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Gone);
+								RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Gone);
+								RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Gone);
+								RunOnUiThread(() => zoneflash.Visibility = ViewStates.Gone);
+								RunOnUiThread(() => zonetheo.Visibility = ViewStates.Gone);
+							}
+						}
+						else
+						{
+							//Show an error image with a message with a Dimmed background, and auto-dismiss after 2 seconds
+							AndHUD.Shared.ShowError(this, "Attention mauvais colis !", MaskType.Black, TimeSpan.FromSeconds(2));
+						}
+
+					}
+
+
+					progress += 30;
+					action(progress);
+
+					AndHUD.Shared.Dismiss(this);
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex);
+				}
+			});
+		}
 		private void CreateDirectoryForPictures()
 		{
 			Data._dir = new Java.IO.File(Android.OS.Environment.GetExternalStoragePublicDirectory(
