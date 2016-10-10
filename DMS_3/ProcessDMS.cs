@@ -12,10 +12,8 @@ using Android.Locations;
 using Android.Media;
 using Android.Net;
 using Android.OS;
-using Android.Telephony;
 using DMS_3.BDD;
 using SQLite;
-using Xamarin;
 using Environment = System.Environment;
 
 namespace DMS_3
@@ -35,7 +33,6 @@ namespace DMS_3
 		string _locationProvider;
 		string stringValues;
 		string stringNotif;
-		string stringColis;
 
 		DBRepository dbr = new DBRepository();
 
@@ -96,19 +93,33 @@ namespace DMS_3
 
 		void StartServiceInForeground()
 		{
-			var ongoing = new Notification(Resource.Drawable.iconapp, "DMS en cours d'exécution");
-			var pendingIntent = PendingIntent.GetActivity(this, 0, new Intent(this, typeof(HomeActivity)), 0);
-			ongoing.SetLatestEventInfo(this, "DMS", "DMS en cours d'exécution", pendingIntent);
-			StartForeground((int)NotificationFlags.ForegroundService, ongoing);
+			//	var ongoing = new Notification(Resource.Drawable.iconapp, "DMS en cours d'exécution");
+			//	var pendingIntent = PendingIntent.GetActivity(this, 0, new Intent(this, typeof(HomeActivity)), 0);
+			//	ongoing.SetLatestEventInfo(this, "DMS", "DMS en cours d'exécution", pendingIntent);
+			//	StartForeground((int)NotificationFlags.ForegroundService, ongoing);
+
+			// Instantiate the builder and set notification elements:
+			Notification.Builder builder = new Notification.Builder(this)
+				.SetContentTitle("DMS")
+				.SetContentText("DMS en cours d'exécution")
+				.SetOngoing(true)
+				.SetSmallIcon(Resource.Drawable.iconapp);
+
+			// Build the notification:
+			Notification notification = builder.Build();
+
+			// Get the notification manager:
+			NotificationManager notificationManager =
+				GetSystemService(Context.NotificationService) as NotificationManager;
+
+			// Publish the notification:
+			const int notificationId = 0;
+			notificationManager.Notify(notificationId, notification);
 		}
 
 
 		void Routine()
 		{
-			//			_timer = new System.Threading.Timer ((o) => {
-			//				
-			//
-			//			}, null, 0, 120000);
 
 			Task.Factory.StartNew(() =>
 				{
@@ -143,7 +154,6 @@ namespace DMS_3
 							}
 						}
 
-						string dir_log = (Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)).ToString();
 						ISharedPreferences pref = Application.Context.GetSharedPreferences("AppInfo", FileCreationMode.Private);
 						ISharedPreferencesEditor edit = pref.Edit();
 						edit.PutLong("Service", DateTime.Now.Ticks);
@@ -184,7 +194,6 @@ namespace DMS_3
 				{
 					stringValues = string.Empty;
 					stringNotif = string.Empty;
-					stringColis = string.Empty;
 					foreach (var row in jsonArr)
 					{
 						bool checkpos = dbr.pos_AlreadyExist(row["numCommande"], row["groupage"], row["typeMission"], row["typeSegment"]);
@@ -248,27 +257,22 @@ namespace DMS_3
 					var webClient = new WebClient();
 					webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 					content_grpcloture = webClient.DownloadString(_urlb);
-					JsonValue jsonVal = JsonObject.Parse(content_grpcloture);
-					//JsonArray jsonVal = JsonArray.Parse (content_grpcloture) as JsonArray;
-					//var jsonArr = jsonVal;							
+					JsonValue jsonVal = JsonObject.Parse(content_grpcloture);						
 					if (jsonVal["etat"].ToString() == "\"CLO\"")
 					{
 						//suppression du groupage en question si clo
-						var suppgrp = dbr.supp_grp(numGroupage);
+						//var suppgrp = dbr.supp_grp(numGroupage);
 					}
 				}
 				catch (Exception ex)
 				{
 					content_grpcloture = "[]";
 					Console.WriteLine("\n" + ex);
-					//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"[ERROR] Cloture : "+ex+" à "+DateTime.Now.ToString("t")+"\n");
 				}
 
 			}
 
 			Console.WriteLine("\nTask InsertData done");
-			//File.AppendAllText(Data.log_file, "Task InsertData done"+DateTime.Now.ToString("t")+"\n");
-			//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"][TASK] InserData done:\n");
 		}
 
 		void ComPosNotifMsg()
@@ -297,6 +301,7 @@ namespace DMS_3
 				}
 				catch (Exception ex)
 				{
+					Console.WriteLine(ex);
 					content_msg = "[]";
 				}
 				if (content_msg != "[]")
@@ -365,7 +370,7 @@ namespace DMS_3
 				}
 				catch (Exception e)
 				{
-					//dbr.InsertLogService(e.ToString(),DateTime.Now,"ComPosNotifMsg UploadStringAsync Error");
+					Console.WriteLine(e);
 				}
 			}
 			catch (Exception ex)
@@ -570,12 +575,7 @@ namespace DMS_3
 							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
 							break;
 						case "%%GETFLOG":
-							//ftp://77.158.93.75 or ftp://10.1.2.75
-							//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"[SYSTEM]Réception d'un GETFLOG à "+DateTime.Now.ToString("t")+"\n");
-							Thread thread = new Thread(() => UploadFile("ftp://77.158.93.75", Data.log_file, "DMS", "Linuxr00tn", ""));
-							thread.Start();
-							dbr.InsertDataStatutMessage(0, DateTime.Now, numMessage, "", "");
-							dbr.InsertDataMessage(Data.userAndsoft, "", "%%GETFLOG Done", 5, DateTime.Now, 5, 0);
+
 							break;
 						case "%%COMMAND":
 							//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"[SYSTEM]Réception d'un COMMAND à "+DateTime.Now.ToString("t")+"\n");
@@ -602,8 +602,7 @@ namespace DMS_3
 							}
 							catch (Exception ex)
 							{
-								//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"%%GETAIMG Upload file error :"+ex+"\n");
-								Console.Out.Write("%%GETAIMG Upload file error\n");
+								Console.Out.Write("%%GETAIMG Upload file error\n" + ex);
 							}
 							break;
 						case "%%STOPSER":
@@ -773,13 +772,12 @@ namespace DMS_3
 				stream.Close();
 				FtpWebResponse res = (FtpWebResponse)req.GetResponse();
 				//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"Upload file"+fileName+" good\n");
-				Console.Out.Write("Upload file" + fileName + " good\n");
+				Console.Out.Write("Upload file" + fileName + " good\n" + res);
 				return true;
 			}
 			catch (Exception ex)
 			{
-				//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"Upload file"+fileName+" error :"+ex+"\n");
-				Console.Out.Write("Upload file" + fileName + " error\n");
+				Console.Out.Write("Upload file" + fileName + " error\n" + ex);
 				Thread.Sleep(TimeSpan.FromMinutes(2));
 				UploadFile(FtpUrl, fileName, userName, password, UploadDirectory);
 				return false;

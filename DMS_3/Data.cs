@@ -17,8 +17,6 @@ namespace DMS_3
 {
 	class Data
 	{
-		public static Java.Lang.Thread CheckService;
-
 		//Instance
 		private static Data instance;
 		DBRepository dbr = new DBRepository();
@@ -30,8 +28,6 @@ namespace DMS_3
 		//Table user
 		public static bool tableuserload = false;
 
-		//Log DATA
-		public static string log_file;
 
 		//GPS
 		public static string GPS;
@@ -40,16 +36,11 @@ namespace DMS_3
 		public static Java.IO.File _file;
 		public static Java.IO.File _dir;
 		public static Bitmap bitmap;
-		String datedujour;
 
 		//BADGES
 		private int livraisonIndicator;
 		private int enlevementIndicator;
 		private int messageIndicator;
-
-		//ADR QL
-		private int adr;
-		private int ql;
 
 		//FONT
 
@@ -138,15 +129,13 @@ namespace DMS_3
 				stream.Write(data, 0, data.Length);
 				stream.Close();
 				FtpWebResponse res = (FtpWebResponse)req.GetResponse();
-				File.AppendAllText(Data.log_file, "Upload file" + fileName + " good\n");
-				Console.Out.Write("Upload file" + fileName + " good\n");
+				Console.Out.Write("Upload file" + fileName + " good "+res);
 				return true;
 
 			}
 			catch (Exception ex)
 			{
-				File.AppendAllText(Data.log_file, "Upload file" + fileName + " error :" + ex + "\n");
-				Console.Out.Write("Upload file" + fileName + " error\n");
+				Console.Out.Write("Upload file" + fileName + " error\n" + ex);
 				return false;
 			}
 		}

@@ -63,7 +63,6 @@
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/layout/flashagequai.xml
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/menu/flash.xml
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/layout/boxmanuedit.xml
-/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/barcode.png
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/telephone.png
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/barcodehome.png
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/camera.png
@@ -80,6 +79,10 @@
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/logo_pole_50.png
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/adr_background.xml
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/layout/overlay.xml
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/overlay.png
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/redline.xml
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/keyboard.png
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/barcode.png
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/R.cs.flag
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/com.dealtis.dms_3-Signed.apk
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/uploadflags.txt
@@ -89,7 +92,6 @@
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/NineOldAndroids.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/AndroidEasingFunctions.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/AutoFitTextView.dll
-/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/Xamarin.Insights.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/Newtonsoft.Json.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/Xamarin.Android.Support.v4.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/Xamarin.Android.Support.Vector.Drawable.dll
@@ -98,14 +100,12 @@
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/ZXing.Net.Mobile.Core.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/zxing.portable.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/ZXingNetMobile.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLite-net.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/HockeySDK.AndroidBindings.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/HockeySDK.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLitePCLRaw.core.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLitePCLRaw.lib.e_sqlite3.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLitePCLRaw.provider.e_sqlite3.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLitePCLRaw.batteries_green.dll
-/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLite-net.dll
-/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLitePCL.raw.dll
-/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/overlay.png
-/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/redline.xml
-/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/HockeySDK.AndroidBindings.dll
-/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/HockeySDK.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLitePCLRaw.batteries_v2.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLitePCL.raw.dll

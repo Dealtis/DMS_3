@@ -1,14 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Json;
-using System.Net;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Telephony;
 using Android.Views;
 using Android.Widget;
-using AndroidHUD;
 using DMS_3.BDD;
 using HockeyApp.Android;
 using HockeyApp.Android.Metrics;
@@ -27,9 +21,7 @@ namespace DMS_3
 		RelativeLayout deliveryBadge;
 		RelativeLayout peekupBadge;
 		RelativeLayout newMsgBadge;
-		ImageView ico_adr;
 		System.Timers.Timer indicatorTimer;
-		System.Timers.Timer serviceTimer;
 		public ProcessDMSBinder binder;
 		ProcessDMSConnection processDMSConnection;
 
@@ -49,7 +41,6 @@ namespace DMS_3
 			deliveryBadge = FindViewById<RelativeLayout>(Resource.Id.deliveryBadge);
 			peekupBadge = FindViewById<RelativeLayout>(Resource.Id.peekupBadge);
 			newMsgBadge = FindViewById<RelativeLayout>(Resource.Id.newMsgBadge);
-			ico_adr = FindViewById<ImageView>(Resource.Id.ico_adr);
 			peekupBadge.Visibility = ViewStates.Gone;
 			deliveryBadge.Visibility = ViewStates.Gone;
 			newMsgBadge.Visibility = ViewStates.Gone;
@@ -79,28 +70,21 @@ namespace DMS_3
 			CrashManager.Register(this, "337f4f12782f47e590a7e84867bc087a");
 			MetricsManager.Register(Application, "337f4f12782f47e590a7e84867bc087a");
 
+			MetricsManager.EnableUserMetrics();
+
+
+
 			if (processDMSConnection != null)
 				binder = processDMSConnection.Binder;
 
 			var ProcessServiceIntent = new Intent("com.dealtis.dms_3.ProcessDMS");
 			processDMSConnection = new ProcessDMSConnection(this);
 			ApplicationContext.BindService(ProcessServiceIntent, processDMSConnection, Bind.AutoCreate);
-
-			//LANCEMENT DU SERVICE
-			if (Data.userAndsoft == null || Data.userAndsoft == "")
-			{
-
-			}
-			else {
-				if (!Data.Is_Service_Running)
-				{
-					//Data.CheckService = new Thread(OnServiceTimerHandler);
-				}
-			}
 		}
 
 		void Btn_Livraison_LongClick(object sender, View.LongClickEventArgs e)
 		{
+			//throw new DivideByZeroException("Divide By Zero Exception");
 		}
 
 		void Btn_Config_LongClick(object sender, View.LongClickEventArgs e)
@@ -118,7 +102,6 @@ namespace DMS_3
 				dbr.logout();
 				Data.userAndsoft = null;
 				Data.userTransics = null;
-				File.AppendAllText(Data.log_file, "[" + DateTime.Now.ToString("t") + "]" + "[LOGOUT]Coupure du service le " + DateTime.Now.ToString("G") + "\n");
 				StopService(new Intent(this, typeof(ProcessDMS)));
 				Data.Is_Service_Running = false;
 				Intent intent = new Intent(this, typeof(MainActivity));
@@ -196,8 +179,13 @@ namespace DMS_3
 		protected override void OnStop()
 		{
 			indicatorTimer.Stop();
-			//File.AppendAllText(Data.log_file, "["+DateTime.Now.ToString("t")+"]"+"OnStop le "+DateTime.Now.ToString("G")+"\n");
 			base.OnStop();
+		}
+
+		protected override void OnPause()
+		{
+			indicatorTimer.Stop();
+			base.OnPause();
 		}
 
 		protected override void OnRestart()
@@ -212,7 +200,6 @@ namespace DMS_3
 			intent.PutExtra("TRAIT", "false");
 			this.StartActivity(intent);
 			Finish();
-			//this.OverridePendingTransition (Resource.Animation.abc_slide_in_top,Resource.Animation.abc_slide_out_bottom);
 		}
 
 		void btn_Flash_Click()
@@ -229,7 +216,6 @@ namespace DMS_3
 			intent.PutExtra("TRAIT", "false");
 			this.StartActivity(intent);
 			Finish();
-			//this.OverridePendingTransition (Resource.Animation.abc_slide_in_top,Resource.Animation.abc_slide_out_bottom);
 		}
 
 		void btn_Message_Click()
@@ -237,7 +223,6 @@ namespace DMS_3
 			Intent intent = new Intent(this, typeof(MessageActivity));
 			this.StartActivity(intent);
 			Finish();
-			//this.OverridePendingTransition (Resource.Animation.abc_slide_in_top,Resource.Animation.abc_slide_out_bottom);
 		}
 
 		public override void OnBackPressed()
@@ -265,8 +250,7 @@ namespace DMS_3
 				var demoServiceBinder = service as ProcessDMSBinder;
 				if (demoServiceBinder != null)
 				{
-					var binder = (ProcessDMSBinder)service;
-					activity.binder = binder;
+					activity.binder = (ProcessDMSBinder)service; ;
 					if (Data.userAndsoft == null || Data.userAndsoft == "")
 					{
 
@@ -275,9 +259,6 @@ namespace DMS_3
 						Data.Is_Service_Running = true;
 					}
 					this.binder = (ProcessDMSBinder)service;
-				}
-				else {
-					//File.AppendAllText(Data.log_file, "[" + DateTime.Now.ToString("t") + "]" + "[SERVICE] binder none : service non lancé " + DateTime.Now.ToString("G") + "\n");
 				}
 			}
 			public void OnServiceDisconnected(ComponentName name)

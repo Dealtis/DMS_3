@@ -20,7 +20,6 @@ namespace DMS_3
 	[Activity(Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
 	public class SplashActivity : AppCompatActivity
 	{
-		static readonly string TAG = "X:" + typeof(SplashActivity).Name;
 		BackgroundWorker bgService;
 
 
@@ -46,8 +45,6 @@ namespace DMS_3
 
 				//TEST DE CONNEXION
 				var connectivityManager = (ConnectivityManager)GetSystemService(ConnectivityService);
-				var t = DateTime.Now.ToString("dd_MM_yy");
-				string dir_log = (Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)).ToString();
 
 				//GetTelId
 				TelephonyManager tel = (TelephonyManager)this.GetSystemService(Context.TelephonyService);
@@ -172,7 +169,7 @@ namespace DMS_3
 							else {
 								StartService(new Intent(this, typeof(ProcessDMS)));
 								//dbr.InsertLogApp("",DateTime.Now,"Relance du service après 10 min d'inactivité");
-								File.AppendAllText(Data.log_file, "[" + DateTime.Now.ToString("t") + "]" + "[SERVICE] Relance du service après 10 min d'inactivité" + DateTime.Now.ToString("G") + "\n");
+
 							}
 						}
 						else {

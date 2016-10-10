@@ -75,8 +75,8 @@ namespace DMS_3
 			//STATUT DES MESSAGES RECU TO 1
 			var tablemsgrecu = db.Query<TableMessages> ("SELECT * FROM TableMessages where statutMessage = 0");
 			foreach (var item in tablemsgrecu) {
-				var updatestatutmessage = db.Query<TableMessages> ("UPDATE TableMessages SET statutMessage = 1 WHERE statutMessage = 0");
-				var resintegstatut = dbr.InsertDataStatutMessage (1,DateTime.Now,item.numMessage,"","");
+				db.Query<TableMessages> ("UPDATE TableMessages SET statutMessage = 1 WHERE statutMessage = 0");
+				dbr.InsertDataStatutMessage (1,DateTime.Now,item.numMessage,"","");
 			}
 			dbr.SETBadges(Data.userAndsoft);
 		}
@@ -89,13 +89,9 @@ namespace DMS_3
 
 			} else {
 				string formatmsg = newmessage.Text.Replace ("\"", " ").Replace ("'", " ");
-				var resinteg = dbr.InsertDataMessage (Data.userAndsoft,"", formatmsg,2, DateTime.Now, 2,0);
+				dbr.InsertDataMessage (Data.userAndsoft,"", formatmsg,2, DateTime.Now, 2,0);
 
 			}
-			string dbPath = System.IO.Path.Combine (System.Environment.GetFolderPath
-				(System.Environment.SpecialFolder.Personal), "ormDMS.db3");
-			var db = new SQLiteConnection (dbPath);
-
 
 			Intent intent = new Intent (this, typeof(MessageActivity));
 			this.StartActivity (intent);
@@ -107,13 +103,8 @@ namespace DMS_3
 
 		void  Btndeletemsg_Click (object sender, EventArgs e){
 			DBRepository dbr = new DBRepository ();
-			var newmessage = FindViewById<TextView>(Resource.Id.editnewmsg);
 
-			string dbPath = System.IO.Path.Combine (System.Environment.GetFolderPath
-				(System.Environment.SpecialFolder.Personal), "ormDMS.db3");
-			var db = new SQLiteConnection (dbPath);
-
-			var del = dbr.DropTableMessage();
+			dbr.DropTableMessage();
 
 			StartActivity(typeof(MessageActivity));
 

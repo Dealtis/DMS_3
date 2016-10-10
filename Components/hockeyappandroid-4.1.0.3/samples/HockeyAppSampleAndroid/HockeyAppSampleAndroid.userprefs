@@ -1,16 +1,16 @@
 ﻿<Properties StartupConfiguration="{C4753F02-ED4A-406F-B476-7D88704EC327}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="../../../../DMS_3/ProcessDMS.cs">
     <Files>
-      <File FileName="../../../../DMS_3/FlashageQuaiActivity.cs" Line="246" Column="5" />
+      <File FileName="../../../../DMS_3/FlashageQuaiActivity.cs" Line="583" Column="7" />
       <File FileName="../../../../DMS_3/Properties/AndroidManifest.xml" Line="29" Column="12" />
-      <File FileName="../../../../DMS_3/HomeActivity.cs" Line="80" Column="75" />
+      <File FileName="../../../../DMS_3/HomeActivity.cs" Line="97" Column="5" />
       <File FileName="HockeyAppSampleAndroid/MainActivity.cs" Line="67" Column="3" />
-      <File FileName="../../../../DMS_3/MainActivity.cs" Line="165" Column="35" />
-      <File FileName="../../../../DMS_3/BDD/DBRepository.cs" Line="85" Column="5" />
-      <File FileName="../../../../DMS_3/SplashActivity.cs" Line="101" Column="37" />
-      <File FileName="../../../../DMS_3/Data.cs" Line="147" Column="5" />
+      <File FileName="../../../../DMS_3/MainActivity.cs" Line="98" Column="5" />
+      <File FileName="../../../../DMS_3/BDD/DBRepository.cs" Line="567" Column="1" />
+      <File FileName="../../../../DMS_3/SplashActivity.cs" Line="48" Column="90" />
+      <File FileName="../../../../DMS_3/Data.cs" Line="141" Column="57" />
       <File FileName="../../../../DMS_3/DetailActivity.cs" Line="287" Column="35" />
-      <File FileName="../../../../DMS_3/ProcessDMS.cs" Line="301" Column="6" />
+      <File FileName="../../../../DMS_3/ProcessDMS.cs" Line="621" Column="9" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -20,6 +20,9 @@
               <Node name="ComponentReferenceFolder" expanded="True" />
               <Node name="BDD" expanded="True" />
               <Node name="Properties" expanded="True" />
+              <Node name="Resources" expanded="True">
+                <Node name="layout" expanded="True" />
+              </Node>
               <Node name="ProcessDMS.cs" selected="True" />
             </Node>
           </Node>
@@ -33,7 +36,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="714" column="43" />
+      <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="716" column="43" />
       <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="393" column="1" />
       <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="531" column="96" />
       <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/BDD/DBRepository.cs" line="401" column="19" />

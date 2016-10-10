@@ -565,20 +565,6 @@ namespace DMS_3.BDD
 
 		}
 
-		//suppresion d'un GRP
-		public string supp_grp(string numGroupage)
-		{
-			try
-			{
-				return "Y";
-			}
-			catch (Exception ex)
-			{
-				return "N";
-			}
-
-		}
-
 		public string purgeLog()
 		{
 			//var query = db.Table<TableLog>().Where (v => v.date.CompareTo(DateTime.Now));
@@ -667,7 +653,7 @@ namespace DMS_3.BDD
 				data.poids = ((Convert.ToDouble((item.poids).Replace('.', ','))) * 1000) + " kg";
 			}
 			else {
-				data.poids = item.poids + "tonnes";
+				data.poids = item.poids + " tonnes";
 			}
 			return data;
 		}

@@ -29,8 +29,6 @@ namespace DMS_3
 		CheckBox checkP;
 		string type;
 
-		bool uploadone;
-
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
@@ -181,13 +179,16 @@ namespace DMS_3
 				//format mémo
 				string formatrem = txtRem.Replace("\"", " ").Replace("'", " ");
 
-				//mise du statut de la position à 1
-				if (txtspinner == "Restaure en non traite")
+				switch (txtspinner)
 				{
-					dbr.updatePosition(i, "0", txtspinner, formatrem, codeanomalie, null);
-				}
-				else {
-					dbr.updatePosition(i, "2", txtspinner, formatrem, codeanomalie, null);
+					case "Restaure en non traite":
+						dbr.updatePosition(i, "0", txtspinner, formatrem, codeanomalie, null);
+						break;
+					case "Poids incorrect":
+						
+					default:
+						dbr.updatePosition(i, "2", txtspinner, formatrem, codeanomalie, null);
+						break;
 				}
 
 				//creation du JSON
@@ -205,7 +206,6 @@ namespace DMS_3
 				var imgpath = dbr.GetPositionsData(i);
 
 				string compImg = String.Empty;
-				uploadone = false;
 
 				if (imgpath.imgpath != "null")
 				{
@@ -221,10 +221,8 @@ namespace DMS_3
 							{
 								rbmp.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg, 100, fs);
 							}
-							bool statutuploadfile = false;
 							//ftp://77.158.93.75 ftp://10.1.2.75
-							statutuploadfile = Data.Instance.UploadFile("ftp://77.158.93.75", compImg, "DMS", "Linuxr00tn", "");
-							uploadone = true;
+							Data.Instance.UploadFile("ftp://77.158.93.75", compImg, "DMS", "Linuxr00tn", "");
 							bmp.Recycle();
 							rbmp.Recycle();
 						}
@@ -278,7 +276,6 @@ namespace DMS_3
 
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
-			base.OnActivityResult(requestCode, resultCode, data);
 			DBRepository dbr = new DBRepository();
 			// Make it available in the gallery
 

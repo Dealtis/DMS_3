@@ -124,7 +124,6 @@
     <Compile Include="BDD\TableStatutPositions.cs" />
     <Compile Include="ProcessDMS.cs" />
     <Compile Include="AnomalieActivity.cs" />
-    <Compile Include="ListeTraitee.cs" />
     <Compile Include="BDD\TableNotifications.cs" />
     <Compile Include="BDD\TableMessages.cs" />
     <Compile Include="MessageActivity.cs" />
@@ -203,7 +202,6 @@
     <AndroidResource Include="Resources\layout\FlashageQuai.axml" />
     <AndroidResource Include="Resources\Menu\Flash.xml" />
     <AndroidResource Include="Resources\layout\BoxManuEdit.axml" />
-    <AndroidResource Include="Resources\drawable\barcode.png" />
     <AndroidResource Include="Resources\drawable\telephone.png" />
     <AndroidResource Include="Resources\drawable\barcodeHome.png" />
     <AndroidResource Include="Resources\drawable\camera.png" />
@@ -222,6 +220,8 @@
     <AndroidResource Include="Resources\layout\overlay.axml" />
     <AndroidResource Include="Resources\drawable\overlay.png" />
     <AndroidResource Include="Resources\drawable\redline.xml" />
+    <AndroidResource Include="Resources\drawable\keyboard.png" />
+    <AndroidResource Include="Resources\drawable\barcode.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

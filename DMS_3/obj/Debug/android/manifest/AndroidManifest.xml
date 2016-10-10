@@ -36,7 +36,6 @@
       </intent-filter>
     </service>
     <activity android:label="AnomalieActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Black.NoTitleBar" android:name="md53b01c1a732a0ec5279e1e72f40e0c864.AnomalieActivity" />
-    <activity android:label="ListeTraitee" android:theme="@android:style/Theme.Black.NoTitleBar" android:name="md53b01c1a732a0ec5279e1e72f40e0c864.ListeTraitee" />
     <activity android:label="MessageActivity" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name="md53b01c1a732a0ec5279e1e72f40e0c864.MessageActivity" />
     <activity android:label="ValidationActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Black.NoTitleBar" android:name="md53b01c1a732a0ec5279e1e72f40e0c864.ValidationActivity" />
     <activity android:configChanges="keyboardHidden|orientation" android:label="" android:screenOrientation="portrait" android:theme="@style/MyTheme.Base" android:name="md53b01c1a732a0ec5279e1e72f40e0c864.FlashageQuaiActivity" />

@@ -38,10 +38,6 @@ DMS_3.AnomalieActivity, DMS_3;md53b01c1a732a0ec5279e1e72f40e0c864.AnomalieActivi
 DMS_3.AnomalieActivity, DMS_3, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md53b01c1a732a0ec5279e1e72f40e0c864.AnomalieActivity
 DMS_3.AnomalieActivity;md53b01c1a732a0ec5279e1e72f40e0c864.AnomalieActivity
 dms_3.AnomalieActivity;md53b01c1a732a0ec5279e1e72f40e0c864.AnomalieActivity
-DMS_3.ListeTraitee, DMS_3;md53b01c1a732a0ec5279e1e72f40e0c864.ListeTraitee
-DMS_3.ListeTraitee, DMS_3, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md53b01c1a732a0ec5279e1e72f40e0c864.ListeTraitee
-DMS_3.ListeTraitee;md53b01c1a732a0ec5279e1e72f40e0c864.ListeTraitee
-dms_3.ListeTraitee;md53b01c1a732a0ec5279e1e72f40e0c864.ListeTraitee
 DMS_3.MessageActivity, DMS_3;md53b01c1a732a0ec5279e1e72f40e0c864.MessageActivity
 DMS_3.MessageActivity, DMS_3, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md53b01c1a732a0ec5279e1e72f40e0c864.MessageActivity
 DMS_3.MessageActivity;md53b01c1a732a0ec5279e1e72f40e0c864.MessageActivity

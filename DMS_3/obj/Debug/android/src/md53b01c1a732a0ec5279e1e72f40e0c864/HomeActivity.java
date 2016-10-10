@@ -14,6 +14,7 @@ public class HomeActivity
 			"n_onStart:()V:GetOnStartHandler\n" +
 			"n_onResume:()V:GetOnResumeHandler\n" +
 			"n_onStop:()V:GetOnStopHandler\n" +
+			"n_onPause:()V:GetOnPauseHandler\n" +
 			"n_onRestart:()V:GetOnRestartHandler\n" +
 			"n_onBackPressed:()V:GetOnBackPressedHandler\n" +
 			"";
@@ -59,6 +60,14 @@ public class HomeActivity
 	}
 
 	private native void n_onStop ();
+
+
+	public void onPause ()
+	{
+		n_onPause ();
+	}
+
+	private native void n_onPause ();
 
 
 	public void onRestart ()

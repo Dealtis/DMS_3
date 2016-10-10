@@ -35,7 +35,6 @@ namespace DMS_3
 		ImageView _imageView;
 
 		Thread threadUpload;
-		bool uploadone;
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -138,7 +137,6 @@ namespace DMS_3
 			var imgpath = dbr.GetPositionsData(i);
 
 			string compImg = String.Empty;
-			uploadone = false;
 
 			if (imgpath.imgpath != "null")
 			{
@@ -154,10 +152,8 @@ namespace DMS_3
 						{
 							rbmp.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg, 100, fs);
 						}
-						bool statutuploadfile = false;
 							//ftp://77.158.93.75 ftp://10.1.2.75
-							statutuploadfile = Data.Instance.UploadFile("ftp://77.158.93.75", compImg, "DMS", "Linuxr00tn", "");
-						uploadone = true;
+						Data.Instance.UploadFile("ftp://77.158.93.75", compImg, "DMS", "Linuxr00tn", "");
 						bmp.Recycle();
 						rbmp.Recycle();
 					}
@@ -208,7 +204,6 @@ namespace DMS_3
 
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
-			base.OnActivityResult(requestCode, resultCode, data);
 			DBRepository dbr = new DBRepository();
 			// Make it available in the gallery
 

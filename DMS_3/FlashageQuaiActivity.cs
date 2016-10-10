@@ -546,6 +546,7 @@ namespace DMS_3
 				catch (Exception ex)
 				{
 					Console.WriteLine(ex);
+					AndHUD.Shared.Dismiss(this);
 				}
 			});
 		}
@@ -571,12 +572,6 @@ namespace DMS_3
 					if (is_colis_in_truck != int.MinValue)
 					{
 						flashinprogress = true;
-
-						data = dbr.GetPositionsData(is_colis_in_truck);
-
-						string JSONNOTIF = "{\"codesuiviliv\":\"FLASHAGE\",\"memosuiviliv\":\"" + num + "\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
-						dbr.insertDataStatutpositions("FLASHAGE", "1", "FLASHAGE", data.numCommande, num, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);
-
 						afficherInformations(is_colis_in_truck, numCommande);
 					}
 					else
@@ -882,7 +877,7 @@ namespace DMS_3
 							Console.WriteLine("\n" + ex);
 						}
 					});
-				//threadUpload.Start();
+				threadUpload.Start();
 
 				_imageView.Visibility = Android.Views.ViewStates.Visible;
 				Data.bitmap = Data._file.Path.LoadAndResizeBitmap(width, height);
