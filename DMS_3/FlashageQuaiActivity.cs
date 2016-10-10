@@ -41,7 +41,7 @@ namespace DMS_3
 		Button btn_anomalie;
 		Button btn_termine;
 		ImageView _imageView;
-		Context activityContext;
+		ToggleButton tbtnTorch;
 
 		TablePositions data;
 
@@ -122,22 +122,34 @@ namespace DMS_3
 			};
 
 			//scan
+			//instance overlay
+			var zxingOverlay = LayoutInflater.FromContext(this).Inflate(Resource.Layout.overlay, null);
 
 			//Create a new instance of our Scanner
 			scanner = new MobileBarcodeScanner();
 
+
+
 			btn_barcode.Click += async delegate
 			{
 
-				//Tell our scanner to use the default overlay
-				scanner.UseCustomOverlay = false;
+				scanner.UseCustomOverlay = true;
 
-				//We can customize the top and bottom text of the default overlay
-				//scanner.TopText = "Hold the camera up to the barcode\nAbout 6 inches away";
-				//scanner.BottomText = "Wait for the barcode to automatically scan!";
+				var options = new ZXing.Mobile.MobileBarcodeScanningOptions();
+				options.AutoRotate = false;
 
-				//Start scanning
-				var result = await scanner.Scan();
+				tbtnTorch = zxingOverlay.FindViewById<ToggleButton>(Resource.Id.tbtnTorch);
+
+				tbtnTorch.Click += delegate
+				{
+					scanner.ToggleTorch();
+				};
+
+				scanner.CustomOverlay = zxingOverlay;
+
+				var result = await scanner.Scan(this, options);
+
+
 
 				HandleScanResult(result);
 			};
@@ -157,8 +169,6 @@ namespace DMS_3
 			numCommande = Intent.GetStringExtra("NUMCOM");
 			type = Intent.GetStringExtra("TYPE");
 			actionP = Intent.GetStringExtra("ACTION");
-
-			activityContext = this;
 
 			if (numCommande != null)
 			{
@@ -227,6 +237,10 @@ namespace DMS_3
 
 		void HandleScanResult(ZXing.Result result)
 		{
+			if (tbtnTorch.Checked)
+			{
+				tbtnTorch.Toggle();
+			}
 			if (result != null && !string.IsNullOrEmpty(result.Text))
 			{
 				numero = result.Text;
@@ -356,17 +370,14 @@ namespace DMS_3
 						}
 						else
 						{
-							if (action == null)
+							if (actionP == null)
 							{
-								//AFFICHER LES DATAS
-
-
+								afficherInformations(is_colis_in_truck, numCommande);
 							}
 							else
 							{
 								RunOnUiThread(() => Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Long).Show());
 							}
-
 						}
 					}
 					else {
@@ -375,8 +386,6 @@ namespace DMS_3
 						{
 							if (!flashinprogress)
 							{
-								//RunOnUiThread(() => btn_valider.Visibility = ViewStates.Gone);
-								//RunOnUiThread(() => btn_anomalie.Visibility = ViewStates.Gone);
 								RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
 
 
@@ -397,9 +406,6 @@ namespace DMS_3
 								var bob = Newtonsoft.Json.Linq.JObject.Parse(json);
 								if (bob["FLAOTSNUM"].ToString() != "")
 								{
-
-
-
 									RunOnUiThread(() => infonumero.Visibility = ViewStates.Visible);
 									RunOnUiThread(() => infonumero.Text = (string)bob["FLAOTSNUM"]);
 
@@ -491,8 +497,6 @@ namespace DMS_3
 										RunOnUiThread(() => tl.AddView(row));
 									}
 									RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
-
-
 								}
 								else {
 									RunOnUiThread(() => infonumero.Text = "Pas de résultat");
@@ -517,90 +521,8 @@ namespace DMS_3
 						}
 						else
 						{
-							data = dbr.GetPositionsData(is_pos_in_truck);
-
-							RunOnUiThread(() => btn_detail.Click += delegate
-								{
-									Intent intent = new Intent(this, typeof(DetailActivity));
-									intent.PutExtra("ID", Convert.ToString(data.Id));
-									intent.PutExtra("TYPE", data.typeSegment);
-									this.StartActivity(intent);
-									Finish();
-								});
-
-							RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
-
-							RunOnUiThread(() => infovilledest.Visibility = ViewStates.Visible);
-							RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
-
-							//get info de la tablePositions
-
-							RunOnUiThread(() => infonomdest.Visibility = ViewStates.Visible);
-							RunOnUiThread(() => infocpdest.Visibility = ViewStates.Visible);
-							RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Visible);
-							RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
-							RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Visible);
-							RunOnUiThread(() => infonumero.Visibility = ViewStates.Visible);
-							RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
-
-							RunOnUiThread(() => infonomdest.Text = data.nomClientLivraison);
-							RunOnUiThread(() => infocpdest.Text = data.CpLivraison);
-							RunOnUiThread(() => infovilledest.Text = data.villeLivraison);
-							RunOnUiThread(() => infoadrdest.Text = data.adresseLivraison);
-							RunOnUiThread(() => infonumero.Text = data.numCommande);
-
-							int colisFlasher = dbr.CountColisFlash(data.numCommande);
-
-							int colisPosition = dbr.CountColis(data.numCommande);
-
-
-							RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHES: " + colisFlasher + "/" + colisPosition);
-
-							TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
-							RunOnUiThread(() => tl.Visibility = ViewStates.Gone);
-
-							if (action == null)
-							{
-								RunOnUiThread(() => btn_termine.Visibility = ViewStates.Gone);
-							}
-							else
-							{
-								RunOnUiThread(() => btn_termine.Visibility = ViewStates.Visible);
-							}
-
-							if (colisFlasher == colisPosition)
-							{
-								if (action == null)
-								{
-									RunOnUiThread(() => btn_termine.Visibility = ViewStates.Gone);
-									//afficher les btn valider et anomalie
-								}
-								else
-								{
-									flashinprogress = false;
-
-									Intent intent;
-									if (actionP == "VALID")
-									{
-										intent = new Intent(this, typeof(ValidationActivity));
-									}
-									else
-									{
-										intent = new Intent(this, typeof(AnomalieActivity));
-									}
-
-									intent.PutExtra("ID", id);
-									intent.PutExtra("TYPE", type);
-									this.StartActivity(intent);
-								}
-
-
-							}
-
-
+							afficherInformations(is_pos_in_truck, numCommande);
 						}
-
-
 					}
 
 
@@ -630,101 +552,21 @@ namespace DMS_3
 					progress += 20;
 					action(progress);
 
-
-					//update dateflash
 					DBRepository dbr = new DBRepository();
-
 
 					//check is_colis_in_truck
 					var is_colis_in_truck = dbr.is_position_in_truck(num);
 					if (is_colis_in_truck != int.MinValue)
 					{
 						flashinprogress = true;
-						data = dbr.GetPositionsData(is_colis_in_truck);
 
 						string JSONNOTIF = "{\"codesuiviliv\":\"FLASHAGE\",\"memosuiviliv\":\"" + num + "\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
 						dbr.insertDataStatutpositions("FLASHAGE", "1", "FLASHAGE", data.numCommande, num, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);
 
-						RunOnUiThread(() => btn_detail.Click += delegate
-							{
-								Intent intent = new Intent(this, typeof(DetailActivity));
-								intent.PutExtra("ID", Convert.ToString(data.Id));
-								intent.PutExtra("TYPE", data.typeSegment);
-								this.StartActivity(intent);
-								Finish();
-							});
-
-						RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
-
-						RunOnUiThread(() => infovilledest.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
-
-						//get info de la tablePositions
-
-						RunOnUiThread(() => infonomdest.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => infocpdest.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => infonumero.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
-
-						RunOnUiThread(() => infonomdest.Text = data.nomClientLivraison);
-						RunOnUiThread(() => infocpdest.Text = data.CpLivraison);
-						RunOnUiThread(() => infovilledest.Text = data.villeLivraison);
-						RunOnUiThread(() => infoadrdest.Text = data.adresseLivraison);
-						RunOnUiThread(() => infonumero.Text = data.numCommande);
-
-						int colisFlasher = dbr.CountColisFlash(data.numCommande);
-
-						int colisPosition = dbr.CountColis(data.numCommande);
-
-
-						RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHER: " + colisFlasher + "/" + colisPosition);
-
-						TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
-						RunOnUiThread(() => tl.Visibility = ViewStates.Gone);
-
-						if (action == null)
-						{
-							RunOnUiThread(() => btn_termine.Visibility = ViewStates.Gone);
-						}
-						else
-						{
-							RunOnUiThread(() => btn_termine.Visibility = ViewStates.Visible);
-						}
-						if (colisFlasher == colisPosition)
-						{
-							if (action == null)
-							{
-								RunOnUiThread(() => btn_termine.Visibility = ViewStates.Gone);
-								//afficher les btn valider et anomalie
-							}
-							else
-							{
-								flashinprogress = false;
-
-								Intent intent;
-								if (actionP == "VALID")
-								{
-									intent = new Intent(this, typeof(ValidationActivity));
-								}
-								else
-								{
-									intent = new Intent(this, typeof(AnomalieActivity));
-								}
-
-								intent.PutExtra("ID", id);
-								intent.PutExtra("TYPE", type);
-								this.StartActivity(intent);
-							}
-
-
-						}
+						afficherInformations(is_colis_in_truck, numCommande);
 					}
 					else
 					{
-
 						if (!flashinprogress)
 						{
 							//RunOnUiThread(() => btn_valider.Visibility = ViewStates.Gone);
@@ -874,6 +716,93 @@ namespace DMS_3
 				}
 			});
 		}
+
+		void afficherInformations(int idPos, string numCommande)
+		{
+			DBRepository dbr = new DBRepository();
+			data = dbr.GetPositionsData(idPos);
+
+			RunOnUiThread(() => btn_detail.Click += delegate
+				{
+					Intent intent = new Intent(this, typeof(DetailActivity));
+					intent.PutExtra("ID", Convert.ToString(data.Id));
+					intent.PutExtra("TYPE", data.typeSegment);
+					this.StartActivity(intent);
+					Finish();
+				});
+			if (numCommande == null)
+			{
+				RunOnUiThread(() => btn_detail.Visibility = ViewStates.Visible);
+			}
+
+			RunOnUiThread(() => infovilledest.Visibility = ViewStates.Visible);
+			RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
+
+			//get info de la tablePositions
+
+			RunOnUiThread(() => infonomdest.Visibility = ViewStates.Visible);
+			RunOnUiThread(() => infocpdest.Visibility = ViewStates.Visible);
+			RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Visible);
+			RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
+			RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Visible);
+			RunOnUiThread(() => infonumero.Visibility = ViewStates.Visible);
+			RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
+
+			RunOnUiThread(() => infonomdest.Text = data.nomClientLivraison);
+			RunOnUiThread(() => infocpdest.Text = data.CpLivraison);
+			RunOnUiThread(() => infovilledest.Text = data.villeLivraison);
+			RunOnUiThread(() => infoadrdest.Text = data.adresseLivraison);
+			RunOnUiThread(() => infonumero.Text = data.numCommande);
+
+			int colisFlasher = dbr.CountColisFlash(data.numCommande);
+
+			int colisPosition = dbr.CountColis(data.numCommande);
+
+
+			RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHES: " + colisFlasher + "/" + colisPosition);
+
+			TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
+			RunOnUiThread(() => tl.Visibility = ViewStates.Gone);
+
+			if (actionP == null)
+			{
+				RunOnUiThread(() => btn_termine.Visibility = ViewStates.Gone);
+			}
+			else
+			{
+				RunOnUiThread(() => btn_termine.Visibility = ViewStates.Visible);
+			}
+
+			if (colisFlasher == colisPosition)
+			{
+				if (actionP == null)
+				{
+					RunOnUiThread(() => btn_termine.Visibility = ViewStates.Gone);
+					//afficher les btn valider et anomalie
+				}
+				else
+				{
+					flashinprogress = false;
+
+					Intent intent;
+					if (actionP == "VALID")
+					{
+						intent = new Intent(this, typeof(ValidationActivity));
+					}
+					else
+					{
+						intent = new Intent(this, typeof(AnomalieActivity));
+					}
+
+					intent.PutExtra("ID", id);
+					intent.PutExtra("TYPE", type);
+					this.StartActivity(intent);
+				}
+
+
+			}
+		}
+
 		private void CreateDirectoryForPictures()
 		{
 			Data._dir = new Java.IO.File(Android.OS.Environment.GetExternalStoragePublicDirectory(

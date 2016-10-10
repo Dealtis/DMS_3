@@ -77,6 +77,9 @@
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/livadr_100.png
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/liv_100.png
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/logo_pole.png
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/logo_pole_50.png
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/adr_background.xml
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/layout/overlay.xml
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/R.cs.flag
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/com.dealtis.dms_3-Signed.apk
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/uploadflags.txt
@@ -95,7 +98,11 @@
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/ZXing.Net.Mobile.Core.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/zxing.portable.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/ZXingNetMobile.dll
-/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLitePCL.raw.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLitePCLRaw.core.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLitePCLRaw.lib.e_sqlite3.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLitePCLRaw.provider.e_sqlite3.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLitePCLRaw.batteries_green.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLite-net.dll
-/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/logo_pole_50.png
-/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/adr_background.xml
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLitePCL.raw.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/overlay.png
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/redline.xml

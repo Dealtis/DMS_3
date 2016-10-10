@@ -21,8 +21,12 @@
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/android/assets/ZXing.Net.Mobile.Core.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/android/assets/zxing.portable.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/android/assets/ZXingNetMobile.dll
-/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/android/assets/SQLitePCL.raw.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/android/assets/SQLitePCLRaw.core.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/android/assets/SQLitePCLRaw.lib.e_sqlite3.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/android/assets/SQLitePCLRaw.provider.e_sqlite3.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/android/assets/SQLitePCLRaw.batteries_green.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/android/assets/SQLite-net.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/android/assets/SQLitePCL.raw.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/android/assets/mscorlib.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/android/assets/System.Net.Http.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/android/assets/System.Runtime.Serialization.dll

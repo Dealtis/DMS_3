@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using DMS_3.BDD;
 using SQLite;
 using AndroidHUD;
 namespace DMS_3
@@ -62,8 +58,14 @@ namespace DMS_3
 			btntrait = FindViewById<Button>(Resource.Id.btn_traite);
 			layout_groupage = FindViewById<LinearLayout>(Resource.Id.layout_groupage);
 
-
-
+			if (trait == "true")
+			{
+				btntrait.Text = "Livraisons";
+				if (type == "RAM")
+				{
+					btntrait.Text = "Ramasses";
+				}
+			}
 		}
 
 		protected override void OnResume()
@@ -106,7 +108,7 @@ namespace DMS_3
 
 				var aButton = new Button(this);
 				aButton.Text = item.groupage;
-				aButton.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent,.01f);
+				aButton.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent, .01f);
 
 				if (Convert.ToDouble(item.poidsADR) >= 1000)
 				{
