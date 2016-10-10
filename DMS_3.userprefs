@@ -1,6 +1,7 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupConfiguration="{04E2529E-E36B-4115-8AF5-B4227741CC2C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/FlashageQuaiActivity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/ProcessDMS.cs">
     <Files>
+<<<<<<< develop
 <<<<<<< develop
       <File FileName="DMS_3/AnomalieActivity.cs" Line="1" Column="1" />
       <File FileName="DMS_3/ValidationActivity.cs" Line="1" Column="1" />
@@ -12,11 +13,41 @@
       <File FileName="DMS_3/Properties/AndroidManifest.xml" Line="29" Column="12" />
       <File FileName="DMS_3/Resources/drawable/redline.xml" Line="3" Column="29" />
 >>>>>>> add overlay flashing
+=======
+      <File FileName="DMS_3/FlashageQuaiActivity.cs" Line="246" Column="5" />
+      <File FileName="DMS_3/Properties/AndroidManifest.xml" Line="29" Column="12" />
+      <File FileName="DMS_3/HomeActivity.cs" Line="80" Column="75" />
+      <File FileName="Components/hockeyappandroid-4.1.0.3/samples/HockeyAppSampleAndroid/HockeyAppSampleAndroid/MainActivity.cs" Line="67" Column="3" />
+      <File FileName="DMS_3/MainActivity.cs" Line="165" Column="35" />
+      <File FileName="DMS_3/BDD/DBRepository.cs" Line="85" Column="5" />
+      <File FileName="DMS_3/SplashActivity.cs" Line="101" Column="37" />
+      <File FileName="DMS_3/Data.cs" Line="147" Column="5" />
+      <File FileName="DMS_3/DetailActivity.cs" Line="287" Column="35" />
+      <File FileName="DMS_3/ProcessDMS.cs" Line="301" Column="6" />
+>>>>>>> add Hockey App <> Xamarin Insight
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="DMS_3" expanded="True">
+            <Node name="DMS_3" expanded="True">
+              <Node name="ComponentReferenceFolder" expanded="True" />
+              <Node name="BDD" expanded="True" />
+              <Node name="Properties" expanded="True" />
+              <Node name="ProcessDMS.cs" selected="True" />
+            </Node>
+          </Node>
+          <Node name="HockeyAppSampleAndroid" expanded="True">
+            <Node name="HockeyAppSampleAndroid" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
+<<<<<<< develop
 <<<<<<< develop
       <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="711" column="43" />
       <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="531" column="96" />
@@ -29,6 +60,14 @@
       <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="282" column="1" />
       <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="286" column="1" />
 >>>>>>> add overlay flashing
+=======
+      <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="714" column="43" />
+      <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="393" column="1" />
+      <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="531" column="96" />
+      <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/BDD/DBRepository.cs" line="401" column="19" />
+      <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="296" column="1" />
+      <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="300" column="1" />
+>>>>>>> add Hockey App <> Xamarin Insight
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

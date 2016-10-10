@@ -169,7 +169,6 @@ namespace DMS_3
 			numCommande = Intent.GetStringExtra("NUMCOM");
 			type = Intent.GetStringExtra("TYPE");
 			actionP = Intent.GetStringExtra("ACTION");
-
 			if (numCommande != null)
 			{
 				flashinprogress = true;
@@ -230,9 +229,22 @@ namespace DMS_3
 		{
 			base.OnBackPressed();
 
-			Intent intent = new Intent(this, typeof(HomeActivity));
-			this.StartActivity(intent);
-			Finish();
+			Intent intent;
+			if (actionP != null)
+			{
+				intent = new Intent(this, typeof(DetailActivity));
+				intent.PutExtra("ID", Convert.ToString(data.Id));
+				intent.PutExtra("TYPE", data.typeSegment);
+				this.StartActivity(intent);
+				Finish();
+			}
+			else
+			{
+				intent = new Intent(this, typeof(HomeActivity));
+				this.StartActivity(intent);
+				Finish();
+			}
+
 		}
 
 		void HandleScanResult(ZXing.Result result)
@@ -559,6 +571,8 @@ namespace DMS_3
 					if (is_colis_in_truck != int.MinValue)
 					{
 						flashinprogress = true;
+
+						data = dbr.GetPositionsData(is_colis_in_truck);
 
 						string JSONNOTIF = "{\"codesuiviliv\":\"FLASHAGE\",\"memosuiviliv\":\"" + num + "\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
 						dbr.insertDataStatutpositions("FLASHAGE", "1", "FLASHAGE", data.numCommande, num, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);

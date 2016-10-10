@@ -10,7 +10,8 @@ using Android.Views;
 using Android.Widget;
 using AndroidHUD;
 using DMS_3.BDD;
-using Xamarin;
+using HockeyApp.Android;
+using HockeyApp.Android.Metrics;
 
 namespace DMS_3
 {
@@ -73,10 +74,10 @@ namespace DMS_3
 			txtLivraison.SetTypeface(Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);
 			txtEnlevement.SetTypeface(Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);
 
-			//Xamarin Insight
-			Insights.Initialize("982a3c876c6a53932848ed500da432bb3dada603", this);
-			Insights.Identify(Data.userAndsoft, "Name", Data.userAndsoft);
+			//Hockey APP
 
+			CrashManager.Register(this, "337f4f12782f47e590a7e84867bc087a");
+			MetricsManager.Register(Application, "337f4f12782f47e590a7e84867bc087a");
 
 			if (processDMSConnection != null)
 				binder = processDMSConnection.Binder;

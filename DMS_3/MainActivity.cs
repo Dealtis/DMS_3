@@ -163,7 +163,6 @@ namespace DMS_3
 				tableload.SetCompoundDrawablesWithIntrinsicBounds (Resource.Drawable.Val,0,0,0);
 			} catch (System.Exception ex) {
 				System.Console.WriteLine (ex);
-				Insights.Report (ex);
 				AndHUD.Shared.ShowError (this, "Une erreur c'est produite lors du lancement, réessaie dans 5 secondes", MaskType.Black, TimeSpan.FromSeconds (5));
 			}
 		}

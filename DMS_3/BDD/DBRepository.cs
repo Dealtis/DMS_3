@@ -51,7 +51,6 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 
 			}
@@ -84,7 +83,6 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 
 			}

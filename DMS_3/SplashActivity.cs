@@ -99,7 +99,6 @@ namespace DMS_3
 						catch (System.Exception ex)
 						{
 							System.Console.WriteLine(ex);
-							Insights.Report(ex);
 							App_Connec = false;
 							//AndHUD.Shared.ShowError (this, "Une erreur c'est produite lors du lancement, réessaie dans 5 secondes", MaskType.Black, TimeSpan.FromSeconds (5));
 							Toast.MakeText(this, "Une erreur c'est produite lors du lancement, réessaie dans 5 secondes", ToastLength.Long).Show();

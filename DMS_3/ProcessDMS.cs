@@ -229,7 +229,6 @@ namespace DMS_3
 			{
 				content_integdata = "[]";
 				Console.WriteLine("\n" + ex);
-				Insights.Report(ex);
 			}
 
 
@@ -262,7 +261,6 @@ namespace DMS_3
 				{
 					content_grpcloture = "[]";
 					Console.WriteLine("\n" + ex);
-					Insights.Report(ex);
 					//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"[ERROR] Cloture : "+ex+" à "+DateTime.Now.ToString("t")+"\n");
 				}
 
@@ -300,7 +298,6 @@ namespace DMS_3
 				catch (Exception ex)
 				{
 					content_msg = "[]";
-					Insights.Report(ex, Xamarin.Insights.Severity.Error);
 				}
 				if (content_msg != "[]")
 				{
@@ -368,13 +365,11 @@ namespace DMS_3
 				}
 				catch (Exception e)
 				{
-					Insights.Report(e, Xamarin.Insights.Severity.Error);
 					//dbr.InsertLogService(e.ToString(),DateTime.Now,"ComPosNotifMsg UploadStringAsync Error");
 				}
 			}
 			catch (Exception ex)
 			{
-				Insights.Report(ex, Xamarin.Insights.Severity.Error);
 				Console.Out.Write(ex);
 				//dbr.InsertLogService(ex.ToString(),DateTime.Now,"ComPosNotifMsg Error");
 				//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"[ERROR] ComPosNotifMsg : "+ex+" à "+DateTime.Now.ToString("t")+"\n");
@@ -417,7 +412,6 @@ namespace DMS_3
 				catch (Exception e)
 				{
 					Console.WriteLine(e);
-					Insights.Report(e);
 					//dbr.InsertLogService(e.ToString(),DateTime.Now,"ComWebService Error");
 					//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"[ERROR] ComWebService : "+e+" à "+DateTime.Now.ToString("t")+"\n");
 				}
@@ -449,7 +443,6 @@ namespace DMS_3
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
-				Insights.Report(ex);
 				//dbr.InsertLogService(e.Result,DateTime.Now,"WebClient_UploadStringCompleted Response");
 				//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"[ERROR] WebClient_UploadStringCompleted : "+ex+" à "+DateTime.Now.ToString("t")+"\n");
 			}
@@ -485,7 +478,6 @@ namespace DMS_3
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
-				Insights.Report(ex);
 				//dbr.InsertLogService(ex.ToString(),DateTime.Now,"WebClient_UploadStringStatutCompleted Error");
 				//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"[ERROR] WebClient_UploadStringStatutCompleted : "+ex+" à "+DateTime.Now.ToString("t")+"\n");
 			}
@@ -610,7 +602,6 @@ namespace DMS_3
 							}
 							catch (Exception ex)
 							{
-								Insights.Report(ex);
 								//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"%%GETAIMG Upload file error :"+ex+"\n");
 								Console.Out.Write("%%GETAIMG Upload file error\n");
 							}
@@ -787,7 +778,6 @@ namespace DMS_3
 			}
 			catch (Exception ex)
 			{
-				Insights.Report(ex);
 				//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"Upload file"+fileName+" error :"+ex+"\n");
 				Console.Out.Write("Upload file" + fileName + " error\n");
 				Thread.Sleep(TimeSpan.FromMinutes(2));

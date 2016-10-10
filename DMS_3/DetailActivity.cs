@@ -285,7 +285,6 @@ namespace DMS_3
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
-				Insights.Report(ex);
 			}
 			return true;
 		}

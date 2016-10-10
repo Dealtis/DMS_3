@@ -50,6 +50,16 @@
         <category android:name="mono.android.intent.category.SEPPUKU.com.dealtis.dms_3" />
       </intent-filter>
     </receiver>
+    <activity android:name="net.hockeyapp.android.UpdateActivity" />
+    <activity android:name="net.hockeyapp.android.FeedbackActivity" />
+    <activity android:name="net.hockeyapp.android.PaintActivity" />
+    <activity android:name="net.hockeyapp.android.LoginActivity" />
+    <activity android:name="net.hockeyapp.android.ExpiryInfoActivity" />
+    <activity android:name="net.hockeyapp.android.UpdateActivity" />
+    <activity android:name="net.hockeyapp.android.FeedbackActivity" />
+    <activity android:name="net.hockeyapp.android.PaintActivity" />
+    <activity android:name="net.hockeyapp.android.LoginActivity" />
+    <activity android:name="net.hockeyapp.android.ExpiryInfoActivity" />
   </application>
   <activity android:name="com.instabug.library.InstabugFeedbackActivity" android:windowSoftInputMode="adjustPan" />
   <service android:name="com.instabug.library.network.UploadCacheService" />

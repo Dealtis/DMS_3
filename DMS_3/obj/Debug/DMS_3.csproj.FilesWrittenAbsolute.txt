@@ -106,3 +106,6 @@
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLitePCL.raw.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/overlay.png
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/res/drawable/redline.xml
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/HockeySDK.AndroidBindings.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/HockeySDK.dll
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLitePCLRaw.batteries_v2.dll

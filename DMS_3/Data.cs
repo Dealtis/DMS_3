@@ -145,7 +145,6 @@ namespace DMS_3
 			}
 			catch (Exception ex)
 			{
-				Insights.Report(ex);
 				File.AppendAllText(Data.log_file, "Upload file" + fileName + " error :" + ex + "\n");
 				Console.Out.Write("Upload file" + fileName + " error\n");
 				return false;
