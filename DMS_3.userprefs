@@ -1,23 +1,26 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupConfiguration="{04E2529E-E36B-4115-8AF5-B4227741CC2C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/FlashageQuaiActivity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/ListeLivraisonsActivity.cs">
     <Files>
-      <File FileName="DMS_3/AnomalieActivity.cs" Line="1" Column="1" />
-      <File FileName="DMS_3/ValidationActivity.cs" Line="1" Column="1" />
-      <File FileName="DMS_3/FlashageQuaiActivity.cs" Line="2" Column="18" />
-      <File FileName="DMS_3/BDD/DBRepository.cs" Line="1" Column="1" />
+      <File FileName="DMS_3/FlashageQuaiActivity.cs" Line="575" Column="10" />
+      <File FileName="DMS_3/ProcessDMS.cs" Line="31" Column="13" />
+      <File FileName="DMS_3/BDD/DBRepository.cs" Line="11" Column="38" />
+      <File FileName="DMS_3/AnomalieActivity.cs" Line="26" Column="23" />
+      <File FileName="DMS_3/HomeActivity.cs" Line="24" Column="38" />
+      <File FileName="DMS_3/Data.cs" Line="53" Column="10" />
+      <File FileName="DMS_3/ValidationActivity.cs" Line="137" Column="42" />
+      <File FileName="DMS_3/ListeViewMessageAdapter.cs" Line="54" Column="60" />
+      <File FileName="DMS_3/ListeLivraisonsActivity.cs" Line="14" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="711" column="43" />
-      <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="531" column="96" />
-      <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/BDD/DBRepository.cs" line="401" column="19" />
+      <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/BDD/DBRepository.cs" line="381" column="19" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="DMS_3/BDD/DBRepository.cs" line="489" offsetX="443" offsetY="7320" expression="item.dateflashage.Date" liveUpdate="True" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
   <AuthorInfo Name="rvanardois" Email="" Copyright="rvanardois" Company="" Trademark="" />
-  <MonoDevelop.Ide.ItemProperties.DMS__3 PreferredExecutionTarget="Android.3100931fdc744389" />
+  <MonoDevelop.Ide.ItemProperties.DMS__3 AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Android_Accelerated_x86" />
 </Properties>

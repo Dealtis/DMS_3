@@ -22,14 +22,13 @@ namespace DMS_3
 		RelativeLayout peekupBadge;
 		RelativeLayout newMsgBadge;
 		System.Timers.Timer indicatorTimer;
-		public ProcessDMSBinder binder;
+		private ProcessDMSBinder binder;
 		ProcessDMSConnection processDMSConnection;
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
 			SetContentView(Resource.Layout.Home);
-
 
 			//DECLARATION DES ITEMS
 			lblTitle = FindViewById<TextView>(Resource.Id.lblTitle);
@@ -45,14 +44,12 @@ namespace DMS_3
 			deliveryBadge.Visibility = ViewStates.Gone;
 			newMsgBadge.Visibility = ViewStates.Gone;
 
-
 			//click button
 			LinearLayout btn_Livraison = FindViewById<LinearLayout>(Resource.Id.columnlayout1_1);
 			LinearLayout btn_Enlevement = FindViewById<LinearLayout>(Resource.Id.columnlayout1_2);
 			LinearLayout btn_Message = FindViewById<LinearLayout>(Resource.Id.columnlayout2_1);
 			LinearLayout btn_Flash = FindViewById<LinearLayout>(Resource.Id.columnlayout2_2);
 			LinearLayout btn_Config = FindViewById<LinearLayout>(Resource.Id.columnlayout4_2);
-
 
 			btn_Livraison.Click += delegate { btn_Livraison_Click(); };
 			btn_Enlevement.Click += delegate { btn_Enlevement_Click(); };
@@ -66,20 +63,17 @@ namespace DMS_3
 			txtEnlevement.SetTypeface(Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);
 
 			//Hockey APP
-
 			CrashManager.Register(this, "337f4f12782f47e590a7e84867bc087a");
 			MetricsManager.Register(Application, "337f4f12782f47e590a7e84867bc087a");
 
 			MetricsManager.EnableUserMetrics();
 
-
-
 			if (processDMSConnection != null)
 				binder = processDMSConnection.Binder;
 
-			var ProcessServiceIntent = new Intent("com.dealtis.dms_3.ProcessDMS");
+			var processServiceIntent = new Intent("com.dealtis.dms_3.ProcessDMS");
 			processDMSConnection = new ProcessDMSConnection(this);
-			ApplicationContext.BindService(ProcessServiceIntent, processDMSConnection, Bind.AutoCreate);
+			ApplicationContext.BindService(processServiceIntent, processDMSConnection, Bind.AutoCreate);
 		}
 
 		void Btn_Livraison_LongClick(object sender, View.LongClickEventArgs e)
@@ -121,13 +115,6 @@ namespace DMS_3
 			base.OnResume();
 			DBRepository dbr = new DBRepository();
 
-			if (dbr.is_user_Log_In() == "false")
-			{
-				Intent intent = new Intent(this, typeof(MainActivity));
-				this.StartActivity(intent);
-				//this.OverridePendingTransition (Resource.Animation.abc_slide_in_top,Resource.Animation.abc_slide_out_bottom);
-			}
-
 			var user = dbr.getUserAndsoft();
 			dbr.setUserdata(user);
 			dbr.SETBadges(Data.userAndsoft);
@@ -140,9 +127,6 @@ namespace DMS_3
 			indicatorTimer.Interval = 1000;
 			indicatorTimer.Enabled = true;
 			indicatorTimer.Start();
-
-
-
 		}
 
 		void OnIndicatorTimerHandler(object sender, System.Timers.ElapsedEventArgs e)
@@ -250,12 +234,9 @@ namespace DMS_3
 				var demoServiceBinder = service as ProcessDMSBinder;
 				if (demoServiceBinder != null)
 				{
-					activity.binder = (ProcessDMSBinder)service; ;
-					if (Data.userAndsoft == null || Data.userAndsoft == "")
+					activity.binder = (ProcessDMSBinder)service;
+					if (Data.userAndsoft != null || Data.userAndsoft != "")
 					{
-
-					}
-					else {
 						Data.Is_Service_Running = true;
 					}
 					this.binder = (ProcessDMSBinder)service;
@@ -268,4 +249,3 @@ namespace DMS_3
 		}
 	}
 }
-

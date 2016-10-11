@@ -6,12 +6,9 @@ using System.Collections.Generic;
 
 namespace DMS_3.BDD
 {
-
 	public class DBRepository
 	{
-		public static SQLiteConnection db;
-
-		public static SqliteConnection connection;
+		private static SQLiteConnection db;
 
 		//CREATE BDD
 		public string CreateDB()
@@ -24,14 +21,12 @@ namespace DMS_3.BDD
 					(Environment.SpecialFolder.Personal), "ormDMS.db3"));
 				output += "\nBDD crée...";
 				return output;
-
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
 				return "error";
 			}
-
 		}
 
 		//CREATE TABLE
@@ -52,7 +47,6 @@ namespace DMS_3.BDD
 			catch (SQLiteException ex)
 			{
 				return "Erreur : " + ex.Message;
-
 			}
 		}
 
@@ -84,12 +78,11 @@ namespace DMS_3.BDD
 			catch (SQLiteException ex)
 			{
 				return "Erreur : " + ex.Message;
-
 			}
 		}
 
 		//Insertion des donnes des positions
-		public string InsertDataPosition(string codeLivraison, string numCommande, string refClient, string nomPayeur, string nomExpediteur, string adresseExpediteur, string villeExpediteur, string CpExpediteur, string dateExpe, string nomClient, string adresseLivraison, string villeLivraison, string CpLivraison, string dateHeure, string poids, string nbrPallette, string nbrColis, string instrucLivraison, string typeMission, string typeSegment, string GROUPAGE, string poidsADR, string poidsQL, string statutLivraison, string CR, int dateBDD, string Datemission, int Ordremission, string planDeTransport, string Userandsoft, string nomClientLivraison, string villeClientLivraison, string imgpath)
+		public string insertDataPosition(string codeLivraison, string numCommande, string refClient, string nomPayeur, string nomExpediteur, string adresseExpediteur, string villeExpediteur, string cpExpediteur, string dateExpe, string nomClient, string adresseLivraison, string villeLivraison, string cpLivraison, string dateHeure, string poids, string nbrPallette, string nbrColis, string instrucLivraison, string typeMission, string typeSegment, string groupage, string poidsADR, string poidsQL, string statutLivraison, string cr, int dateBDD, string dateMission, int ordreMission, string planDeTransport, string userAndsoft, string nomClientLivraison, string villeClientLivraison, string imgpath)
 		{
 			try
 			{
@@ -101,30 +94,30 @@ namespace DMS_3.BDD
 				item.refClient = refClient;
 				item.nomPayeur = nomPayeur;
 				item.adresseLivraison = adresseLivraison;
-				item.CpLivraison = CpLivraison;
+				item.CpLivraison = cpLivraison;
 				item.villeLivraison = villeLivraison;
 				item.dateHeure = dateHeure;
 				item.nbrColis = nbrColis;
 				item.nbrPallette = nbrPallette;
 				item.poids = poids;
 				item.adresseExpediteur = adresseExpediteur;
-				item.CpExpediteur = CpExpediteur;
+				item.CpExpediteur = cpExpediteur;
 				item.dateExpe = dateExpe;
 				item.villeExpediteur = villeExpediteur;
 				item.nomExpediteur = nomExpediteur;
 				item.instrucLivraison = instrucLivraison;
-				item.groupage = GROUPAGE;
+				item.groupage = groupage;
 				item.poidsADR = poidsADR;
 				item.poidsQL = poidsQL;
 				item.typeMission = typeMission;
 				item.typeSegment = typeSegment;
 				item.StatutLivraison = statutLivraison;
-				item.CR = CR;
+				item.CR = cr;
 				item.dateBDD = dateBDD;
-				item.Datemission = Datemission;
-				item.Ordremission = Ordremission;
+				item.Datemission = dateMission;
+				item.Ordremission = ordreMission;
 				item.planDeTransport = planDeTransport;
-				item.Userandsoft = Userandsoft;
+				item.Userandsoft = userAndsoft;
 				item.nomClientLivraison = nomClientLivraison;
 				item.villeClientLivraison = villeClientLivraison;
 				item.imgpath = imgpath;
@@ -137,11 +130,8 @@ namespace DMS_3.BDD
 				return "Erreur : " + ex.Message;
 			}
 		}
-
-
 		//Insertion des données Message
-
-		public string InsertDataMessage(string codeChauffeur, string utilisateurEmetteur, string texteMessage, int statutMessage, DateTime dateImportMessage, int typeMessage, int numMessage)
+		public string insertDataMessage(string codeChauffeur, string utilisateurEmetteur, string texteMessage, int statutMessage, DateTime dateImportMessage, int typeMessage, int numMessage)
 		{
 			try
 			{
@@ -159,7 +149,6 @@ namespace DMS_3.BDD
 			catch (SQLiteException ex)
 			{
 				return "Erreur : " + ex.Message;
-
 			}
 		}
 
@@ -177,7 +166,6 @@ namespace DMS_3.BDD
 			catch (SQLiteException ex)
 			{
 				return "Erreur : " + ex.Message;
-
 			}
 		}
 
@@ -198,7 +186,6 @@ namespace DMS_3.BDD
 			catch (SQLiteException ex)
 			{
 				return "Erreur : " + ex.Message;
-
 			}
 		}
 
@@ -257,7 +244,6 @@ namespace DMS_3.BDD
 			}
 		}
 
-
 		//USER CHECK LOGIN
 		public bool user_Check(string user_AndsoftUserTEXT, string user_PasswordTEXT)
 		{
@@ -303,7 +289,6 @@ namespace DMS_3.BDD
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
-
 		}
 
 		public string updatePositionSuppliv(string numCommande)
@@ -321,14 +306,12 @@ namespace DMS_3.BDD
 					Console.WriteLine("UPDATE SUPPLIV" + row.numCommande);
 				}
 				return output;
-
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
-
 		}
 
 		public string updateColisFlash(string numColis)
@@ -350,14 +333,12 @@ namespace DMS_3.BDD
 				}
 				Console.WriteLine(output);
 				return output;
-
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
-
 		}
 
 		public int is_colis_in_truck(string numColis)
@@ -373,7 +354,6 @@ namespace DMS_3.BDD
 				}
 			}
 			return output;
-
 		}
 
 		internal int is_position_in_truck(string num)
@@ -414,16 +394,15 @@ namespace DMS_3.BDD
 				Console.WriteLine("\nUSER CONNECTE" + item.user_AndsoftUser);
 			}
 			return output;
-
 		}
-		//setUserdata
 
-		public string setUserdata(string UserAndsoft)
+		//setUserdata
+		public string setUserdata(string userAndsoft)
 		{
 			try
 			{
 				string output = string.Empty;
-				var query = db.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(UserAndsoft));
+				var query = db.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(userAndsoft));
 				foreach (var item in query)
 				{
 					Data.userAndsoft = item.user_AndsoftUser;
@@ -438,7 +417,6 @@ namespace DMS_3.BDD
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
-
 		}
 
 		public string getUserAndsoft()
@@ -452,15 +430,12 @@ namespace DMS_3.BDD
 					output = item.user_AndsoftUser;
 				}
 				return output;
-
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
-
-
 		}
 
 		public string getUserTransics()
@@ -480,8 +455,6 @@ namespace DMS_3.BDD
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
-
-
 		}
 
 		public string getAnomalieImgPath(string numCommande)
@@ -501,8 +474,6 @@ namespace DMS_3.BDD
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
-
-
 		}
 
 		internal int CountColis(string num)
@@ -520,7 +491,6 @@ namespace DMS_3.BDD
 			return db.Query<TablePositions>("SELECT SUM(poidsADR) as poidsADR, SUM(poidsQL) as poidsQL FROM TablePositions WHERE StatutLivraison ='0' AND groupage = ?", groupage);
 		}
 
-
 		public string logout()
 		{
 			try
@@ -535,14 +505,12 @@ namespace DMS_3.BDD
 					output = "UPDATE USER LOGOUT " + row.user_AndsoftUser;
 				}
 				return output;
-
 			}
 			catch (Exception ex)
 			{
 				return "Erreur : " + ex.Message;
 			}
 		}
-
 
 		//VERIF SI POS DEJA INTEGRER
 		public bool pos_AlreadyExist(string numCommande, string groupage, string typeMission, string typeSegment)
@@ -562,7 +530,6 @@ namespace DMS_3.BDD
 				Console.WriteLine(ex);
 				return false;
 			}
-
 		}
 
 		public string purgeLog()
@@ -571,7 +538,7 @@ namespace DMS_3.BDD
 			var query = db.Table<TableLogService>();
 			foreach (var item in query)
 			{
-				if ((item.date.Day.CompareTo(DateTime.Now.Day)) > 1)
+				if (item.date.Day.CompareTo(DateTime.Now.Day) > 1)
 				{
 					var row = db.Get<TableLogService>(item.Id);
 					db.Delete(row);
@@ -581,7 +548,7 @@ namespace DMS_3.BDD
 			var queryApp = db.Table<TableLogApp>();
 			foreach (var item in queryApp)
 			{
-				if ((item.date.Day.CompareTo(DateTime.Now.Day)) > 1)
+				if (item.date.Day.CompareTo(DateTime.Now.Day) > 1)
 				{
 					var row = db.Get<TableLogService>(item.Id);
 					db.Delete(row);
@@ -602,7 +569,6 @@ namespace DMS_3.BDD
 			catch (SQLiteException ex)
 			{
 				return "Erreur : " + ex.Message;
-
 			}
 		}
 
@@ -648,9 +614,9 @@ namespace DMS_3.BDD
 			data.Id = item.Id;
 			data.positionPole = item.positionPole;
 
-			if (Convert.ToDouble((item.poids).Replace('.', ',')) < 1)
+			if (Convert.ToDouble(item.poids.Replace('.', ',')) < 1)
 			{
-				data.poids = ((Convert.ToDouble((item.poids).Replace('.', ','))) * 1000) + " kg";
+				data.poids = Convert.ToDouble(item.poids.Replace('.', ',')) * 1000 + " kg";
 			}
 			else {
 				data.poids = item.poids + " tonnes";
@@ -683,10 +649,8 @@ namespace DMS_3.BDD
 			int idnext;
 			//get int ordremission
 			var item = db.Get<TablePositions>(id);
-			idnext = (item.Ordremission) + 1;
+			idnext = item.Ordremission + 1;
 			var query = db.Table<TablePositions>().Where(v => v.Ordremission.Equals(idnext));
-			//getordremission -1
-
 			foreach (var row in query)
 			{
 				idnext = row.Id;
@@ -720,12 +684,10 @@ namespace DMS_3.BDD
 			catch (SQLiteException ex)
 			{
 				return "Erreur : " + ex.Message;
-
 			}
 		}
 
 		//GET NUMBER LIV RAM ET MSG
-
 		public int SETBadges(string userandsoft)
 		{
 			var cLIV = db.Table<TablePositions>().Where(v => v.Userandsoft.Equals(userandsoft)).Where(v => v.typeMission.Equals("L")).Where(v => v.typeSegment.Equals("LIV")).Where(v => v.StatutLivraison.Equals("0")).Count();

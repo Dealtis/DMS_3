@@ -89,7 +89,7 @@ namespace DMS_3
 
 			} else {
 				string formatmsg = newmessage.Text.Replace ("\"", " ").Replace ("'", " ");
-				dbr.InsertDataMessage (Data.userAndsoft,"", formatmsg,2, DateTime.Now, 2,0);
+				dbr.insertDataMessage (Data.userAndsoft,"", formatmsg,2, DateTime.Now, 2,0);
 
 			}
 
