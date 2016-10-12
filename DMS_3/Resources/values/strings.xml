@@ -46,6 +46,7 @@
 		<item>Avis de passage</item>
 		<item>Fermeture hebdomadaire</item>
 		<item>Ramasse diverse</item>
+		<item>Ramasse non conforme</item>
 	</string-array>
 	<string-array name="societelist">
 		<item>ATS25</item>
@@ -58,9 +59,6 @@
 		<item>SDT70</item>
 		<item>STJ25</item>
 		<item>STP25</item>
-		<item>TJO</item>
-		<item>SCO25</item>
-		<item>SDT70</item>
 		<item>TJO</item>
 		<item>STP25</item>
 		<item>TRA77</item>

@@ -134,7 +134,7 @@ namespace DMS_3
 		{
 			try {
 				DBRepository dbr = new DBRepository ();
-				string _url = "http://dmsv3.jeantettransport.com/api/authen?chaufmdp=";
+				string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
 				ISharedPreferences pref = Application.Context.GetSharedPreferences("AppInfo", FileCreationMode.Private);
 				string soc = pref.GetString("SOC", String.Empty);
 				var webClient = new WebClient ();

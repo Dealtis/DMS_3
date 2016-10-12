@@ -190,6 +190,9 @@ namespace DMS_3
 					case "Ramasse diverse":
 						codeanomalie = "ENENJU";
 						break;
+					case "Ramasse non conforme":
+						codeanomalie = "ECHNCF";
+						break;
 					case "Restaure en non traite":
 						codeanomalie = "RESTNT";
 						break;
