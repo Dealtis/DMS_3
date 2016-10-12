@@ -1,16 +1,8 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using System.Collections.Generic;
 using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Android.Graphics;
 
 namespace DMS_3
 {
@@ -41,8 +33,6 @@ namespace DMS_3
 		public override View GetView(int position, View convertView, ViewGroup parent)
 		{
 			View row = convertView;
-			var txtstatut = "";
-
 			TextView txtName = row.FindViewById<TextView>(Resource.Id.txtName);
 			TextView txtdatestatut = row.FindViewById<TextView>(Resource.Id.textds);
 
@@ -53,7 +43,7 @@ namespace DMS_3
 
 				txtName.Text = "" + mItems[position].texteMessage + "";
 
-				txtdatestatut.Text = "Le " + mItems[position].dateImportMessage.Day + " à " + mItems[position].dateImportMessage.Hour + ":" + mItems[position].dateImportMessage.Minute + " " + getTextStatut() + " par " + mItems[position].utilisateurEmetteur;
+				txtdatestatut.Text = "Le " + mItems[position].dateImportMessage.Day + " à " + mItems[position].dateImportMessage.Hour + ":" + mItems[position].dateImportMessage.Minute + " " + getTextStatut(mItems[position].statutMessage) + " par " + mItems[position].utilisateurEmetteur;
 			}
 			else {
 
@@ -61,7 +51,7 @@ namespace DMS_3
 
 				txtName.Text = "" + mItems[position].texteMessage + "";
 
-				txtdatestatut.Text = "Le " + mItems[position].dateImportMessage.Day + " à " + mItems[position].dateImportMessage.Hour + ":" + mItems[position].dateImportMessage.Minute + " " + getTextStatut() + "";
+				txtdatestatut.Text = "Le " + mItems[position].dateImportMessage.Day + " à " + mItems[position].dateImportMessage.Hour + ":" + mItems[position].dateImportMessage.Minute + " " + getTextStatut(mItems[position].statutMessage) + "";
 			}
 
 			return row;

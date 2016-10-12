@@ -13,10 +13,9 @@ namespace DMS_3
 	[Activity(Label = "ListeLivraisonsActivity", Theme = "@android:style/Theme.Black.NoTitleBar")]
 	public class ListeLivraisonsActivity : Activity
 	{
-		public List<TablePositions> bodyItems;
-		public ListView bodyListView;
-		public bool insertdone;
-		public ListViewAdapterMenu adapter;
+		private List<TablePositions> bodyItems;
+		private ListView bodyListView;
+		private ListViewAdapterMenu adapter;
 
 		Button btngrpAll;
 

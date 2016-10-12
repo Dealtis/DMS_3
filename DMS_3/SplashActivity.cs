@@ -124,7 +124,7 @@ namespace DMS_3
 					//Is a user login ?
 					DBRepository dbr = new DBRepository();
 					var user_Login = dbr.is_user_Log_In();
-					if (!(user_Login == string.Empty))
+					if (!(user_Login == "false"))
 					{
 						//Data.userAndsoft = user_Login;
 						dbr.setUserdata(user_Login);

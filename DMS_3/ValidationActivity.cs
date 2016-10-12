@@ -34,8 +34,6 @@ namespace DMS_3
 		EditText mémo;
 		ImageView _imageView;
 
-		Thread threadUpload;
-
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);

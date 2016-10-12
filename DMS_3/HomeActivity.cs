@@ -53,7 +53,6 @@ namespace DMS_3
 
 			btn_Livraison.Click += delegate { btn_Livraison_Click(); };
 			btn_Enlevement.Click += delegate { btn_Enlevement_Click(); };
-			//btn_Livraison.LongClick += Btn_Livraison_LongClick;
 			btn_Config.LongClick += Btn_Config_LongClick;
 			btn_Message.Click += delegate { btn_Message_Click(); };
 			btn_Flash.Click += delegate { btn_Flash_Click(); };
@@ -113,11 +112,12 @@ namespace DMS_3
 		protected override void OnResume()
 		{
 			base.OnResume();
-			DBRepository dbr = new DBRepository();
 
-			var user = dbr.getUserAndsoft();
-			dbr.setUserdata(user);
-			dbr.SETBadges(Data.userAndsoft);
+			//DBRepository dbr = new DBRepository();
+
+			//var user = dbr.getUserAndsoft();
+			//dbr.setUserdata(user);
+			//dbr.SETBadges(Data.userAndsoft);
 
 			var version = this.PackageManager.GetPackageInfo(this.PackageName, 0).VersionName;
 			lblTitle.Text = Data.userAndsoft + " " + version;

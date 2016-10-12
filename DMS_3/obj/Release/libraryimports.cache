@@ -3,11 +3,14 @@
   <ManifestDocuments>
     <ManifestDocument>obj/Release/__library_projects__/AndroidEasingFunctions/library_project_imports/AndroidManifest.xml</ManifestDocument>
     <ManifestDocument>obj/Release/__library_projects__/AutoFitTextView/library_project_imports/AndroidManifest.xml</ManifestDocument>
+    <ManifestDocument>obj/Release/__library_projects__/HockeySDK.AndroidBindings/library_project_imports/AndroidManifest.xml</ManifestDocument>
+    <ManifestDocument>obj/Release/__library_projects__/HockeySDK.AndroidBindings/library_project_imports/aapt/AndroidManifest.xml</ManifestDocument>
   </ManifestDocuments>
   <NativeLibraries />
   <Jars>
     <Jar>obj/Release/__library_projects__/AndroidEasingFunctions/library_project_imports/bin/classes.jar</Jar>
     <Jar>obj/Release/__library_projects__/AutoFitTextView/library_project_imports/bin/classes.jar</Jar>
+    <Jar>obj/Release/__library_projects__/HockeySDK.AndroidBindings/library_project_imports/bin/classes.jar</Jar>
     <Jar>obj/Release/__library_projects__/NineOldAndroids/library_project_imports/NineOldAndroids.jar</Jar>
   </Jars>
 </Paths>

@@ -21,20 +21,20 @@ namespace DMS_3
 		DBRepository dbr = new DBRepository();
 
 		//DATA User
-		private static string userAndsoft;
-		private static string userTransics;
+		public static string userAndsoft;
+		public static string userTransics;
 
 		//Table user
-		private static bool tableuserload = false;
+		public static bool tableuserload = false;
 
 
 		//GPS
-		private static string GPS;
+		public static string GPS;
 
 		//PHOTO
-		private static Java.IO.File _file;
-		private static Java.IO.File _dir;
-		private static Bitmap bitmap;
+		public static Java.IO.File _file;
+		public static Java.IO.File _dir;
+		public static Bitmap bitmap;
 
 		//BADGES
 		private int livraisonIndicator;
@@ -43,14 +43,14 @@ namespace DMS_3
 
 		//FONT
 
-		private static Typeface LatoBlack = Typeface.CreateFromAsset(Application.Context.Assets, "fonts/Lato-Black.ttf");
-		private static Typeface LatoBold = Typeface.CreateFromAsset(Application.Context.Assets, "fonts/Lato-Bold.ttf");
-		private static Typeface LatoLight = Typeface.CreateFromAsset(Application.Context.Assets, "fonts/Lato-Light.ttf");
-		private static Typeface LatoMedium = Typeface.CreateFromAsset(Application.Context.Assets, "fonts/Lato-Medium.ttf");
-		private static Typeface LatoRegular = Typeface.CreateFromAsset(Application.Context.Assets, "fonts/Lato-Regular.ttf");
+		public static Typeface LatoBlack = Typeface.CreateFromAsset(Application.Context.Assets, "fonts/Lato-Black.ttf");
+		public static Typeface LatoBold = Typeface.CreateFromAsset(Application.Context.Assets, "fonts/Lato-Bold.ttf");
+		public static Typeface LatoLight = Typeface.CreateFromAsset(Application.Context.Assets, "fonts/Lato-Light.ttf");
+		public static Typeface LatoMedium = Typeface.CreateFromAsset(Application.Context.Assets, "fonts/Lato-Medium.ttf");
+		public static Typeface LatoRegular = Typeface.CreateFromAsset(Application.Context.Assets, "fonts/Lato-Regular.ttf");
 
 
-		private static bool Is_Service_Running = false;
+		public static bool Is_Service_Running = false;
 		public static Data Instance
 		{
 			get

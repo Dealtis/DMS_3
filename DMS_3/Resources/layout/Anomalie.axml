@@ -22,6 +22,30 @@
         android:phoneNumber="false"
         android:password="false"
         android:inputType="textLongMessage" />
+    <EditText xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/colis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textLongMessage"
+        android:visibility="gone" />
+    <EditText
+        android:id="@+id/palette"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textLongMessage"
+        android:visibility="gone" />
+    <EditText xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/poids"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textLongMessage"
+        android:visibility="gone" />
+    <EditText xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/ML"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textLongMessage"
+        android:visibility="gone" />
     <CheckBox
         android:text="Particulier"
         android:id="@+id/checkBoxPartic"

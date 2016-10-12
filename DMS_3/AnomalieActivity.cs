@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -21,6 +20,10 @@ namespace DMS_3
 		string txtspinner;
 		string codeanomalie;
 		EditText editText;
+		EditText colis;
+		EditText palette;
+		EditText poids;
+		EditText ML;
 		string txtRem;
 		ImageView _imageView;
 		TablePositions data;
@@ -42,6 +45,10 @@ namespace DMS_3
 
 			Spinner spinner = FindViewById<Spinner>(Resource.Id.spinnerAnomalie);
 			editText = FindViewById<EditText>(Resource.Id.edittext);
+			colis = FindViewById<EditText>(Resource.Id.colis);
+			palette = FindViewById<EditText>(Resource.Id.palette);
+			poids = FindViewById<EditText>(Resource.Id.palette);
+			ML = FindViewById<EditText>(Resource.Id.ML);
 			_imageView = FindViewById<ImageView>(Resource.Id.imageView1);
 			checkP = FindViewById<CheckBox>(Resource.Id.checkBoxPartic);
 
@@ -79,6 +86,28 @@ namespace DMS_3
 			Spinner spinner = (Spinner)sender;
 			txtspinner = string.Format("{0}", spinner.GetItemAtPosition(e.Position));
 
+			switch (txtspinner)
+			{
+				case "Ramasse non conforme":
+					colis.Visibility = Android.Views.ViewStates.Visible;
+					colis.Text = data.nbrColis;
+					palette.Visibility = Android.Views.ViewStates.Visible;
+					palette.Text = data.nbrPallette;
+					poids.Visibility = Android.Views.ViewStates.Visible;
+					poids.Text = data.poids;
+					ML.Visibility = Android.Views.ViewStates.Visible;
+					ML.Hint = "Mètre lineaire";
+					break;
+				case "Restaure en non traite":
+					editText.Visibility = Android.Views.ViewStates.Gone;
+					break;
+				case "Choisir une anomalie":
+					editText.Visibility = Android.Views.ViewStates.Gone;
+					break;
+				default:
+					editText.Visibility = Android.Views.ViewStates.Visible;
+					break;
+			}
 			if (txtspinner == "Restaure en non traite" || txtspinner == "Choisir une anomalie")
 			{
 				editText.Visibility = Android.Views.ViewStates.Gone;
@@ -178,8 +207,6 @@ namespace DMS_3
 					case "Restaure en non traite":
 						dbr.updatePosition(i, "0", txtspinner, formatrem, codeanomalie, null);
 						break;
-					case "Poids incorrect":
-
 					default:
 						dbr.updatePosition(i, "2", txtspinner, formatrem, codeanomalie, null);
 						break;
