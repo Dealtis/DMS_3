@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using SQLite;
 using Xamarin;
 using Mono.Data.Sqlite;
@@ -42,6 +42,7 @@ namespace DMS_3.BDD
 				db.CreateTable<TableLogService>();
 				db.CreateTable<TableColis>();
 				string result = "Tables crées !";
+				
 				return result;
 			}
 			catch (SQLiteException ex)
@@ -59,6 +60,7 @@ namespace DMS_3.BDD
 			{
 				output = true;
 			}
+			
 			return output;
 		}
 
@@ -73,6 +75,7 @@ namespace DMS_3.BDD
 				item.user_Password = user_Password;
 				item.user_UsePartic = user_UsePartic;
 				db.Insert(item);
+				
 				return "Insertion" + user_AndsoftUser + " réussite";
 			}
 			catch (SQLiteException ex)
@@ -123,6 +126,7 @@ namespace DMS_3.BDD
 				item.imgpath = imgpath;
 
 				db.Insert(item);
+				
 				return "Insertion good";
 			}
 			catch (SQLiteException ex)
@@ -130,6 +134,7 @@ namespace DMS_3.BDD
 				return "Erreur : " + ex.Message;
 			}
 		}
+
 		//Insertion des données Message
 		public string insertDataMessage(string codeChauffeur, string utilisateurEmetteur, string texteMessage, int statutMessage, DateTime dateImportMessage, int typeMessage, int numMessage)
 		{
@@ -144,6 +149,7 @@ namespace DMS_3.BDD
 				item.typeMessage = typeMessage;
 				item.numMessage = numMessage;
 				db.Insert(item);
+				
 				return "Insertion good";
 			}
 			catch (SQLiteException ex)
@@ -161,6 +167,7 @@ namespace DMS_3.BDD
 				item.numCommande = numCommande;
 				item.flashage = false;
 				db.Insert(item);
+				
 				return "Insertion good";
 			}
 			catch (SQLiteException ex)
@@ -181,6 +188,7 @@ namespace DMS_3.BDD
 				item.numCommande = numCommande;
 				item.groupage = groupage;
 				db.Insert(item);
+				
 				return "\n" + statutNotificationMessage + " " + numCommande;
 			}
 			catch (SQLiteException ex)
@@ -202,6 +210,7 @@ namespace DMS_3.BDD
 				item.datesuiviliv = datesuiviliv;
 				item.datajson = datajson;
 				db.Insert(item);
+				
 				return "Insertion good";
 			}
 			catch (SQLiteException ex)
@@ -219,6 +228,7 @@ namespace DMS_3.BDD
 				item.date = date;
 				item.description = description;
 				db.Insert(item);
+				
 				return "Insertion Log good";
 			}
 			catch (Exception ex)
@@ -236,6 +246,7 @@ namespace DMS_3.BDD
 				item.date = date;
 				item.description = description;
 				db.Insert(item);
+				
 				return "Insertion Log good";
 			}
 			catch (SQLiteException ex)
@@ -259,6 +270,7 @@ namespace DMS_3.BDD
 					var row = db.Get<TableUser>(item.Id);
 					row.user_IsLogin = true;
 					db.Update(row);
+					
 					Console.WriteLine("UPDATE GOOD" + row.user_IsLogin);
 				}
 				return output;
@@ -281,6 +293,7 @@ namespace DMS_3.BDD
 				row.codeAnomalie = codeAnomalie;
 				row.libeAnomalie = txtAnomalie;
 				db.Update(row);
+				
 				output = "UPDATE POSITIONS " + row.Id;
 				return output;
 			}
@@ -303,6 +316,7 @@ namespace DMS_3.BDD
 					var row = db.Get<TablePositions>(item.Id);
 					row.imgpath = "SUPPLIV";
 					db.Update(row);
+					
 					Console.WriteLine("UPDATE SUPPLIV" + row.numCommande);
 				}
 				return output;
@@ -329,6 +343,7 @@ namespace DMS_3.BDD
 					row.dateflashage = DateTime.Now;
 					row.flashage = true;
 					db.Update(row);
+					
 					Console.WriteLine("UPDATE COLIS" + row.numColis);
 				}
 				Console.WriteLine(output);
@@ -353,6 +368,7 @@ namespace DMS_3.BDD
 					output = row.Id;
 				}
 			}
+			
 			return output;
 		}
 
@@ -368,6 +384,7 @@ namespace DMS_3.BDD
 					output = row.Id;
 				}
 			}
+			
 			return output;
 		}
 
@@ -380,6 +397,7 @@ namespace DMS_3.BDD
 			{
 				output = true;
 			}
+			
 			return output;
 		}
 
@@ -393,6 +411,7 @@ namespace DMS_3.BDD
 				output = item.user_AndsoftUser;
 				Console.WriteLine("\nUSER CONNECTE" + item.user_AndsoftUser);
 			}
+			
 			return output;
 		}
 
@@ -410,10 +429,12 @@ namespace DMS_3.BDD
 					output = "setUserdata good";
 					Console.WriteLine("\nUSER CONNECTE" + item.user_AndsoftUser);
 				}
+				
 				return output;
 			}
 			catch (Exception ex)
 			{
+				
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -429,11 +450,13 @@ namespace DMS_3.BDD
 				{
 					output = item.user_AndsoftUser;
 				}
+				
 				return output;
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
+				
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -448,10 +471,12 @@ namespace DMS_3.BDD
 				{
 					output = item.user_TransicsUser;
 				}
+				
 				return output;
 			}
 			catch (Exception ex)
 			{
+				
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -467,11 +492,13 @@ namespace DMS_3.BDD
 				{
 					output = item.imgpath;
 				}
+				
 				return output;
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
+				
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -504,6 +531,7 @@ namespace DMS_3.BDD
 					db.Update(row);
 					output = "UPDATE USER LOGOUT " + row.user_AndsoftUser;
 				}
+				
 				return output;
 			}
 			catch (Exception ex)
@@ -523,6 +551,7 @@ namespace DMS_3.BDD
 				{
 					output = true;
 				}
+				
 				return output;
 			}
 			catch (Exception ex)
@@ -532,31 +561,6 @@ namespace DMS_3.BDD
 			}
 		}
 
-		public string purgeLog()
-		{
-			//var query = db.Table<TableLog>().Where (v => v.date.CompareTo(DateTime.Now));
-			var query = db.Table<TableLogService>();
-			foreach (var item in query)
-			{
-				if (item.date.Day.CompareTo(DateTime.Now.Day) > 1)
-				{
-					var row = db.Get<TableLogService>(item.Id);
-					db.Delete(row);
-				}
-			}
-
-			var queryApp = db.Table<TableLogApp>();
-			foreach (var item in queryApp)
-			{
-				if (item.date.Day.CompareTo(DateTime.Now.Day) > 1)
-				{
-					var row = db.Get<TableLogService>(item.Id);
-					db.Delete(row);
-				}
-			}
-			return "Log purgé";
-		}
-
 		//supp notification
 		public string deletenotif(int id)
 		{
@@ -564,6 +568,7 @@ namespace DMS_3.BDD
 			{
 				db.Delete<TableNotifications>(id);
 				string result = "delete";
+				
 				return result;
 			}
 			catch (SQLiteException ex)
@@ -621,6 +626,7 @@ namespace DMS_3.BDD
 			else {
 				data.poids = item.poids + " tonnes";
 			}
+			
 			return data;
 		}
 
@@ -670,6 +676,7 @@ namespace DMS_3.BDD
 			row.imgpath = path;
 			db.Update(row);
 			output = "UPDATE POSITIONS " + row.Id;
+			
 			return output;
 		}
 
@@ -699,7 +706,48 @@ namespace DMS_3.BDD
 			Data.Instance.setLivraisonIndicator(cLIV - cSUPPLIV);
 			Data.Instance.setEnlevementIndicator(cRam);
 			Data.Instance.setMessageIndicator(cMsg);
+
 			return 0;
+		}
+
+		internal object Execute(string stringinsertpos)
+		{
+			var exec = db.Execute(stringinsertpos);
+			return exec;
+		}
+
+		internal List<TablePositions> QueryGRP(string stringSelect, string tyM, string tyS, string userAndsoft)
+		{
+			var grp = db.Query<TablePositions>(stringSelect, 0, tyM, tyS, Data.userAndsoft);
+			return grp;
+		}
+
+		internal List<TablePositions> QueryGRPTRAIT(string stringSelect, string tyM, string tyS, string userAndsoft, string tyMB, string tySB, string userAndsoftB)
+		{
+			var grp = db.Query<TablePositions>(stringSelect, 1, tyM, tyS, userAndsoft, 2, tyMB, tySB, userAndsoftB);
+			return grp;
+		}
+
+		internal List<TablePositions> QueryPositions(string requete)
+		{
+			var table = db.Query<TablePositions>(requete);
+			return table;
+		}
+
+		internal List<TableNotifications> QueryNotif(string v)
+		{
+			var notifs = db.Query<TableNotifications>(v);
+			return notifs;
+		}
+		internal List<TableMessages> QueryMessage(string v)
+		{
+			var messages = db.Query<TableMessages>(v);
+			return messages;
+		}
+		internal List<TableStatutPositions> QueryStatuPos(string v)
+		{
+			var status = db.Query<TableStatutPositions>(v);
+			return status;
 		}
 	}
 }

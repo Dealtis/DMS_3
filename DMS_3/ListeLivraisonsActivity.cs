@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using SQLite;
 using AndroidHUD;
+using DMS_3.BDD;
 namespace DMS_3
 {
 
@@ -87,19 +88,15 @@ namespace DMS_3
 			};
 
 			//Mise dans un Array des Groupage
-			string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath
-				(System.Environment.SpecialFolder.Personal), "ormDMS.db3");
-			var db = new SQLiteConnection(dbPath);
-
-
-
+			DBRepository dbr = new DBRepository();
 			if (trait == "false")
 			{
-				grp = db.Query<TablePositions>("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", 0, tyM, tyS, Data.userAndsoft);
+				grp = dbr.QueryGRP("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft);
 			}
 			else
 			{
-				grp = db.Query<TablePositions>("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ? OR StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", 1, tyM, tyS, Data.userAndsoft, 2, tyM, tyS, Data.userAndsoft);
+				grp = dbr.QueryGRPTRAIT("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ? OR StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft, tyM, tyS, Data.userAndsoft);
+
 			}
 
 			foreach (var item in grp)
@@ -239,12 +236,9 @@ namespace DMS_3
 
 		public void initListView(string requete)
 		{
-			string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath
-				(System.Environment.SpecialFolder.Personal), "ormDMS.db3");
-			var db = new SQLiteConnection(dbPath);
-
+			DBRepository dbr = new DBRepository();
 			bodyItems.Clear();
-			var table = db.Query<TablePositions>(requete);
+			var table = dbr.QueryPositions(requete);
 			foreach (var item in table)
 			{
 

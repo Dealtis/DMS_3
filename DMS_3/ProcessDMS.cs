@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Json;
@@ -91,11 +91,6 @@ namespace DMS_3
 
 		void StartServiceInForeground()
 		{
-			//	var ongoing = new Notification(Resource.Drawable.iconapp, "DMS en cours d'exécution");
-			//	var pendingIntent = PendingIntent.GetActivity(this, 0, new Intent(this, typeof(HomeActivity)), 0);
-			//	ongoing.SetLatestEventInfo(this, "DMS", "DMS en cours d'exécution", pendingIntent);
-			//	StartForeground((int)NotificationFlags.ForegroundService, ongoing);
-
 			// Instantiate the builder and set notification elements:
 			Notification.Builder builder = new Notification.Builder(this)
 				.SetContentTitle("DMS")
@@ -167,16 +162,12 @@ namespace DMS_3
 		}
 		void InsertData()
 		{
-			string dbPath = System.IO.Path.Combine(Environment.GetFolderPath
-				(Environment.SpecialFolder.Personal), "ormDMS.db3");
-			var db = new SQLiteConnection(dbPath);
 			datedujour = DateTime.Now.ToString("yyyyMMdd");
 
 			//récupération de donnée via le webservice
 			string content_integdata = String.Empty;
 			try
 			{
-				//string _url = "http://dmsv3.jeantettransport.com/api/commandeWSV3?codechauffeur=" + userTransics + "&datecommande=" + datedujour + "";
 				string _url = "http://dmsv3.jeantettransport.com/api/commandeWsv4?codechauffeur=" + userTransics + "&datecommande=" + datedujour + "";
 				var webClient = new WebClient();
 				webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
@@ -211,7 +202,8 @@ namespace DMS_3
 						stringinsertpos += "TablePositions ( codeLivraison, numCommande, nomClient, refClient, nomPayeur, adresseLivraison, CpLivraison, villeLivraison, dateHeure, nbrColis, nbrPallette, poids, adresseExpediteur, CpExpediteur, dateExpe, villeExpediteur, nomExpediteur, instrucLivraison, GROUPAGE, poidsADR, poidsQL, typeMission, typeSegment, statutLivraison, CR, dateBDD, Datemission, Ordremission,planDeTransport, Userandsoft, nomClientLivraison, villeClientLivraison, positionPole,imgpath)";
 						stringinsertpos += " ";
 						stringinsertpos += stringValues.Remove(stringValues.Length - 9);
-						var execreq = db.Execute(stringinsertpos);
+						var execreq = dbr.Execute(stringinsertpos);
+
 						Console.Out.WriteLine(execreq);
 						//SON
 						if (content_integdata == "[]")
@@ -224,7 +216,7 @@ namespace DMS_3
 					if (stringNotif != string.Empty)
 					{
 						string stringinsertnotif = "INSERT INTO TableNotifications ( statutNotificationMessage, dateNotificationMessage, numMessage, numCommande ) VALUES ('10','" + DateTime.Now + "','1','" + stringNotif.Remove(stringNotif.Length - 1) + "')";
-						var execreqnotif = db.Execute(stringinsertnotif);
+						var execreqnotif = dbr.Execute(stringinsertnotif);
 						Console.Out.WriteLine("Execnotif" + execreqnotif);
 					}
 				}
@@ -240,39 +232,37 @@ namespace DMS_3
 
 			//verification des groupages et suppression des cloturer
 			//select des grp's
-			string content_grpcloture = String.Empty;
-			var tablegroupage = db.Query<TablePositions>("SELECT groupage FROM TablePositions group by groupage");
-			foreach (var row in tablegroupage)
-			{
-				string numGroupage = row.groupage;
-				try
-				{
-					string _urlb = "http://dmsv3.jeantettransport.com/api/groupage?voybdx=" + numGroupage + "";
-					var webClient = new WebClient();
-					webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-					content_grpcloture = webClient.DownloadString(_urlb);
-					JsonValue jsonVal = JsonObject.Parse(content_grpcloture);
-					if (jsonVal["etat"].ToString() == "\"CLO\"")
-					{
-						//suppression du groupage en question si clo
-						//var suppgrp = dbr.supp_grp(numGroupage);
-					}
-				}
-				catch (Exception ex)
-				{
-					content_grpcloture = "[]";
-					Console.WriteLine("\n" + ex);
-				}
-			}
+			//string content_grpcloture = String.Empty;
+			//var tablegroupage = db.Query<TablePositions>("SELECT groupage FROM TablePositions group by groupage");
+			//foreach (var row in tablegroupage)
+			//{
+			//	string numGroupage = row.groupage;
+			//	try
+			//	{
+			//		string _urlb = "http://dmsv3.jeantettransport.com/api/groupage?voybdx=" + numGroupage + "";
+			//		var webClient = new WebClient();
+			//		webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+			//		content_grpcloture = webClient.DownloadString(_urlb);
+			//		JsonValue jsonVal = JsonObject.Parse(content_grpcloture);
+			//		if (jsonVal["etat"].ToString() == "\"CLO\"")
+			//		{
+			//			//suppression du groupage en question si clo
+			//			//var suppgrp = dbr.supp_grp(numGroupage);
+			//		}
+			//	}
+			//	catch (Exception ex)
+			//	{
+			//		content_grpcloture = "[]";
+			//		Console.WriteLine("\n" + ex);
+			//	}
+			//}
 			Console.WriteLine("\nTask InsertData done");
 		}
 
 		void ComPosNotifMsg()
 		{
 			//API GPS OK
-			string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath
-				(System.Environment.SpecialFolder.Personal), "ormDMS.db3");
-			var db = new SQLiteConnection(dbPath);
+
 			var webClient = new WebClient();
 
 			try
@@ -314,16 +304,16 @@ namespace DMS_3
 
 				datagps = "{\"posgps\":\"" + gPS + "\",\"userandsoft\":\"" + userAndsoft + "\"}";
 
-				var tablestatutmessage = db.Query<TableNotifications>("SELECT * FROM TableNotifications");
+				var tableNotif = dbr.QueryNotif("SELECT * FROM TableNotifications");
 
 				//SEND NOTIF
-				foreach (var item in tablestatutmessage)
+				foreach (var item in tableNotif)
 				{
 					datanotif += "{\"statutNotificationMessage\":\"" + item.statutNotificationMessage + "\",\"dateNotificationMessage\":\"" + item.dateNotificationMessage + "\",\"numMessage\":\"" + item.numMessage + "\",\"numCommande\":\"" + item.numCommande + "\",\"groupage\":\"" + item.groupage + "\",\"id\":\"" + item.Id + "\"},";
 				}
 
 				//SEND MESSAGE
-				var tablemessage = db.Query<TableMessages>("SELECT * FROM TableMessages WHERE statutMessage = 2 or statutMessage = 5");
+				var tablemessage = dbr.QueryMessage("SELECT * FROM TableMessages WHERE statutMessage = 2 or statutMessage = 5");
 				foreach (var item in tablemessage)
 				{
 					datamsg += "{\"codeChauffeur\":\"" + item.codeChauffeur + "\",\"texteMessage\":\"" + item.texteMessage + "\",\"utilisateurEmetteur\":\"" + item.utilisateurEmetteur + "\",\"dateImportMessage\":\"" + item.dateImportMessage + "\",\"typeMessage\":\"" + item.typeMessage + "\"},";
@@ -370,10 +360,7 @@ namespace DMS_3
 		void ComWebService()
 		{
 			//récupération des données dans la BDD
-			string dbPath = System.IO.Path.Combine(Environment.GetFolderPath
-				(Environment.SpecialFolder.Personal), "ormDMS.db3");
-			var db = new SQLiteConnection(dbPath);
-			var table = db.Query<TableStatutPositions>("Select * FROM TableStatutPositions");
+			var table = dbr.QueryStatuPos("Select * FROM TableStatutPositions");
 			string datajsonArray = string.Empty;
 			datajsonArray += "[";
 			foreach (var item in table)
@@ -429,9 +416,6 @@ namespace DMS_3
 		{
 			try
 			{
-				string dbPath = System.IO.Path.Combine(Environment.GetFolderPath
-					(Environment.SpecialFolder.Personal), "ormDMS.db3");
-				var db = new SQLiteConnection(dbPath);
 				string resultjson = "[" + e.Result + "]";
 				if (e.Result == "{\"Id\":0,\"codeChauffeur\":null,\"texteMessage\":null,\"utilisateurEmetteur\":null,\"statutMessage\":0,\"dateImportMessage\":\"0001-01-01T00:00:00\",\"typeMessage\":0,\"numMessage\":null}")
 				{
@@ -445,10 +429,10 @@ namespace DMS_3
 					}
 				}
 
-				var tablemessage = db.Query<TableMessages>("SELECT * FROM TableMessages WHERE statutMessage = 2 or statutMessage = 5");
+				var tablemessage = dbr.QueryMessage("SELECT * FROM TableMessages WHERE statutMessage = 2 or statutMessage = 5");
 				foreach (var item in tablemessage)
 				{
-					db.Query<TableMessages>("UPDATE TableMessages SET statutMessage = 3 WHERE _Id = ?", item.Id);
+					dbr.QueryMessage("UPDATE TableMessages SET statutMessage = 3 WHERE _Id = " + item.Id);
 				}
 				//dbr.InsertLogService("",DateTime.Now,"WebClient_UploadStringStatutCompleted Done");
 			}
@@ -508,10 +492,6 @@ namespace DMS_3
 
 		void traitMessages(string codeChauffeur, string texteMessage, string utilisateurEmetteur, int numMessage)
 		{
-			string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath
-				(System.Environment.SpecialFolder.Personal), "ormDMS.db3");
-			var db = new SQLiteConnection(dbPath);
-
 			DBRepository dbr = new DBRepository();
 			try
 			{
@@ -529,21 +509,22 @@ namespace DMS_3
 							dbr.updatePositionSuppliv(texteMessage.Remove(texteMessage.Length - 2).Substring(10));
 							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
 							dbr.insertDataMessage(codeChauffeur, utilisateurEmetteur, "La position " + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + " a été supprimée de votre tournée", 0, DateTime.Now, 1, numMessage);
-							//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"[SYSTEM]Réception d'un SUPPLIV à "+DateTime.Now.ToString("t")+"\n");
+
 							break;
 						case "%%RETOLIV":
-							db.Query<TablePositions>("UPDATE TablePositions SET imgpath = null WHERE numCommande = ?", texteMessage.Remove(texteMessage.Length - 2).Substring(10));
+							dbr.QueryPositions("UPDATE TablePositions SET imgpath = null WHERE numCommande = " + texteMessage.Remove(texteMessage.Length - 2).Substring(10));
 							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
+
 							break;
 						case "%%SUPPGRP":
-							db.Query<TablePositions>("DELETE from TablePositions where groupage = ?", texteMessage.Remove(texteMessage.Length - 2).Substring(10));
+							dbr.QueryPositions("DELETE from TablePositions where groupage = " + texteMessage.Remove(texteMessage.Length - 2).Substring(10));
 							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
+
 							break;
 						case "%%GETFLOG":
 
 							break;
 						case "%%COMMAND":
-							//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"[SYSTEM]Réception d'un COMMAND à "+DateTime.Now.ToString("t")+"\n");
 							InsertData();
 							break;
 						case "%%GETAIMG":
@@ -581,7 +562,7 @@ namespace DMS_3
 							{
 								case "TableMessages":
 									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]Réception d'un REQUETE sur TableMessages\n");
-									var selMesg = db.Query<TableMessages>(texteMessageInputSplit[3]);
+									var selMesg = dbr.QueryMessage(texteMessageInputSplit[3]);
 									string rowMsg = "";
 									rowMsg += "[";
 									foreach (var item in selMesg)
@@ -591,25 +572,23 @@ namespace DMS_3
 									rowMsg.Remove(rowMsg.Length - 1);
 									rowMsg += "]";
 									dbr.insertDataMessage(Data.userAndsoft, "", rowMsg, 5, DateTime.Now, 5, 0);
-									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]REQUETE Execute " + rowMsg + "\n");
+
 									break;
 								case "TableNotifications":
-									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]Réception d'un REQUETE sur TableNotifications\n");
-									var selNotif = db.Query<TablePositions>(texteMessageInputSplit[3]);
+									var selNotif = dbr.QueryNotif(texteMessageInputSplit[3]);
 									string rowNotif = "";
 									rowNotif += "[";
 									foreach (var item in selNotif)
 									{
-										rowNotif += "{" + item.numCommande + "," + item.groupage + "," + item.typeMission + "," + item.typeSegment + "," + item.refClient + "},";
+										rowNotif += "{" + item.numCommande + "," + item.numMessage + "," + item.dateNotificationMessage + "," + item.statutNotificationMessage + "," + item.Id + "},";
 									}
 									rowNotif.Remove(rowNotif.Length - 1);
 									rowNotif += "]";
 									dbr.insertDataMessage(Data.userAndsoft, "", rowNotif, 5, DateTime.Now, 5, 0);
-									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]REQUETE Execute " + rowNotif + "\n");
+
 									break;
 								case "TablePositions":
-									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]Réception d'un REQUETE sur TablePositions\n");
-									var selPos = db.Query<TablePositions>(texteMessageInputSplit[3]);
+									var selPos = dbr.QueryPositions(texteMessageInputSplit[3]);
 									string rowPos = "";
 									rowPos += "[";
 									foreach (var item in selPos)
@@ -619,11 +598,10 @@ namespace DMS_3
 									rowPos.Remove(rowPos.Length - 1);
 									rowPos += "]";
 									dbr.insertDataMessage(Data.userAndsoft, "", rowPos, 5, DateTime.Now, 5, 0);
-									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]REQUETE Execute " + rowPos + "\n");
+
 									break;
 								case "TableStatutPositions":
-									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]Réception d'un REQUETE sur TableUser\n");
-									var selStat = db.Query<TableStatutPositions>(texteMessageInputSplit[3]);
+									var selStat = dbr.QueryStatuPos(texteMessageInputSplit[3]);
 									string rowStatut = "";
 									rowStatut += "[";
 									foreach (var item in selStat)
@@ -633,52 +611,13 @@ namespace DMS_3
 									rowStatut.Remove(rowStatut.Length - 1);
 									rowStatut += "]";
 									dbr.insertDataMessage(Data.userAndsoft, "", rowStatut, 5, DateTime.Now, 5, 0);
-									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]REQUETE Execute " + rowStatut + "\n");
-									break;
-								case "TableUser":
-									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]Réception d'un REQUETE sur TableUser\n");
-									var selUser = db.Query<TableUser>(texteMessageInputSplit[3]);
-									string rowUser = "";
-									rowUser += "[";
-									foreach (var item in selUser)
-									{
-										rowUser += "{" + item.user_AndsoftUser + "," + item.user_TransicsUser + "," + item.user_Password + "," + item.user_UsePartic + "},";
-									}
-									rowUser.Remove(rowUser.Length - 1);
-									rowUser += "]";
-									dbr.insertDataMessage(Data.userAndsoft, "", rowUser, 5, DateTime.Now, 5, 0);
-									break;
-								case "TableLogService":
-									var selLog = db.Query<TableLogService>(texteMessageInputSplit[3]);
-									string rowLog = "";
-									rowLog += "[";
-									foreach (var item in selLog)
-									{
-										rowLog += "{" + item.exeption + "," + item.date.ToString("g") + "," + item.description + "},";
-									}
-									rowLog.Remove(rowLog.Length - 1);
-									rowLog += "]";
-									dbr.insertDataMessage(Data.userAndsoft, "", rowLog, 5, DateTime.Now, 5, 0);
-									break;
-								case "TableLogApp":
-									var appLog = db.Query<TableLogApp>(texteMessageInputSplit[3]);
-									string rowapLog = "";
-									rowapLog += "[";
-									foreach (var item in appLog)
-									{
-										rowapLog += "{" + item.exeption + "," + item.date.ToString("g") + "," + item.description + "},";
-									}
-									rowapLog.Remove(rowapLog.Length - 1);
-									rowapLog += "]";
-									dbr.insertDataMessage(Data.userAndsoft, "", rowapLog, 5, DateTime.Now, 5, 0);
 									break;
 								case "NOTHING":
 									break;
 								default:
-									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]Réception d'un REQUETE\n");
-									var execreq = db.Execute(texteMessageInputSplit[3]);
+									var execreq = dbr.Execute(texteMessageInputSplit[3]);
 									dbr.insertDataMessage(Data.userAndsoft, "", execreq + " lignes traitées : " + texteMessageInputSplit[3], 5, DateTime.Now, 5, 0);
-									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]REQUETE Execute " + execreq +" pour "+texteMessageInputSplit [3]+"\n");
+
 									break;
 							}
 							break;
