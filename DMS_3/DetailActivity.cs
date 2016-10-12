@@ -6,7 +6,6 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using DMS_3.BDD;
-using Xamarin;
 namespace DMS_3
 {
 	[Activity(Label = "DetailActivity", Theme = "@android:style/Theme.Black.NoTitleBar", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, NoHistory = true)]

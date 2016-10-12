@@ -13,8 +13,6 @@ using Android.Media;
 using Android.Net;
 using Android.OS;
 using DMS_3.BDD;
-using SQLite;
-using Environment = System.Environment;
 
 namespace DMS_3
 {
@@ -35,10 +33,10 @@ namespace DMS_3
 		string stringNotif;
 
 		DBRepository dbr = new DBRepository();
+
 		//string log_file;
 		public override StartCommandResult OnStartCommand(Android.Content.Intent intent, StartCommandFlags flags, int startId)
 		{
-			DBRepository dbr = new DBRepository();
 			userAndsoft = dbr.getUserAndsoft();
 			userTransics = dbr.getUserTransics();
 
@@ -262,9 +260,7 @@ namespace DMS_3
 		void ComPosNotifMsg()
 		{
 			//API GPS OK
-
 			var webClient = new WebClient();
-
 			try
 			{
 				string content_msg = String.Empty;

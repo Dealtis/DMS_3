@@ -192,10 +192,6 @@ namespace DMS_3
 				});
 				threadUpload.Start();
 			}
-
-			Intent intent = new Intent(context, typeof(ListeLivraisonsActivity));
-			intent.PutExtra("TYPE", type);
-			context.StartActivity(intent);
 			if (Data.bitmap != null)
 			{
 				Data.bitmap.Recycle();

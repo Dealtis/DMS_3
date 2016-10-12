@@ -1,12 +1,12 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupConfiguration="{04E2529E-E36B-4115-8AF5-B4227741CC2C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/MessageActivity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/ProcessDMS.cs">
     <Files>
-      <File FileName="DMS_3/ProcessDMS.cs" Line="583" Column="161" />
-      <File FileName="DMS_3/BDD/DBRepository.cs" Line="731" Column="47" />
-      <File FileName="DMS_3/MessageActivity.cs" Line="44" Column="36" />
+      <File FileName="DMS_3/ValidationActivity.cs" Line="28" Column="19" />
+      <File FileName="DMS_3/BDD/DBRepository.cs" Line="477" Column="5" />
+      <File FileName="DMS_3/ProcessDMS.cs" Line="27" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/BDD/DBRepository.cs" line="399" column="19" />

@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Graphics;
 using Android.OS;
 using Android.Provider;
 using Android.Views;
 using Android.Widget;
 using DMS_3.BDD;
-using Environment = Android.OS.Environment;
 using Uri = Android.Net.Uri;
 
 namespace DMS_3
@@ -133,6 +129,11 @@ namespace DMS_3
 			dbr.insertDataStatutpositions(tyValide, "1", "Validée", data.numCommande, formatmémo, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSON);
 
 			Data.Instance.traitImg(i, type, this);
+
+			Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
+			intent.PutExtra("TYPE", type);
+			intent.PutExtra("TRAIT", "false");
+			this.StartActivity(intent);
 		}
 
 		private bool IsThereAnAppToTakePictures()
@@ -185,23 +186,12 @@ namespace DMS_3
 			builder.SetCancelable(false);
 			builder.SetPositiveButton("Oui", delegate
 			{
-				if (data.StatutLivraison == "1" || data.StatutLivraison == "2")
-				{
-					Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
-					intent.PutExtra("TYPE", type);
-					this.StartActivity(intent);
-					Finish();
-					_imageView.Dispose();
-					//this.OverridePendingTransition (Android.Resource.Animation.SlideInLeft,Android.Resource.Animation.SlideOutRight);
-				}
-				else {
-					Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
-					intent.PutExtra("TYPE", type);
-					this.StartActivity(intent);
-					Finish();
-					_imageView.Dispose();
-					//this.OverridePendingTransition (Android.Resource.Animation.SlideInLeft,Android.Resource.Animation.SlideOutRight);
-				}
+				Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
+				intent.PutExtra("TYPE", type);
+				intent.PutExtra("TRAIT", "false");
+				this.StartActivity(intent);
+				Finish();
+				_imageView.Dispose();
 			});
 			builder.SetNegativeButton("Non", delegate { });
 

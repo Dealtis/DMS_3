@@ -434,7 +434,6 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -476,7 +475,6 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}

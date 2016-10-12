@@ -240,6 +240,11 @@ namespace DMS_3
 				}
 
 				Data.Instance.traitImg(i, type, this);
+
+				Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
+				intent.PutExtra("TYPE", type);
+				intent.PutExtra("TRAIT", "false");
+				this.StartActivity(intent);
 			}
 		}
 
@@ -288,23 +293,12 @@ namespace DMS_3
 			builder.SetCancelable(false);
 			builder.SetPositiveButton("Oui", delegate
 			{
-				if (data.StatutLivraison == "1" || data.StatutLivraison == "2")
-				{
 					Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
 					intent.PutExtra("TYPE", type);
+					intent.PutExtra("TRAIT", "false");
 					this.StartActivity(intent);
 					Finish();
 					_imageView.Dispose();
-					//this.OverridePendingTransition (Android.Resource.Animation.SlideInLeft,Android.Resource.Animation.SlideOutRight);
-				}
-				else {
-					Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
-					intent.PutExtra("TYPE", type);
-					this.StartActivity(intent);
-					Finish();
-					_imageView.Dispose();
-					//this.OverridePendingTransition (Android.Resource.Animation.SlideInLeft,Android.Resource.Animation.SlideOutRight);
-				}
 			});
 			builder.SetNegativeButton("Non", delegate { });
 			builder.Show();
