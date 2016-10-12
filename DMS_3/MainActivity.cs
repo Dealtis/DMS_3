@@ -82,7 +82,7 @@ namespace DMS_3
 				var usercheck = dbr.user_Check (user.Text.ToUpper(), password.Text);
 				if (usercheck) {
 					//UPDATE DE LA BDD AVEC CE USER
-					AndHUD.Shared.ShowSuccess(this, "Bienvenue", MaskType.Black, TimeSpan.FromSeconds(2));
+					//AndHUD.Shared.ShowSuccess(this, "Bienvenue", MaskType.Black, TimeSpan.FromSeconds(2));
 					dbr.setUserdata (user.Text.ToUpper ());
 					//lancement du BgWorker Service
 					StartService (new Intent (this, typeof(ProcessDMS)));

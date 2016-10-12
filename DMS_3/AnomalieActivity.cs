@@ -100,12 +100,24 @@ namespace DMS_3
 					break;
 				case "Restaure en non traite":
 					editText.Visibility = Android.Views.ViewStates.Gone;
+					colis.Visibility = Android.Views.ViewStates.Gone;
+					palette.Visibility = Android.Views.ViewStates.Gone;
+					poids.Visibility = Android.Views.ViewStates.Gone;
+					ML.Visibility = Android.Views.ViewStates.Gone;
 					break;
 				case "Choisir une anomalie":
 					editText.Visibility = Android.Views.ViewStates.Gone;
+					colis.Visibility = Android.Views.ViewStates.Gone;
+					palette.Visibility = Android.Views.ViewStates.Gone;
+					poids.Visibility = Android.Views.ViewStates.Gone;
+					ML.Visibility = Android.Views.ViewStates.Gone;
 					break;
 				default:
 					editText.Visibility = Android.Views.ViewStates.Visible;
+					colis.Visibility = Android.Views.ViewStates.Gone;
+					palette.Visibility = Android.Views.ViewStates.Gone;
+					poids.Visibility = Android.Views.ViewStates.Gone;
+					ML.Visibility = Android.Views.ViewStates.Gone;
 					break;
 			}
 			if (txtspinner == "Restaure en non traite" || txtspinner == "Choisir une anomalie")
