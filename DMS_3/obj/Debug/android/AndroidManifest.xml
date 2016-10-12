@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.dealtis.dms_3" android:versionName="3.2.0.2" android:versionCode="17">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.dealtis.dms_3" android:versionName="3.2.0.3" android:versionCode="18">
   <!--suppress UsesMinSdkAttributes-->
   <uses-sdk android:minSdkVersion="15" />
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -60,11 +60,4 @@
     <activity android:name="net.hockeyapp.android.LoginActivity" />
     <activity android:name="net.hockeyapp.android.ExpiryInfoActivity" />
   </application>
-  <activity android:name="com.instabug.library.InstabugFeedbackActivity" android:windowSoftInputMode="adjustPan" />
-  <service android:name="com.instabug.library.network.UploadCacheService" />
-  <receiver android:name="com.instabug.library.network.InstabugNetworkReceiver">
-    <intent-filter>
-      <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-    </intent-filter>
-  </receiver>
 </manifest>

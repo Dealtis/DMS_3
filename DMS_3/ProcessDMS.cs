@@ -227,33 +227,6 @@ namespace DMS_3
 
 			//SET des badges
 			dbr.SETBadges(Data.userAndsoft);
-
-			//verification des groupages et suppression des cloturer
-			//select des grp's
-			//string content_grpcloture = String.Empty;
-			//var tablegroupage = db.Query<TablePositions>("SELECT groupage FROM TablePositions group by groupage");
-			//foreach (var row in tablegroupage)
-			//{
-			//	string numGroupage = row.groupage;
-			//	try
-			//	{
-			//		string _urlb = "http://dmsv3.jeantettransport.com/api/groupage?voybdx=" + numGroupage + "";
-			//		var webClient = new WebClient();
-			//		webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-			//		content_grpcloture = webClient.DownloadString(_urlb);
-			//		JsonValue jsonVal = JsonObject.Parse(content_grpcloture);
-			//		if (jsonVal["etat"].ToString() == "\"CLO\"")
-			//		{
-			//			//suppression du groupage en question si clo
-			//			//var suppgrp = dbr.supp_grp(numGroupage);
-			//		}
-			//	}
-			//	catch (Exception ex)
-			//	{
-			//		content_grpcloture = "[]";
-			//		Console.WriteLine("\n" + ex);
-			//	}
-			//}
 			Console.WriteLine("\nTask InsertData done");
 		}
 
@@ -403,8 +376,6 @@ namespace DMS_3
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
-				//dbr.InsertLogService(e.Result,DateTime.Now,"WebClient_UploadStringCompleted Response");
-				//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"[ERROR] WebClient_UploadStringCompleted : "+ex+" à "+DateTime.Now.ToString("t")+"\n");
 			}
 		}
 
@@ -428,7 +399,7 @@ namespace DMS_3
 				var tablemessage = dbr.QueryMessage("SELECT * FROM TableMessages WHERE statutMessage = 2 or statutMessage = 5");
 				foreach (var item in tablemessage)
 				{
-					dbr.QueryMessage("UPDATE TableMessages SET statutMessage = 3 WHERE _Id = " + item.Id);
+					dbr.QueryMessage("UPDATE TableMessages SET statutMessage = 3 WHERE _Id = '" + item.Id + "'");
 				}
 				//dbr.InsertLogService("",DateTime.Now,"WebClient_UploadStringStatutCompleted Done");
 			}
@@ -508,12 +479,12 @@ namespace DMS_3
 
 							break;
 						case "%%RETOLIV":
-							dbr.QueryPositions("UPDATE TablePositions SET imgpath = null WHERE numCommande = " + texteMessage.Remove(texteMessage.Length - 2).Substring(10));
+							dbr.QueryPositions("UPDATE TablePositions SET imgpath = null WHERE numCommande = '" + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "'");
 							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
 
 							break;
 						case "%%SUPPGRP":
-							dbr.QueryPositions("DELETE from TablePositions where groupage = " + texteMessage.Remove(texteMessage.Length - 2).Substring(10));
+							dbr.QueryPositions("DELETE from TablePositions where groupage = '" + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "'");
 							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
 
 							break;
@@ -666,7 +637,6 @@ namespace DMS_3
 				stream.Write(data, 0, data.Length);
 				stream.Close();
 				FtpWebResponse res = (FtpWebResponse)req.GetResponse();
-				//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"]"+"Upload file"+fileName+" good\n");
 				Console.Out.Write("Upload file" + fileName + " good\n" + res);
 				return true;
 			}

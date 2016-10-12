@@ -4,11 +4,11 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Android.OS;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
-using Android.OS;
 using Android.Provider;
 using Android.Views;
 using Android.Views.InputMethods;
@@ -48,6 +48,7 @@ namespace DMS_3
 		string numCommande;
 		string actionP;
 		string type;
+		string trait;
 		bool flashinprogress;
 
 		MobileBarcodeScanner scanner;
@@ -75,7 +76,7 @@ namespace DMS_3
 
 			btn_detail = FindViewById<Button>(Resource.Id.btn_detail);
 			btn_valider = FindViewById<Button>(Resource.Id.btn_valider);
-			btn_anomalie = FindViewById<Button>(Resource.Id.btn_anomalie);
+			btn_anomalie = FindViewById<Button>(Resource.Id.btn_anomalie);		
 
 			if (IsThereAnAppToTakePictures())
 			{
@@ -107,6 +108,7 @@ namespace DMS_3
 
 				intent.PutExtra("ID", id);
 				intent.PutExtra("TYPE", type);
+
 				this.StartActivity(intent);
 			};
 			var zxingOverlay = LayoutInflater.FromContext(this).Inflate(Resource.Layout.overlay, null);
@@ -141,6 +143,7 @@ namespace DMS_3
 			id = Intent.GetStringExtra("ID");
 			numCommande = Intent.GetStringExtra("NUMCOM");
 			type = Intent.GetStringExtra("TYPE");
+			trait = Intent.GetStringExtra("TRAIT");
 			actionP = Intent.GetStringExtra("ACTION");
 			if (numCommande != null)
 			{
@@ -154,7 +157,7 @@ namespace DMS_3
 
 			barcode.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) =>
 			{
-				if (e.Text.ToString() != String.Empty)
+				if (e.Text.ToString() != string.Empty)
 				{
 					numero = e.Text.ToString();
 					ShowProgress(progress => AndHUD.Shared.Show(this, "Chargement ... " + progress + "%", progress, MaskType.Clear), e.Text.ToString());
@@ -201,6 +204,7 @@ namespace DMS_3
 				intent = new Intent(this, typeof(DetailActivity));
 				intent.PutExtra("ID", Convert.ToString(data.Id));
 				intent.PutExtra("TYPE", data.typeSegment);
+				intent.PutExtra("TRAIT", trait);
 				this.StartActivity(intent);
 				Finish();
 			}
@@ -288,7 +292,7 @@ namespace DMS_3
 
 					AndHUD.Shared.Dismiss(this);
 				}
-				catch (Exception ex)
+				catch (System.Exception ex)
 				{
 					Console.WriteLine(ex);
 					AndHUD.Shared.Dismiss(this);
@@ -551,7 +555,7 @@ namespace DMS_3
 		private void TakeAPicture(object sender, EventArgs eventArgs)
 		{
 			Intent intent = new Intent(MediaStore.ActionImageCapture);
-			Data._file = new Java.IO.File(Data._dir, String.Format("" + DateTime.Now.ToString("ddMM") + "_" + numero + ".jpg", Guid.NewGuid()));
+			Data._file = new Java.IO.File(Data._dir, string.Format("" + DateTime.Now.ToString("ddMM") + "_" + numero + ".jpg", Guid.NewGuid()));
 			intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(Data._file));
 			StartActivityForResult(intent, 0);
 		}
@@ -605,6 +609,20 @@ namespace DMS_3
 				}
 				GC.Collect();
 			}
+		}
+
+		public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
+		{
+			if (keyCode == Keycode.VolumeDown)
+			{
+				return true;
+			}
+
+			if (keyCode == Keycode.VolumeUp)
+			{
+				return true;
+			}
+			return base.OnKeyDown(keyCode, e);
 		}
 	}
 }

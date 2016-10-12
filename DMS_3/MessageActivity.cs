@@ -41,7 +41,7 @@ namespace DMS_3
 
 			DBRepository dbr = new DBRepository();
 
-			var table = dbr.QueryMessage("SELECT * FROM TableMessages where codeChauffeur=" + Data.userAndsoft + " and typeMessage != 5");
+			var table = dbr.QueryMessage("SELECT * FROM TableMessages where codeChauffeur='" + Data.userAndsoft + "' and typeMessage != 5");
 			var i = 0;
 
 			foreach (var item in table)
@@ -99,9 +99,6 @@ namespace DMS_3
 
 			Intent intent = new Intent(this, typeof(MessageActivity));
 			this.StartActivity(intent);
-			//this.OverridePendingTransition (Resource.Animation.abc_slide_in_bottom,Resource.Animation.abc_slide_out_top);
-
-
 		}
 
 
@@ -120,7 +117,6 @@ namespace DMS_3
 			Intent intent = new Intent(this, typeof(HomeActivity));
 			this.StartActivity(intent);
 			Finish();
-			//this.OverridePendingTransition (Resource.Animation.abc_slide_in_bottom,Resource.Animation.abc_slide_out_top);
 		}
 	}
 }

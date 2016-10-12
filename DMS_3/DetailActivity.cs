@@ -35,16 +35,9 @@ namespace DMS_3
 		TextView destfinal;
 		ImageView _imageView;
 		LinearLayout boxPole;
-
 		Button btnvalide;
-
 		string type;
-		//string tyValide;
-
 		Bitmap imgbitmap;
-
-		//private AlertDialog.Builder dialog;
-
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -188,6 +181,7 @@ namespace DMS_3
 				Intent intent = new Intent(this, typeof(ValidationActivity));
 				intent.PutExtra("ID", Convert.ToString(i));
 				intent.PutExtra("TYPE", type);
+				intent.PutExtra("TRAIT", trait);
 				this.StartActivity(intent);
 				Finish();
 				if (imgbitmap != null)
@@ -200,6 +194,7 @@ namespace DMS_3
 				intent.PutExtra("ID", Convert.ToString(i));
 				intent.PutExtra("NUMCOM", data.numCommande);
 				intent.PutExtra("TYPE", type);
+				intent.PutExtra("TRAIT", trait);
 				intent.PutExtra("ACTION", "VALID");
 				this.StartActivity(intent);
 				Finish();
