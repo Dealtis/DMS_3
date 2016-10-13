@@ -211,6 +211,7 @@ namespace DMS_3
 
 		public override void OnBackPressed()
 		{
+			System.Console.WriteLine("Do nothing");
 		}
 
 		class ProcessDMSConnection : Java.Lang.Object, IServiceConnection

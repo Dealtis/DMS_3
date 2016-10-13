@@ -17,21 +17,15 @@ namespace DMS_3
 		private List<TablePositions> bodyItems;
 		private ListView bodyListView;
 		private ListViewAdapterMenu adapter;
-
 		Button btngrpAll;
-
 		LinearLayout btnsearch;
-
 		LinearLayout layout_groupage;
 		Button btntrait;
 		string type;
 		string tyS;
 		string tyM;
-
 		string trait;
-
 		List<TablePositions> grp;
-
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -96,12 +90,10 @@ namespace DMS_3
 			else
 			{
 				grp = dbr.QueryGRPTRAIT("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ? OR StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft, tyM, tyS, Data.userAndsoft);
-
 			}
 
 			foreach (var item in grp)
 			{
-
 				var aButton = new Button(this);
 				aButton.Text = item.groupage;
 				aButton.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent, .01f);
@@ -132,13 +124,11 @@ namespace DMS_3
 					{
 						initListView("SELECT * FROM TablePositions WHERE StatutLivraison = '1' AND typeMission= '" + tyM + "' AND typeSegment= '" + tyS + "'  AND Userandsoft = '" + Data.userAndsoft + "'AND groupage='" + item.groupage + "' OR StatutLivraison = '2' AND typeMission= '" + tyM + "' AND typeSegment= '" + tyS + "'  AND Userandsoft = '" + Data.userAndsoft + "'AND groupage='" + item.groupage + "' ORDER BY Ordremission");
 					}
-
 				};
 
 				//llInner.AddView(aButton);
 				layout_groupage.AddView(aButton);
 			}
-
 
 			//LISTVIEW
 			bodyListView = FindViewById<ListView>(Resource.Id.bodylist);
@@ -147,10 +137,8 @@ namespace DMS_3
 			bodyListView.ItemClick += MListView_ItemClick;
 			bodyListView.ItemLongClick += MListView_ItemLongClick;
 
-
 			adapter = new ListViewAdapterMenu(this, bodyItems);
 			bodyListView.Adapter = adapter;
-
 
 			if (trait == "false")
 			{
@@ -177,12 +165,6 @@ namespace DMS_3
 				Finish();
 			}
 		}
-
-		void MListView_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
-		{
-
-		}
-
 
 		void btngrpAll_Click()
 		{
@@ -241,7 +223,6 @@ namespace DMS_3
 			var table = dbr.QueryPositions(requete);
 			foreach (var item in table)
 			{
-
 				bodyItems.Add(new TablePositions()
 				{
 					Id = item.Id,
@@ -268,13 +249,10 @@ namespace DMS_3
 					poidsQL = item.poidsQL,
 					poidsADR = item.poidsADR,
 					positionPole = item.positionPole
-
-
 				});
 
 				RunOnUiThread(() => adapter.NotifyDataSetChanged());
 			}
-
 		}
 
 		public override void OnBackPressed()

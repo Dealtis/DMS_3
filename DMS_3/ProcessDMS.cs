@@ -20,6 +20,7 @@ namespace DMS_3
 	[IntentFilter(new string[] { "com.dealtis.dms_3.ProcessDMS" })]
 	public class ProcessDMS : Service, ILocationListener
 	{
+		#region Variables
 		ProcessDMSBinder binder;
 		string datedujour;
 		LocationManager locMgr;
@@ -33,6 +34,7 @@ namespace DMS_3
 		string stringNotif;
 
 		DBRepository dbr = new DBRepository();
+		#endregion
 
 		//string log_file;
 		public override StartCommandResult OnStartCommand(Android.Content.Intent intent, StartCommandFlags flags, int startId)
@@ -46,14 +48,10 @@ namespace DMS_3
 			// initialize location manager
 			InitializeLocationManager();
 
-			if (_locationProvider == "")
+			if (_locationProvider != "")
 			{
-				//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"][GPS] Le GPS est désactiver");
-			}
-			else {
 				locMgr.RequestLocationUpdates(_locationProvider, 0, 0, this);
 				Console.Out.Write("Listening for location updates using " + _locationProvider + ".");
-				//File.AppendAllText(log_file,"["+DateTime.Now.ToString("t")+"][GPS] Start");
 			}
 
 			return StartCommandResult.Sticky;
@@ -158,6 +156,8 @@ namespace DMS_3
 			binder = new ProcessDMSBinder(this);
 			return binder;
 		}
+
+		#region Webservice
 		void InsertData()
 		{
 			datedujour = DateTime.Now.ToString("yyyyMMdd");
@@ -229,6 +229,7 @@ namespace DMS_3
 			dbr.SETBadges(Data.userAndsoft);
 			Console.WriteLine("\nTask InsertData done");
 		}
+
 
 		void ComPosNotifMsg()
 		{
@@ -409,54 +410,6 @@ namespace DMS_3
 			}
 		}
 
-		public void OnLocationChanged(Android.Locations.Location location)
-		{
-			if (previousLocation == null)
-			{
-				gPS = location.Latitude + ";" + location.Longitude;
-				Data.GPS = location.Latitude + ";" + location.Longitude;
-				previousLocation = location;
-			}
-			else {
-				//distance (location.Latitude, location.Longitude, previousLocation.Latitude, previousLocation.Longitude < 150
-				if (true)
-				{
-					//GPS = location.Latitude.ToString() +";"+ location.Longitude.ToString();
-					gPS = location.Latitude + ";" + location.Longitude;
-					Data.GPS = location.Latitude + ";" + location.Longitude;
-					previousLocation = location;
-				}
-			}
-		}
-		public void OnProviderDisabled(string provider)
-		{
-		}
-		public void OnProviderEnabled(string provider)
-		{
-		}
-		public void OnStatusChanged(string provider, Availability status, Bundle extras)
-		{
-		}
-
-		public double distance(double lat1, double lng1, double lat2, double lng2)
-		{
-			double earthRadius = 6371 * 1000;
-			double dLat = toRadians(lat2 - lat1);
-			double dLng = toRadians(lng2 - lng1);
-			double sindLat = Math.Sin(dLat / 2);
-			double sindLng = Math.Sin(dLng / 2);
-			double a = Math.Pow(sindLat, 2) + Math.Pow(sindLng, 2) * Math.Cos(toRadians(lat1)) * Math.Cos(toRadians(lat2));
-			double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-			double dist = earthRadius * c;
-			// Return the computed distance
-			return dist;
-		}
-
-		private double toRadians(double ang)
-		{
-			return ang * Math.PI / 180;
-		}
-
 		void traitMessages(string codeChauffeur, string texteMessage, string utilisateurEmetteur, int numMessage)
 		{
 			DBRepository dbr = new DBRepository();
@@ -465,8 +418,7 @@ namespace DMS_3
 				if (texteMessage.ToString().Length < 9)
 				{
 					dbr.insertDataMessage(codeChauffeur, utilisateurEmetteur, texteMessage, 0, DateTime.Now, 1, numMessage);
-					//TODO
-					//var resintegstatut = dbr.InsertDataStatutMessage(0,DateTime.Now,numMessage,"","");
+					dbr.InsertDataStatutMessage(0, DateTime.Now, numMessage, "", "");
 					alertsms();
 				}
 				else {
@@ -486,10 +438,8 @@ namespace DMS_3
 						case "%%SUPPGRP":
 							dbr.QueryPositions("DELETE from TablePositions where groupage = '" + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "'");
 							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
-
 							break;
 						case "%%GETFLOG":
-
 							break;
 						case "%%COMMAND":
 							InsertData();
@@ -584,17 +534,14 @@ namespace DMS_3
 								default:
 									var execreq = dbr.Execute(texteMessageInputSplit[3]);
 									dbr.insertDataMessage(Data.userAndsoft, "", execreq + " lignes traitées : " + texteMessageInputSplit[3], 5, DateTime.Now, 5, 0);
-
 									break;
 							}
 							break;
 						default:
-							var resinteg = dbr.insertDataMessage(codeChauffeur, utilisateurEmetteur, texteMessage, 0, DateTime.Now, 1, numMessage);
-							//TODO
-							//dbr.InsertDataStatutMessage(0,DateTime.Now,numMessage,"","");
+							dbr.insertDataMessage(codeChauffeur, utilisateurEmetteur, texteMessage, 0, DateTime.Now, 1, numMessage);
+							dbr.InsertDataStatutMessage(0, DateTime.Now, numMessage, "", "");
 							alertsms();
 							Console.WriteLine(numMessage.ToString());
-							Console.WriteLine(resinteg);
 							break;
 					}
 				}
@@ -604,6 +551,57 @@ namespace DMS_3
 				Console.WriteLine("\n" + ex);
 			}
 		}
+		#endregion
+
+		#region GPS
+		public void OnLocationChanged(Android.Locations.Location location)
+		{
+			if (previousLocation == null)
+			{
+				gPS = location.Latitude + ";" + location.Longitude;
+				Data.GPS = location.Latitude + ";" + location.Longitude;
+				previousLocation = location;
+			}
+			else {
+				//distance (location.Latitude, location.Longitude, previousLocation.Latitude, previousLocation.Longitude < 150
+				if (true)
+				{
+					//GPS = location.Latitude.ToString() +";"+ location.Longitude.ToString();
+					gPS = location.Latitude + ";" + location.Longitude;
+					Data.GPS = location.Latitude + ";" + location.Longitude;
+					previousLocation = location;
+				}
+			}
+		}
+		public void OnProviderDisabled(string provider)
+		{
+		}
+		public void OnProviderEnabled(string provider)
+		{
+		}
+		public void OnStatusChanged(string provider, Availability status, Bundle extras)
+		{
+		}
+
+		public double distance(double lat1, double lng1, double lat2, double lng2)
+		{
+			double earthRadius = 6371 * 1000;
+			double dLat = toRadians(lat2 - lat1);
+			double dLng = toRadians(lng2 - lng1);
+			double sindLat = Math.Sin(dLat / 2);
+			double sindLng = Math.Sin(dLng / 2);
+			double a = Math.Pow(sindLat, 2) + Math.Pow(sindLng, 2) * Math.Cos(toRadians(lat1)) * Math.Cos(toRadians(lat2));
+			double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+			double dist = earthRadius * c;
+			// Return the computed distance
+			return dist;
+		}
+
+		private double toRadians(double ang)
+		{
+			return ang * Math.PI / 180;
+		}
+		#endregion
 
 		public void alert()
 		{

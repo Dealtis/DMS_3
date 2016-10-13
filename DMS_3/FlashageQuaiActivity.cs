@@ -17,7 +17,6 @@ using AndroidHUD;
 using DMS_3.BDD;
 using ZXing.Mobile;
 using Uri = Android.Net.Uri;
-
 namespace DMS_3
 {
 	[Activity(Label = "", Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden)]
@@ -39,10 +38,11 @@ namespace DMS_3
 		Button btn_detail;
 		Button btn_valider;
 		Button btn_anomalie;
-		Button btn_termine;
+		Button btn_pblFlash;
 		ImageView _imageView;
 		ToggleButton tbtnTorch;
 		TablePositions data;
+
 		string numero;
 		string id;
 		string numCommande;
@@ -50,8 +50,10 @@ namespace DMS_3
 		string type;
 		string trait;
 		bool flashinprogress;
+		int currentPrlFLash;
 
 		MobileBarcodeScanner scanner;
+		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -72,7 +74,7 @@ namespace DMS_3
 			zoneflash = FindViewById<TextView>(Resource.Id.zoneflash);
 			zonetheo = FindViewById<TextView>(Resource.Id.zonetheo);
 			manuedit = FindViewById<Button>(Resource.Id.manuedit);
-			btn_termine = FindViewById<Button>(Resource.Id.btn_termine);
+			btn_pblFlash = FindViewById<Button>(Resource.Id.btn_termine);
 
 			btn_detail = FindViewById<Button>(Resource.Id.btn_detail);
 			btn_valider = FindViewById<Button>(Resource.Id.btn_valider);
@@ -90,27 +92,47 @@ namespace DMS_3
 			btn_valider.Visibility = ViewStates.Gone;
 			btn_photo.Visibility = ViewStates.Gone;
 			btn_anomalie.Visibility = ViewStates.Gone;
-			btn_termine.Visibility = ViewStates.Gone;
+			btn_pblFlash.Visibility = ViewStates.Gone;
 
-			btn_termine.Click += delegate
+
+			currentPrlFLash = 0;
+
+			btn_pblFlash.Click += delegate
 			{
-				flashinprogress = false;
+				currentPrlFLash ++;
+				int colisFlasher = dbr.CountColisFlash(data.numCommande);
+				int colisPosition = dbr.CountColis(data.numCommande);
 
-				Intent intent;
-				if (actionP == "VALID")
+				RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHES: " + (colisFlasher + currentPrlFLash) + "/" + colisPosition);
+				if ((colisFlasher + currentPrlFLash) == colisPosition)
 				{
-					intent = new Intent(this, typeof(ValidationActivity));
-				}
-				else
-				{
-					intent = new Intent(this, typeof(AnomalieActivity));
-				}
+					if (actionP == null)
+					{
+						RunOnUiThread(() => btn_pblFlash.Visibility = ViewStates.Gone);
+						//afficher les btn valider et anomalie
+					}
+					else
+					{
+						flashinprogress = false;
 
-				intent.PutExtra("ID", id);
-				intent.PutExtra("TYPE", type);
+						Intent intent;
+						if (actionP == "VALID")
+						{
+							intent = new Intent(this, typeof(ValidationActivity));
+						}
+						else
+						{
+							intent = new Intent(this, typeof(AnomalieActivity));
+						}
 
-				this.StartActivity(intent);
+						intent.PutExtra("ID", id);
+						intent.PutExtra("TYPE", type);
+						this.StartActivity(intent);
+					}
+				}
 			};
+
+
 			var zxingOverlay = LayoutInflater.FromContext(this).Inflate(Resource.Layout.overlay, null);
 			scanner = new MobileBarcodeScanner();
 			btn_barcode.Click += async delegate
@@ -245,7 +267,6 @@ namespace DMS_3
 					int progress = 0;
 					progress += 20;
 					action(progress);
-					DBRepository dbr = new DBRepository();
 					//check is_colis_in_truck
 					if (num.IndexOf("POLE") != -1)
 					{
@@ -493,24 +514,24 @@ namespace DMS_3
 
 			int colisFlasher = dbr.CountColisFlash(data.numCommande);
 			int colisPosition = dbr.CountColis(data.numCommande);
-			RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHES: " + colisFlasher + "/" + colisPosition);
+			RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHES: " + (colisFlasher + currentPrlFLash) + "/" + colisPosition);
 			TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
 			RunOnUiThread(() => tl.Visibility = ViewStates.Gone);
 
 			if (actionP == null)
 			{
-				RunOnUiThread(() => btn_termine.Visibility = ViewStates.Gone);
+				RunOnUiThread(() => btn_pblFlash.Visibility = ViewStates.Gone);
 			}
 			else
 			{
-				RunOnUiThread(() => btn_termine.Visibility = ViewStates.Visible);
+				RunOnUiThread(() => btn_pblFlash.Visibility = ViewStates.Visible);
 			}
 
-			if (colisFlasher == colisPosition)
+			if ((colisFlasher + currentPrlFLash) == colisPosition)
 			{
 				if (actionP == null)
 				{
-					RunOnUiThread(() => btn_termine.Visibility = ViewStates.Gone);
+					RunOnUiThread(() => btn_pblFlash.Visibility = ViewStates.Gone);
 					//afficher les btn valider et anomalie
 				}
 				else
