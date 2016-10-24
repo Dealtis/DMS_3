@@ -1,16 +1,17 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupConfiguration="{04E2529E-E36B-4115-8AF5-B4227741CC2C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/ListeViewMessageAdapter.cs">
-    <Files>
-      <File FileName="DMS_3/FlashageQuaiActivity.cs" Line="636" Column="1" />
-      <File FileName="DMS_3/ProcessDMS.cs" Line="268" Column="5" />
-      <File FileName="DMS_3/BDD/DBRepository.cs" Line="182" Column="7" />
-      <File FileName="DMS_3/ListeLivraisonsActivity.cs" Line="25" Column="14" />
-      <File FileName="DMS_3/AnomalieActivity.cs" Line="306" Column="3" />
-      <File FileName="DMS_3/SplashActivity.cs" Line="202" Column="3" />
-      <File FileName="DMS_3/HomeActivity.cs" Line="60" Column="85" />
-      <File FileName="DMS_3/BDD/TableColis.cs" Line="12" Column="37" />
-      <File FileName="DMS_3/ListeViewMessageAdapter.cs" Line="36" Column="1" />
-    </Files>
+  <MonoDevelop.Ide.Workbench>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="DMS_3" expanded="True">
+            <Node name="DMS_3" expanded="True">
+              <Node name="ComponentReferenceFolder" expanded="True" selected="True" />
+              <Node name="Packages" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
