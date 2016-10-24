@@ -47,7 +47,7 @@ namespace DMS_3
 			editText = FindViewById<EditText>(Resource.Id.edittext);
 			colis = FindViewById<EditText>(Resource.Id.colis);
 			palette = FindViewById<EditText>(Resource.Id.palette);
-			poids = FindViewById<EditText>(Resource.Id.palette);
+			poids = FindViewById<EditText>(Resource.Id.poids);
 			ML = FindViewById<EditText>(Resource.Id.ML);
 			_imageView = FindViewById<ImageView>(Resource.Id.imageView1);
 			checkP = FindViewById<CheckBox>(Resource.Id.checkBoxPartic);
@@ -215,7 +215,34 @@ namespace DMS_3
 				DBRepository dbr = new DBRepository();
 
 				//format mémo
-				string formatrem = txtRem.Replace("\"", " ").Replace("'", " ");
+				string formatrem = "";
+				if (codeanomalie != "ECHNCF")
+				{
+					formatrem = txtRem.Replace("\"", " ").Replace("'", " ");
+				}else
+				{
+					if (txtRem != "")
+					{
+						formatrem += "memo : " + txtRem.Replace("\"", " ").Replace("'", " ") + ", ";
+					}
+					if (data.nbrColis != colis.Text)
+					{
+						formatrem += "colis : " + colis.Text + "| ";
+					}
+					if (data.nbrPallette != palette.Text)
+					{
+						formatrem += "palette : " + palette.Text + "| ";
+					}
+					if (data.poids != poids.Text)
+					{
+						formatrem += "poids : " + poids.Text + "| ";
+					}
+					if (ML.Text != "")
+					{
+						formatrem += "ML : " + ML.Text + "| ";
+					}
+				}
+
 
 				switch (txtspinner)
 				{

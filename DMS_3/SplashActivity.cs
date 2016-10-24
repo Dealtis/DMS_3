@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using System.IO;
 using System.Json;
 using System.Net;
 using System.Threading;
@@ -13,7 +12,8 @@ using Android.Support.V7.App;
 using Android.Telephony;
 using Android.Widget;
 using DMS_3.BDD;
-using Xamarin;
+using HockeyApp.Android;
+using HockeyApp.Android.Metrics;
 
 namespace DMS_3
 {
@@ -31,6 +31,12 @@ namespace DMS_3
 		protected override void OnResume()
 		{
 			base.OnResume();
+
+			//Hockey APP
+			CrashManager.Register(this, "337f4f12782f47e590a7e84867bc087a");
+			MetricsManager.Register(Application, "337f4f12782f47e590a7e84867bc087a");
+			MetricsManager.EnableUserMetrics();
+
 			Task startupWork = new Task(() =>
 			{
 				//INSTANCE DBREPOSITORY
@@ -76,7 +82,7 @@ namespace DMS_3
 								userData = webClient.DownloadString(_url);
 								System.Console.WriteLine("\n Webclient User Terminé ...");
 								//GESTION DU XML
-								JsonArray jsonVal = JsonArray.Parse(userData) as JsonArray;
+								JsonArray jsonVal = JsonValue.Parse(userData) as JsonArray;
 								var jsonArr = jsonVal;
 								foreach (var row in jsonArr)
 								{

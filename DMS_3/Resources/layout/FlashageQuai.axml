@@ -51,40 +51,40 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/linearLayout1"
                 android:layout_weight="1">
                 <TextView
                     android:id="@+id/infonumero"
                     android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:textColor="#ff263238" />
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/infonomdest"
                     android:gravity="center"
                     android:layout_weight="1"
                     android:textColor="#ff263238" />
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/infoadrdest"
                     android:gravity="center"
                     android:layout_weight="1"
                     android:textColor="#ff263238" />
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/infocpdest"
                     android:gravity="center"
                     android:layout_weight="1"
                     android:textColor="#ff263238" />
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/infovilledest"
                     android:gravity="center"
                     android:layout_weight="1"
@@ -95,7 +95,7 @@
                 android:minWidth="25px"
                 android:minHeight="25px"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/linearLayout2"
                 android:layout_weight="1">
                 <TextView
@@ -128,17 +128,18 @@
                 android:minWidth="25px"
                 android:minHeight="25px"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/tableEvenement"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:orientation="horizontal"
                 android:layout_weight="1" />
-            <ImageView
+            <ImageView xmlns:tools="http://schemas.android.com/tools"
                 android:src="@android:drawable/ic_menu_gallery"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dim150"
-                android:id="@+id/_imageView" />
+                android:id="@+id/_imageView"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
     <LinearLayout

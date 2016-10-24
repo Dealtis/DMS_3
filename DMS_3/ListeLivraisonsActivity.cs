@@ -5,7 +5,6 @@ using Android.Content;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using SQLite;
 using AndroidHUD;
 using DMS_3.BDD;
 namespace DMS_3
@@ -43,7 +42,6 @@ namespace DMS_3
 				tyS = "LIV";
 				tyM = "L";
 			}
-
 			trait = Intent.GetStringExtra("TRAIT");
 
 			//declaration des clicks btns
@@ -60,11 +58,6 @@ namespace DMS_3
 					btntrait.Text = "Ramasses";
 				}
 			}
-		}
-
-		protected override void OnResume()
-		{
-			base.OnResume();
 
 			btngrpAll.Click += delegate
 			{
@@ -96,7 +89,7 @@ namespace DMS_3
 			{
 				var aButton = new Button(this);
 				aButton.Text = item.groupage;
-				aButton.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent, .01f);
+				aButton.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent, .1f);
 
 				if (Convert.ToDouble(item.poidsADR) >= 1000)
 				{
@@ -125,8 +118,6 @@ namespace DMS_3
 						initListView("SELECT * FROM TablePositions WHERE StatutLivraison = '1' AND typeMission= '" + tyM + "' AND typeSegment= '" + tyS + "'  AND Userandsoft = '" + Data.userAndsoft + "'AND groupage='" + item.groupage + "' OR StatutLivraison = '2' AND typeMission= '" + tyM + "' AND typeSegment= '" + tyS + "'  AND Userandsoft = '" + Data.userAndsoft + "'AND groupage='" + item.groupage + "' ORDER BY Ordremission");
 					}
 				};
-
-				//llInner.AddView(aButton);
 				layout_groupage.AddView(aButton);
 			}
 
@@ -135,7 +126,6 @@ namespace DMS_3
 			bodyItems = new List<TablePositions>();
 
 			bodyListView.ItemClick += MListView_ItemClick;
-			bodyListView.ItemLongClick += MListView_ItemLongClick;
 
 			adapter = new ListViewAdapterMenu(this, bodyItems);
 			bodyListView.Adapter = adapter;
@@ -148,6 +138,12 @@ namespace DMS_3
 			{
 				initListView("SELECT * FROM TablePositions WHERE StatutLivraison = '1' AND typeMission= '" + tyM + "' AND typeSegment= '" + tyS + "'  AND Userandsoft = '" + Data.userAndsoft + "' OR StatutLivraison = '2' AND typeMission= '" + tyM + "' AND typeSegment= '" + tyS + "'  AND Userandsoft = '" + Data.userAndsoft + "' ORDER BY Ordremission");
 			}
+		}
+
+		protected override void OnResume()
+		{
+			base.OnResume();
+
 		}
 
 		void MListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)

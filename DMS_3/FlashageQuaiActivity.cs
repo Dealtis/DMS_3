@@ -21,7 +21,7 @@ namespace DMS_3
 {
 	[Activity(Label = "", Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden)]
 	public class FlashageQuaiActivity : Activity
-	{
+{
 		EditText barcode;
 		TextView infonumero;
 		TextView infonomdest;
@@ -109,7 +109,6 @@ namespace DMS_3
 					if (actionP == null)
 					{
 						RunOnUiThread(() => btn_pblFlash.Visibility = ViewStates.Gone);
-						//afficher les btn valider et anomalie
 					}
 					else
 					{

@@ -4,8 +4,6 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using DMS_3.BDD;
-using HockeyApp.Android;
-using HockeyApp.Android.Metrics;
 
 namespace DMS_3
 {
@@ -60,13 +58,6 @@ namespace DMS_3
 			//FONTS
 			txtLivraison.SetTypeface(Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);
 			txtEnlevement.SetTypeface(Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);
-
-			//Hockey APP
-			CrashManager.Register(this, "337f4f12782f47e590a7e84867bc087a");
-			MetricsManager.Register(Application, "337f4f12782f47e590a7e84867bc087a");
-
-			MetricsManager.EnableUserMetrics();
-
 			if (processDMSConnection != null)
 				binder = processDMSConnection.Binder;
 

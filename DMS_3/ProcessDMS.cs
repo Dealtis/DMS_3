@@ -171,9 +171,8 @@ namespace DMS_3
 				webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 				webClient.Encoding = System.Text.Encoding.UTF8;
 				content_integdata = webClient.DownloadString(_url);
-				//dbr.InsertLogService("",DateTime.Now,"webClient.DownloadString Done");
 				//intégration des données dans la BDD
-				JsonArray jsonVal = JsonArray.Parse(content_integdata) as JsonArray;
+				JsonArray jsonVal = JsonValue.Parse(content_integdata) as JsonArray;
 				var jsonArr = jsonVal;
 				if (content_integdata != "[]")
 				{
@@ -256,7 +255,7 @@ namespace DMS_3
 				}
 				if (content_msg != "[]")
 				{
-					JsonArray jsonVal = JsonArray.Parse(content_msg) as JsonArray;
+					JsonArray jsonVal = JsonValue.Parse(content_msg) as JsonArray;
 					var jsonarr = jsonVal;
 					foreach (var item in jsonarr)
 					{
@@ -385,10 +384,8 @@ namespace DMS_3
 			try
 			{
 				string resultjson = "[" + e.Result + "]";
-				if (e.Result == "{\"Id\":0,\"codeChauffeur\":null,\"texteMessage\":null,\"utilisateurEmetteur\":null,\"statutMessage\":0,\"dateImportMessage\":\"0001-01-01T00:00:00\",\"typeMessage\":0,\"numMessage\":null}")
+				if (e.Result != "{\"Id\":0,\"codeChauffeur\":null,\"texteMessage\":null,\"utilisateurEmetteur\":null,\"statutMessage\":0,\"dateImportMessage\":\"0001-01-01T00:00:00\",\"typeMessage\":0,\"numMessage\":null}")
 				{
-				}
-				else {
 					JsonArray jsonVal = JsonArray.Parse(resultjson) as JsonArray;
 					var jsonarr = jsonVal;
 					foreach (var item in jsonarr)
@@ -402,7 +399,6 @@ namespace DMS_3
 				{
 					dbr.QueryMessage("UPDATE TableMessages SET statutMessage = 3 WHERE _Id = '" + item.Id + "'");
 				}
-				//dbr.InsertLogService("",DateTime.Now,"WebClient_UploadStringStatutCompleted Done");
 			}
 			catch (Exception ex)
 			{
@@ -428,12 +424,10 @@ namespace DMS_3
 							dbr.updatePositionSuppliv(texteMessage.Remove(texteMessage.Length - 2).Substring(10));
 							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
 							dbr.insertDataMessage(codeChauffeur, utilisateurEmetteur, "La position " + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + " a été supprimée de votre tournée", 0, DateTime.Now, 1, numMessage);
-
 							break;
 						case "%%RETOLIV":
 							dbr.QueryPositions("UPDATE TablePositions SET imgpath = null WHERE numCommande = '" + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "'");
 							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
-
 							break;
 						case "%%SUPPGRP":
 							dbr.QueryPositions("DELETE from TablePositions where groupage = '" + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "'");
@@ -478,7 +472,6 @@ namespace DMS_3
 							switch (texteMessageInputSplit[2])
 							{
 								case "TableMessages":
-									//File.AppendAllText (log_file, "[" + DateTime.Now.ToString ("G") + "]" + "[SYSTEM]Réception d'un REQUETE sur TableMessages\n");
 									var selMesg = dbr.QueryMessage(texteMessageInputSplit[3]);
 									string rowMsg = "";
 									rowMsg += "[";
@@ -489,7 +482,6 @@ namespace DMS_3
 									rowMsg.Remove(rowMsg.Length - 1);
 									rowMsg += "]";
 									dbr.insertDataMessage(Data.userAndsoft, "", rowMsg, 5, DateTime.Now, 5, 0);
-
 									break;
 								case "TableNotifications":
 									var selNotif = dbr.QueryNotif(texteMessageInputSplit[3]);
@@ -563,10 +555,8 @@ namespace DMS_3
 				previousLocation = location;
 			}
 			else {
-				//distance (location.Latitude, location.Longitude, previousLocation.Latitude, previousLocation.Longitude < 150
 				if (true)
 				{
-					//GPS = location.Latitude.ToString() +";"+ location.Longitude.ToString();
 					gPS = location.Latitude + ";" + location.Longitude;
 					Data.GPS = location.Latitude + ";" + location.Longitude;
 					previousLocation = location;

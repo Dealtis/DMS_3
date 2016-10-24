@@ -33,24 +33,23 @@ namespace DMS_3
 		public override View GetView(int position, View convertView, ViewGroup parent)
 		{
 			View row = convertView;
-			TextView txtName = row.FindViewById<TextView>(Resource.Id.txtName);
-			TextView txtdatestatut = row.FindViewById<TextView>(Resource.Id.textds);
+			TextView txtName;
+			TextView txtdatestatut;
 
 			if (mItems[position].typeMessage == 1)
 			{
 
 				row = LayoutInflater.From(mContext).Inflate(Resource.Layout.RowRight, null, false);
-
+				txtName = row.FindViewById<TextView>(Resource.Id.txtName);
+				txtdatestatut = row.FindViewById<TextView>(Resource.Id.textds);
 				txtName.Text = "" + mItems[position].texteMessage + "";
-
 				txtdatestatut.Text = "Le " + mItems[position].dateImportMessage.Day + " à " + mItems[position].dateImportMessage.Hour + ":" + mItems[position].dateImportMessage.Minute + " " + getTextStatut(mItems[position].statutMessage) + " par " + mItems[position].utilisateurEmetteur;
 			}
 			else {
-
 				row = LayoutInflater.From(mContext).Inflate(Resource.Layout.RowLeft, null, false);
-
+				txtName = row.FindViewById<TextView>(Resource.Id.txtName);
+				txtdatestatut = row.FindViewById<TextView>(Resource.Id.textds);
 				txtName.Text = "" + mItems[position].texteMessage + "";
-
 				txtdatestatut.Text = "Le " + mItems[position].dateImportMessage.Day + " à " + mItems[position].dateImportMessage.Hour + ":" + mItems[position].dateImportMessage.Minute + " " + getTextStatut(mItems[position].statutMessage) + "";
 			}
 
