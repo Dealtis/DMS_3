@@ -14,6 +14,7 @@ using Android.Widget;
 using DMS_3.BDD;
 using HockeyApp.Android;
 using HockeyApp.Android.Metrics;
+using Koamtac.Kdc.Sdk;
 
 namespace DMS_3
 {
@@ -21,7 +22,6 @@ namespace DMS_3
 	public class SplashActivity : AppCompatActivity
 	{
 		BackgroundWorker bgService;
-
 
 		public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
 		{

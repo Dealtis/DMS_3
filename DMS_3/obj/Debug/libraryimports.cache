@@ -11,6 +11,7 @@
     <Jar>obj/Debug/__library_projects__/AndroidEasingFunctions/library_project_imports/bin/classes.jar</Jar>
     <Jar>obj/Debug/__library_projects__/AutoFitTextView/library_project_imports/bin/classes.jar</Jar>
     <Jar>obj/Debug/__library_projects__/HockeySDK.AndroidBindings/library_project_imports/bin/classes.jar</Jar>
+    <Jar>obj/Debug/__library_projects__/KoamtacBinding/library_project_imports/kdcreader.jar</Jar>
     <Jar>obj/Debug/__library_projects__/NineOldAndroids/library_project_imports/NineOldAndroids.jar</Jar>
   </Jars>
 </Paths>

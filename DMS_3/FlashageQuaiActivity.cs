@@ -17,11 +17,16 @@ using AndroidHUD;
 using DMS_3.BDD;
 using ZXing.Mobile;
 using Uri = Android.Net.Uri;
+using Koamtac.Kdc.Sdk;
+
 namespace DMS_3
 {
 	[Activity(Label = "", Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden)]
-	public class FlashageQuaiActivity : Activity
-{
+	[IntentFilter(new[] { Intent.ActionMain },
+				  Categories = new[] { Intent.CategoryLauncher })]
+	public class FlashageQuaiActivity : Activity, IKDCConnectionListenerEx, IKDCBarcodeDataReceivedListener
+	{
+		FlashageQuaiActivity _activity;
 		EditText barcode;
 		TextView infonumero;
 		TextView infonomdest;
@@ -42,6 +47,7 @@ namespace DMS_3
 		ImageView _imageView;
 		ToggleButton tbtnTorch;
 		TablePositions data;
+		KDCReader _kdcReader;
 
 		string numero;
 		string id;
@@ -61,6 +67,9 @@ namespace DMS_3
 			MobileBarcodeScanner.Initialize(Application);
 			SetContentView(Resource.Layout.FlashageQuai);
 
+			IntentFilter intentFilter;
+			intentFilter = new IntentFilter();
+
 			//déclaration items
 			barcode = FindViewById<EditText>(Resource.Id.barcode);
 			btn_barcode = FindViewById<Button>(Resource.Id.btn_barcode);
@@ -78,7 +87,9 @@ namespace DMS_3
 
 			btn_detail = FindViewById<Button>(Resource.Id.btn_detail);
 			btn_valider = FindViewById<Button>(Resource.Id.btn_valider);
-			btn_anomalie = FindViewById<Button>(Resource.Id.btn_anomalie);		
+			btn_anomalie = FindViewById<Button>(Resource.Id.btn_anomalie);
+
+			_activity = this;
 
 			if (IsThereAnAppToTakePictures())
 			{
@@ -94,12 +105,15 @@ namespace DMS_3
 			btn_anomalie.Visibility = ViewStates.Gone;
 			btn_pblFlash.Visibility = ViewStates.Gone;
 
+			_kdcReader = new KDCReader("XP67", _activity, _activity);
+
+			ConfigureSyncOptions();
 
 			currentPrlFLash = 0;
 
 			btn_pblFlash.Click += delegate
 			{
-				currentPrlFLash ++;
+				currentPrlFLash++;
 				int colisFlasher = dbr.CountColisFlash(data.numCommande);
 				int colisPosition = dbr.CountColis(data.numCommande);
 
@@ -134,21 +148,28 @@ namespace DMS_3
 
 			var zxingOverlay = LayoutInflater.FromContext(this).Inflate(Resource.Layout.overlay, null);
 			scanner = new MobileBarcodeScanner();
-			btn_barcode.Click += async delegate
-			{
-				scanner.UseCustomOverlay = true;
-				var options = new ZXing.Mobile.MobileBarcodeScanningOptions();
-				options.AutoRotate = false;
-				tbtnTorch = zxingOverlay.FindViewById<ToggleButton>(Resource.Id.tbtnTorch);
-				tbtnTorch.Click += delegate
-				{
-					scanner.ToggleTorch();
-				};
-				scanner.CustomOverlay = zxingOverlay;
+			btn_barcode.Click += delegate
+		   {
+			   //SI SONIM OU TC55 async
+			   //scanner.UseCustomOverlay = true;
+			   //var options = new ZXing.Mobile.MobileBarcodeScanningOptions();
+			   //options.AutoRotate = false;
+			   //tbtnTorch = zxingOverlay.FindViewById<ToggleButton>(Resource.Id.tbtnTorch);
+			   //tbtnTorch.Click += delegate
+			   //{
+			   //	scanner.ToggleTorch();
+			   //};
+			   //scanner.CustomOverlay = zxingOverlay;
 
-				var result = await scanner.Scan(this, options);
-				HandleScanResult(result);
-			};
+			   //var result = await scanner.Scan(this, options);
+			   //HandleScanResult(result);
+
+			   if (_kdcReader != null && _kdcReader.IsConnected)
+			   {
+				   _kdcReader.SoftwareTrigger();
+			   }
+
+		   };
 		}
 
 		protected override void OnResume()
@@ -213,6 +234,14 @@ namespace DMS_3
 				dialog.SetCancelable(true);
 				dialog.Show();
 			};
+		}
+
+		private void ConfigureSyncOptions()
+		{
+			_kdcReader.EnableAttachType(true);
+			_kdcReader.EnableAttachSerialNumber(true);
+			_kdcReader.EnableAttachTimestamp(true);
+			_kdcReader.EnableAttachLocation(true);
 		}
 
 		public override void OnBackPressed()
@@ -631,18 +660,14 @@ namespace DMS_3
 			}
 		}
 
-		public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
+		public void BarcodeDataReceived(KDCData p0)
 		{
-			if (keyCode == Keycode.VolumeDown)
-			{
-				return true;
-			}
+			Console.WriteLine(p0);
+		}
 
-			if (keyCode == Keycode.VolumeUp)
-			{
-				return true;
-			}
-			return base.OnKeyDown(keyCode, e);
+		public void ConnectionChanged(int p0)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
