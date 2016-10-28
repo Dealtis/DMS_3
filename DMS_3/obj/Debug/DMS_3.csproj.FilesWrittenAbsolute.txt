@@ -1,4 +1,4 @@
-/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/MonoAndroid,Version=v4.1.AssemblyAttribute.cs
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/MonoAndroid,Version=v6.0.AssemblyAttribute.cs
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/DMS_3.dll.mdb
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/DMS_3.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/com.dealtis.dms_3.apk
@@ -110,4 +110,3 @@
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/Xamarin.Android.Support.v7.AppCompat.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/KoamtacBinding.dll
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Debug/SQLitePCL.raw.dll
-/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Debug/MonoAndroid,Version=v6.0.AssemblyAttribute.cs

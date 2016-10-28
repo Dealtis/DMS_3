@@ -43,12 +43,6 @@ namespace DMS_3
 		{
 			base.OnCreate(savedInstanceState);
 
-			id = Intent.GetStringExtra("ID");
-			i = int.Parse(id);
-			trait = Intent.GetStringExtra("TRAIT");
-
-			type = Intent.GetStringExtra("TYPE");
-
 			DBRepository dbr = new DBRepository();
 			data = dbr.GetPositionsData(i);
 
@@ -70,10 +64,7 @@ namespace DMS_3
 			boxPole = FindViewById<LinearLayout>(Resource.Id.boxPole);
 			btnvalide = FindViewById<Button>(Resource.Id.valide);
 
-
 			Button btnanomalie = FindViewById<Button>(Resource.Id.anomalie);
-
-
 
 			btnvalide.Click += Btnvalide_Click;
 			btnanomalie.Click += Btnanomalie_Click;
@@ -83,6 +74,11 @@ namespace DMS_3
 		protected override void OnResume()
 		{
 			base.OnResume();
+
+			id = Intent.GetStringExtra("ID");
+			i = int.Parse(id);
+			trait = Intent.GetStringExtra("TRAIT");
+			type = Intent.GetStringExtra("TYPE");
 
 			codelivraison.Gravity = GravityFlags.Center;
 			infolivraison.Gravity = GravityFlags.Center;

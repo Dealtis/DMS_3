@@ -32,32 +32,13 @@ namespace DMS_3
 
 			SetContentView(Resource.Layout.ListeLivraisons);
 
-			type = Intent.GetStringExtra("TYPE");
-			if (type == "RAM")
-			{
-				tyS = "RAM";
-				tyM = "C";
-			}
-			else {
-				tyS = "LIV";
-				tyM = "L";
-			}
-			trait = Intent.GetStringExtra("TRAIT");
+
 
 			//declaration des clicks btns
 			btngrpAll = FindViewById<Button>(Resource.Id.btn_all);
 			btnsearch = FindViewById<LinearLayout>(Resource.Id.btn_search);
 			btntrait = FindViewById<Button>(Resource.Id.btn_traite);
 			layout_groupage = FindViewById<LinearLayout>(Resource.Id.layout_groupage);
-
-			if (trait == "true")
-			{
-				btntrait.Text = "Livraisons";
-				if (type == "RAM")
-				{
-					btntrait.Text = "Ramasses";
-				}
-			}
 
 			btngrpAll.Click += delegate
 			{
@@ -73,6 +54,31 @@ namespace DMS_3
 			{
 				btnsearch_Click();
 			};
+		}
+
+		protected override void OnResume()
+		{
+			base.OnResume();
+			type = Intent.GetStringExtra("TYPE");
+			if (type == "RAM")
+			{
+				tyS = "RAM";
+				tyM = "C";
+			}
+			else {
+				tyS = "LIV";
+				tyM = "L";
+			}
+			trait = Intent.GetStringExtra("TRAIT");
+
+			if (trait == "true")
+			{
+				btntrait.Text = "Livraisons";
+				if (type == "RAM")
+				{
+					btntrait.Text = "Ramasses";
+				}
+			}
 
 			//Mise dans un Array des Groupage
 			DBRepository dbr = new DBRepository();
@@ -138,11 +144,6 @@ namespace DMS_3
 			{
 				initListView("SELECT * FROM TablePositions WHERE StatutLivraison = '1' AND typeMission= '" + tyM + "' AND typeSegment= '" + tyS + "'  AND Userandsoft = '" + Data.userAndsoft + "' OR StatutLivraison = '2' AND typeMission= '" + tyM + "' AND typeSegment= '" + tyS + "'  AND Userandsoft = '" + Data.userAndsoft + "' ORDER BY Ordremission");
 			}
-		}
-
-		protected override void OnResume()
-		{
-			base.OnResume();
 
 		}
 

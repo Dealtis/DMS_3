@@ -1,7 +1,5 @@
 using System;
 using SQLite;
-using Xamarin;
-using Mono.Data.Sqlite;
 using System.Collections.Generic;
 
 namespace DMS_3.BDD

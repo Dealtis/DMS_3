@@ -99,6 +99,7 @@ class MonoPackageManager_Resources {
 	public static final String[] Assemblies = new String[]{
 		/* We need to ensure that "DMS_3.dll" comes first in this list. */
 		"DMS_3.dll",
+		"System.Runtime.dll",
 		"AndHUD.dll",
 		"NineOldAndroids.dll",
 		"AndroidEasingFunctions.dll",
@@ -121,8 +122,30 @@ class MonoPackageManager_Resources {
 		"Xamarin.Android.Support.v7.AppCompat.dll",
 		"KoamtacBinding.dll",
 		"SQLitePCL.raw.dll",
+		"System.Threading.dll",
+		"System.Collections.dll",
+		"System.Collections.Concurrent.dll",
+		"System.Diagnostics.Debug.dll",
+		"System.Reflection.dll",
+		"System.Linq.dll",
+		"System.Runtime.InteropServices.dll",
+		"System.Runtime.Extensions.dll",
+		"System.Reflection.Extensions.dll",
+		"System.IO.dll",
+		"System.Threading.Tasks.dll",
+		"System.Xml.XDocument.dll",
+		"System.Globalization.dll",
+		"System.Runtime.Serialization.Primitives.dll",
+		"System.Linq.Expressions.dll",
+		"System.Dynamic.Runtime.dll",
+		"System.ObjectModel.dll",
+		"System.Text.RegularExpressions.dll",
+		"System.Xml.ReaderWriter.dll",
+		"System.Text.Encoding.dll",
+		"System.Text.Encoding.Extensions.dll",
+		"System.Resources.ResourceManager.dll",
 	};
 	public static final String[] Dependencies = new String[]{
 	};
-	public static final String ApiPackageName = null;
+	public static final String ApiPackageName = "Mono.Android.Platform.ApiLevel_24";
 }

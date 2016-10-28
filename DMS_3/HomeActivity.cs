@@ -4,6 +4,8 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using DMS_3.BDD;
+using HockeyApp.Android;
+using HockeyApp.Android.Metrics;
 
 namespace DMS_3
 {
@@ -55,6 +57,13 @@ namespace DMS_3
 			btn_Message.Click += delegate { btn_Message_Click(); };
 			btn_Flash.Click += delegate { btn_Flash_Click(); };
 
+
+			//Hockey APP
+			CrashManager.Register(this, "337f4f12782f47e590a7e84867bc087a");
+			MetricsManager.Register(Application, "337f4f12782f47e590a7e84867bc087a");
+			MetricsManager.EnableUserMetrics();
+
+
 			//FONTS
 			txtLivraison.SetTypeface(Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);
 			txtEnlevement.SetTypeface(Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);
@@ -103,8 +112,6 @@ namespace DMS_3
 		protected override void OnResume()
 		{
 			base.OnResume();
-
-			//DBRepository dbr = new DBRepository();
 
 			//var user = dbr.getUserAndsoft();
 			//dbr.setUserdata(user);

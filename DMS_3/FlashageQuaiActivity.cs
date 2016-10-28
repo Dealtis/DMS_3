@@ -67,9 +67,6 @@ namespace DMS_3
 			MobileBarcodeScanner.Initialize(Application);
 			SetContentView(Resource.Layout.FlashageQuai);
 
-			IntentFilter intentFilter;
-			intentFilter = new IntentFilter();
-
 			//déclaration items
 			barcode = FindViewById<EditText>(Resource.Id.barcode);
 			btn_barcode = FindViewById<Button>(Resource.Id.btn_barcode);
@@ -84,12 +81,9 @@ namespace DMS_3
 			zonetheo = FindViewById<TextView>(Resource.Id.zonetheo);
 			manuedit = FindViewById<Button>(Resource.Id.manuedit);
 			btn_pblFlash = FindViewById<Button>(Resource.Id.btn_termine);
-
 			btn_detail = FindViewById<Button>(Resource.Id.btn_detail);
 			btn_valider = FindViewById<Button>(Resource.Id.btn_valider);
 			btn_anomalie = FindViewById<Button>(Resource.Id.btn_anomalie);
-
-			_activity = this;
 
 			if (IsThereAnAppToTakePictures())
 			{
@@ -104,6 +98,14 @@ namespace DMS_3
 			btn_photo.Visibility = ViewStates.Gone;
 			btn_anomalie.Visibility = ViewStates.Gone;
 			btn_pblFlash.Visibility = ViewStates.Gone;
+
+			IntentFilter intentFilter;
+
+			intentFilter = new IntentFilter();
+			intentFilter.AddAction("com.sonim.intent.action.YELLOW_KEY_DOWN");
+			intentFilter.AddAction("com.sonim.intent.action.YELLOW_KEY_UP");
+
+			_activity = this;
 
 			_kdcReader = new KDCReader("XP67", _activity, _activity);
 
@@ -660,12 +662,12 @@ namespace DMS_3
 			}
 		}
 
-		public void BarcodeDataReceived(KDCData p0)
+		void IKDCConnectionListenerEx.ConnectionChanged(int p0)
 		{
-			Console.WriteLine(p0);
+			throw new NotImplementedException();
 		}
 
-		public void ConnectionChanged(int p0)
+		void IKDCBarcodeDataReceivedListener.BarcodeDataReceived(KDCData p0)
 		{
 			throw new NotImplementedException();
 		}

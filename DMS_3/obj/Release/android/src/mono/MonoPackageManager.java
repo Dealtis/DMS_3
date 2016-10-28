@@ -36,13 +36,13 @@ public class MonoPackageManager {
 				String language     = locale.getLanguage () + "-" + locale.getCountry ();
 				String filesDir     = context.getFilesDir ().getAbsolutePath ();
 				String cacheDir     = context.getCacheDir ().getAbsolutePath ();
-				String dataDir      = getNativeLibraryPath (context);
+				String dataDir      = context.getApplicationInfo ().dataDir + "/lib";
 				ClassLoader loader  = context.getClassLoader ();
 
 				Runtime.init (
 						language,
 						apks,
-						getNativeLibraryPath (runtimePackage),
+						runtimePackage.dataDir + "/lib",
 						new String[]{
 							filesDir,
 							cacheDir,
@@ -65,18 +65,6 @@ public class MonoPackageManager {
 	public static void setContext (Context context)
 	{
 		// Ignore; vestigial
-	}
-
-	static String getNativeLibraryPath (Context context)
-	{
-	    return getNativeLibraryPath (context.getApplicationInfo ());
-	}
-
-	static String getNativeLibraryPath (ApplicationInfo ainfo)
-	{
-		if (android.os.Build.VERSION.SDK_INT >= 9)
-			return ainfo.nativeLibraryDir;
-		return ainfo.dataDir + "/lib";
 	}
 
 	public static String[] getAssemblies ()
@@ -104,10 +92,6 @@ class MonoPackageManager_Resources {
 		"AndroidEasingFunctions.dll",
 		"AutoFitTextView.dll",
 		"Newtonsoft.Json.dll",
-		"Xamarin.Android.Support.v4.dll",
-		"Xamarin.Android.Support.Vector.Drawable.dll",
-		"Xamarin.Android.Support.Animated.Vector.Drawable.dll",
-		"Xamarin.Android.Support.v7.AppCompat.dll",
 		"ZXing.Net.Mobile.Core.dll",
 		"zxing.portable.dll",
 		"ZXingNetMobile.dll",
@@ -119,6 +103,11 @@ class MonoPackageManager_Resources {
 		"SQLitePCLRaw.provider.e_sqlite3.dll",
 		"SQLitePCLRaw.batteries_green.dll",
 		"SQLitePCLRaw.batteries_v2.dll",
+		"Xamarin.Android.Support.v4.dll",
+		"Xamarin.Android.Support.Vector.Drawable.dll",
+		"Xamarin.Android.Support.Animated.Vector.Drawable.dll",
+		"Xamarin.Android.Support.v7.AppCompat.dll",
+		"KoamtacBinding.dll",
 		"SQLitePCL.raw.dll",
 	};
 	public static final String[] Dependencies = new String[]{

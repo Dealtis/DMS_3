@@ -69,7 +69,6 @@ namespace DMS_3
 
 			row = inflater.Inflate(xml_type, parent, false);
 
-
 			TextView textLeft = row.FindViewById<TextView>(Resource.Id.textleft);
 			TextView textMid = row.FindViewById<TextView>(Resource.Id.textmid);
 			TextView textMidBis = row.FindViewById<TextView>(Resource.Id.textmidbis);

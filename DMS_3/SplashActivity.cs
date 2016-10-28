@@ -12,10 +12,6 @@ using Android.Support.V7.App;
 using Android.Telephony;
 using Android.Widget;
 using DMS_3.BDD;
-using HockeyApp.Android;
-using HockeyApp.Android.Metrics;
-using Koamtac.Kdc.Sdk;
-
 namespace DMS_3
 {
 	[Activity(Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
@@ -32,10 +28,6 @@ namespace DMS_3
 		{
 			base.OnResume();
 
-			//Hockey APP
-			CrashManager.Register(this, "337f4f12782f47e590a7e84867bc087a");
-			MetricsManager.Register(Application, "337f4f12782f47e590a7e84867bc087a");
-			MetricsManager.EnableUserMetrics();
 
 			Task startupWork = new Task(() =>
 			{
@@ -45,9 +37,6 @@ namespace DMS_3
 				dbr.CreateDB();
 				//CREATION DES TABLES
 				dbr.CreateTable();
-
-				//suppression des logs trop anciens 3 jours
-				//dbr.purgeLog();
 
 				//TEST DE CONNEXION
 				var connectivityManager = (ConnectivityManager)GetSystemService(ConnectivityService);
