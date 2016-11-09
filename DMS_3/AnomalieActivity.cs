@@ -219,7 +219,8 @@ namespace DMS_3
 				if (codeanomalie != "ECHNCF")
 				{
 					formatrem = txtRem.Replace("\"", " ").Replace("'", " ");
-				}else
+				}
+				else
 				{
 					if (txtRem != "")
 					{
@@ -314,21 +315,34 @@ namespace DMS_3
 
 		public override void OnBackPressed()
 		{
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.SetTitle("Annulation");
-			builder.SetMessage("Voulez-vous annulée l'anomalie ?");
-			builder.SetCancelable(false);
-			builder.SetPositiveButton("Oui", delegate
+			if (Intent.GetBooleanExtra("FLASH", false))
 			{
+				Intent intent = new Intent(this, typeof(FlashageQuaiActivity));
+				intent.PutExtra("ID", Convert.ToString(i));
+				intent.PutExtra("NUMCOM", data.numCommande);
+				intent.PutExtra("TYPE", type);
+				intent.PutExtra("ACTION", Intent.GetStringExtra("ACTION"));
+				this.StartActivity(intent);
+			}
+			else
+			{
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.SetTitle("Annulation");
+				builder.SetMessage("Voulez-vous annulée l'anomalie ?");
+				builder.SetCancelable(false);
+				builder.SetPositiveButton("Oui", delegate
+				{
 					Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
 					intent.PutExtra("TYPE", type);
 					intent.PutExtra("TRAIT", "false");
 					this.StartActivity(intent);
 					Finish();
 					_imageView.Dispose();
-			});
-			builder.SetNegativeButton("Non", delegate { });
-			builder.Show();
+				});
+				builder.SetNegativeButton("Non", delegate { });
+				builder.Show();
+			}
+
 		}
 	}
 

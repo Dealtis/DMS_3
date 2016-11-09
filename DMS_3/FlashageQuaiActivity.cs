@@ -139,9 +139,10 @@ namespace DMS_3
 						{
 							intent = new Intent(this, typeof(AnomalieActivity));
 						}
-
 						intent.PutExtra("ID", id);
 						intent.PutExtra("TYPE", type);
+						intent.PutExtra("FLASH", true);
+						intent.PutExtra("ACTION", actionP);
 						this.StartActivity(intent);
 					}
 				}
@@ -394,7 +395,7 @@ namespace DMS_3
 			{
 				RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
 				//get infos  WS
-				string _url = "http://dms.jeantettransport.com/api/flash?val=" + num;
+				string _url = "https://andsoft.jeantettransport.com/dms/api/flash?val=" + num;
 				//string _url = "http://10.1.2.70/mvcdms/api/flash?val=" + num;
 				var webClient = new WebClient();
 				webClient.Encoding = System.Text.Encoding.UTF8;
@@ -520,6 +521,7 @@ namespace DMS_3
 					Intent intent = new Intent(this, typeof(DetailActivity));
 					intent.PutExtra("ID", Convert.ToString(data.Id));
 					intent.PutExtra("TYPE", data.typeSegment);
+					intent.PutExtra("FLASH", true);
 					this.StartActivity(intent);
 					Finish();
 				});
@@ -577,9 +579,10 @@ namespace DMS_3
 					{
 						intent = new Intent(this, typeof(AnomalieActivity));
 					}
-
 					intent.PutExtra("ID", id);
 					intent.PutExtra("TYPE", type);
+					intent.PutExtra("FLASH", true);
+					intent.PutExtra("ACTION", actionP);
 					this.StartActivity(intent);
 				}
 			}

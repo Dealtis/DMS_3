@@ -20,6 +20,7 @@ namespace DMS_3
 		string id;
 		int i;
 		string trait;
+		bool flash;
 
 		TablePositions data;
 
@@ -79,6 +80,7 @@ namespace DMS_3
 			i = int.Parse(id);
 			trait = Intent.GetStringExtra("TRAIT");
 			type = Intent.GetStringExtra("TYPE");
+			flash = Intent.GetBooleanExtra("FLASH",false);
 
 			codelivraison.Gravity = GravityFlags.Center;
 			infolivraison.Gravity = GravityFlags.Center;
@@ -295,10 +297,20 @@ namespace DMS_3
 
 		public override void OnBackPressed()
 		{
-			Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
-			intent.PutExtra("TYPE", type);
-			intent.PutExtra("TRAIT", trait);
-			this.StartActivity(intent);
+			if (flash)
+			{
+				Intent intent = new Intent(this, typeof(FlashageQuaiActivity));
+				intent.PutExtra("ID", Convert.ToString(i));
+				intent.PutExtra("NUMCOM", data.numCommande);
+				intent.PutExtra("TYPE", type);
+				this.StartActivity(intent);
+			}
+			else {
+				Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
+				intent.PutExtra("TYPE", type);
+				intent.PutExtra("TRAIT", trait);
+				this.StartActivity(intent);
+			}
 			if (imgbitmap != null)
 			{
 				imgbitmap.Recycle();
