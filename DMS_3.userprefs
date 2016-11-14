@@ -1,16 +1,16 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupConfiguration="{04E2529E-E36B-4115-8AF5-B4227741CC2C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/Data.cs">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="DMS_3/ProcessDMS.cs" Line="421" Column="54" />
+      <File FileName="DMS_3/ProcessDMS.cs" Line="129" Column="28" />
       <File FileName="DMS_3/BDD/DBRepository.cs" Line="350" Column="24" />
-      <File FileName="DMS_3/FlashageQuaiActivity.cs" Line="318" Column="12" />
+      <File FileName="DMS_3/FlashageQuaiActivity.cs" Line="109" Column="6" />
       <File FileName="DMS_3/DetailActivity.cs" Line="151" Column="5" />
       <File FileName="DMS_3/ValidationActivity.cs" Line="133" Column="36" />
-      <File FileName="DMS_3/AnomalieActivity.cs" Line="270" Column="27" />
-      <File FileName="DMS_3/HomeActivity.cs" Line="51" Column="27" />
+      <File FileName="DMS_3/AnomalieActivity.cs" Line="74" Column="30" />
+      <File FileName="DMS_3/HomeActivity.cs" Line="23" Column="30" />
       <File FileName="DMS_3/MessageActivity.cs" Line="83" Column="4" />
-      <File FileName="DMS_3/Properties/AndroidManifest.xml" Line="25" Column="12" />
       <File FileName="DMS_3/Data.cs" Line="170" Column="5" />
+      <File FileName="DMS_3/SplashActivity.cs" Line="99" Column="17" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -22,7 +22,7 @@
               <Node name="Packages" expanded="True" />
               <Node name="BDD" expanded="True" />
               <Node name="Properties" expanded="True" />
-              <Node name="Data.cs" selected="True" />
+              <Node name="HomeActivity.cs" selected="True" />
             </Node>
           </Node>
         </State>

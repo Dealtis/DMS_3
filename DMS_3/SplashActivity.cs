@@ -54,39 +54,31 @@ namespace DMS_3
 						try
 						{
 							string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
-							ISharedPreferences pref = Application.Context.GetSharedPreferences("AppInfo", FileCreationMode.Private);
-							string soc = pref.GetString("SOC", String.Empty);
-
-							if (soc == String.Empty)
+							var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
+							var EMEI = telephonyManager.DeviceId;
+							var webClient = new WebClient();
+							webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+							string userData = "";
+							webClient.QueryString.Add("EMEI", EMEI);
+							userData = webClient.DownloadString(_url);
+							System.Console.WriteLine("\n Webclient User Terminé ...");
+							//GESTION DU XML
+							JsonArray jsonVal = JsonValue.Parse(userData) as JsonArray;
+							var jsonArr = jsonVal;
+							foreach (var row in jsonArr)
 							{
-								App_Connec = true;
-								RunOnUiThread(() => StartActivity(new Intent(Application.Context, typeof(SocActivity))));
-							}
-							else
-							{
-								var webClient = new WebClient();
-								webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-								string userData = "";
-								webClient.QueryString.Add("societe", soc);
-								userData = webClient.DownloadString(_url);
-								System.Console.WriteLine("\n Webclient User Terminé ...");
-								//GESTION DU XML
-								JsonArray jsonVal = JsonValue.Parse(userData) as JsonArray;
-								var jsonArr = jsonVal;
-								foreach (var row in jsonArr)
+								var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], "true");
+								Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
+								if (!checkUser)
 								{
-									var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], "true");
-									Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
-									if (!checkUser)
-									{
-										var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], "true");
-										Console.WriteLine("\n" + IntegUser);
-									}
+									var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], "true");
+									Console.WriteLine("\n" + IntegUser);
 								}
-								//execute de la requete
-								Data.tableuserload = true;
-								App_Connec = true;
 							}
+							//execute de la requete
+							Data.tableuserload = true;
+							App_Connec = true;
+
 						}
 						catch (System.Exception ex)
 						{
@@ -106,35 +98,25 @@ namespace DMS_3
 			});
 			startupWork.ContinueWith(t =>
 			{
-				//Shared Preference
-				ISharedPreferences pref = Application.Context.GetSharedPreferences("AppInfo", FileCreationMode.Private);
-				string soc = pref.GetString("SOC", String.Empty);
-
-				//Si il n'y a pas de shared pref
-				if (soc == String.Empty)
+				//Is a user login ?
+				DBRepository dbr = new DBRepository();
+				var user_Login = dbr.is_user_Log_In();
+				if (!(user_Login == "false"))
 				{
-					StartActivity(new Intent(Application.Context, typeof(SocActivity)));
+					//Data.userAndsoft = user_Login;
+					dbr.setUserdata(user_Login);
+
+					//lancement du BgWorker Service
+					StartService(new Intent(this, typeof(ProcessDMS)));
+					bgService = new BackgroundWorker();
+					bgService.DoWork += new DoWorkEventHandler(bgService_DoWork);
+					bgService.RunWorkerAsync();
+					StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
 				}
 				else {
-					//Is a user login ?
-					DBRepository dbr = new DBRepository();
-					var user_Login = dbr.is_user_Log_In();
-					if (!(user_Login == "false"))
-					{
-						//Data.userAndsoft = user_Login;
-						dbr.setUserdata(user_Login);
-
-						//lancement du BgWorker Service
-						StartService(new Intent(this, typeof(ProcessDMS)));
-						bgService = new BackgroundWorker();
-						bgService.DoWork += new DoWorkEventHandler(bgService_DoWork);
-						bgService.RunWorkerAsync();
-						StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
-					}
-					else {
-						StartActivity(new Intent(Application.Context, typeof(MainActivity)));
-					}
+					StartActivity(new Intent(Application.Context, typeof(MainActivity)));
 				}
+
 			}, TaskScheduler.FromCurrentSynchronizationContext());
 			startupWork.Start();
 

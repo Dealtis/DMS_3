@@ -27,7 +27,7 @@ namespace DMS_3
 	public class FlashageQuaiActivity : Activity
 	{
 		//IKDCConnectionListenerEx, IKDCBarcodeDataReceivedListener
-		FlashageQuaiActivity _activity;
+		//FlashageQuaiActivity _activity;
 		EditText barcode;
 		TextView infonumero;
 		TextView infonomdest;
@@ -106,7 +106,7 @@ namespace DMS_3
 			intentFilter.AddAction("com.sonim.intent.action.YELLOW_KEY_DOWN");
 			intentFilter.AddAction("com.sonim.intent.action.YELLOW_KEY_UP");
 
-			_activity = this;
+			//_activity = this;
 
 			//_kdcReader = new KDCReader("XP67", _activity, _activity);
 
