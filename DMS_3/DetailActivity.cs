@@ -16,7 +16,7 @@ namespace DMS_3
 		private int SWIPE_MIN_DISTANCE = 120;
 		private int SWIPE_THRESHOLD_VELOCITY = 150;
 
-		//RECUP ID 
+		//RECUP ID
 		string id;
 		int i;
 		string trait;
@@ -43,9 +43,6 @@ namespace DMS_3
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
-
-			DBRepository dbr = new DBRepository();
-			data = dbr.GetPositionsData(i);
 
 			SetContentView(Resource.Layout.DetailPosition);
 			_gestureDetector = new GestureDetector(this);
@@ -82,6 +79,9 @@ namespace DMS_3
 			type = Intent.GetStringExtra("TYPE");
 			flash = Intent.GetBooleanExtra("FLASH",false);
 
+			DBRepository dbr = new DBRepository();
+			data = dbr.GetPositionsData(i);
+
 			codelivraison.Gravity = GravityFlags.Center;
 			infolivraison.Gravity = GravityFlags.Center;
 			title.Gravity = GravityFlags.Center;
@@ -117,8 +117,6 @@ namespace DMS_3
 			infolivraison.Text = data.nomPayeur + "\n" + data.adresseLivraison + "\n" + data.CpLivraison + " " + data.villeLivraison + "\n" + data.nbrColis + " COLIS   " + data.nbrPallette + " PALETTE\n" + data.poids + "\n" + data.dateHeure + "\n" + data.CR; ;
 			infoclient.Text = "\n" + data.nomClient + "\nRef: " + data.refClient + "\nTournee : " + data.planDeTransport;
 			client.Text = "Client";
-
-
 
 			//Gestion dest final
 			destfinal.Visibility = ViewStates.Gone;

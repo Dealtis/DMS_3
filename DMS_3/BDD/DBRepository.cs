@@ -354,6 +354,17 @@ namespace DMS_3.BDD
 			}
 		}
 
+		public void resetColis() {
+			var query = db.Table<TableColis>().Where(v => v.flashage.Equals(true));
+			foreach (var item in query)
+			{
+				var row = db.Get<TableColis>(item.Id);
+				row.flashage = false;
+				db.Update(row);
+			}
+
+		}
+
 		public int is_colis_in_truck(string numColis)
 		{
 			var output = int.MinValue;

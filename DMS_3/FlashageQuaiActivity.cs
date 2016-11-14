@@ -17,15 +17,16 @@ using AndroidHUD;
 using DMS_3.BDD;
 using ZXing.Mobile;
 using Uri = Android.Net.Uri;
-using Koamtac.Kdc.Sdk;
+//using Koamtac.Kdc.Sdk;
 
 namespace DMS_3
 {
 	[Activity(Label = "", Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden)]
 	[IntentFilter(new[] { Intent.ActionMain },
 				  Categories = new[] { Intent.CategoryLauncher })]
-	public class FlashageQuaiActivity : Activity, IKDCConnectionListenerEx, IKDCBarcodeDataReceivedListener
+	public class FlashageQuaiActivity : Activity
 	{
+		//IKDCConnectionListenerEx, IKDCBarcodeDataReceivedListener
 		FlashageQuaiActivity _activity;
 		EditText barcode;
 		TextView infonumero;
@@ -47,7 +48,7 @@ namespace DMS_3
 		ImageView _imageView;
 		ToggleButton tbtnTorch;
 		TablePositions data;
-		KDCReader _kdcReader;
+		//KDCReader _kdcReader;
 
 		string numero;
 		string id;
@@ -107,9 +108,9 @@ namespace DMS_3
 
 			_activity = this;
 
-			_kdcReader = new KDCReader("XP67", _activity, _activity);
+			//_kdcReader = new KDCReader("XP67", _activity, _activity);
 
-			ConfigureSyncOptions();
+			//ConfigureSyncOptions();
 
 			currentPrlFLash = 0;
 
@@ -154,23 +155,15 @@ namespace DMS_3
 			btn_barcode.Click += delegate
 		   {
 			   //SI SONIM OU TC55 async
-			   //scanner.UseCustomOverlay = true;
-			   //var options = new ZXing.Mobile.MobileBarcodeScanningOptions();
-			   //options.AutoRotate = false;
-			   //tbtnTorch = zxingOverlay.FindViewById<ToggleButton>(Resource.Id.tbtnTorch);
-			   //tbtnTorch.Click += delegate
-			   //{
-			   //	scanner.ToggleTorch();
-			   //};
-			   //scanner.CustomOverlay = zxingOverlay;
-
-			   //var result = await scanner.Scan(this, options);
-			   //HandleScanResult(result);
-
-			   if (_kdcReader != null && _kdcReader.IsConnected)
+			   scanner.UseCustomOverlay = true;
+			   var options = new ZXing.Mobile.MobileBarcodeScanningOptions();
+			   options.AutoRotate = false;
+			   tbtnTorch = zxingOverlay.FindViewById<ToggleButton>(Resource.Id.tbtnTorch);
+			   tbtnTorch.Click += delegate
 			   {
-				   _kdcReader.SoftwareTrigger();
-			   }
+			   	scanner.ToggleTorch();
+			   };
+			   scanner.CustomOverlay = zxingOverlay;
 
 		   };
 		}
@@ -230,8 +223,8 @@ namespace DMS_3
 				valid.Click += delegate
 				{
 					numero = barrecode.Text;
-					ShowProgress(progress => AndHUD.Shared.Show(this, "Récupération ... " + progress + "%", progress, MaskType.Clear), barrecode.Text);
 					dialog.Dismiss();
+					ShowProgress(progress => AndHUD.Shared.Show(this, "Récupération ... " + progress + "%", progress, MaskType.Clear), barrecode.Text);
 				};
 
 				dialog.SetCancelable(true);
@@ -239,13 +232,13 @@ namespace DMS_3
 			};
 		}
 
-		private void ConfigureSyncOptions()
-		{
-			_kdcReader.EnableAttachType(true);
-			_kdcReader.EnableAttachSerialNumber(true);
-			_kdcReader.EnableAttachTimestamp(true);
-			_kdcReader.EnableAttachLocation(true);
-		}
+		//private void ConfigureSyncOptions()
+		//{
+		//	_kdcReader.EnableAttachType(true);
+		//	_kdcReader.EnableAttachSerialNumber(true);
+		//	_kdcReader.EnableAttachTimestamp(true);
+		//	_kdcReader.EnableAttachLocation(true);
+		//}
 
 		public override void OnBackPressed()
 		{
@@ -665,14 +658,14 @@ namespace DMS_3
 			}
 		}
 
-		void IKDCConnectionListenerEx.ConnectionChanged(int p0)
-		{
-			throw new NotImplementedException();
-		}
+		//void IKDCConnectionListenerEx.ConnectionChanged(int p0)
+		//{
+		//	throw new NotImplementedException();
+		//}
 
-		void IKDCBarcodeDataReceivedListener.BarcodeDataReceived(KDCData p0)
-		{
-			throw new NotImplementedException();
-		}
+		//void IKDCBarcodeDataReceivedListener.BarcodeDataReceived(KDCData p0)
+		//{
+		//	throw new NotImplementedException();
+		//}
 	}
 }

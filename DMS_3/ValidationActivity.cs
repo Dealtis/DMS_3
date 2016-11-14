@@ -130,6 +130,8 @@ namespace DMS_3
 
 			Data.Instance.traitImg(i, type, this);
 
+			dbr.SETBadges(Data.userAndsoft);
+
 			Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
 			intent.PutExtra("TYPE", type);
 			intent.PutExtra("TRAIT", "false");

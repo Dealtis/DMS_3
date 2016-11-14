@@ -30,7 +30,6 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <PlatformTarget>anycpu</PlatformTarget>
     <EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>
-    <AndroidUseSharedRuntime>true</AndroidUseSharedRuntime>
     <AndroidSupportedAbis>arm64-v8a;armeabi;armeabi-v7a;x86;x86_64</AndroidSupportedAbis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -77,12 +76,6 @@
     <Reference Include="SQLite-net">
       <HintPath>..\packages\sqlite-net-pcl.1.2.0\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
     </Reference>
-    <Reference Include="HockeySDK.AndroidBindings">
-      <HintPath>..\Components\hockeyappandroid-4.1.0.3\lib\android\HockeySDK.AndroidBindings.dll</HintPath>
-    </Reference>
-    <Reference Include="HockeySDK">
-      <HintPath>..\Components\hockeyappandroid-4.1.0.3\lib\android\HockeySDK.dll</HintPath>
-    </Reference>
     <Reference Include="SQLitePCLRaw.core">
       <HintPath>..\packages\SQLitePCLRaw.core.1.1.0\lib\MonoAndroid\SQLitePCLRaw.core.dll</HintPath>
     </Reference>
@@ -110,8 +103,11 @@
     <Reference Include="Xamarin.Android.Support.v7.AppCompat">
       <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
     </Reference>
-    <Reference Include="KoamtacBinding">
-      <HintPath>..\..\..\..\..\Projects\KoamtacBinding\KoamtacBinding\bin\Debug\KoamtacBinding.dll</HintPath>
+    <Reference Include="HockeySDK.AndroidBindings">
+      <HintPath>..\Components\hockeyappandroid-4.1.0.3\lib\android\HockeySDK.AndroidBindings.dll</HintPath>
+    </Reference>
+    <Reference Include="HockeySDK">
+      <HintPath>..\Components\hockeyappandroid-4.1.0.3\lib\android\HockeySDK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

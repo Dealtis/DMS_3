@@ -77,7 +77,8 @@ namespace DMS_3
 
 		void Btn_Livraison_LongClick(object sender, View.LongClickEventArgs e)
 		{
-			//throw new DivideByZeroException("Divide By Zero Exception");
+			DBRepository dbr = new DBRepository();
+			dbr.resetColis();
 		}
 
 		void Btn_Config_LongClick(object sender, View.LongClickEventArgs e)
@@ -116,6 +117,7 @@ namespace DMS_3
 			//var user = dbr.getUserAndsoft();
 			//dbr.setUserdata(user);
 			//dbr.SETBadges(Data.userAndsoft);
+
 
 			var version = this.PackageManager.GetPackageInfo(this.PackageName, 0).VersionName;
 			lblTitle.Text = Data.userAndsoft + " " + version;

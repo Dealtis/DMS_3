@@ -267,7 +267,12 @@ namespace DMS_3
 					dbr.insertDataStatutpositions(typecr, "2", typecr, data.numCommande, formatrem, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONPARTIC);
 				}
 
-				Data.Instance.traitImg(i, type, this);
+				if (txtspinner != "Restaure en non traite")
+				{
+					Data.Instance.traitImg(i, type, this);
+				}
+
+				dbr.SETBadges(Data.userAndsoft);
 
 				Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
 				intent.PutExtra("TYPE", type);

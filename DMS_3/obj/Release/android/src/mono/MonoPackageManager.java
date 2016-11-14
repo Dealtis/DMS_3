@@ -108,8 +108,6 @@ class MonoPackageManager_Resources {
 		"zxing.portable.dll",
 		"ZXingNetMobile.dll",
 		"SQLite-net.dll",
-		"HockeySDK.AndroidBindings.dll",
-		"HockeySDK.dll",
 		"SQLitePCLRaw.core.dll",
 		"SQLitePCLRaw.lib.e_sqlite3.dll",
 		"SQLitePCLRaw.provider.e_sqlite3.dll",
@@ -119,7 +117,8 @@ class MonoPackageManager_Resources {
 		"Xamarin.Android.Support.Vector.Drawable.dll",
 		"Xamarin.Android.Support.Animated.Vector.Drawable.dll",
 		"Xamarin.Android.Support.v7.AppCompat.dll",
-		"KoamtacBinding.dll",
+		"HockeySDK.AndroidBindings.dll",
+		"HockeySDK.dll",
 		"SQLitePCL.raw.dll",
 	};
 	public static final String[] Dependencies = new String[]{

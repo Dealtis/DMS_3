@@ -424,6 +424,7 @@ namespace DMS_3
 							dbr.updatePositionSuppliv(texteMessage.Remove(texteMessage.Length - 2).Substring(10));
 							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
 							dbr.insertDataMessage(codeChauffeur, utilisateurEmetteur, "La position " + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + " a été supprimée de votre tournée", 0, DateTime.Now, 1, numMessage);
+							dbr.SETBadges(Data.userAndsoft);
 							break;
 						case "%%RETOLIV":
 							dbr.QueryPositions("UPDATE TablePositions SET imgpath = null WHERE numCommande = '" + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "'");

@@ -1,22 +1,40 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupConfiguration="{04E2529E-E36B-4115-8AF5-B4227741CC2C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/DetailActivity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/Data.cs">
     <Files>
-      <File FileName="DMS_3/ProcessDMS.cs" Line="191" Column="9" />
-      <File FileName="DMS_3/BDD/DBRepository.cs" Line="20" Column="31" />
-      <File FileName="DMS_3/FlashageQuaiActivity.cs" Line="145" Column="42" />
-      <File FileName="DMS_3/DetailActivity.cs" Line="305" Column="35" />
-      <File FileName="DMS_3/ValidationActivity.cs" Line="183" Column="4" />
-      <File FileName="DMS_3/AnomalieActivity.cs" Line="343" Column="20" />
-      <File FileName="DMS_3/Properties/AndroidManifest.xml" Line="1" Column="1" />
+      <File FileName="DMS_3/ProcessDMS.cs" Line="421" Column="54" />
+      <File FileName="DMS_3/BDD/DBRepository.cs" Line="350" Column="24" />
+      <File FileName="DMS_3/FlashageQuaiActivity.cs" Line="318" Column="12" />
+      <File FileName="DMS_3/DetailActivity.cs" Line="151" Column="5" />
+      <File FileName="DMS_3/ValidationActivity.cs" Line="133" Column="36" />
+      <File FileName="DMS_3/AnomalieActivity.cs" Line="270" Column="27" />
+      <File FileName="DMS_3/HomeActivity.cs" Line="51" Column="27" />
+      <File FileName="DMS_3/MessageActivity.cs" Line="83" Column="4" />
+      <File FileName="DMS_3/Properties/AndroidManifest.xml" Line="25" Column="12" />
+      <File FileName="DMS_3/Data.cs" Line="170" Column="5" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="DMS_3" expanded="True">
+            <Node name="DMS_3" expanded="True">
+              <Node name="References" expanded="True" />
+              <Node name="ComponentReferenceFolder" expanded="True" />
+              <Node name="Packages" expanded="True" />
+              <Node name="BDD" expanded="True" />
+              <Node name="Properties" expanded="True" />
+              <Node name="Data.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/BDD/DBRepository.cs" line="397" column="19" />
-      <Breakpoint file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/AnomalieActivity.cs" line="225" column="1" />
-      <Breakpoint file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="670" column="1" />
-      <Breakpoint file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="675" column="40" />
+      <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/BDD/DBRepository.cs" line="408" column="19" />
+      <Breakpoint file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="663" column="1" />
+      <Breakpoint file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="668" column="40" />
       <Breakpoint file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/BDD/DBRepository.cs" line="48" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -25,5 +43,5 @@
     <Watch file="DMS_3/FlashageQuaiActivity.cs" line="165" offsetX="532" offsetY="2460" expression="_kdcReader.KDCConnectionListenerEx" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
   <AuthorInfo Name="rvanardois" Email="" Copyright="rvanardois" Company="" Trademark="" />
-  <MonoDevelop.Ide.ItemProperties.DMS__3 AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Android_Accelerated_x86" />
+  <MonoDevelop.Ide.ItemProperties.DMS__3 AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Android_ARMv7a" />
 </Properties>

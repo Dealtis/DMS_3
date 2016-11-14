@@ -106,10 +106,6 @@ ZXing.Mobile.ZXingSurfaceView, ZXingNetMobile;md55109d95aac470e32f9a4031a908f022
 ZXing.Mobile.ZXingSurfaceView, ZXingNetMobile, Version=2.1.47.0, Culture=neutral, PublicKeyToken=null;md55109d95aac470e32f9a4031a908f0227.ZXingSurfaceView
 ZXing.Mobile.ZXingSurfaceView;md55109d95aac470e32f9a4031a908f0227.ZXingSurfaceView
 zxing.mobile.ZXingSurfaceView;md55109d95aac470e32f9a4031a908f0227.ZXingSurfaceView
-HockeyApp.Android.PrivateEventManager/IHockeyEventListenerImplementor, HockeySDK.AndroidBindings;mono.net.hockeyapp.android.PrivateEventManager_HockeyEventListenerImplementor
-HockeyApp.Android.PrivateEventManager+IHockeyEventListenerImplementor, HockeySDK.AndroidBindings, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;mono.net.hockeyapp.android.PrivateEventManager_HockeyEventListenerImplementor
-HockeyApp.Android.PrivateEventManager.IHockeyEventListenerImplementor;mono.net.hockeyapp.android.PrivateEventManager_HockeyEventListenerImplementor
-mono.net.hockeyapp.android.PrivateEventManager_HockeyEventListenerImplementor;mono.net.hockeyapp.android.PrivateEventManager_HockeyEventListenerImplementor
 Android.Support.V4.View.ViewPager/IOnPageChangeListenerImplementor, Xamarin.Android.Support.v4;mono.android.support.v4.view.ViewPager_OnPageChangeListenerImplementor
 Android.Support.V4.View.ViewPager+IOnPageChangeListenerImplementor, Xamarin.Android.Support.v4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;mono.android.support.v4.view.ViewPager_OnPageChangeListenerImplementor
 Android.Support.V4.View.ViewPager.IOnPageChangeListenerImplementor;mono.android.support.v4.view.ViewPager_OnPageChangeListenerImplementor
@@ -246,7 +242,7 @@ Android.Support.V7.Widget.ViewStubCompat/IOnInflateListenerImplementor, Xamarin.
 Android.Support.V7.Widget.ViewStubCompat+IOnInflateListenerImplementor, Xamarin.Android.Support.v7.AppCompat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;mono.android.support.v7.widget.ViewStubCompat_OnInflateListenerImplementor
 Android.Support.V7.Widget.ViewStubCompat.IOnInflateListenerImplementor;mono.android.support.v7.widget.ViewStubCompat_OnInflateListenerImplementor
 mono.android.support.v7.widget.ViewStubCompat_OnInflateListenerImplementor;mono.android.support.v7.widget.ViewStubCompat_OnInflateListenerImplementor
-Koamtac.Kdc.Sdk.IKDCBarcodeDataReceivedListenerImplementor, KoamtacBinding;mono.koamtac.kdc.sdk.KDCBarcodeDataReceivedListenerImplementor
-Koamtac.Kdc.Sdk.IKDCBarcodeDataReceivedListenerImplementor, KoamtacBinding, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;mono.koamtac.kdc.sdk.KDCBarcodeDataReceivedListenerImplementor
-Koamtac.Kdc.Sdk.IKDCBarcodeDataReceivedListenerImplementor;mono.koamtac.kdc.sdk.KDCBarcodeDataReceivedListenerImplementor
-mono.koamtac.kdc.sdk.KDCBarcodeDataReceivedListenerImplementor;mono.koamtac.kdc.sdk.KDCBarcodeDataReceivedListenerImplementor
+HockeyApp.Android.PrivateEventManager/IHockeyEventListenerImplementor, HockeySDK.AndroidBindings;mono.net.hockeyapp.android.PrivateEventManager_HockeyEventListenerImplementor
+HockeyApp.Android.PrivateEventManager+IHockeyEventListenerImplementor, HockeySDK.AndroidBindings, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;mono.net.hockeyapp.android.PrivateEventManager_HockeyEventListenerImplementor
+HockeyApp.Android.PrivateEventManager.IHockeyEventListenerImplementor;mono.net.hockeyapp.android.PrivateEventManager_HockeyEventListenerImplementor
+mono.net.hockeyapp.android.PrivateEventManager_HockeyEventListenerImplementor;mono.net.hockeyapp.android.PrivateEventManager_HockeyEventListenerImplementor
