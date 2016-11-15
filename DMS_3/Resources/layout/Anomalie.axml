@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/linearLayout2">
-        <EditText xmlns:tools="http://schemas.android.com/tools"
+        <EditText
             android:id="@+id/colis"
             android:visibility="gone"
             android:password="false"
@@ -39,18 +39,17 @@
             android:imeOptions="actionNext"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            tools:visibility="gone"
             android:layout_weight="1" />
-        <TextView xmlns:tools="http://schemas.android.com/tools"
+        <TextView
             android:text="Colis"
-            android:id="@+id/textView1"
+            android:id="@+id/TxtColis"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:background="@color/gray"
             android:layout_weight=".1"
             android:textColor="#ff424242"
-            tools:visibility="gone" />
+            android:visibility="gone" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -70,14 +69,14 @@
             android:imeOptions="actionNext" />
         <TextView xmlns:tools="http://schemas.android.com/tools"
             android:text="Palette"
-            android:id="@+id/textView1"
+            android:id="@+id/TxtPalette"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:background="@color/gray"
             android:layout_weight=".1"
             android:textColor="#ff424242"
-            tools:visibility="gone" />
+            android:visibility="gone" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -97,14 +96,14 @@
             android:imeOptions="actionNext" />
         <TextView xmlns:tools="http://schemas.android.com/tools"
             android:text="Tonnes"
-            android:id="@+id/textView1"
+            android:id="@+id/txtTonnes"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:background="@color/gray"
             android:layout_weight=".1"
             android:textColor="#ff424242"
-            tools:visibility="gone" />
+            android:visibility="gone" />
     </LinearLayout>
     <EditText xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/ML"

@@ -55,11 +55,11 @@ namespace DMS_3
 						{
 							string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
 							var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
-							var EMEI = telephonyManager.DeviceId;
+							var IMEI = telephonyManager.DeviceId;
 							var webClient = new WebClient();
 							webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 							string userData = "";
-							webClient.QueryString.Add("EMEI", EMEI);
+							webClient.QueryString.Add("IMEI", IMEI);
 							userData = webClient.DownloadString(_url);
 							System.Console.WriteLine("\n Webclient User Terminé ...");
 							//GESTION DU XML

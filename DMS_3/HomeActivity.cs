@@ -22,7 +22,7 @@ namespace DMS_3
 		RelativeLayout peekupBadge;
 		RelativeLayout newMsgBadge;
 		System.Timers.Timer indicatorTimer;
-		private ProcessDMSBinder binder;
+		ProcessDMSBinder binder;
 		ProcessDMSConnection processDMSConnection;
 
 		protected override void OnCreate(Bundle savedInstanceState)
@@ -57,11 +57,15 @@ namespace DMS_3
 			btn_Message.Click += delegate { btn_Message_Click(); };
 			btn_Flash.Click += delegate { btn_Flash_Click(); };
 
+			string APP_ID = "337f4f12782f47e590a7e84867bc087a";
 
 			//Hockey APP
 			CrashManager.Register(this, "337f4f12782f47e590a7e84867bc087a");
 			MetricsManager.Register(Application, "337f4f12782f47e590a7e84867bc087a");
 			MetricsManager.EnableUserMetrics();
+
+			CrashManager.Register(this, APP_ID, new HockeyCrashManagerSettings());
+
 
 
 			//FONTS
@@ -100,8 +104,8 @@ namespace DMS_3
 				Data.Is_Service_Running = false;
 				Intent intent = new Intent(this, typeof(MainActivity));
 				this.StartActivity(intent);
-				//this.OverridePendingTransition (Resource.Animation.abc_slide_in_top,Resource.Animation.abc_slide_out_bottom);
-			});
+		//this.OverridePendingTransition (Resource.Animation.abc_slide_in_top,Resource.Animation.abc_slide_out_bottom);
+	});
 			builder.Show();
 		}
 

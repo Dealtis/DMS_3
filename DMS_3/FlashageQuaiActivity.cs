@@ -317,7 +317,8 @@ namespace DMS_3
 							}
 							else
 							{
-								RunOnUiThread(() => Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Long).Show());
+								//RunOnUiThread(() => Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Long).Show());
+								RunOnUiThread(() => AndHUD.Shared.ShowError(this, "It no worked :(", MaskType.Black, TimeSpan.FromSeconds(2)));
 							}
 						}
 					}
@@ -500,7 +501,8 @@ namespace DMS_3
 			}
 			else
 			{
-				RunOnUiThread(() => Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Long).Show());
+				//RunOnUiThread(() => Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Long).Show());
+				RunOnUiThread(() => AndHUD.Shared.ShowError(this, "It no worked :(", MaskType.Black, TimeSpan.FromSeconds(2)));
 			}
 		}
 

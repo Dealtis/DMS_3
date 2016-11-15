@@ -6,6 +6,7 @@ using System.Threading;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Telephony;
 using Android.Widget;
 using AndroidHUD;
 using DMS_3.BDD;
@@ -138,16 +139,16 @@ namespace DMS_3
 			{
 				DBRepository dbr = new DBRepository();
 				string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
-				ISharedPreferences pref = Application.Context.GetSharedPreferences("AppInfo", FileCreationMode.Private);
-				string soc = pref.GetString("SOC", String.Empty);
+				var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
+				var IMEI = telephonyManager.DeviceId;
 				var webClient = new WebClient();
 				webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 				string userData = "";
-				webClient.QueryString.Add("societe", soc);
+				webClient.QueryString.Add("IMEI", IMEI);
 				userData = webClient.DownloadString(_url);
 				System.Console.WriteLine("\n Webclient User Terminé ...");
 				//GESTION DU XML
-				JsonArray jsonVal = JsonArray.Parse(userData) as JsonArray;
+				JsonArray jsonVal = JsonValue.Parse(userData) as JsonArray;
 				var jsonArr = jsonVal;
 				foreach (var row in jsonArr)
 				{

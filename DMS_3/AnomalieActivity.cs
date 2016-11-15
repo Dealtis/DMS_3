@@ -24,6 +24,10 @@ namespace DMS_3
 		EditText palette;
 		EditText poids;
 		EditText ML;
+		TextView txtcolis;
+		TextView txtpalette;
+		TextView txttonnes;
+
 		string txtRem;
 		ImageView _imageView;
 		TablePositions data;
@@ -51,6 +55,11 @@ namespace DMS_3
 			ML = FindViewById<EditText>(Resource.Id.ML);
 			_imageView = FindViewById<ImageView>(Resource.Id.imageView1);
 			checkP = FindViewById<CheckBox>(Resource.Id.checkBoxPartic);
+
+			txtcolis = FindViewById<TextView>(Resource.Id.TxtColis);
+			txtpalette = FindViewById<TextView>(Resource.Id.TxtPalette);
+			txttonnes = FindViewById<TextView>(Resource.Id.txtTonnes);
+
 
 			Button buttonvalider = FindViewById<Button>(Resource.Id.valider);
 
@@ -97,6 +106,10 @@ namespace DMS_3
 					poids.Text = data.poids;
 					ML.Visibility = Android.Views.ViewStates.Visible;
 					ML.Hint = "Mètre lineaire";
+
+					txtcolis.Visibility = Android.Views.ViewStates.Visible;
+					txtpalette.Visibility = Android.Views.ViewStates.Visible;
+					txttonnes.Visibility =  Android.Views.ViewStates.Visible;
 					break;
 				case "Restaure en non traite":
 					editText.Visibility = Android.Views.ViewStates.Gone;
