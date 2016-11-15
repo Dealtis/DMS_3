@@ -118,6 +118,12 @@ namespace DMS_3
 			//dbr.setUserdata(user);
 			//dbr.SETBadges(Data.userAndsoft);
 
+			DBRepository dbr = new DBRepository();
+			var user_Login = dbr.is_user_Log_In();
+			if (user_Login == "false")
+			{
+				StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+			}
 
 			var version = this.PackageManager.GetPackageInfo(this.PackageName, 0).VersionName;
 			lblTitle.Text = Data.userAndsoft + " " + version;

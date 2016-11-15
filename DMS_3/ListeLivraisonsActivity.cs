@@ -59,6 +59,8 @@ namespace DMS_3
 		protected override void OnResume()
 		{
 			base.OnResume();
+
+			layout_groupage.RemoveAllViews();
 			type = Intent.GetStringExtra("TYPE");
 			if (type == "RAM")
 			{

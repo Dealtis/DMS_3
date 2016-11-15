@@ -434,7 +434,17 @@ namespace DMS_3
 							dbr.QueryPositions("DELETE from TablePositions where groupage = '" + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "'");
 							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
 							break;
-						case "%%GETFLOG":
+						case "%%RUNTGPS":  
+							if (_locationProvider != "")
+							{
+								locMgr.RequestLocationUpdates(_locationProvider, 0, 0, this);
+								Console.Out.Write("Listening for location updates using " + _locationProvider + ".");
+								dbr.insertDataMessage(Data.userAndsoft, "", "Listening for location updates using " + _locationProvider + ".", 5, DateTime.Now, 5, 0);
+							}
+							else
+							{
+								dbr.insertDataMessage(Data.userAndsoft, "", "Location provider null", 5, DateTime.Now, 5, 0);
+							}
 							break;
 						case "%%COMMAND":
 							InsertData();
