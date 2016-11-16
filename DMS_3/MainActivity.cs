@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Json;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -34,7 +35,7 @@ namespace DMS_3
 			password = FindViewById<EditText>(Resource.Id.password);
 			tableload = FindViewById<TextView>(Resource.Id.tableload);
 
-			if (!Data.tableuserload)
+			if (!(Data.tableuserload == "true"))
 			{
 				tableload.Text = "Table user non chargée";
 				tableload.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.Anom, 0, 0, 0);
@@ -137,6 +138,24 @@ namespace DMS_3
 		{
 			try
 			{
+				ShowProgress(progress => AndHUD.Shared.Show(this, "Chargement ... " + progress + "%", progress, MaskType.Clear));
+			}
+			catch (System.Exception ex)
+			{
+				Console.WriteLine(ex);
+			}
+		}
+
+
+
+		void ShowProgress(Action<int> action)
+		{
+			Task.Factory.StartNew(() =>
+			{
+
+				int progress = 0;
+				progress += 20;
+				action(progress);
 				DBRepository dbr = new DBRepository();
 				string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
 				var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
@@ -146,7 +165,10 @@ namespace DMS_3
 				string userData = "";
 				webClient.QueryString.Add("IMEI", IMEI);
 				userData = webClient.DownloadString(_url);
+				progress += 30;
+				action(progress);
 				System.Console.WriteLine("\n Webclient User Terminé ...");
+
 				//GESTION DU XML
 				JsonArray jsonVal = JsonValue.Parse(userData) as JsonArray;
 				var jsonArr = jsonVal;
@@ -160,15 +182,15 @@ namespace DMS_3
 						Console.WriteLine("\n" + IntegUser);
 					}
 				}
-				AndHUD.Shared.ShowSuccess(this, "Table mise à jour", MaskType.Black, TimeSpan.FromSeconds(2));
-				Data.tableuserload = true;
-				tableload.Text = "Table chargée";
-				tableload.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.Val, 0, 0, 0);
-			}
-			catch (System.Exception ex)
-			{
-				Console.WriteLine(ex);
-			}
+
+				progress += 50;
+				action(progress);
+				RunOnUiThread(() => tableload.Text = "Table chargée");
+				RunOnUiThread(() => tableload.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.Val, 0, 0, 0));
+				Data.tableuserload = "true";
+				AndHUD.Shared.Dismiss(this);
+				AndHUD.Shared.ShowSuccess(this, "Table mise à jour", MaskType.Black, TimeSpan.FromSeconds(1));
+			});
 		}
 	}
 }

@@ -25,7 +25,7 @@ namespace DMS_3
 		public static string userTransics;
 
 		//Table user
-		public static bool tableuserload = false;
+		public static string tableuserload = "false";
 
 
 		//GPS

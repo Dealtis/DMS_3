@@ -21,7 +21,7 @@ using Uri = Android.Net.Uri;
 
 namespace DMS_3
 {
-	[Activity(Label = "", Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden)]
+	[Activity(Label = "",Theme = "@android:style/Theme.Light", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden)]
 	public class FlashageQuaiActivity : Activity
 	{
 		//IKDCConnectionListenerEx, IKDCBarcodeDataReceivedListener
@@ -105,9 +105,7 @@ namespace DMS_3
 			intentFilter.AddAction("com.sonim.intent.action.YELLOW_KEY_UP");
 
 			//_activity = this;
-
 			//_kdcReader = new KDCReader("XP67", _activity, _activity);
-
 			//ConfigureSyncOptions();
 
 			currentPrlFLash = 0;
@@ -150,7 +148,7 @@ namespace DMS_3
 
 			var zxingOverlay = LayoutInflater.FromContext(this).Inflate(Resource.Layout.overlay, null);
 			scanner = new MobileBarcodeScanner();
-			btn_barcode.Click += delegate
+			btn_barcode.Click += async delegate
 		   {
 			   //SI SONIM OU TC55 async
 			   scanner.UseCustomOverlay = true;
@@ -162,6 +160,9 @@ namespace DMS_3
 			   	scanner.ToggleTorch();
 			   };
 			   scanner.CustomOverlay = zxingOverlay;
+
+			   var result = await scanner.Scan(this, options);
+			   HandleScanResult(result);
 
 		   };
 		}

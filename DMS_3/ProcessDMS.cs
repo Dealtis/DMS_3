@@ -45,7 +45,7 @@ namespace DMS_3
 			StartServiceInForeground();
 			Routine();
 
-			// initialize location manager
+			//initialize location manager
 			InitializeLocationManager();
 
 			if (_locationProvider != "")

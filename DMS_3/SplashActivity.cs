@@ -8,7 +8,6 @@ using Android.App;
 using Android.Content;
 using Android.Net;
 using Android.OS;
-using Android.Support.V7.App;
 using Android.Telephony;
 using Android.Widget;
 using DMS_3.BDD;
@@ -27,8 +26,6 @@ namespace DMS_3
 		protected override void OnResume()
 		{
 			base.OnResume();
-
-
 			Task startupWork = new Task(() =>
 			{
 				//INSTANCE DBREPOSITORY
@@ -44,7 +41,6 @@ namespace DMS_3
 				//GetTelId
 				TelephonyManager tel = (TelephonyManager)this.GetSystemService(Context.TelephonyService);
 				var telId = tel.DeviceId;
-
 				bool App_Connec = false;
 				while (!App_Connec)
 				{
@@ -76,9 +72,12 @@ namespace DMS_3
 								}
 							}
 							//execute de la requete
-							Data.tableuserload = true;
-							App_Connec = true;
+							if (userData != "[]")
+							{
+								Data.tableuserload = "true";
+							}
 
+							App_Connec = true;
 						}
 						catch (System.Exception ex)
 						{
@@ -86,6 +85,7 @@ namespace DMS_3
 							App_Connec = false;
 							//AndHUD.Shared.ShowError (this, "Une erreur c'est produite lors du lancement, réessaie dans 5 secondes", MaskType.Black, TimeSpan.FromSeconds (5));
 							Toast.MakeText(this, "Une erreur c'est produite lors du lancement, réessaie dans 5 secondes", ToastLength.Long).Show();
+							Thread.Sleep(5000);
 						}
 					}
 					else {
