@@ -1,12 +1,11 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupConfiguration="{04E2529E-E36B-4115-8AF5-B4227741CC2C}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/BDD/DBRepository.cs">
     <Files>
-      <File FileName="DMS_3/AnomalieActivity.cs" Line="270" Column="13" />
-      <File FileName="DMS_3/DetailActivity.cs" Line="124" Column="264" />
-      <File FileName="DMS_3/ProcessDMS.cs" Line="425" Column="54" />
-      <File FileName="DMS_3/BDD/TablePositions.cs" Line="40" Column="24" />
-      <File FileName="DMS_3/ValidationActivity.cs" Line="85" Column="46" />
-      <File FileName="DMS_3/BDD/DBRepository.cs" Line="268" Column="22" />
+      <File FileName="DMS_3/DetailActivity.cs" Line="12" Column="15" />
+      <File FileName="DMS_3/ProcessDMS.cs" Line="119" Column="67" />
+      <File FileName="DMS_3/BDD/TablePositions.cs" Line="1" Column="1" />
+      <File FileName="DMS_3/BDD/DBRepository.cs" Line="1" Column="1" />
+      <File FileName="DMS_3/ListeLivraisonsActivity.cs" Line="19" Column="19" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,14 +13,13 @@
           <Node name="DMS_3" expanded="True">
             <Node name="DMS_3" expanded="True">
               <Node name="ComponentReferenceFolder" expanded="True" />
-              <Node name="BDD" expanded="True">
-                <Node name="DBRepository.cs" selected="True" />
-              </Node>
+              <Node name="BDD" expanded="True" />
               <Node name="Properties" expanded="True" />
               <Node name="Resources" expanded="True">
                 <Node name="layout" expanded="True" />
                 <Node name="values" expanded="True" />
               </Node>
+              <Node name="ListeLivraisonsActivity.cs" selected="True" />
             </Node>
           </Node>
         </State>
@@ -41,5 +39,5 @@
     <Watch file="DMS_3/FlashageQuaiActivity.cs" line="165" offsetX="467" offsetY="2512" expression="_kdcReader.KDCConnectionListenerEx" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
   <AuthorInfo Name="rvanardois" Email="" Copyright="rvanardois" Company="" Trademark="" />
-  <MonoDevelop.Ide.ItemProperties.DMS__3 AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.Android_Accelerated_x86" />
+  <MonoDevelop.Ide.ItemProperties.DMS__3 AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.288788da" />
 </Properties>
