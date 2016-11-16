@@ -2,7 +2,7 @@ package md53b01c1a732a0ec5279e1e72f40e0c864;
 
 
 public class SplashActivity
-	extends android.support.v7.app.AppCompatActivity
+	extends android.app.Activity
 	implements
 		mono.android.IGCUserPeer
 {

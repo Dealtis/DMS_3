@@ -1,17 +1,36 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupConfiguration="{04E2529E-E36B-4115-8AF5-B4227741CC2C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="DMS_3/SplashActivity.cs">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="DMS_3/FlashageQuaiActivity.cs" Line="150" Column="6" />
-      <File FileName="DMS_3/MainActivity.cs" Line="151" Column="64" />
-      <File FileName="DMS_3/SplashActivity.cs" Line="28" Column="4" />
+      <File FileName="DMS_3/HockeyCrashManagerSettings.cs" Line="20" Column="1" />
+      <File FileName="DMS_3/FlashageQuaiActivity.cs" Line="150" Column="4" />
+      <File FileName="DMS_3/SplashActivity.cs" Line="8" Column="23" />
+      <File FileName="DMS_3/Properties/AndroidManifest.xml" Line="22" Column="12" />
+      <File FileName="DMS_3/Resources/values/style.xml" Line="4" Column="64" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="DMS_3" expanded="True">
+            <Node name="DMS_3" expanded="True">
+              <Node name="ComponentReferenceFolder" expanded="True" />
+              <Node name="Properties" expanded="True">
+                <Node name="AndroidManifest.xml" selected="True" />
+              </Node>
+              <Node name="Resources" expanded="True">
+                <Node name="values" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint enabled="false" file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/BDD/DBRepository.cs" line="408" column="19" />
-      <Breakpoint file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="665" column="1" />
-      <Breakpoint file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="670" column="40" />
+      <Breakpoint file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="663" column="1" />
+      <Breakpoint file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/FlashageQuaiActivity.cs" line="668" column="40" />
       <Breakpoint file="/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/BDD/DBRepository.cs" line="48" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -20,5 +39,5 @@
     <Watch file="DMS_3/FlashageQuaiActivity.cs" line="165" offsetX="532" offsetY="2460" expression="_kdcReader.KDCConnectionListenerEx" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
   <AuthorInfo Name="rvanardois" Email="" Copyright="rvanardois" Company="" Trademark="" />
-  <MonoDevelop.Ide.ItemProperties.DMS__3 AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.10.71.34.101:5555" />
+  <MonoDevelop.Ide.ItemProperties.DMS__3 PreferredExecutionTarget="Android.Nexus 10 (KitKat)" />
 </Properties>

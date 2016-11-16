@@ -22,8 +22,6 @@ using Uri = Android.Net.Uri;
 namespace DMS_3
 {
 	[Activity(Label = "", Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden)]
-	[IntentFilter(new[] { Intent.ActionMain },
-				  Categories = new[] { Intent.CategoryLauncher })]
 	public class FlashageQuaiActivity : Activity
 	{
 		//IKDCConnectionListenerEx, IKDCBarcodeDataReceivedListener

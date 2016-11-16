@@ -15,7 +15,7 @@ using DMS_3.BDD;
 namespace DMS_3
 {
 	[Activity(Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
-	public class SplashActivity : AppCompatActivity
+	public class SplashActivity : Activity
 	{
 		BackgroundWorker bgService;
 
