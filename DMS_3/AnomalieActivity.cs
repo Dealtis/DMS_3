@@ -355,7 +355,8 @@ namespace DMS_3
 				builder.SetCancelable(false);
 				builder.SetPositiveButton("Oui", delegate
 				{
-					Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
+					Intent intent = new Intent(this, typeof(DetailActivity));
+					intent.PutExtra("ID", Convert.ToString(i));
 					intent.PutExtra("TYPE", type);
 					intent.PutExtra("TRAIT", "false");
 					this.StartActivity(intent);

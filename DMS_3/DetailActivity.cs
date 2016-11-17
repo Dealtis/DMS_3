@@ -216,6 +216,7 @@ namespace DMS_3
 				Intent intent = new Intent(this, typeof(AnomalieActivity));
 				intent.PutExtra("ID", Convert.ToString(i));
 				intent.PutExtra("TYPE", type);
+				intent.PutExtra("TRAIT", trait);
 				this.StartActivity(intent);
 				Finish();
 				if (imgbitmap != null)
@@ -227,6 +228,7 @@ namespace DMS_3
 				Intent intent = new Intent(this, typeof(FlashageQuaiActivity));
 				intent.PutExtra("ID", Convert.ToString(i));
 				intent.PutExtra("NUMCOM", data.numCommande);
+				intent.PutExtra("TRAIT", trait);
 				intent.PutExtra("TYPE", type);
 				intent.PutExtra("ACTION", "ANOM");
 				this.StartActivity(intent);

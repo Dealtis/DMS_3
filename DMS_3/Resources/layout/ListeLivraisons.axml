@@ -11,19 +11,9 @@
         android:orientation="horizontal"
         android:weightSum="1.0"
         android:id="@+id/layout_groupage"
-        android:layout_gravity="center">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:text="@string/all"
-            android:id="@+id/btn_all"
-            android:background="@drawable/button_white_background"
-            android:textColor="@color/primary"
-            android:layout_weight=".2"
-            android:minHeight="@dimen/dim50"
-            android:minWidth="@dimen/dim50" />
-    </LinearLayout>
+        android:layout_gravity="center"
+        android:minWidth="25px"
+        android:minHeight="25px" />
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"

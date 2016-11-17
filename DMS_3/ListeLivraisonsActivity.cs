@@ -33,15 +33,12 @@ namespace DMS_3
 			SetContentView(Resource.Layout.ListeLivraisons);
 
 			//declaration des clicks btns
-			btngrpAll = FindViewById<Button>(Resource.Id.btn_all);
+			//btngrpAll = FindViewById<Button>(Resource.Id.btn_all);
 			btnsearch = FindViewById<LinearLayout>(Resource.Id.btn_search);
 			btntrait = FindViewById<Button>(Resource.Id.btn_traite);
 			layout_groupage = FindViewById<LinearLayout>(Resource.Id.layout_groupage);
 
-			btngrpAll.Click += delegate
-			{
-				btngrpAll_Click();
-			};
+
 
 			btntrait.Click += delegate
 			{
@@ -90,9 +87,17 @@ namespace DMS_3
 			{
 				grp = dbr.QueryGRPTRAIT("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ? OR StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft, tyM, tyS, Data.userAndsoft);
 			}
-
-			foreach (var item in grp)
+			var allButton = new Button(this);
+			allButton.Text = "#";
+			allButton.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent, .2f);
+			allButton.SetBackgroundResource(Resource.Drawable.button_white_background);
+			layout_groupage.AddView(allButton);
+			allButton.Click += delegate
 			{
+				btngrpAll_Click();
+			};
+			foreach (var item in grp)
+			{  
 				var aButton = new Button(this);
 				aButton.Text = item.groupage;
 				aButton.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent, .1f);
