@@ -240,6 +240,8 @@
     <AndroidResource Include="Resources\drawable\redline.xml" />
     <AndroidResource Include="Resources\drawable\keyboard.png" />
     <AndroidResource Include="Resources\drawable\barcode.png" />
+    <AndroidResource Include="Resources\layout\ListeViewRowValidePJ.axml" />
+    <AndroidResource Include="Resources\drawable\Valpj.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

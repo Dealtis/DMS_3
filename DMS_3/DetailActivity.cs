@@ -37,6 +37,7 @@ namespace DMS_3
 		ImageView _imageView;
 		LinearLayout boxPole;
 		Button btnvalide;
+		Button btnanomalie;
 		string type;
 		Bitmap imgbitmap;
 
@@ -61,8 +62,7 @@ namespace DMS_3
 			_imageView = FindViewById<ImageView>(Resource.Id._imageView);
 			boxPole = FindViewById<LinearLayout>(Resource.Id.boxPole);
 			btnvalide = FindViewById<Button>(Resource.Id.valide);
-
-			Button btnanomalie = FindViewById<Button>(Resource.Id.anomalie);
+			btnanomalie = FindViewById<Button>(Resource.Id.anomalie);
 
 			btnvalide.Click += Btnvalide_Click;
 			btnanomalie.Click += Btnanomalie_Click;
@@ -101,6 +101,13 @@ namespace DMS_3
 				boxPole.Visibility = ViewStates.Gone;
 			}
 
+			//SUPPLIV
+			if (data.imgpath == "SUPPLIV")
+			{
+				btnvalide.Visibility = ViewStates.Gone;
+				btnanomalie.Visibility = ViewStates.Gone;
+			}
+
 
 			//TITLE
 			if (data.typeMission == "L")
@@ -114,7 +121,7 @@ namespace DMS_3
 
 			infosupp.Text = data.instrucLivraison;
 			codelivraison.Text = data.numCommande;
-			infolivraison.Text = data.nomPayeur + "\n" + data.adresseLivraison + "\n" + data.CpLivraison + " " + data.villeLivraison + "\n" + data.nbrColis + " COLIS   " + data.nbrPallette + " PALETTE\n" + data.poids + "\n" + data.dateHeure + "\n" + data.CR; ;
+			infolivraison.Text = data.nomPayeur + "\n" + data.adresseLivraison + "\n" + data.CpLivraison + " " + data.villeLivraison + "\n" + data.nbrColis + " COLIS   " + data.nbrPallette + " PALETTE\n" + data.poids + "\n" + data.dateHeure + "\n" + data.CR + data.ASSIGNE; ;
 			infoclient.Text = "\n" + data.nomClient + "\nRef: " + data.refClient + "\nTournee : " + data.planDeTransport;
 			client.Text = "Client";
 

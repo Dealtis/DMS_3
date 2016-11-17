@@ -20,14 +20,14 @@
         android:tag="front"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/row_anomalie_background">
+        android:background="@drawable/row_valide_background">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/linearLayout1">
             <ImageView
-                android:src="@drawable/anompj"
+                android:src="@drawable/valpj"
                 android:id="@+id/imageView1"
                 android:layoutDirection="ltr"
                 android:paddingLeft="@dimen/dim10"

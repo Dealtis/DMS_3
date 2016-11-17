@@ -79,11 +79,11 @@ namespace DMS_3
 			ApplicationContext.BindService(processServiceIntent, processDMSConnection, Bind.AutoCreate);
 		}
 
-		void Btn_Livraison_LongClick(object sender, View.LongClickEventArgs e)
-		{
-			DBRepository dbr = new DBRepository();
-			dbr.resetColis();
-		}
+		//void Btn_Livraison_LongClick(object sender, View.LongClickEventArgs e)
+		//{
+		//	DBRepository dbr = new DBRepository();
+		//	dbr.resetColis();
+		//}
 
 		void Btn_Config_LongClick(object sender, View.LongClickEventArgs e)
 		{

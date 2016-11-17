@@ -50,7 +50,14 @@ namespace DMS_3
 					}
 					break;
 				case "1":
-					xml_type = Resource.Layout.ListeViewRowValide;
+					if (mItems[position].imgpath == null || mItems[position].imgpath == "" || mItems[position].imgpath == "null")
+					{
+						xml_type = Resource.Layout.ListeViewRowValide;
+					}
+					else {
+						xml_type = Resource.Layout.ListeViewRowValidePJ;
+					}
+
 					break;
 				case "2":
 					if (mItems[position].imgpath == null || mItems[position].imgpath == "" || mItems[position].imgpath == "null")

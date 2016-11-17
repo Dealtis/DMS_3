@@ -262,6 +262,11 @@ namespace DMS_3
 				{
 					case "Restaure en non traite":
 						dbr.updatePosition(i, "0", txtspinner, formatrem, codeanomalie, null);
+						//if postion pole vider les colis flasher
+						if (data.positionPole != "0")
+						{
+							dbr.resetColis(data.numCommande);
+						}
 						break;
 					default:
 						dbr.updatePosition(i, "2", txtspinner, formatrem, codeanomalie, null);

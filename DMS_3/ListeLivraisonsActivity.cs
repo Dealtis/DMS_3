@@ -32,8 +32,6 @@ namespace DMS_3
 
 			SetContentView(Resource.Layout.ListeLivraisons);
 
-
-
 			//declaration des clicks btns
 			btngrpAll = FindViewById<Button>(Resource.Id.btn_all);
 			btnsearch = FindViewById<LinearLayout>(Resource.Id.btn_search);
@@ -151,18 +149,12 @@ namespace DMS_3
 
 		void MListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
 		{
-			if (bodyItems[e.Position].imgpath == "SUPPLIV")
-			{
-				AndHUD.Shared.ShowError(this, "Cette position a été supprimée de ce groupage", MaskType.Black, TimeSpan.FromSeconds(3));
-			}
-			else {
-				Intent intent = new Intent(this, typeof(DetailActivity));
-				intent.PutExtra("ID", Convert.ToString(bodyItems[e.Position].Id));
-				intent.PutExtra("TYPE", type);
-				intent.PutExtra("TRAIT", trait);
-				this.StartActivity(intent);
-				Finish();
-			}
+			Intent intent = new Intent(this, typeof(DetailActivity));
+			intent.PutExtra("ID", Convert.ToString(bodyItems[e.Position].Id));
+			intent.PutExtra("TYPE", type);
+			intent.PutExtra("TRAIT", trait);
+			this.StartActivity(intent);
+			Finish();
 		}
 
 		void btngrpAll_Click()

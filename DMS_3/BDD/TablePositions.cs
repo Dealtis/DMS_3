@@ -37,6 +37,7 @@ namespace DMS_3
 		public String positionPole { get; set; }
 		public int idSegment { get; set; }
 		public String CR { get; set; }
+		public String ASSIGNE { get; set; }
 		public String nomClientLivraison { get; set; }
 		public String villeClientLivraison { get; set; }
 		public String Datemission { get; set; }

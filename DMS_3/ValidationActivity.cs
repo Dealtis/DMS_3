@@ -72,19 +72,17 @@ namespace DMS_3
 			DBRepository dbr = new DBRepository();
 			data = dbr.GetPositionsData(i);
 
-			if (data.CR == "" || data.CR == "0" || type == "RAM")
+			if (data.CR == "" || data.CR == "0" || type == "RAM" || data.ASSIGNE == "" || data.ASSIGNE == "0")
 			{
 				check1.Visibility = ViewStates.Gone;
 				check2.Visibility = ViewStates.Gone;
 				txtCR.Visibility = ViewStates.Gone;
-				//dialog.SetMessage("Voulez-vous valider cette position ?");
 			}
 			else {
 				check1.Visibility = ViewStates.Visible;
 				check2.Visibility = ViewStates.Visible;
 				txtCR.Visibility = ViewStates.Visible;
-				txtCR.Text = data.CR;
-				//dialog.SetMessage("Avez vous perçu le CR,?\n Si oui, valider cette livraison ?");
+				txtCR.Text = data.CR + "" + data.ASSIGNE;
 			}
 			if (type == "RAM")
 			{
@@ -96,6 +94,41 @@ namespace DMS_3
 		}
 
 		void Btnvalide_Clik(object sender, EventArgs e)
+		{
+			if (data.CR == "" || data.CR == "0" || type == "RAM" || data.ASSIGNE == "" || data.ASSIGNE == "0")
+			{
+				valideAction();
+
+			}
+			else
+			{
+				string title;
+				string typeMo;
+
+				if (data.CR == "" || data.CR == "0")
+				{
+					title = "CR";
+					typeMo = "le cr";
+				}else
+				{
+					title = "ASSIGNE";
+					typeMo = "l' assigne";
+				}
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.SetTitle(title);
+				builder.SetMessage("Avez vous perçu " + typeMo + ",?\\n Si oui, valider cette livraison ?");
+				builder.SetCancelable(false);
+				builder.SetPositiveButton("Oui", delegate
+				{
+					valideAction();
+				});
+				builder.SetNegativeButton("Non", delegate { });
+				builder.Show();
+			}
+
+		}
+
+		void valideAction()
 		{
 			DBRepository dbr = new DBRepository();
 			//format mémo

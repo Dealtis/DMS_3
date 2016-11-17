@@ -354,16 +354,16 @@ namespace DMS_3.BDD
 			}
 		}
 
-		public void resetColis() {
-			var query = db.Table<TableColis>().Where(v => v.flashage.Equals(true));
-			foreach (var item in query)
-			{
-				var row = db.Get<TableColis>(item.Id);
-				row.flashage = false;
-				db.Update(row);
-			}
+		//public void resetColis() {
+		//	var query = db.Table<TableColis>().Where(v => v.flashage.Equals(true));
+		//	foreach (var item in query)
+		//	{
+		//		var row = db.Get<TableColis>(item.Id);
+		//		row.flashage = false;
+		//		db.Update(row);
+		//	}
 
-		}
+		//}
 
 		public int is_colis_in_truck(string numColis)
 		{
@@ -520,6 +520,15 @@ namespace DMS_3.BDD
 			return db.Table<TableColis>().Where(v => v.numCommande.Equals(num)).Where(v => v.flashage.Equals(true)).Count();
 		}
 
+		public void resetColis(string num) {
+			var query = db.Table<TableColis>().Where(v => v.numCommande.Equals(num));
+			foreach (var item in query)
+			{
+				item.flashage = false;
+			}
+
+		}
+
 		public List<TablePositions> CountMatiereDang(string groupage)
 		{
 			return db.Query<TablePositions>("SELECT SUM(poidsADR) as poidsADR, SUM(poidsQL) as poidsQL FROM TablePositions WHERE StatutLivraison ='0' AND groupage = ?", groupage);
@@ -635,6 +644,19 @@ namespace DMS_3.BDD
 			}
 			
 			return data;
+		}
+
+		public int GetidPosition(string numCommande)
+		{
+			int id = 0;
+
+			var query = db.Table<TablePositions>().Where(v => v.numCommande.Equals(numCommande));
+
+			foreach (var row in query)
+			{
+				id = row.Id;
+			}
+			return id;
 		}
 
 		public int GetidPrev(int id)

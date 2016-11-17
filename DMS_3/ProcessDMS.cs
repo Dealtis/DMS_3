@@ -183,7 +183,7 @@ namespace DMS_3
 						bool checkpos = dbr.pos_AlreadyExist(row["numCommande"], row["groupage"], row["typeMission"], row["typeSegment"]);
 						if (!checkpos)
 						{
-							stringValues += " SELECT " + row["codeLivraison"].ToString() + "," + row["numCommande"].ToString() + "," + row["nomClient"].ToString() + "," + row["refClient"].ToString() + "," + row["nomPayeur"].ToString() + "," + row["adresseLivraison"].ToString() + "," + row["CpLivraison"].ToString() + "," + row["villeLivraison"].ToString() + "," + row["dateExpe"].ToString() + "," + row["nbrColis"].ToString() + "," + row["nbrPallette"].ToString() + "," + row["poids"].ToString() + "," + row["adresseExpediteur"].ToString() + "," + row["CpExpediteur"].ToString() + "," + row["dateExpe"].ToString() + "," + row["villeExpediteur"].ToString() + "," + row["nomExpediteur"].ToString() + "," + row["instrucLivraison"].ToString() + "," + row["groupage"].ToString() + "," + row["PoidsADR"].ToString() + "," + row["PoidsQL"].ToString() + "," + row["typeMission"].ToString() + "," + row["typeSegment"].ToString() + ",0," + row["CR"].ToString() + "," + DateTime.Now.Day + "," + row["Datemission"].ToString() + "," + row["Ordremission"].ToString() + "," + row["planDeTransport"].ToString() + ",\"" + userAndsoft + "\"," + row["nomClientLivraison"].ToString() + "," + row["villeClientLivraison"].ToString() + "," + row["PositionPole"].ToString() + ",\"null\" UNION ALL";
+							stringValues += " SELECT " + row["IdSegment"].ToString() + "," + row["codeLivraison"].ToString() + "," + row["numCommande"].ToString() + "," + row["nomClient"].ToString() + "," + row["refClient"].ToString() + "," + row["nomPayeur"].ToString() + "," + row["adresseLivraison"].ToString() + "," + row["CpLivraison"].ToString() + "," + row["villeLivraison"].ToString() + "," + row["dateExpe"].ToString() + "," + row["nbrColis"].ToString() + "," + row["nbrPallette"].ToString() + "," + row["poids"].ToString() + "," + row["adresseExpediteur"].ToString() + "," + row["CpExpediteur"].ToString() + "," + row["dateExpe"].ToString() + "," + row["villeExpediteur"].ToString() + "," + row["nomExpediteur"].ToString() + "," + row["instrucLivraison"].ToString() + "," + row["groupage"].ToString() + "," + row["PoidsADR"].ToString() + "," + row["PoidsQL"].ToString() + "," + row["typeMission"].ToString() + "," + row["typeSegment"].ToString() + ",0," + row["CR"].ToString() + "," + row["ASSIGNE"].ToString() + "," + DateTime.Now.Day + "," + row["Datemission"].ToString() + "," + row["Ordremission"].ToString() + "," + row["planDeTransport"].ToString() + ",\"" + userAndsoft + "\"," + row["nomClientLivraison"].ToString() + "," + row["villeClientLivraison"].ToString() + "," + row["PositionPole"].ToString() + ",\"null\" UNION ALL";
 
 							foreach (JsonValue item in row["detailColis"])
 							{
@@ -196,7 +196,7 @@ namespace DMS_3
 					if (stringValues != string.Empty)
 					{
 						string stringinsertpos = "INSERT INTO ";
-						stringinsertpos += "TablePositions ( codeLivraison, numCommande, nomClient, refClient, nomPayeur, adresseLivraison, CpLivraison, villeLivraison, dateHeure, nbrColis, nbrPallette, poids, adresseExpediteur, CpExpediteur, dateExpe, villeExpediteur, nomExpediteur, instrucLivraison, GROUPAGE, poidsADR, poidsQL, typeMission, typeSegment, statutLivraison, CR, dateBDD, Datemission, Ordremission,planDeTransport, Userandsoft, nomClientLivraison, villeClientLivraison, positionPole,imgpath)";
+						stringinsertpos += "TablePositions ( idSegment, codeLivraison, numCommande, nomClient, refClient, nomPayeur, adresseLivraison, CpLivraison, villeLivraison, dateHeure, nbrColis, nbrPallette, poids, adresseExpediteur, CpExpediteur, dateExpe, villeExpediteur, nomExpediteur, instrucLivraison, GROUPAGE, poidsADR, poidsQL, typeMission, typeSegment, statutLivraison, CR, ASSIGNE, dateBDD, Datemission, Ordremission, planDeTransport, Userandsoft, nomClientLivraison, villeClientLivraison, positionPole,imgpath)";
 						stringinsertpos += " ";
 						stringinsertpos += stringValues.Remove(stringValues.Length - 9);
 						var execreq = dbr.Execute(stringinsertpos);
@@ -408,7 +408,6 @@ namespace DMS_3
 
 		void traitMessages(string codeChauffeur, string texteMessage, string utilisateurEmetteur, int numMessage)
 		{
-			DBRepository dbr = new DBRepository();
 			try
 			{
 				if (texteMessage.ToString().Length < 9)
@@ -423,7 +422,8 @@ namespace DMS_3
 						case "%%SUPPLIV":
 							dbr.updatePositionSuppliv(texteMessage.Remove(texteMessage.Length - 2).Substring(10));
 							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
-							dbr.insertDataMessage(codeChauffeur, utilisateurEmetteur, "La position " + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + " a été supprimée de votre tournée", 0, DateTime.Now, 1, numMessage);
+							TablePositions posMsg = dbr.GetPositionsData(dbr.GetidPosition(texteMessage.Remove(texteMessage.Length - 2).Substring(10)));
+							dbr.insertDataMessage(codeChauffeur, utilisateurEmetteur, "La position " + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "de " +posMsg.typeSegment+" a été supprimée de votre tournée", 0, DateTime.Now, 1, numMessage);
 							dbr.SETBadges(Data.userAndsoft);
 							break;
 						case "%%RETOLIV":
@@ -434,7 +434,7 @@ namespace DMS_3
 							dbr.QueryPositions("DELETE from TablePositions where groupage = '" + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "'");
 							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
 							break;
-						case "%%RUNTGPS":  
+						case "%%RUNTGPS":
 							if (_locationProvider != "")
 							{
 								locMgr.RequestLocationUpdates(_locationProvider, 0, 0, this);
