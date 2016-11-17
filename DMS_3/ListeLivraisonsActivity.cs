@@ -97,10 +97,10 @@ namespace DMS_3
 				btngrpAll_Click();
 			};
 			foreach (var item in grp)
-			{
+			{  
 				var aButton = new Button(this);
 				aButton.Text = item.groupage;
-				aButton.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent, 1f);
+				aButton.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent, .1f);
 
 				if (Convert.ToDouble(item.poidsADR) >= 1000)
 				{
