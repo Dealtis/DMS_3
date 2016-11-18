@@ -41,60 +41,48 @@ namespace DMS_3
 				//GetTelId
 				TelephonyManager tel = (TelephonyManager)this.GetSystemService(Context.TelephonyService);
 				var telId = tel.DeviceId;
-				bool App_Connec = false;
-				while (!App_Connec)
+				var activeConnection = connectivityManager.ActiveNetworkInfo;
+				if ((activeConnection != null) && activeConnection.IsConnected)
 				{
-					var activeConnection = connectivityManager.ActiveNetworkInfo;
-					if ((activeConnection != null) && activeConnection.IsConnected)
+					try
 					{
-						try
+						string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
+						var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
+						var IMEI = telephonyManager.DeviceId;
+						var webClient = new WebClient();
+						webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+						string userData = "";
+						webClient.QueryString.Add("IMEI", IMEI);
+						userData = webClient.DownloadString(_url);
+						System.Console.WriteLine("\n Webclient User Terminé ...");
+						//GESTION DU XML
+						JsonArray jsonVal = JsonValue.Parse(userData) as JsonArray;
+						var jsonArr = jsonVal;
+						foreach (var row in jsonArr)
 						{
-							string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
-							var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
-							var IMEI = telephonyManager.DeviceId;
-							var webClient = new WebClient();
-							webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-							string userData = "";
-							webClient.QueryString.Add("IMEI", IMEI);
-							userData = webClient.DownloadString(_url);
-							System.Console.WriteLine("\n Webclient User Terminé ...");
-							//GESTION DU XML
-							JsonArray jsonVal = JsonValue.Parse(userData) as JsonArray;
-							var jsonArr = jsonVal;
-							foreach (var row in jsonArr)
+							var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], "true");
+							Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
+							if (!checkUser)
 							{
-								var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], "true");
-								Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
-								if (!checkUser)
-								{
-									var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], "true");
-									Console.WriteLine("\n" + IntegUser);
-								}
+								var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], "true");
+								Console.WriteLine("\n" + IntegUser);
 							}
-							//execute de la requete
-							if (userData != "[]")
-							{
-								Data.tableuserload = "true";
-							}
-
-							App_Connec = true;
 						}
-						catch (System.Exception ex)
+						//execute de la requete
+						if (userData != "[]")
 						{
-							System.Console.WriteLine(ex);
-							App_Connec = false;
-							//AndHUD.Shared.ShowError (this, "Une erreur c'est produite lors du lancement, réessaie dans 5 secondes", MaskType.Black, TimeSpan.FromSeconds (5));
-							Toast.MakeText(this, "Une erreur c'est produite lors du lancement, réessaie dans 5 secondes", ToastLength.Long).Show();
-							Thread.Sleep(5000);
+							Data.tableuserload = "true";
 						}
 					}
-					else {
-						App_Connec = false;
-						//AndHUD.Shared.ShowError(this, "Pas de connexion, réessaie dans 5 secondes", MaskType.Black, TimeSpan.FromSeconds(5));
-						Toast.MakeText(this, "Pas de connexion", ToastLength.Long).Show();
+					catch (System.Exception ex)
+					{
+						System.Console.WriteLine(ex);
+						//AndHUD.Shared.ShowError (this, "Une erreur c'est produite lors du lancement, réessaie dans 5 secondes", MaskType.Black, TimeSpan.FromSeconds (5));
+						Toast.MakeText(this, "Une erreur c'est produite lors du lancement, réessaie dans 5 secondes", ToastLength.Long).Show();
 						Thread.Sleep(5000);
 					}
 				}
+
 			});
 			startupWork.ContinueWith(t =>
 			{
@@ -119,9 +107,6 @@ namespace DMS_3
 
 			}, TaskScheduler.FromCurrentSynchronizationContext());
 			startupWork.Start();
-
-
-
 		}
 
 		private void bgService_DoWork(object sender, DoWorkEventArgs e)

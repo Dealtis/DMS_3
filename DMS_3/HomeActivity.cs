@@ -124,6 +124,7 @@ namespace DMS_3
 
 			DBRepository dbr = new DBRepository();
 			var user_Login = dbr.is_user_Log_In();
+			dbr.SETBadges(Data.userAndsoft);
 			if (user_Login == "false")
 			{
 				StartActivity(new Intent(Application.Context, typeof(MainActivity)));

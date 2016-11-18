@@ -52,7 +52,6 @@ namespace DMS_3
 				buttonphoto.Click += TakeAPicture;
 			}
 
-
 			id = Intent.GetStringExtra("ID");
 			i = int.Parse(id);
 
@@ -241,7 +240,6 @@ namespace DMS_3
 					_imageView.Dispose();
 				});
 				builder.SetNegativeButton("Non", delegate { });
-
 				builder.Show();
 			}
 		}

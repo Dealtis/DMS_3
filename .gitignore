@@ -8,6 +8,9 @@
 # Java class files
 *.class
 
+#userpref
+*.userprefs
+
 # Generated files
 bin/
 gen/
@@ -33,4 +36,3 @@ captures/
 
 #obj directory
 DMS_3/obj/*
-

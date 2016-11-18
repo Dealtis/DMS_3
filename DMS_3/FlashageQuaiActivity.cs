@@ -21,7 +21,7 @@ using Uri = Android.Net.Uri;
 
 namespace DMS_3
 {
-	[Activity(Label = "",Theme = "@android:style/Theme.Light", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden)]
+	[Activity(Label = "", Theme = "@android:style/Theme.Light", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden)]
 	public class FlashageQuaiActivity : Activity
 	{
 		//IKDCConnectionListenerEx, IKDCBarcodeDataReceivedListener
@@ -46,6 +46,7 @@ namespace DMS_3
 		ImageView _imageView;
 		ToggleButton tbtnTorch;
 		TablePositions data;
+		Dialog dialog;
 		//KDCReader _kdcReader;
 
 		string numero;
@@ -212,7 +213,7 @@ namespace DMS_3
 
 			manuedit.Click += delegate
 			{
-				Dialog dialog = new Dialog(this);
+				dialog = new Dialog(this);
 				dialog.Window.RequestFeature(WindowFeatures.NoTitle);
 				//dialog.Window.SetBackgroundDrawableResource(Resource.Drawable.bktransbox);
 				dialog.SetContentView(Resource.Layout.BoxManuEdit);
@@ -316,8 +317,8 @@ namespace DMS_3
 							}
 							else
 							{
-								//RunOnUiThread(() => Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Long).Show());
-								RunOnUiThread(() => AndHUD.Shared.ShowError(this, "It no worked :(", MaskType.Black, TimeSpan.FromSeconds(2)));
+								RunOnUiThread(() => Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Long).Show());
+								//RunOnUiThread(() => AndHUD.Shared.ShowError(this, "It no worked :(", MaskType.Black, TimeSpan.FromSeconds(2)));
 							}
 						}
 					}
@@ -393,115 +394,132 @@ namespace DMS_3
 				var webClient = new WebClient();
 				webClient.Encoding = System.Text.Encoding.UTF8;
 				webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-				string dataWS = webClient.DownloadString(_url);
-				progress += 50;
-				action(progress);
-				string json = @"" + dataWS + "";
-				var bob = Newtonsoft.Json.Linq.JObject.Parse(json);
-				if (bob["FLAOTSNUM"].ToString() != "")
+				string dataWS = "";
+				try
 				{
-					RunOnUiThread(() => infonumero.Visibility = ViewStates.Visible);
-					RunOnUiThread(() => infonumero.Text = (string)bob["FLAOTSNUM"]);
+					dataWS = webClient.DownloadString(_url);
+					progress += 50;
+					action(progress);
+					string json = @"" + dataWS + "";
+					var bob = Newtonsoft.Json.Linq.JObject.Parse(json);
+					if (bob["FLAOTSNUM"].ToString() != "")
+					{
+						RunOnUiThread(() => infonumero.Visibility = ViewStates.Visible);
+						RunOnUiThread(() => infonumero.Text = (string)bob["FLAOTSNUM"]);
 
-					if (bob["FLANOMDEST"].ToString() != "")
-					{
-						RunOnUiThread(() => infonomdest.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => infonomdest.Text = (string)bob["FLANOMDEST"]);
+						if (bob["FLANOMDEST"].ToString() != "")
+						{
+							RunOnUiThread(() => infonomdest.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => infonomdest.Text = (string)bob["FLANOMDEST"]);
+						}
+						else
+						{
+							RunOnUiThread(() => infonomdest.Visibility = ViewStates.Gone);
+						}
+
+						if (bob["FLAADRDEST"].ToString() != "")
+						{
+							RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => infoadrdest.Text = (string)bob["FLAADRDEST"]);
+						}
+						else
+						{
+							RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Gone);
+						}
+
+						if (bob["FLACPDEST"].ToString() != "")
+						{
+							RunOnUiThread(() => infocpdest.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => infocpdest.Text = (string)bob["FLACPDEST"]);
+						}
+						else
+						{
+							RunOnUiThread(() => infocpdest.Visibility = ViewStates.Gone);
+						}
+
+						if (bob["FLAVILLEDEST"].ToString() != "")
+						{
+							RunOnUiThread(() => infovilledest.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => infovilledest.Text = (string)bob["FLAVILLEDEST"]);
+						}
+						else
+						{
+							RunOnUiThread(() => infovilledest.Visibility = ViewStates.Gone);
+						}
+
+						RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Visible);
+						RunOnUiThread(() => infonbcnbpP.Text = "NB COLIS: " + (string)bob["FLANBCOLIS"] + "NB PAL: " + (string)bob["FLAPAL"] + " POIDS: " + (string)bob["FLAPDS"]);
+						RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
+						RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHEE: " + (string)bob["FLANBFLASHER"] + "/" + (string)bob["FLANBCOLIS"]);
+
+						if (bob["FLAZONEFLASHER"].ToString() != "")
+						{
+							RunOnUiThread(() => zoneflash.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => zoneflash.Text = (string)bob["FLAZONEFLASHER"]);
+						}
+						else
+						{
+							RunOnUiThread(() => zoneflash.Visibility = ViewStates.Gone);
+						}
+						if (bob["FLAZONETHEORIQUE"].ToString() != null)
+						{
+							RunOnUiThread(() => zonetheo.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => zonetheo.Text = (string)bob["FLAZONETHEORIQUE"]);
+						}
+						else
+						{
+							RunOnUiThread(() => zonetheo.Visibility = ViewStates.Gone);
+						}
+
+						TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
+						RunOnUiThread(() => tl.RemoveAllViews());
+
+						foreach (var item in bob["FLAEVE"])
+						{
+							TableRow row = new TableRow(this);
+							TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WrapContent, TableLayout.LayoutParams.WrapContent);
+
+							//layoutParams.SetMargins(5, 5, 5, 5);
+							row.LayoutParameters = layoutParams;
+							row.SetGravity(Android.Views.GravityFlags.Center);
+							TextView b = new TextView(this);
+							b.Gravity = Android.Views.GravityFlags.Center;
+							b.Text = (string)item["EVEDATE"] + " " + (string)item["EVECODE"] + " " + (string)item["EVEOTEVAL1"];
+							row.AddView(b);
+							RunOnUiThread(() => tl.AddView(row));
+						}
+						RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
+
 					}
-					else
-					{
+					else {
+						RunOnUiThread(() => infonumero.Text = "Pas de résultat");
 						RunOnUiThread(() => infonomdest.Visibility = ViewStates.Gone);
-					}
-
-					if (bob["FLAADRDEST"].ToString() != "")
-					{
-						RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => infoadrdest.Text = (string)bob["FLAADRDEST"]);
-					}
-					else
-					{
-						RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Gone);
-					}
-
-					if (bob["FLACPDEST"].ToString() != "")
-					{
-						RunOnUiThread(() => infocpdest.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => infocpdest.Text = (string)bob["FLACPDEST"]);
-					}
-					else
-					{
 						RunOnUiThread(() => infocpdest.Visibility = ViewStates.Gone);
-					}
-
-					if (bob["FLAVILLEDEST"].ToString() != "")
-					{
-						RunOnUiThread(() => infovilledest.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => infovilledest.Text = (string)bob["FLAVILLEDEST"]);
-					}
-					else
-					{
 						RunOnUiThread(() => infovilledest.Visibility = ViewStates.Gone);
-					}
-
-					RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Visible);
-					RunOnUiThread(() => infonbcnbpP.Text = "NB COLIS: " + (string)bob["FLANBCOLIS"] + "NB PAL: " + (string)bob["FLAPAL"] + " POIDS: " + (string)bob["FLAPDS"]);
-					RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
-					RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHEE: " + (string)bob["FLANBFLASHER"] + "/" + (string)bob["FLANBCOLIS"]);
-
-					if (bob["FLAZONEFLASHER"].ToString() != "")
-					{
-						RunOnUiThread(() => zoneflash.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => zoneflash.Text = (string)bob["FLAZONEFLASHER"]);
-					}
-					else
-					{
+						RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Gone);
+						RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Gone);
+						RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Gone);
 						RunOnUiThread(() => zoneflash.Visibility = ViewStates.Gone);
-					}
-					if (bob["FLAZONETHEORIQUE"].ToString() != null)
-					{
-						RunOnUiThread(() => zonetheo.Visibility = ViewStates.Visible);
-						RunOnUiThread(() => zonetheo.Text = (string)bob["FLAZONETHEORIQUE"]);
-					}
-					else
-					{
 						RunOnUiThread(() => zonetheo.Visibility = ViewStates.Gone);
+						TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
+						RunOnUiThread(() => tl.RemoveAllViews());
+						RunOnUiThread(() => btn_photo.Visibility = ViewStates.Gone);
+						dialog.Dismiss();
 					}
-
-					TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
-					RunOnUiThread(() => tl.RemoveAllViews());
-
-					foreach (var item in bob["FLAEVE"])
-					{
-						TableRow row = new TableRow(this);
-						TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WrapContent, TableLayout.LayoutParams.WrapContent);
-
-						//layoutParams.SetMargins(5, 5, 5, 5);
-						row.LayoutParameters = layoutParams;
-						row.SetGravity(Android.Views.GravityFlags.Center);
-						TextView b = new TextView(this);
-						b.Gravity = Android.Views.GravityFlags.Center;
-						b.Text = (string)item["EVEDATE"] + " " + (string)item["EVECODE"] + " " + (string)item["EVEOTEVAL1"];
-						row.AddView(b);
-						RunOnUiThread(() => tl.AddView(row));
-					}
-					RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
 				}
-				else {
-					RunOnUiThread(() => infonumero.Text = "Pas de résultat");
-					RunOnUiThread(() => infonomdest.Visibility = ViewStates.Gone);
-					RunOnUiThread(() => infocpdest.Visibility = ViewStates.Gone);
-					RunOnUiThread(() => infovilledest.Visibility = ViewStates.Gone);
-					RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Gone);
-					RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Gone);
-					RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Gone);
-					RunOnUiThread(() => zoneflash.Visibility = ViewStates.Gone);
-					RunOnUiThread(() => zonetheo.Visibility = ViewStates.Gone);
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex);
+					progress += 50;
+					action(progress);
+					RunOnUiThread(() => btn_photo.Visibility = ViewStates.Gone);
+					RunOnUiThread(() => Toast.MakeText(this, "Erreur de connexion", ToastLength.Long).Show());
 				}
 			}
 			else
 			{
-				//RunOnUiThread(() => Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Long).Show());
-				RunOnUiThread(() => AndHUD.Shared.ShowError(this, "It no worked :(", MaskType.Black, TimeSpan.FromSeconds(2)));
+				RunOnUiThread(() => Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Long).Show());
+				//RunOnUiThread(() => AndHUD.Shared.ShowError(this, "It no worked :(", MaskType.Black, TimeSpan.FromSeconds(2)));
 			}
 		}
 
