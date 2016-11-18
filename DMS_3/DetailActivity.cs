@@ -23,7 +23,6 @@ namespace DMS_3
 		bool flash;
 
 		TablePositions data;
-
 		TextView codelivraison;
 		TextView commande;
 		TextView infolivraison;

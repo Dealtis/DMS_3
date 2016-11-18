@@ -82,6 +82,10 @@
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Release/res/drawable/redline.xml
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Release/res/drawable/keyboard.png
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Release/res/drawable/barcode.png
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Release/res/layout/listeviewrowvalidepj.xml
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Release/res/drawable/valpj.png
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Release/res/layout/listeviewroweuro.xml
+/Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Release/res/drawable/liv_100_euro.png
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Release/R.cs.flag
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/bin/Release/com.dealtis.dms_3-Signed.apk
 /Users/eXtRa/Documents/Dev/DMS/DMS_3/DMS_3/obj/Release/uploadflags.txt

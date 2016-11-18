@@ -242,6 +242,8 @@
     <AndroidResource Include="Resources\drawable\barcode.png" />
     <AndroidResource Include="Resources\layout\ListeViewRowValidePJ.axml" />
     <AndroidResource Include="Resources\drawable\Valpj.png" />
+    <AndroidResource Include="Resources\layout\ListeViewRowEuro.axml" />
+    <AndroidResource Include="Resources\drawable\Liv_100_euro.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
