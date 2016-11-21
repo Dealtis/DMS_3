@@ -525,6 +525,7 @@ namespace DMS_3.BDD
 			foreach (var item in query)
 			{
 				item.flashage = false;
+				db.Update(item);
 			}
 
 		}

@@ -216,6 +216,9 @@ namespace DMS_3
 		{
 			if (Intent.GetBooleanExtra("FLASH", false))
 			{
+				DBRepository dbr = new DBRepository();
+				dbr.resetColis(data.numCommande);
+
 				Intent intent = new Intent(this, typeof(FlashageQuaiActivity));
 				intent.PutExtra("ID", Convert.ToString(i));
 				intent.PutExtra("NUMCOM", data.numCommande);
