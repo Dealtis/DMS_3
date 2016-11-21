@@ -1911,6 +1911,9 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d006b
 			public const int boxPole = 2131558507;
 			
+			// aapt resource value: 0x7f0d00ec
+			public const int btnSave = 2131558636;
+			
 			// aapt resource value: 0x7f0d008a
 			public const int btn_anomalie = 2131558538;
 			
@@ -1974,8 +1977,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d00dc
 			public const int cancel_action = 2131558620;
 			
-			// aapt resource value: 0x7f0d00ef
-			public const int checkBox1 = 2131558639;
+			// aapt resource value: 0x7f0d00f2
+			public const int checkBox1 = 2131558642;
 			
 			// aapt resource value: 0x7f0d005b
 			public const int checkBoxPartic = 2131558491;
@@ -2016,8 +2019,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0069
 			public const int commande = 2131558505;
 			
-			// aapt resource value: 0x7f0d00f5
-			public const int contentFrame = 2131558645;
+			// aapt resource value: 0x7f0d00f8
+			public const int contentFrame = 2131558648;
 			
 			// aapt resource value: 0x7f0d0031
 			public const int contentPanel = 2131558449;
@@ -2292,8 +2295,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d002d
 			public const int parentPanel = 2131558445;
 			
-			// aapt resource value: 0x7f0d00ee
-			public const int partic = 2131558638;
+			// aapt resource value: 0x7f0d00f1
+			public const int partic = 2131558641;
 			
 			// aapt resource value: 0x7f0d00d9
 			public const int password = 2131558617;
@@ -2316,20 +2319,23 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d003a
 			public const int radio = 2131558458;
 			
-			// aapt resource value: 0x7f0d00f4
-			public const int radioButton1 = 2131558644;
+			// aapt resource value: 0x7f0d00f7
+			public const int radioButton1 = 2131558647;
 			
-			// aapt resource value: 0x7f0d00f3
-			public const int radioButton2 = 2131558643;
+			// aapt resource value: 0x7f0d00f6
+			public const int radioButton2 = 2131558646;
 			
-			// aapt resource value: 0x7f0d00f2
-			public const int radioGroup1 = 2131558642;
+			// aapt resource value: 0x7f0d00f5
+			public const int radioGroup1 = 2131558645;
 			
 			// aapt resource value: 0x7f0d0074
 			public const int relativeLayout1 = 2131558516;
 			
-			// aapt resource value: 0x7f0d00f1
-			public const int relativeLayout2 = 2131558641;
+			// aapt resource value: 0x7f0d00f4
+			public const int relativeLayout2 = 2131558644;
+			
+			// aapt resource value: 0x7f0d00eb
+			public const int rootView = 2131558635;
 			
 			// aapt resource value: 0x7f0d00ac
 			public const int rowLayout1 = 2131558572;
@@ -2394,14 +2400,17 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0011
 			public const int showTitle = 2131558417;
 			
+			// aapt resource value: 0x7f0d00ed
+			public const int signatureView = 2131558637;
+			
 			// aapt resource value: 0x7f0d00c7
 			public const int space1 = 2131558599;
 			
 			// aapt resource value: 0x7f0d0051
 			public const int spinnerAnomalie = 2131558481;
 			
-			// aapt resource value: 0x7f0d00eb
-			public const int spinnerSoc = 2131558635;
+			// aapt resource value: 0x7f0d00ee
+			public const int spinnerSoc = 2131558638;
 			
 			// aapt resource value: 0x7f0d0007
 			public const int split_action_bar = 2131558407;
@@ -2436,8 +2445,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d00d7
 			public const int tableload = 2131558615;
 			
-			// aapt resource value: 0x7f0d00f6
-			public const int takeflash = 2131558646;
+			// aapt resource value: 0x7f0d00f9
+			public const int takeflash = 2131558649;
 			
 			// aapt resource value: 0x7f0d00e8
 			public const int tbtnTorch = 2131558632;
@@ -2460,8 +2469,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d009c
 			public const int text_headline = 2131558556;
 			
-			// aapt resource value: 0x7f0d00f0
-			public const int textcr = 2131558640;
+			// aapt resource value: 0x7f0d00f3
+			public const int textcr = 2131558643;
 			
 			// aapt resource value: 0x7f0d00ea
 			public const int textds = 2131558634;
@@ -2514,14 +2523,14 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0075
 			public const int valide = 2131558517;
 			
-			// aapt resource value: 0x7f0d00ec
-			public const int valideSoc = 2131558636;
+			// aapt resource value: 0x7f0d00ef
+			public const int valideSoc = 2131558639;
 			
 			// aapt resource value: 0x7f0d005d
 			public const int valider = 2131558493;
 			
-			// aapt resource value: 0x7f0d00ed
-			public const int velocity_text_view = 2131558637;
+			// aapt resource value: 0x7f0d00f0
+			public const int velocity_text_view = 2131558640;
 			
 			// aapt resource value: 0x7f0d009f
 			public const int view_header = 2131558559;
@@ -2799,22 +2808,25 @@ namespace DMS_3
 			public const int select_dialog_singlechoice_material = 2130968642;
 			
 			// aapt resource value: 0x7f040043
-			public const int societe = 2130968643;
+			public const int Signature = 2130968643;
 			
 			// aapt resource value: 0x7f040044
-			public const int support_simple_spinner_dropdown_item = 2130968644;
+			public const int societe = 2130968644;
 			
 			// aapt resource value: 0x7f040045
-			public const int swipe = 2130968645;
+			public const int support_simple_spinner_dropdown_item = 2130968645;
 			
 			// aapt resource value: 0x7f040046
-			public const int valideDialBox = 2130968646;
+			public const int swipe = 2130968646;
 			
 			// aapt resource value: 0x7f040047
-			public const int zxingscanneractivitylayout = 2130968647;
+			public const int valideDialBox = 2130968647;
 			
 			// aapt resource value: 0x7f040048
-			public const int zxingscannerfragmentlayout = 2130968648;
+			public const int zxingscanneractivitylayout = 2130968648;
+			
+			// aapt resource value: 0x7f040049
+			public const int zxingscannerfragmentlayout = 2130968649;
 			
 			static Layout()
 			{

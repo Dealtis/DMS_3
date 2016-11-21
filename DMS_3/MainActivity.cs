@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Support.V7.App;
 using Android.Telephony;
 using Android.Widget;
 using AndroidHUD;
@@ -15,8 +16,8 @@ using DMS_3.BDD;
 
 namespace DMS_3
 {
-	[Activity(Label = "DMS_3", Icon = "@mipmap/icon", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
-	public class MainActivity : Activity
+	[Activity(Label = "DMS_3",Theme = "@style/MyTheme.Base", Icon = "@mipmap/icon", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+	public class MainActivity : AppCompatActivity
 	{
 		Button btn_Login;
 		EditText user;

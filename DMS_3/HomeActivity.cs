@@ -1,16 +1,18 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using DMS_3.BDD;
 using HockeyApp.Android;
 using HockeyApp.Android.Metrics;
+using AlertDialog = Android.Support.V7.App.AlertDialog;
 
 namespace DMS_3
 {
-	[Activity(Label = "HomeActivity", Theme = "@android:style/Theme.Black.NoTitleBar", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
-	public class HomeActivity : Activity
+	[Activity(Label = "HomeActivity", Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+	public class HomeActivity : AppCompatActivity
 	{
 		TextView lblTitle;
 		TextView peekupBadgeText;

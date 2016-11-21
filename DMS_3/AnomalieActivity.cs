@@ -8,12 +8,13 @@ using Android.OS;
 using Android.Provider;
 using Android.Widget;
 using DMS_3.BDD;
-
+using Android.Support.V7.App;
+using AlertDialog = Android.Support.V7.App.AlertDialog;
 using Uri = Android.Net.Uri;
 namespace DMS_3
 {
-	[Activity(Label = "AnomalieActivity", Theme = "@android:style/Theme.Black.NoTitleBar", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
-	public class AnomalieActivity : Activity
+	[Activity(Label = "AnomalieActivity", Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+	public class AnomalieActivity : AppCompatActivity
 	{
 		string id;
 		int i;

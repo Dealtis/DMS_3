@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <resources>
-	<style name="MyTheme.Base" parent="android:Theme.Light">
-		<item name="android:windowBackground">@drawable/splash_screen</item>
-		<item name="android:windowNoTitle">true</item>
+	<style name="MyTheme.Base" parent="Theme.AppCompat">
+		<item name="windowNoTitle">true</item>
+		<item name="windowActionBar">false</item>
 	</style>
 	<style name="MyTheme.Splash" parent="android:Theme.Light">
 		<item name="android:windowBackground">@drawable/splash_screen</item>

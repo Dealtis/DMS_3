@@ -5,15 +5,17 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Provider;
+using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using DMS_3.BDD;
 using Uri = Android.Net.Uri;
+using AlertDialog = Android.Support.V7.App.AlertDialog;
 
 namespace DMS_3
 {
-	[Activity(Label = "ValidationActivity", Theme = "@android:style/Theme.Black.NoTitleBar", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
-	public class ValidationActivity : Activity
+	[Activity(Label = "ValidationActivity", Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+	public class ValidationActivity : AppCompatActivity
 	{
 		//RECUP ID 
 		string id;
@@ -108,7 +110,8 @@ namespace DMS_3
 				{
 					title = "CR";
 					typeMo = "le cr";
-				}else
+				}
+				else
 				{
 					title = "ASSIGNE";
 					typeMo = "l' assigne";
@@ -164,10 +167,23 @@ namespace DMS_3
 
 			dbr.SETBadges(Data.userAndsoft);
 
-			Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
-			intent.PutExtra("TYPE", type);
-			intent.PutExtra("TRAIT", "false");
-			this.StartActivity(intent);
+			//si user got signature true take signature then go to listliv
+			bool sign = false;
+			if (sign)
+			{
+				Intent intent = new Intent(this, typeof(SignatureActivity));
+				intent.PutExtra("TYPE", type);
+				intent.PutExtra("TRAIT", "false");
+				this.StartActivity(intent);
+			}
+			else
+			{
+				Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
+				intent.PutExtra("TYPE", type);
+				intent.PutExtra("TRAIT", "false");
+				this.StartActivity(intent);
+			}
+
 		}
 
 		private bool IsThereAnAppToTakePictures()
@@ -189,16 +205,11 @@ namespace DMS_3
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
 			DBRepository dbr = new DBRepository();
-			// Make it available in the gallery
 
 			Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
 			Uri contentUri = Uri.FromFile(Data._file);
 			mediaScanIntent.SetData(contentUri);
 			SendBroadcast(mediaScanIntent);
-
-			// Display in ImageView. We will resize the bitmap to fit the display.
-			// Loading the full sized image will consume to much memory
-			// and cause the application to crash.
 
 			int height = Resources.DisplayMetrics.HeightPixels;
 			int width = _imageView.Height;

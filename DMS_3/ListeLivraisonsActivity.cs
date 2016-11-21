@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Graphics;
+using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using AndroidHUD;
 using DMS_3.BDD;
+using AlertDialog = Android.Support.V7.App.AlertDialog;
 namespace DMS_3
 {
 
-	[Activity(Label = "ListeLivraisonsActivity", Theme = "@android:style/Theme.Black.NoTitleBar")]
-	public class ListeLivraisonsActivity : Activity
+	[Activity(Label = "ListeLivraisonsActivity", Theme = "@style/MyTheme.Base")]
+	public class ListeLivraisonsActivity : AppCompatActivity
 	{
 		private List<TablePositions> bodyItems;
 		private ListView bodyListView;
 		private ListViewAdapterMenu adapter;
-		Button btngrpAll;
 		LinearLayout btnsearch;
 		LinearLayout layout_groupage;
 		Button btntrait;
@@ -89,6 +91,8 @@ namespace DMS_3
 			}
 			var allButton = new Button(this);
 			allButton.Text = "#";
+			allButton.SetTextColor(Color.DarkGray);
+			allButton.SetTextSize(Android.Util.ComplexUnitType.Sp, 12);
 			allButton.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent, .2f);
 			allButton.SetBackgroundResource(Resource.Drawable.button_white_background);
 			layout_groupage.AddView(allButton);
@@ -97,9 +101,12 @@ namespace DMS_3
 				btngrpAll_Click();
 			};
 			foreach (var item in grp)
-			{  
+			{ 
 				var aButton = new Button(this);
 				aButton.Text = item.groupage;
+				aButton.SetTextColor(Color.DarkGray);
+				aButton.SetTextSize(Android.Util.ComplexUnitType.Sp, 12);
+
 				aButton.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent, .1f);
 
 				if (Convert.ToDouble(item.poidsADR) >= 1000)
@@ -135,9 +142,7 @@ namespace DMS_3
 			//LISTVIEW
 			bodyListView = FindViewById<ListView>(Resource.Id.bodylist);
 			bodyItems = new List<TablePositions>();
-
 			bodyListView.ItemClick += MListView_ItemClick;
-
 			adapter = new ListViewAdapterMenu(this, bodyItems);
 			bodyListView.Adapter = adapter;
 

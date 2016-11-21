@@ -3,13 +3,14 @@ using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
+using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using DMS_3.BDD;
 namespace DMS_3
 {
-	[Activity(Label = "DetailActivity", Theme = "@android:style/Theme.Black.NoTitleBar", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, NoHistory = true)]
-	public class DetailActivity : Activity, GestureDetector.IOnGestureListener
+	[Activity(Label = "DetailActivity", Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, NoHistory = true)]
+	public class DetailActivity : AppCompatActivity, GestureDetector.IOnGestureListener
 	{
 		private GestureDetector _gestureDetector;
 		private int SWIPE_MAX_OFF_PATH = 250;

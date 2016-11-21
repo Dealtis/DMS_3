@@ -1,28 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.IO;
-
-
-using System.Linq;
-using System.Text;
 using Android.App;
 using Android.Content;
-using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
-using DMS_3.BDD;
-using Android.Text;
+using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
-using SQLite;
-using AndroidHUD;
-
+using DMS_3.BDD;
 
 namespace DMS_3
 {
-	[Activity(Label = "MessageActivity", Theme = "@android:style/Theme.Black.NoTitleBar.Fullscreen")]
-	public class MessageActivity : Activity
+	[Activity(Label = "MessageActivity", Theme = "@style/MyTheme.Base")]
+	public class MessageActivity : AppCompatActivity
 	{
 		private List<TableMessages> mItems;
 		private ListView mListView;

@@ -3,8 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:id="@+id/layoutlistlivraison"
-    android:background="#ffffffff">
+    android:id="@+id/layoutlistlivraison">
 <!--    android:drawableLeft="@drawable/plushuitmille"
             android:drawablePadding="-15dip"
 

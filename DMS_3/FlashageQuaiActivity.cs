@@ -17,12 +17,13 @@ using AndroidHUD;
 using DMS_3.BDD;
 using ZXing.Mobile;
 using Uri = Android.Net.Uri;
+using Android.Support.V7.App;
 //using Koamtac.Kdc.Sdk;
 
 namespace DMS_3
 {
-	[Activity(Label = "", Theme = "@android:style/Theme.Light", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden)]
-	public class FlashageQuaiActivity : Activity
+	[Activity(Label = "", Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden)]
+	public class FlashageQuaiActivity : AppCompatActivity
 	{
 		//IKDCConnectionListenerEx, IKDCBarcodeDataReceivedListener
 		//FlashageQuaiActivity _activity;
@@ -651,7 +652,6 @@ namespace DMS_3
 							{
 								rbmp.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg, 100, fs);
 							}
-							//ftp://77.158.93.75 ftp://10.1.2.75
 							Data.Instance.UploadFile("ftp://77.158.93.75", compImg, "DMS", "Linuxr00tn", "");
 							bmp.Recycle();
 							rbmp.Recycle();

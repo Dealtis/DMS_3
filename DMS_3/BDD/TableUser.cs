@@ -27,7 +27,6 @@ namespace DMS_3
 			public bool user_IsLogin { get; set; }
 			public string user_Password { get; set; }
 			public string user_UsePartic { get; set; }
-
 	}
 }
 
