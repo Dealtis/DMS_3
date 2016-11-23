@@ -110,7 +110,7 @@ namespace DMS_3
 
 					txtcolis.Visibility = Android.Views.ViewStates.Visible;
 					txtpalette.Visibility = Android.Views.ViewStates.Visible;
-					txttonnes.Visibility =  Android.Views.ViewStates.Visible;
+					txttonnes.Visibility = Android.Views.ViewStates.Visible;
 					break;
 				case "Restaure en non traite":
 					editText.Visibility = Android.Views.ViewStates.Gone;
@@ -274,6 +274,8 @@ namespace DMS_3
 						break;
 				}
 
+
+
 				//creation du JSON
 				string JSON = "{\"codesuiviliv\":\"" + codeanomalie + "\",\"memosuiviliv\":\"" + formatrem + "\",\"libellesuiviliv\":\"" + txtspinner + "\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
 				//création de la notification webservice // statut de position
@@ -293,10 +295,49 @@ namespace DMS_3
 
 				dbr.SETBadges(Data.userAndsoft);
 
-				Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
-				intent.PutExtra("TYPE", type);
-				intent.PutExtra("TRAIT", "false");
-				this.StartActivity(intent);
+				bool sign = dbr.is_user_Sign(Data.userAndsoft);
+				if (sign)
+				{
+					Intent intent = new Intent();
+					switch (codeanomalie)
+					{
+						case "RENAVI":
+							intent = new Intent(this, typeof(SignatureActivity));
+							break;
+						case "RENCAD":
+							intent = new Intent(this, typeof(SignatureActivity));
+							break;
+						case "RENFHB":
+							intent = new Intent(this, typeof(SignatureActivity));
+							break;
+						case "RENNCG":
+							intent = new Intent(this, typeof(SignatureActivity));
+							break;
+						case "RENFCO":
+							intent = new Intent(this, typeof(SignatureActivity));
+							break;
+						case "ENEDIV":
+							intent = new Intent(this, typeof(SignatureActivity));
+							break;
+						case "ENEAVI":
+							intent = new Intent(this, typeof(SignatureActivity));
+							break;
+						default:
+							intent = new Intent(this, typeof(ListeLivraisonsActivity));
+							break;
+					}
+					intent.PutExtra("TYPE", type);
+					intent.PutExtra("TRAIT", "false");
+					intent.PutExtra("NUM", data.numCommande);
+					this.StartActivity(intent);
+				}
+				else
+				{
+					Intent intent = new Intent(this, typeof(ListeLivraisonsActivity));
+					intent.PutExtra("TYPE", type);
+					intent.PutExtra("TRAIT", "false");
+					this.StartActivity(intent);
+				}
 			}
 		}
 

@@ -199,7 +199,7 @@ namespace DMS_3
 				if (e.Text.ToString() != string.Empty)
 				{
 					numero = e.Text.ToString();
-					ShowProgress(progress => AndHUD.Shared.Show(this, "Chargement ... " + progress + "%", progress, MaskType.Clear), e.Text.ToString());
+					ShowProgress(progress => AndHUD.Shared.Show(this, e.Text.ToString() + " ... " + progress + "%", progress, MaskType.Clear), e.Text.ToString());
 				}
 				barcode.EditableText.Clear();
 			};
@@ -225,7 +225,7 @@ namespace DMS_3
 				{
 					numero = barrecode.Text;
 					dialog.Dismiss();
-					ShowProgress(progress => AndHUD.Shared.Show(this, "Récupération ... " + progress + "%", progress, MaskType.Clear), barrecode.Text);
+					ShowProgress(progress => AndHUD.Shared.Show(this, barrecode.Text + " ... " + progress + "%", progress, MaskType.Clear), barrecode.Text);
 				};
 
 				dialog.SetCancelable(true);
@@ -272,7 +272,7 @@ namespace DMS_3
 			if (result != null && !string.IsNullOrEmpty(result.Text))
 			{
 				numero = result.Text;
-				ShowProgress(progress => AndHUD.Shared.Show(this, "Récupération ... " + progress + "%", progress, MaskType.Clear), result.Text);
+				ShowProgress(progress => AndHUD.Shared.Show(this, result.Text + " ... " + progress + "%", progress, MaskType.Clear), result.Text);
 				barcode.EditableText.Clear();
 			}
 			else {
@@ -397,6 +397,7 @@ namespace DMS_3
 					var request = HttpWebRequest.Create(_url);
 					request.ContentType = "application/json";
 					request.Method = "GET";
+					request.Proxy = null;
 					using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
 					{
 						if (response.StatusCode != HttpStatusCode.OK)

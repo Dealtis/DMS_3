@@ -28,43 +28,43 @@ namespace DMS_3
 			base.OnResume();
 			Task startupWork = new Task(() =>
 			{
-				//INSTANCE DBREPOSITORY
-				DBRepository dbr = new DBRepository();
-				//CREATION DE LA BDD
-				dbr.CreateDB();
-				//CREATION DES TABLES
-				dbr.CreateTable();
+			//INSTANCE DBREPOSITORY
+			DBRepository dbr = new DBRepository();
+			//CREATION DE LA BDD
+			dbr.CreateDB();
+			//CREATION DES TABLES
+			dbr.CreateTable();
 
-				//TEST DE CONNEXION
-				var connectivityManager = (ConnectivityManager)GetSystemService(ConnectivityService);
+			//TEST DE CONNEXION
+			var connectivityManager = (ConnectivityManager)GetSystemService(ConnectivityService);
 
-				//GetTelId
-				TelephonyManager tel = (TelephonyManager)this.GetSystemService(Context.TelephonyService);
-				var telId = tel.DeviceId;
-				var activeConnection = connectivityManager.ActiveNetworkInfo;
-				if ((activeConnection != null) && activeConnection.IsConnected)
+			//GetTelId
+			TelephonyManager tel = (TelephonyManager)this.GetSystemService(Context.TelephonyService);
+			var telId = tel.DeviceId;
+			var activeConnection = connectivityManager.ActiveNetworkInfo;
+			if ((activeConnection != null) && activeConnection.IsConnected)
+			{
+				try
 				{
-					try
+					string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
+					var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
+					var IMEI = telephonyManager.DeviceId;
+					var webClient = new WebClient();
+					webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+					string userData = "";
+					webClient.QueryString.Add("IMEI", IMEI);
+					userData = webClient.DownloadString(_url);
+					System.Console.WriteLine("\n Webclient User Terminé ...");
+					//GESTION DU XML
+					JsonArray jsonVal = JsonValue.Parse(userData) as JsonArray;
+					var jsonArr = jsonVal;
+					foreach (var row in jsonArr)
 					{
-						string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
-						var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
-						var IMEI = telephonyManager.DeviceId;
-						var webClient = new WebClient();
-						webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-						string userData = "";
-						webClient.QueryString.Add("IMEI", IMEI);
-						userData = webClient.DownloadString(_url);
-						System.Console.WriteLine("\n Webclient User Terminé ...");
-						//GESTION DU XML
-						JsonArray jsonVal = JsonValue.Parse(userData) as JsonArray;
-						var jsonArr = jsonVal;
-						foreach (var row in jsonArr)
+						var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"]);
+						Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
+						if (!checkUser)
 						{
-							var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], "true");
-							Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
-							if (!checkUser)
-							{
-								var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], "true");
+							var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"],row["User_Usepartic"]);
 								Console.WriteLine("\n" + IntegUser);
 							}
 						}
@@ -77,7 +77,6 @@ namespace DMS_3
 					catch (System.Exception ex)
 					{
 						System.Console.WriteLine(ex);
-						//AndHUD.Shared.ShowError (this, "Une erreur c'est produite lors du lancement, réessaie dans 5 secondes", MaskType.Black, TimeSpan.FromSeconds (5));
 						Toast.MakeText(this, "Une erreur c'est produite lors du lancement, réessaie dans 5 secondes", ToastLength.Long).Show();
 						Thread.Sleep(5000);
 					}

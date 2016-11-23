@@ -68,8 +68,6 @@ namespace DMS_3
 
 			CrashManager.Register(this, APP_ID, new HockeyCrashManagerSettings());
 
-
-
 			//FONTS
 			txtLivraison.SetTypeface(Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);
 			txtEnlevement.SetTypeface(Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);
@@ -106,8 +104,8 @@ namespace DMS_3
 				Data.Is_Service_Running = false;
 				Intent intent = new Intent(this, typeof(MainActivity));
 				this.StartActivity(intent);
-		//this.OverridePendingTransition (Resource.Animation.abc_slide_in_top,Resource.Animation.abc_slide_out_bottom);
-	});
+				//this.OverridePendingTransition (Resource.Animation.abc_slide_in_top,Resource.Animation.abc_slide_out_bottom);
+			});
 			builder.Show();
 		}
 
@@ -120,16 +118,19 @@ namespace DMS_3
 		{
 			base.OnResume();
 
-			//var user = dbr.getUserAndsoft();
-			//dbr.setUserdata(user);
-			//dbr.SETBadges(Data.userAndsoft);
-
-			DBRepository dbr = new DBRepository();
-			var user_Login = dbr.is_user_Log_In();
-			dbr.SETBadges(Data.userAndsoft);
-			if (user_Login == "false")
+			try
 			{
-				StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+				DBRepository dbr = new DBRepository();
+				var user_Login = dbr.is_user_Log_In();
+				dbr.SETBadges(Data.userAndsoft);
+				if (user_Login == "false")
+				{
+					StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+				}
+			}
+			catch (System.Exception ex)
+			{
+				System.Console.WriteLine("Erreur sur is_user_Log_In" + ex);
 			}
 
 			var version = this.PackageManager.GetPackageInfo(this.PackageName, 0).VersionName;

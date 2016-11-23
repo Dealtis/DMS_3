@@ -168,12 +168,13 @@ namespace DMS_3
 			dbr.SETBadges(Data.userAndsoft);
 
 			//si user got signature true take signature then go to listliv
-			bool sign = false;
+			bool sign = dbr.is_user_Sign(Data.userAndsoft);
 			if (sign)
 			{
 				Intent intent = new Intent(this, typeof(SignatureActivity));
 				intent.PutExtra("TYPE", type);
 				intent.PutExtra("TRAIT", "false");
+				intent.PutExtra("NUM", data.numCommande);
 				this.StartActivity(intent);
 			}
 			else

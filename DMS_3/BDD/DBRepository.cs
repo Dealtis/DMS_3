@@ -50,10 +50,10 @@ namespace DMS_3.BDD
 		}
 
 		//VERIF SI USER DEJA INTEGRER
-		public bool user_AlreadyExist(string user_AndsoftUser, string user_TransicsUser, string user_Password, string user_UsePartic)
+		public bool user_AlreadyExist(string user_AndsoftUser, string user_TransicsUser, string user_Password, string user_UseSigna)
 		{
 			bool output = false;
-			var table = db.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(user_AndsoftUser)).Where(v => v.user_TransicsUser.Equals(user_TransicsUser)).Where(v => v.user_Password.Equals(user_Password)).Where(v => v.user_UsePartic.Equals(user_UsePartic));
+			var table = db.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(user_AndsoftUser)).Where(v => v.user_TransicsUser.Equals(user_TransicsUser)).Where(v => v.user_Password.Equals(user_Password)).Where(v => v.user_UseSigna.Equals(user_UseSigna));
 			foreach (var item in table)
 			{
 				output = true;
@@ -63,7 +63,7 @@ namespace DMS_3.BDD
 		}
 
 		//Insertion des DATS USER
-		public string InsertDataUser(string user_AndsoftUser, string user_TransicsUser, string user_Password, string user_UsePartic)
+		public string InsertDataUser(string user_AndsoftUser, string user_TransicsUser, string user_Password, string user_UseSigna, string User_Usepartic)
 		{
 			try
 			{
@@ -71,7 +71,8 @@ namespace DMS_3.BDD
 				item.user_AndsoftUser = user_AndsoftUser;
 				item.user_TransicsUser = user_TransicsUser;
 				item.user_Password = user_Password;
-				item.user_UsePartic = user_UsePartic;
+				item.user_UseSigna = user_UseSigna;
+				item.user_UsePartic = User_Usepartic;
 				db.Insert(item);
 				
 				return "Insertion" + user_AndsoftUser + " réussite";
@@ -422,6 +423,21 @@ namespace DMS_3.BDD
 			}
 			
 			return output;
+
+		}//USER CHECK SIGNA
+		public bool is_user_Sign(string userAndsoft)
+		{
+			bool output = false;
+			var query = db.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(userAndsoft));
+			foreach (var item in query)
+			{
+				if (item.user_UseSigna == "1")
+				{
+					output = true;
+				}
+			}
+			
+			return output;
 		}
 
 		//setUserdata
@@ -697,6 +713,16 @@ namespace DMS_3.BDD
 				idnext = 0;
 			}
 			return idnext;
+		}
+
+		internal void updatePositionOrder(string idSegment, int Ordremission)
+		{
+			var query = db.Table<TablePositions>().Where(v => v.idSegment.Equals(idSegment));
+			foreach (var item in query)
+			{
+				item.Ordremission = Ordremission;
+				db.Update(item);
+			}
 		}
 
 		public string updateposimgpath(int i, string path)

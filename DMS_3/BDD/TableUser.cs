@@ -26,6 +26,7 @@ namespace DMS_3
 			public DateTime user_LoginDate { get; set; }
 			public bool user_IsLogin { get; set; }
 			public string user_Password { get; set; }
+			public string user_UseSigna { get; set; }
 			public string user_UsePartic { get; set; }
 	}
 }

@@ -51,7 +51,7 @@ namespace DMS_3
 							Bitmap signbmp = signature.GetImage();
 							string FtpUrl = "ftp://77.158.93.75";
 							string UploadDirectory = "/Signature_TEST";
-							String uploadUrl = String.Format("{0}{1}/{2}", FtpUrl, UploadDirectory, "upload.png");
+							String uploadUrl = String.Format("{0}{1}/{2}", FtpUrl, UploadDirectory, Intent.GetStringExtra("NUM")+"-1_1.png");
 							FtpWebRequest req = (FtpWebRequest)FtpWebRequest.Create(uploadUrl);
 							req.Proxy = null;
 							req.Method = WebRequestMethods.Ftp.UploadFile;
