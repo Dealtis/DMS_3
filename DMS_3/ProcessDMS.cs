@@ -532,7 +532,14 @@ namespace DMS_3
 									rowStatut += "]";
 									dbr.insertDataMessage(Data.userAndsoft, "", rowStatut, 5, DateTime.Now, 5, 0);
 									break;
-								case "NOTHING":
+								case "REORDER":
+									//string vTest = "7521157-23|7504793-22|7504911-21|7520938-20|7508789-19|7508319-18|7520258-17|7517092-16|7504745-15|7504742-14|7518147-13|7493546-12|7520226-11|7521200-10|7518630-9|7519496-8|7518382-7|7482816-6|7504679-5|7521031-4|7496922-3|7496918-2|7484337-1|";
+									string[] arraySQL = texteMessageInputSplit[3].Split('|');
+									foreach (string item in arraySQL)
+									{
+										var subarrSQL = item.Split('-');
+										dbr.updatePositionOrder(subarrSQL[0].ToString(),Convert.ToInt32(subarrSQL[1]));
+									}
 									break;
 								default:
 									var execreq = dbr.Execute(texteMessageInputSplit[3]);

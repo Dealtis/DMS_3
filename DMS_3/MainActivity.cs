@@ -16,7 +16,7 @@ using DMS_3.BDD;
 
 namespace DMS_3
 {
-	[Activity(Label = "DMS_3",Theme = "@style/MyTheme.Base", Icon = "@mipmap/icon", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+	[Activity(Label = "DMS_3", Theme = "@style/MyTheme.Base", Icon = "@mipmap/icon", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
 	public class MainActivity : AppCompatActivity
 	{
 		Button btn_Login;
@@ -151,10 +151,13 @@ namespace DMS_3
 
 		void ShowProgress(Action<int> action)
 		{
-			Task.Factory.StartNew(() =>
+			int progress = 0;
+			try
+			{
+				Task.Factory.StartNew(() =>
 			{
 
-				int progress = 0;
+
 				progress += 20;
 				action(progress);
 				DBRepository dbr = new DBRepository();
@@ -175,11 +178,11 @@ namespace DMS_3
 				var jsonArr = jsonVal;
 				foreach (var row in jsonArr)
 				{
-					var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], "true");
+					var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_UseSigna"]);
 					Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
 					if (!checkUser)
 					{
-						var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], "true");
+						var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_UseSigna"], row["User_Usepartic"]);
 						Console.WriteLine("\n" + IntegUser);
 					}
 				}
@@ -192,6 +195,14 @@ namespace DMS_3
 				AndHUD.Shared.Dismiss(this);
 				AndHUD.Shared.ShowSuccess(this, "Table mise à jour", MaskType.Black, TimeSpan.FromSeconds(1));
 			});
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+				progress += 50;
+				action(progress);
+			}
+
 		}
 	}
 }
