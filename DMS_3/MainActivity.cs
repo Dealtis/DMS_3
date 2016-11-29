@@ -156,8 +156,6 @@ namespace DMS_3
 			{
 				Task.Factory.StartNew(() =>
 			{
-
-
 				progress += 20;
 				action(progress);
 				DBRepository dbr = new DBRepository();
@@ -178,11 +176,11 @@ namespace DMS_3
 				var jsonArr = jsonVal;
 				foreach (var row in jsonArr)
 				{
-					var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_UseSigna"]);
+					var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_UseSigna"],row["user_Societe"]);
 					Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
 					if (!checkUser)
 					{
-						var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_UseSigna"], row["User_Usepartic"]);
+						var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_UseSigna"], row["User_Usepartic"], row["user_Societe"]);
 						Console.WriteLine("\n" + IntegUser);
 					}
 				}

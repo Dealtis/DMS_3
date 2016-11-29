@@ -8,6 +8,7 @@ using Android.App;
 using Android.Content;
 using Android.Net;
 using Android.OS;
+using Android.Preferences;
 using Android.Telephony;
 using Android.Widget;
 using DMS_3.BDD;
@@ -60,11 +61,11 @@ namespace DMS_3
 					var jsonArr = jsonVal;
 					foreach (var row in jsonArr)
 					{
-						var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"]);
+						var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Societe"]);
 						Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
 						if (!checkUser)
 						{
-							var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"],row["User_Usepartic"]);
+							var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"],row["User_Usepartic"], row["User_Societe"]);
 								Console.WriteLine("\n" + IntegUser);
 							}
 						}

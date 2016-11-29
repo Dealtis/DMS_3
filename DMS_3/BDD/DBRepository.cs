@@ -50,10 +50,10 @@ namespace DMS_3.BDD
 		}
 
 		//VERIF SI USER DEJA INTEGRER
-		public bool user_AlreadyExist(string user_AndsoftUser, string user_TransicsUser, string user_Password, string user_UseSigna)
+		public bool user_AlreadyExist(string user_AndsoftUser, string user_TransicsUser, string user_Password, string user_UseSigna, string user_Societe)
 		{
 			bool output = false;
-			var table = db.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(user_AndsoftUser)).Where(v => v.user_TransicsUser.Equals(user_TransicsUser)).Where(v => v.user_Password.Equals(user_Password)).Where(v => v.user_UseSigna.Equals(user_UseSigna));
+			var table = db.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(user_AndsoftUser)).Where(v => v.user_TransicsUser.Equals(user_TransicsUser)).Where(v => v.user_Password.Equals(user_Password)).Where(v => v.user_UseSigna.Equals(user_UseSigna)).Where(v => v.user_Societe.Equals(user_Societe));
 			foreach (var item in table)
 			{
 				output = true;
@@ -63,7 +63,7 @@ namespace DMS_3.BDD
 		}
 
 		//Insertion des DATS USER
-		public string InsertDataUser(string user_AndsoftUser, string user_TransicsUser, string user_Password, string user_UseSigna, string User_Usepartic)
+		public string InsertDataUser(string user_AndsoftUser, string user_TransicsUser, string user_Password, string user_UseSigna, string User_Usepartic, string user_Societe)
 		{
 			try
 			{
@@ -73,6 +73,7 @@ namespace DMS_3.BDD
 				item.user_Password = user_Password;
 				item.user_UseSigna = user_UseSigna;
 				item.user_UsePartic = User_Usepartic;
+				item.user_Societe = user_Societe;
 				db.Insert(item);
 				
 				return "Insertion" + user_AndsoftUser + " réussite";
@@ -438,6 +439,19 @@ namespace DMS_3.BDD
 			}
 			
 			return output;
+		}
+
+		internal string GetSociete(string userAndsoft)
+		{
+			string output = "";
+			var query = db.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(userAndsoft));
+			foreach (var item in query)
+			{
+				output = item.user_Societe;
+			}
+
+			return output;
+
 		}
 
 		//setUserdata

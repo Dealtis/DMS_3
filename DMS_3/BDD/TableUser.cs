@@ -28,6 +28,7 @@ namespace DMS_3
 			public string user_Password { get; set; }
 			public string user_UseSigna { get; set; }
 			public string user_UsePartic { get; set; }
+			public string user_Societe { get; set; }
 	}
 }
 
