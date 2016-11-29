@@ -390,7 +390,9 @@ namespace DMS_3
 			{
 				RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
 				//get infos  WS
-				string _url = "https://andsoft.jeantettransport.com/dms/api/flash?val=" + num;
+				//string _url = "https://andsoft.jeantettransport.com/dms/api/flash?val=" + num;
+				//string _url = "http://10.1.2.70/MVCDMS/api/flash?val=" + num;
+				string _url = "http://dms.jeantettransport.com/api/flash?val=" + num;
 				string dataWS = "";
 				try
 				{
@@ -398,6 +400,7 @@ namespace DMS_3
 					request.ContentType = "application/json";
 					request.Method = "GET";
 					request.Proxy = null;
+
 					using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
 					{
 						if (response.StatusCode != HttpStatusCode.OK)
