@@ -140,6 +140,7 @@ namespace DMS_3
 			try
 			{
 				ShowProgress(progress => AndHUD.Shared.Show(this, "Chargement ... " + progress + "%", progress, MaskType.Clear));
+
 			}
 			catch (System.Exception ex)
 			{
@@ -158,40 +159,25 @@ namespace DMS_3
 			{
 				progress += 20;
 				action(progress);
-				DBRepository dbr = new DBRepository();
 				string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
 				var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
 				var IMEI = telephonyManager.DeviceId;
 				var webClient = new WebClient();
 				webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-				string userData = "";
 				webClient.QueryString.Add("IMEI", IMEI);
+				string userData = "";
 				userData = webClient.DownloadString(_url);
-				progress += 30;
-				action(progress);
-				System.Console.WriteLine("\n Webclient User Terminé ...");
+				RunOnUiThread(() => traitResponse(userData));
 
-				//GESTION DU XML
-				JsonArray jsonVal = JsonValue.Parse(userData) as JsonArray;
-				var jsonArr = jsonVal;
-				foreach (var row in jsonArr)
-				{
-					var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_UseSigna"],row["user_Societe"]);
-					Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
-					if (!checkUser)
-					{
-						var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_UseSigna"], row["User_Usepartic"], row["user_Societe"]);
-						Console.WriteLine("\n" + IntegUser);
-					}
-				}
-
-				progress += 50;
+				progress += 80;
 				action(progress);
 				RunOnUiThread(() => tableload.Text = "Table chargée");
 				RunOnUiThread(() => tableload.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.Val, 0, 0, 0));
-				Data.tableuserload = "true";
+				System.Console.WriteLine("\n Webclient User Terminé ...");
+
 				AndHUD.Shared.Dismiss(this);
-				AndHUD.Shared.ShowSuccess(this, "Table mise à jour", MaskType.Black, TimeSpan.FromSeconds(1));
+				//AndHUD.Shared.ShowSuccess(this, "Table mise à jour", MaskType.Black, TimeSpan.FromSeconds(1));
+
 			});
 			}
 			catch (Exception ex)
@@ -201,6 +187,24 @@ namespace DMS_3
 				action(progress);
 			}
 
+		}
+
+		void traitResponse(string response)
+		{
+			DBRepository dbr = new DBRepository();
+			//GESTION DU XML
+			JsonArray jsonVal = JsonValue.Parse(response) as JsonArray;
+			var jsonArr = jsonVal;
+			foreach (var row in jsonArr)
+			{
+				var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Societe"]);
+				Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
+				if (!checkUser)
+				{
+					var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Usepartic"], row["User_Societe"]);
+					Console.WriteLine("\n" + IntegUser);
+				}
+			}
 		}
 	}
 }

@@ -19,6 +19,7 @@ using ZXing.Mobile;
 using Uri = Android.Net.Uri;
 using Android.Support.V7.App;
 using Android.Preferences;
+using System.Net.Cache;
 //using Koamtac.Kdc.Sdk;
 
 namespace DMS_3
@@ -391,10 +392,13 @@ namespace DMS_3
 			{
 				RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
 				//get infos  WS
-				string _url = "http://dms.jeantettransport.com/api/flash";
+				//string _url = "http://dms.jeantettransport.com/api/flash";
+				string _url = "https://andsoft.jeantettransport.com/dms/api/flash";
 				var webClient = new WebClient();
 				webClient.Encoding = System.Text.Encoding.UTF8;
 				webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+
+				webClient.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.CacheIfAvailable);
 
 				webClient.QueryString.Add("val", num);
 				webClient.QueryString.Add("soc", dbr.GetSociete(Data.userAndsoft));
@@ -513,7 +517,7 @@ namespace DMS_3
 						dialog.Dismiss();
 					}
 				}
-				catch (Exception ex)
+				catch (WebException ex)
 				{
 					Console.WriteLine(ex);
 					progress += 50;
@@ -642,10 +646,6 @@ namespace DMS_3
 				Uri contentUri = Uri.FromFile(Data._file);
 				mediaScanIntent.SetData(contentUri);
 				SendBroadcast(mediaScanIntent);
-
-				int height = Resources.DisplayMetrics.HeightPixels;
-				int width = _imageView.Height;
-
 				Thread threadUpload = new Thread(() =>
 					{
 						try
@@ -668,16 +668,18 @@ namespace DMS_3
 					});
 				threadUpload.Start();
 
-				_imageView.Visibility = Android.Views.ViewStates.Visible;
-				Data.bitmap = Data._file.Path.LoadAndResizeBitmap(width, height);
-				if (Data.bitmap != null)
-				{
-					_imageView.SetImageBitmap(Data.bitmap);
-				}
-				else
-				{
-					_imageView.Visibility = Android.Views.ViewStates.Gone;
-				}
+				//_imageView.Visibility = Android.Views.ViewStates.Visible;
+				//int height = Resources.DisplayMetrics.HeightPixels;
+				//int width = _imageView.Height;
+				//Data.bitmap = Data._file.Path.LoadAndResizeBitmap(width, height);
+				//if (Data.bitmap != null)
+				//{
+				//	_imageView.SetImageBitmap(Data.bitmap);
+				//}
+				//else
+				//{
+				//	_imageView.Visibility = Android.Views.ViewStates.Gone;
+				//}
 				GC.Collect();
 			}
 		}

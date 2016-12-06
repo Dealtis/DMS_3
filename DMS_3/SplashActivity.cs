@@ -8,7 +8,6 @@ using Android.App;
 using Android.Content;
 using Android.Net;
 using Android.OS;
-using Android.Preferences;
 using Android.Telephony;
 using Android.Widget;
 using DMS_3.BDD;
@@ -29,43 +28,43 @@ namespace DMS_3
 			base.OnResume();
 			Task startupWork = new Task(() =>
 			{
-			//INSTANCE DBREPOSITORY
-			DBRepository dbr = new DBRepository();
-			//CREATION DE LA BDD
-			dbr.CreateDB();
-			//CREATION DES TABLES
-			dbr.CreateTable();
+				//INSTANCE DBREPOSITORY
+				DBRepository dbr = new DBRepository();
+				//CREATION DE LA BDD
+				dbr.CreateDB();
+				//CREATION DES TABLES
+				dbr.CreateTable();
 
-			//TEST DE CONNEXION
-			var connectivityManager = (ConnectivityManager)GetSystemService(ConnectivityService);
+				//TEST DE CONNEXION
+				var connectivityManager = (ConnectivityManager)GetSystemService(ConnectivityService);
 
-			//GetTelId
-			TelephonyManager tel = (TelephonyManager)this.GetSystemService(Context.TelephonyService);
-			var telId = tel.DeviceId;
-			var activeConnection = connectivityManager.ActiveNetworkInfo;
-			if ((activeConnection != null) && activeConnection.IsConnected)
-			{
-				try
+				//GetTelId
+				TelephonyManager tel = (TelephonyManager)this.GetSystemService(Context.TelephonyService);
+				var telId = tel.DeviceId;
+				var activeConnection = connectivityManager.ActiveNetworkInfo;
+				if ((activeConnection != null) && activeConnection.IsConnected)
 				{
-					string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
-					var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
-					var IMEI = telephonyManager.DeviceId;
-					var webClient = new WebClient();
-					webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-					string userData = "";
-					webClient.QueryString.Add("IMEI", IMEI);
-					userData = webClient.DownloadString(_url);
-					System.Console.WriteLine("\n Webclient User Terminé ...");
-					//GESTION DU XML
-					JsonArray jsonVal = JsonValue.Parse(userData) as JsonArray;
-					var jsonArr = jsonVal;
-					foreach (var row in jsonArr)
+					try
 					{
-						var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Societe"]);
-						Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
-						if (!checkUser)
+						string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
+						var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
+						var IMEI = telephonyManager.DeviceId;
+						var webClient = new WebClient();
+						webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+						string userData = "";
+						webClient.QueryString.Add("IMEI", IMEI);
+						userData = webClient.DownloadString(_url);
+						System.Console.WriteLine("\n Webclient User Terminé ...");
+						//GESTION DU XML
+						JsonArray jsonVal = JsonValue.Parse(userData) as JsonArray;
+						var jsonArr = jsonVal;
+						foreach (var row in jsonArr)
 						{
-							var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"],row["User_Usepartic"], row["User_Societe"]);
+							var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Societe"]);
+							Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
+							if (!checkUser)
+							{
+								var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Usepartic"], row["User_Societe"]);
 								Console.WriteLine("\n" + IntegUser);
 							}
 						}
@@ -131,7 +130,6 @@ namespace DMS_3
 							else {
 								StartService(new Intent(this, typeof(ProcessDMS)));
 								//dbr.InsertLogApp("",DateTime.Now,"Relance du service après 10 min d'inactivité");
-
 							}
 						}
 						else {
