@@ -113,7 +113,6 @@ namespace Sample
 				while (progress <= 100)
 				{
 					action (progress);
-
 					Thread.Sleep (500);
 					progress += 10;
 				}

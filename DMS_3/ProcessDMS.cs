@@ -217,6 +217,34 @@ namespace DMS_3
 						Console.Out.WriteLine("Execnotif" + execreqnotif);
 					}
 				}
+
+				//select des grp's
+				string content_grpcloture = String.Empty;
+				var tablegroupage = dbr.QueryPositions("SELECT groupage FROM TablePositions group by groupage");
+				foreach (var row in tablegroupage)
+				{
+					string numGroupage = row.groupage;
+					Console.WriteLine(numGroupage);
+					try
+					{
+						string _urlb = "http://dmsv3.jeantettransport.com/api/groupage?voybdx=" + numGroupage + "";
+						var webClientGrp = new WebClient();
+						webClientGrp.Headers[HttpRequestHeader.ContentType] = "application/json";
+						content_grpcloture = webClientGrp.DownloadString(_urlb);
+						Console.WriteLine(content_grpcloture);
+						if (content_grpcloture == "{\"etat\":\"CLO\"}")
+						{
+							//suppression du groupage en question si clo
+							dbr.QueryPositions("DELETE from TablePositions where groupage = '" + numGroupage + "'");
+						}
+					}
+					catch (Exception ex)
+					{
+						content_grpcloture = "[]";
+						Console.WriteLine("\n" + ex);
+					}
+
+				}
 			}
 			catch (Exception ex)
 			{
@@ -423,7 +451,7 @@ namespace DMS_3
 							dbr.updatePositionSuppliv(texteMessage.Remove(texteMessage.Length - 2).Substring(10));
 							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
 							TablePositions posMsg = dbr.GetPositionsData(dbr.GetidPosition(texteMessage.Remove(texteMessage.Length - 2).Substring(10)));
-							dbr.insertDataMessage(codeChauffeur, utilisateurEmetteur, "La position " + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "de " +posMsg.typeSegment+" a été supprimée de votre tournée", 0, DateTime.Now, 1, numMessage);
+							dbr.insertDataMessage(codeChauffeur, utilisateurEmetteur, "La position " + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "de " + posMsg.typeSegment + " a été supprimée de votre tournée", 0, DateTime.Now, 1, numMessage);
 							dbr.SETBadges(Data.userAndsoft);
 							break;
 						case "%%RETOLIV":
@@ -474,7 +502,6 @@ namespace DMS_3
 							}
 							break;
 						case "%%STOPSER":
-
 							StopForeground(true);
 							StopSelf();
 							break;
@@ -538,7 +565,7 @@ namespace DMS_3
 									foreach (string item in arraySQL)
 									{
 										var subarrSQL = item.Split('-');
-										dbr.updatePositionOrder(subarrSQL[0].ToString(),Convert.ToInt32(subarrSQL[1]));
+										dbr.updatePositionOrder(subarrSQL[0].ToString(), Convert.ToInt32(subarrSQL[1]));
 									}
 									break;
 								default:

@@ -667,19 +667,6 @@ namespace DMS_3
 						}
 					});
 				threadUpload.Start();
-
-				//_imageView.Visibility = Android.Views.ViewStates.Visible;
-				//int height = Resources.DisplayMetrics.HeightPixels;
-				//int width = _imageView.Height;
-				//Data.bitmap = Data._file.Path.LoadAndResizeBitmap(width, height);
-				//if (Data.bitmap != null)
-				//{
-				//	_imageView.SetImageBitmap(Data.bitmap);
-				//}
-				//else
-				//{
-				//	_imageView.Visibility = Android.Views.ViewStates.Gone;
-				//}
 				GC.Collect();
 			}
 		}
