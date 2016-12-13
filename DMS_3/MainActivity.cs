@@ -156,35 +156,50 @@ namespace DMS_3
 			try
 			{
 				Task.Factory.StartNew(() =>
-			{
-				progress += 20;
-				action(progress);
-				string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
-				var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
-				var IMEI = telephonyManager.DeviceId;
-				var webClient = new WebClient();
-				webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-				webClient.QueryString.Add("IMEI", IMEI);
-				string userData = "";
-				userData = webClient.DownloadString(_url);
-				RunOnUiThread(() => traitResponse(userData));
+				{
+					try
+					{
+						progress += 20;
+						action(progress);
+						string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
+						var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
+						var IMEI = telephonyManager.DeviceId;
+						var webClient = new WebClient();
+						webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+						webClient.QueryString.Add("IMEI", IMEI);
+						string userData = "";
+						userData = webClient.DownloadString(_url);
+						if (userData != "[]")
+						{
+							RunOnUiThread(() => traitResponse(userData));
+							RunOnUiThread(() => tableload.Text = "Table chargée");
+							RunOnUiThread(() => tableload.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.Val, 0, 0, 0));
+						}else
+						{
+							RunOnUiThread(() => tableload.Text = "Table non chargée");
+							RunOnUiThread(() => tableload.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.Anom, 0, 0, 0));
+						}
 
-				progress += 80;
-				action(progress);
-				RunOnUiThread(() => tableload.Text = "Table chargée");
-				RunOnUiThread(() => tableload.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.Val, 0, 0, 0));
-				System.Console.WriteLine("\n Webclient User Terminé ...");
+						progress += 80;
+						action(progress);
 
-				AndHUD.Shared.Dismiss(this);
-				//AndHUD.Shared.ShowSuccess(this, "Table mise à jour", MaskType.Black, TimeSpan.FromSeconds(1));
+						System.Console.WriteLine("\n Webclient User Terminé ...");
 
-			});
+						AndHUD.Shared.Dismiss(this);
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine(ex);
+						AndHUD.Shared.Dismiss(this);
+					}
+
+
+				});
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
-				progress += 50;
-				action(progress);
+				AndHUD.Shared.Dismiss(this);
 			}
 
 		}

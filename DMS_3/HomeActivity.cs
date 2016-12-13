@@ -29,6 +29,7 @@ namespace DMS_3
 		System.Timers.Timer indicatorTimer;
 		ProcessDMSBinder binder;
 		ProcessDMSConnection processDMSConnection;
+		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -101,7 +102,6 @@ namespace DMS_3
 			builder.SetPositiveButton("Annuler", delegate { });
 			builder.SetNegativeButton("Déconnexion", delegate
 			{
-				DBRepository dbr = new DBRepository();
 				dbr.logout();
 				Data.userAndsoft = null;
 				Data.userTransics = null;

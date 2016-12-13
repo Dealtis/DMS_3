@@ -304,7 +304,6 @@ namespace DMS_3
 					if (is_colis_in_truck != int.MinValue)
 					{
 						data = dbr.GetPositionsData(is_colis_in_truck);
-
 						if (dbr.is_colis_in_currentPos(num, numCommande))
 						{
 							dbr.updateColisFlash(num);
@@ -321,7 +320,6 @@ namespace DMS_3
 							else
 							{
 								RunOnUiThread(() => Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Short).Show());
-								//RunOnUiThread(() => AndHUD.Shared.ShowError(this, "It no worked :(", MaskType.Black, TimeSpan.FromSeconds(2)));
 							}
 						}
 					}
@@ -393,7 +391,7 @@ namespace DMS_3
 				RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
 				//get infos  WS
 				//string _url = "http://dms.jeantettransport.com/api/flash";
-				string _url = "https://andsoft.jeantettransport.com/dms/api/flash";
+				string _url = "http://dms.jeantettransport.com/api/flash";
 				var webClient = new WebClient();
 				webClient.Encoding = System.Text.Encoding.UTF8;
 				webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
@@ -406,7 +404,6 @@ namespace DMS_3
 
 				try
 				{
-
 					dataWS = webClient.DownloadString(_url);
 					progress += 50;
 					action(progress);
@@ -500,6 +497,7 @@ namespace DMS_3
 						}
 						RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
 
+
 					}
 					else {
 						RunOnUiThread(() => infonumero.Text = "Pas de résultat");
@@ -516,14 +514,14 @@ namespace DMS_3
 						RunOnUiThread(() => btn_photo.Visibility = ViewStates.Gone);
 						dialog.Dismiss();
 					}
+					AndHUD.Shared.Dismiss(this);
 				}
 				catch (WebException ex)
 				{
 					Console.WriteLine(ex);
-					progress += 50;
-					action(progress);
+					AndHUD.Shared.Dismiss(this);
 					RunOnUiThread(() => btn_photo.Visibility = ViewStates.Gone);
-					RunOnUiThread(() => Toast.MakeText(this, "Erreur de connexion", ToastLength.Long).Show());
+					RunOnUiThread(() => Toast.MakeText(this, "Erreur de connexion", ToastLength.Short).Show());
 				}
 			}
 			else
