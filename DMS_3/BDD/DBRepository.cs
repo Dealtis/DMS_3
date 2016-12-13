@@ -37,7 +37,6 @@ namespace DMS_3.BDD
 				db.CreateTable<TableStatutPositions>();
 				db.CreateTable<TableMessages>();
 				db.CreateTable<TableNotifications>();
-				db.CreateTable<TableLogService>();
 				db.CreateTable<TableColis>();
 				string result = "Tables crées !";
 				
@@ -788,7 +787,7 @@ namespace DMS_3.BDD
 
 		internal List<TablePositions> QueryGRP(string stringSelect, string tyM, string tyS, string userAndsoft)
 		{
-			var grp = db.Query<TablePositions>(stringSelect, 0, tyM, tyS, Data.userAndsoft);
+			var grp = db.Query<TablePositions>(stringSelect, 0, tyM, tyS, userAndsoft);
 			return grp;
 		}
 
@@ -801,6 +800,12 @@ namespace DMS_3.BDD
 		internal List<TablePositions> QueryPositions(string requete)
 		{
 			var table = db.Query<TablePositions>(requete);
+			return table;
+		}
+
+		internal List<TableColis> QueryColis(string requete)
+		{
+			var table = db.Query<TableColis>(requete);
 			return table;
 		}
 

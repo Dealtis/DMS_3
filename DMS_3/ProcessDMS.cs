@@ -243,7 +243,6 @@ namespace DMS_3
 						content_grpcloture = "[]";
 						Console.WriteLine("\n" + ex);
 					}
-
 				}
 			}
 			catch (Exception ex)
@@ -545,6 +544,19 @@ namespace DMS_3
 									rowPos.Remove(rowPos.Length - 1);
 									rowPos += "]";
 									dbr.insertDataMessage(Data.userAndsoft, "", rowPos, 5, DateTime.Now, 5, 0);
+
+									break;
+								case "TableColis":
+									var selColis = dbr.QueryColis(texteMessageInputSplit[3]);
+									string rowColis = "";
+									rowColis += "[";
+									foreach (var item in selColis)
+									{
+										rowColis += "{" + item.numCommande + "," + item.numColis + "," + item.dateflashage + "," + item.flashage+ "},";
+									}
+									rowColis.Remove(rowColis.Length - 1);
+									rowColis += "]";
+									dbr.insertDataMessage(Data.userAndsoft, "", rowColis, 5, DateTime.Now, 5, 0);
 
 									break;
 								case "TableStatutPositions":

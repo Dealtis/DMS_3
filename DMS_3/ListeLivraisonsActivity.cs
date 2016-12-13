@@ -27,6 +27,7 @@ namespace DMS_3
 		string tyM;
 		string trait;
 		List<TablePositions> grp;
+		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -80,7 +81,6 @@ namespace DMS_3
 			}
 
 			//Mise dans un Array des Groupage
-			DBRepository dbr = new DBRepository();
 			if (trait == "false")
 			{
 				grp = dbr.QueryGRP("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft);

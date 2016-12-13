@@ -77,7 +77,6 @@ namespace DMS_3
 					catch (System.Exception ex)
 					{
 						System.Console.WriteLine(ex);
-						Toast.MakeText(this, "Une erreur c'est produite lors du lancement, réessaie dans 5 secondes", ToastLength.Long).Show();
 						Thread.Sleep(5000);
 					}
 				}

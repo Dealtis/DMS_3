@@ -8,6 +8,9 @@ using DMS_3.BDD;
 using HockeyApp.Android;
 using HockeyApp.Android.Metrics;
 using AlertDialog = Android.Support.V7.App.AlertDialog;
+using Microsoft.Azure.Mobile;
+using Microsoft.Azure.Mobile.Analytics;
+using Microsoft.Azure.Mobile.Crashes;
 
 namespace DMS_3
 {
@@ -65,8 +68,10 @@ namespace DMS_3
 			CrashManager.Register(this, "337f4f12782f47e590a7e84867bc087a");
 			MetricsManager.Register(Application, "337f4f12782f47e590a7e84867bc087a");
 			MetricsManager.EnableUserMetrics();
-
 			CrashManager.Register(this, APP_ID, new HockeyCrashManagerSettings());
+
+			MobileCenter.Start("9f4aa4e8-7eee-46dc-8afe-e6d7531d5426",
+					typeof(Analytics), typeof(Crashes));
 
 			//FONTS
 			txtLivraison.SetTypeface(Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);

@@ -121,7 +121,7 @@ namespace DMS_3
 
 			infosupp.Text = data.instrucLivraison;
 			codelivraison.Text = data.numCommande;
-			infolivraison.Text = data.nomPayeur + "\n" + data.adresseLivraison + "\n" + data.CpLivraison + " " + data.villeLivraison + "\n" + data.nbrColis + " COLIS   " + data.nbrPallette + " PALETTE\n" + data.poids + "\n" + data.dateHeure + "\n" + data.CR + data.ASSIGNE; ;
+			infolivraison.Text = data.nomPayeur + "\n" + data.adresseLivraison + "\n" + data.CpLivraison + " " + data.villeLivraison + "\n" + data.nbrColis + " COLIS   " + data.nbrPallette + " PALETTE\n" + data.poids + "\n" + data.dateHeure + "\n" + data.CR + data.ASSIGNE;
 			infoclient.Text = "\n" + data.nomClient + "\nRef: " + data.refClient + "\nTournee : " + data.planDeTransport;
 			client.Text = "Client";
 
