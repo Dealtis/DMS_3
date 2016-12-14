@@ -27,7 +27,6 @@ namespace DMS_3
 		string tyM;
 		string trait;
 		List<TablePositions> grp;
-		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -83,11 +82,11 @@ namespace DMS_3
 			//Mise dans un Array des Groupage
 			if (trait == "false")
 			{
-				grp = dbr.QueryGRP("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft);
+				grp = DBRepository.Instance.QueryGRP("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft);
 			}
 			else
 			{
-				grp = dbr.QueryGRPTRAIT("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ? OR StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft, tyM, tyS, Data.userAndsoft);
+				grp = DBRepository.Instance.QueryGRPTRAIT("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ? OR StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft, tyM, tyS, Data.userAndsoft);
 			}
 			var allButton = new Button(this);
 			allButton.Text = "#";
@@ -219,9 +218,8 @@ namespace DMS_3
 
 		public void initListView(string requete)
 		{
-			DBRepository dbr = new DBRepository();
 			bodyItems.Clear();
-			var table = dbr.QueryPositions(requete);
+			var table = DBRepository.Instance.QueryPositions(requete);
 			foreach (var item in table)
 			{
 				bodyItems.Add(new TablePositions()

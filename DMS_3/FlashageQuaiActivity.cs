@@ -62,7 +62,6 @@ namespace DMS_3
 		int currentPrlFLash;
 
 		MobileBarcodeScanner scanner;
-		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -117,8 +116,8 @@ namespace DMS_3
 			btn_pblFlash.Click += delegate
 			{
 				currentPrlFLash++;
-				int colisFlasher = dbr.CountColisFlash(data.numCommande);
-				int colisPosition = dbr.CountColis(data.numCommande);
+				int colisFlasher = DBRepository.Instance.CountColisFlash(data.numCommande);
+				int colisPosition = DBRepository.Instance.CountColis(data.numCommande);
 
 				RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHES: " + (colisFlasher + currentPrlFLash) + "/" + colisPosition);
 				if ((colisFlasher + currentPrlFLash) == colisPosition)
@@ -300,15 +299,15 @@ namespace DMS_3
 						var numSplit = num.Split('.');
 						num = numSplit[1].Remove(numSplit[1].Length - 1);
 					}
-					var is_colis_in_truck = dbr.is_colis_in_truck(num);
+					var is_colis_in_truck = DBRepository.Instance.is_colis_in_truck(num);
 					if (is_colis_in_truck != int.MinValue)
 					{
-						data = dbr.GetPositionsData(is_colis_in_truck);
-						if (dbr.is_colis_in_currentPos(num, numCommande))
+						data = DBRepository.Instance.GetPositionsData(is_colis_in_truck);
+						if (DBRepository.Instance.is_colis_in_currentPos(num, numCommande))
 						{
-							dbr.updateColisFlash(num);
+							DBRepository.Instance.updateColisFlash(num);
 							string JSONNOTIF = "{\"codesuiviliv\":\"FLASHAGE\",\"memosuiviliv\":\"" + num + "\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
-							dbr.insertDataStatutpositions("FLASHAGE", "1", "FLASHAGE", data.numCommande, num, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);
+							DBRepository.Instance.insertDataStatutpositions("FLASHAGE", "1", "FLASHAGE", data.numCommande, num, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);
 							afficherInformations(is_colis_in_truck, data.numCommande);
 						}
 						else
@@ -324,7 +323,7 @@ namespace DMS_3
 						}
 					}
 					else {
-						var is_pos_in_truck = dbr.is_position_in_truck(num);
+						var is_pos_in_truck = DBRepository.Instance.is_position_in_truck(num);
 						if (is_pos_in_truck == int.MinValue)
 						{
 							afficherInformationsWebservice(progress, action, num);
@@ -397,9 +396,8 @@ namespace DMS_3
 				webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 
 				webClient.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.CacheIfAvailable);
-
 				webClient.QueryString.Add("val", num);
-				webClient.QueryString.Add("soc", dbr.GetSociete(Data.userAndsoft));
+				webClient.QueryString.Add("soc", DBRepository.Instance.GetSociete(Data.userAndsoft));
 				string dataWS = "";
 
 				try
@@ -533,8 +531,7 @@ namespace DMS_3
 
 		void afficherInformations(int idPos, string numCommande)
 		{
-			DBRepository dbr = new DBRepository();
-			data = dbr.GetPositionsData(idPos);
+			data = DBRepository.Instance.GetPositionsData(idPos);
 
 			RunOnUiThread(() => btn_detail.Click += delegate
 				{
@@ -564,8 +561,8 @@ namespace DMS_3
 			RunOnUiThread(() => infoadrdest.Text = data.adresseLivraison);
 			RunOnUiThread(() => infonumero.Text = data.numCommande);
 
-			int colisFlasher = dbr.CountColisFlash(data.numCommande);
-			int colisPosition = dbr.CountColis(data.numCommande);
+			int colisFlasher = DBRepository.Instance.CountColisFlash(data.numCommande);
+			int colisPosition = DBRepository.Instance.CountColis(data.numCommande);
 			RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHES: " + (colisFlasher + currentPrlFLash) + "/" + colisPosition);
 			TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
 			RunOnUiThread(() => tl.Visibility = ViewStates.Gone);

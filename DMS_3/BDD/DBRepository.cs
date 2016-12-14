@@ -4,9 +4,25 @@ using System.Collections.Generic;
 
 namespace DMS_3.BDD
 {
+	
 	public class DBRepository
 	{
+		//Instance
+		private static DBRepository instance;
+
 		private static SQLiteConnection db;
+
+		public static DBRepository Instance
+		{
+			get
+			{
+				if (instance == null)
+				{
+					instance = new DBRepository();
+				}
+				return instance;
+			}
+		}
 
 		//CREATE BDD
 		public string CreateDB()

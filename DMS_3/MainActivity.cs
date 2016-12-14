@@ -79,12 +79,11 @@ namespace DMS_3
 			if (!(user.Text == ""))
 			{
 				//INSTANCE DBREPOSITORY
-				DBRepository dbr = new DBRepository();
-				var usercheck = dbr.user_Check(user.Text.ToUpper(), password.Text);
+				var usercheck = DBRepository.Instance.user_Check(user.Text.ToUpper(), password.Text);
 				if (usercheck)
 				{
 					//UPDATE DE LA BDD AVEC CE USER
-					dbr.setUserdata(user.Text.ToUpper());
+					DBRepository.Instance.setUserdata(user.Text.ToUpper());
 					//lancement du BgWorker Service
 					StartService(new Intent(this, typeof(ProcessDMS)));
 					bgService = new BackgroundWorker();
@@ -206,17 +205,16 @@ namespace DMS_3
 
 		void traitResponse(string response)
 		{
-			DBRepository dbr = new DBRepository();
 			//GESTION DU XML
 			JsonArray jsonVal = JsonValue.Parse(response) as JsonArray;
 			var jsonArr = jsonVal;
 			foreach (var row in jsonArr)
 			{
-				var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Societe"]);
+				var checkUser = DBRepository.Instance.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Societe"]);
 				Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
 				if (!checkUser)
 				{
-					var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Usepartic"], row["User_Societe"]);
+					var IntegUser = DBRepository.Instance.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Usepartic"], row["User_Societe"]);
 					Console.WriteLine("\n" + IntegUser);
 				}
 			}

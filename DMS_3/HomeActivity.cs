@@ -29,7 +29,6 @@ namespace DMS_3
 		System.Timers.Timer indicatorTimer;
 		ProcessDMSBinder binder;
 		ProcessDMSConnection processDMSConnection;
-		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -102,7 +101,7 @@ namespace DMS_3
 			builder.SetPositiveButton("Annuler", delegate { });
 			builder.SetNegativeButton("Déconnexion", delegate
 			{
-				dbr.logout();
+				DBRepository.Instance.logout();
 				Data.userAndsoft = null;
 				Data.userTransics = null;
 				StopService(new Intent(this, typeof(ProcessDMS)));
@@ -125,9 +124,8 @@ namespace DMS_3
 
 			try
 			{
-				DBRepository dbr = new DBRepository();
-				var user_Login = dbr.is_user_Log_In();
-				dbr.SETBadges(Data.userAndsoft);
+				var user_Login = DBRepository.Instance.is_user_Log_In();
+				DBRepository.Instance.SETBadges(Data.userAndsoft);
 				if (user_Login == "false")
 				{
 					StartActivity(new Intent(Application.Context, typeof(MainActivity)));

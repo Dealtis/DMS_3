@@ -18,8 +18,6 @@ namespace DMS_3
 	{
 		//Instance
 		private static Data instance;
-		DBRepository dbr = new DBRepository();
-
 		//DATA User
 		public static string userAndsoft;
 		public static string userTransics;
@@ -111,7 +109,7 @@ namespace DMS_3
 		}
 		public int isMatdang(string groupage)
 		{
-			var isornot = dbr.CountMatiereDang(groupage);
+			var isornot = DBRepository.Instance.CountMatiereDang(groupage);
 
 			if (Convert.ToInt32(isornot[0].poidsADR) >= 1000)
 			{
@@ -164,7 +162,7 @@ namespace DMS_3
 
 		internal void traitImg(int i, string type, Context context)
 		{
-			var imgpath = dbr.GetPositionsData(i);
+			var imgpath = DBRepository.Instance.GetPositionsData(i);
 			string compImg = String.Empty;
 			if (imgpath.imgpath != "null")
 			{
@@ -187,7 +185,7 @@ namespace DMS_3
 					catch (Exception ex)
 					{
 						Console.WriteLine("\n" + ex);
-						dbr.InsertDataStatutMessage(11, DateTime.Now, 1, imgpath.numCommande, "");
+						DBRepository.Instance.InsertDataStatutMessage(11, DateTime.Now, 1, imgpath.numCommande, "");
 					}
 				});
 				threadUpload.Start();

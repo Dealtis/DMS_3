@@ -28,9 +28,7 @@ namespace DMS_3
 
 			mItems = new List<TableMessages>();
 
-			DBRepository dbr = new DBRepository();
-
-			var table = dbr.QueryMessage("SELECT * FROM TableMessages where codeChauffeur='" + Data.userAndsoft + "' and typeMessage != 5");
+			var table = DBRepository.Instance.QueryMessage("SELECT * FROM TableMessages where codeChauffeur='" + Data.userAndsoft + "' and typeMessage != 5");
 			var i = 0;
 
 			foreach (var item in table)
@@ -62,19 +60,17 @@ namespace DMS_3
 			btnsend.Click += Btnsend_Click;
 
 			//STATUT DES MESSAGES RECU TO 1
-			var tablemsgrecu = dbr.QueryMessage("SELECT * FROM TableMessages where statutMessage = 0");
+			var tablemsgrecu = DBRepository.Instance.QueryMessage("SELECT * FROM TableMessages where statutMessage = 0");
 			foreach (var item in tablemsgrecu)
 			{
-				dbr.QueryMessage("UPDATE TableMessages SET statutMessage = 1 WHERE statutMessage = 0");
-				dbr.InsertDataStatutMessage(1, DateTime.Now, item.numMessage, "", "");
+				DBRepository.Instance.QueryMessage("UPDATE TableMessages SET statutMessage = 1 WHERE statutMessage = 0");
+				DBRepository.Instance.InsertDataStatutMessage(1, DateTime.Now, item.numMessage, "", "");
 			}
-			dbr.SETBadges(Data.userAndsoft);
+			DBRepository.Instance.SETBadges(Data.userAndsoft);
 		}
 
 		void Btnsend_Click(object sender, EventArgs e)
 		{
-
-			DBRepository dbr = new DBRepository();
 			var newmessage = FindViewById<TextView>(Resource.Id.editnewmsg);
 			if (newmessage.Text == "")
 			{
@@ -82,7 +78,7 @@ namespace DMS_3
 			}
 			else {
 				string formatmsg = newmessage.Text.Replace("\"", " ").Replace("'", " ");
-				dbr.insertDataMessage(Data.userAndsoft, "", formatmsg, 2, DateTime.Now, 2, 0);
+				DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", formatmsg, 2, DateTime.Now, 2, 0);
 
 			}
 
@@ -93,10 +89,8 @@ namespace DMS_3
 
 		void Btndeletemsg_Click(object sender, EventArgs e)
 		{
-			DBRepository dbr = new DBRepository();
 
-			dbr.DropTableMessage();
-
+			DBRepository.Instance.DropTableMessage();
 			StartActivity(typeof(MessageActivity));
 
 		}
