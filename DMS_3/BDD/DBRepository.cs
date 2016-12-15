@@ -669,6 +669,7 @@ namespace DMS_3.BDD
 			data.typeMission = item.typeMission;
 			data.typeSegment = item.typeSegment;
 			data.CR = item.CR;
+			data.ASSIGNE = item.ASSIGNE;
 			data.nomClientLivraison = item.nomClientLivraison;
 			data.villeClientLivraison = item.villeClientLivraison;
 			data.Datemission = item.Datemission;

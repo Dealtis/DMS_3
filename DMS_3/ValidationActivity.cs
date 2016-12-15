@@ -94,38 +94,46 @@ namespace DMS_3
 
 		void Btnvalide_Clik(object sender, EventArgs e)
 		{
-			if (data.CR == "" || data.CR == "0" || type == "RAM" || data.ASSIGNE == "" || data.ASSIGNE == "0")
+			if (data.CR == "" || data.CR == "0" || type == "RAM")
 			{
-				valideAction();
-
+				if (data.ASSIGNE == "" || data.ASSIGNE == "0")
+				{
+					valideAction();
+				}else
+				{
+					traitDial();
+				}
 			}
 			else
 			{
-				string title;
-				string typeMo;
-
-				if (data.CR == "" || data.CR == "0")
-				{
-					title = "CR";
-					typeMo = "le cr";
-				}
-				else
-				{
-					title = "ASSIGNE";
-					typeMo = "l' assigne";
-				}
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.SetTitle(title);
-				builder.SetMessage("Avez vous perçu " + typeMo + ",?\\n Si oui, valider cette livraison ?");
-				builder.SetCancelable(false);
-				builder.SetPositiveButton("Oui", delegate
-				{
-					valideAction();
-				});
-				builder.SetNegativeButton("Non", delegate { });
-				builder.Show();
+				traitDial();
 			}
+		}
 
+		void traitDial() {
+			string title;
+			string typeMo;
+
+			if (data.CR == "" || data.CR == "0")
+			{
+				title = "ASSIGNE";
+				typeMo = "l'assigne";
+			}
+			else
+			{
+				title = "CR";
+				typeMo = "le cr";
+			}
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.SetTitle(title);
+			builder.SetMessage("Avez vous perçu " + typeMo + " ?\n Si oui, valider cette livraison ?");
+			builder.SetCancelable(false);
+			builder.SetPositiveButton("Oui", delegate
+			{
+				valideAction();
+			});
+			builder.SetNegativeButton("Non", delegate { });
+			builder.Show();
 		}
 
 		void valideAction()

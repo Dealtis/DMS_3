@@ -247,7 +247,9 @@ namespace DMS_3
 					imgpath = item.imgpath,
 					poidsQL = item.poidsQL,
 					poidsADR = item.poidsADR,
-					positionPole = item.positionPole
+					positionPole = item.positionPole,
+					CR = item.CR,
+					ASSIGNE = item.ASSIGNE
 				});
 
 				RunOnUiThread(() => adapter.NotifyDataSetChanged());

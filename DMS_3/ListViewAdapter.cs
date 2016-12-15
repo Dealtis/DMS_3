@@ -43,14 +43,24 @@ namespace DMS_3
 				case "0":
 					if (mItems[position].typeMission == "L")
 					{
-						if (mItems[position].CR == "" || mItems[position].CR == "0" || mItems[position].ASSIGNE == "" || mItems[position].ASSIGNE == "0")
+						if (mItems[position].CR == "" || mItems[position].CR == "0")
 						{
-							xml_type = Resource.Layout.ListeViewRowEuro;
+							xml_type = Resource.Layout.ListeViewRow;
+							if (mItems[position].ASSIGNE == "" || mItems[position].ASSIGNE == "0")
+							{
+								xml_type = Resource.Layout.ListeViewRow;
+							}
+							else
+							{
+								xml_type = Resource.Layout.ListeViewRowEuro;
+							}
 						}
 						else
 						{
-							xml_type = Resource.Layout.ListeViewRow;
+							xml_type = Resource.Layout.ListeViewRowEuro;
+
 						}
+
 					}
 					else {
 						xml_type = Resource.Layout.ListeViewRowEnlevement;
