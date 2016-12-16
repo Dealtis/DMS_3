@@ -12,6 +12,7 @@ using Android.Locations;
 using Android.Media;
 using Android.Net;
 using Android.OS;
+using Android.Preferences;
 using DMS_3.BDD;
 
 namespace DMS_3
@@ -122,7 +123,6 @@ namespace DMS_3
 									() =>
 									{
 										Console.WriteLine("\nHello from ComPosNotifMsg.");
-										//DBRepository.Instance.InsertLogService("",DateTime.Now,"ComPosNotifMsg Start");
 										ComPosNotifMsg();
 										Thread.Sleep(500);
 									}
@@ -130,7 +130,6 @@ namespace DMS_3
 									t =>
 									{
 										Console.WriteLine("\nHello from ComWebService.");
-										//DBRepository.Instance.InsertLogService("",DateTime.Now,"ComWebService Start");
 										ComWebService();
 										Thread.Sleep(500);
 									}
@@ -163,59 +162,53 @@ namespace DMS_3
 			string content_integdata = String.Empty;
 			try
 			{
-				string _url = "http://dmsv3.jeantettransport.com/api/commandeWsv4?codechauffeur=" + userTransics + "&datecommande=" + datedujour + "";
 				var webClient = new WebClient();
 				webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 				webClient.Encoding = System.Text.Encoding.UTF8;
+
+				webClient.QueryString.Add("codechauffeur", userTransics);
+				webClient.QueryString.Add("datecommande", datedujour);
+
+				ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+				string _url = prefs.GetString("API_DOMAIN", String.Empty) + "/api/commandeWsv4";
 				content_integdata = webClient.DownloadString(_url);
 				//intégration des données dans la BDD
 				JsonArray jsonVal = JsonValue.Parse(content_integdata) as JsonArray;
 				var jsonArr = jsonVal;
 				if (content_integdata != "[]")
 				{
-					stringValues = string.Empty;
-					stringNotif = string.Empty;
 					foreach (var row in jsonArr)
 					{
 						bool checkpos = DBRepository.Instance.pos_AlreadyExist(row["numCommande"], row["groupage"], row["typeMission"], row["typeSegment"]);
 						if (!checkpos)
 						{
-							stringValues += " SELECT " + row["idSegment"].ToString() + "," + row["codeLivraison"].ToString() + "," + row["numCommande"].ToString() + "," + row["nomClient"].ToString() + "," + row["refClient"].ToString() + "," + row["nomPayeur"].ToString() + "," + row["adresseLivraison"].ToString() + "," + row["CpLivraison"].ToString() + "," + row["villeLivraison"].ToString() + "," + row["dateExpe"].ToString() + "," + row["nbrColis"].ToString() + "," + row["nbrPallette"].ToString() + "," + row["poids"].ToString() + "," + row["adresseExpediteur"].ToString() + "," + row["CpExpediteur"].ToString() + "," + row["dateExpe"].ToString() + "," + row["villeExpediteur"].ToString() + "," + row["nomExpediteur"].ToString() + "," + row["instrucLivraison"].ToString() + "," + row["groupage"].ToString() + "," + row["PoidsADR"].ToString() + "," + row["PoidsQL"].ToString() + "," + row["typeMission"].ToString() + "," + row["typeSegment"].ToString() + ",0," + row["CR"].ToString() + "," + row["ASSIGNE"].ToString() + "," + DateTime.Now.Day + "," + row["Datemission"].ToString() + "," + row["Ordremission"].ToString() + "," + row["planDeTransport"].ToString() + ",\"" + userAndsoft + "\"," + row["nomClientLivraison"].ToString() + "," + row["villeClientLivraison"].ToString() + "," + row["PositionPole"].ToString() + ",\"null\" UNION ALL";
-
-							foreach (JsonValue item in row["detailColis"])
+							try
 							{
-								DBRepository.Instance.InsertDataColis(item["NumColis"], row["numCommande"]);
+								DBRepository.Instance.insertDataPosition(row["idSegment"], row["codeLivraison"], row["numCommande"], row["nomClient"], row["refClient"], row["nomPayeur"], row["adresseLivraison"], row["CpLivraison"], row["villeLivraison"], row["dateExpe"], row["nbrColis"], row["nbrPallette"], row["poids"], row["adresseExpediteur"], row["CpExpediteur"], row["dateExpe"], row["villeExpediteur"], row["nomExpediteur"], row["instrucLivraison"], row["groupage"], row["PoidsADR"], row["PoidsQL"], row["typeMission"], row["typeSegment"], "0", row["CR"], row["ASSIGNE"], DateTime.Now.Day.ToString(), row["Datemission"], row["Ordremission"], row["planDeTransport"], userAndsoft, row["nomClientLivraison"], row["villeClientLivraison"], row["PositionPole"], "null");
+								foreach (JsonValue item in row["detailColis"])
+								{
+									DBRepository.Instance.InsertDataColis(item["NumColis"], row["numCommande"]);
+								}
 							}
+							catch (Exception ex)
+							{
+								Console.WriteLine(ex);
+							}
+
+
 						}
 						//NOTIF
-						stringNotif += "" + row["numCommande"] + "|";
+						DBRepository.Instance.InsertDataStatutMessage(10, DateTime.Now, 1, row["numCommande"], row["groupage"]);
 					}
-					if (stringValues != string.Empty)
-					{
-						string stringinsertpos = "INSERT INTO ";
-						stringinsertpos += "TablePositions ( idSegment, codeLivraison, numCommande, nomClient, refClient, nomPayeur, adresseLivraison, CpLivraison, villeLivraison, dateHeure, nbrColis, nbrPallette, poids, adresseExpediteur, CpExpediteur, dateExpe, villeExpediteur, nomExpediteur, instrucLivraison, GROUPAGE, poidsADR, poidsQL, typeMission, typeSegment, statutLivraison, CR, ASSIGNE, dateBDD, Datemission, Ordremission, planDeTransport, Userandsoft, nomClientLivraison, villeClientLivraison, positionPole,imgpath)";
-						stringinsertpos += " ";
-						stringinsertpos += stringValues.Remove(stringValues.Length - 9);
-						var execreq = DBRepository.Instance.Execute(stringinsertpos);
 
-						Console.Out.WriteLine(execreq);
-						//SON
-						if (content_integdata == "[]")
-						{
-						}
-						else {
-							alert();
-						}
-					}
-					if (stringNotif != string.Empty)
+					//SON
+					if (content_integdata != "[]")
 					{
-						string stringinsertnotif = "INSERT INTO TableNotifications ( statutNotificationMessage, dateNotificationMessage, numMessage, numCommande ) VALUES ('10','" + DateTime.Now + "','1','" + stringNotif.Remove(stringNotif.Length - 1) + "')";
-						var execreqnotif = DBRepository.Instance.Execute(stringinsertnotif);
-						Console.Out.WriteLine("Execnotif" + execreqnotif);
+						alert();
 					}
 				}
 
-				//select des grp's
+				//SUPP DES GRP CLO
 				string content_grpcloture = String.Empty;
 				var tablegroupage = DBRepository.Instance.QueryPositions("SELECT groupage FROM TablePositions group by groupage");
 				foreach (var row in tablegroupage)
@@ -224,9 +217,11 @@ namespace DMS_3
 					Console.WriteLine(numGroupage);
 					try
 					{
-						string _urlb = "http://dmsv3.jeantettransport.com/api/groupage?voybdx=" + numGroupage + "";
 						var webClientGrp = new WebClient();
 						webClientGrp.Headers[HttpRequestHeader.ContentType] = "application/json";
+
+						webClient.QueryString.Add("voybdx", numGroupage);
+						string _urlb = prefs.GetString("API_DOMAIN", String.Empty) + "/api/groupage";
 						content_grpcloture = webClientGrp.DownloadString(_urlb);
 						Console.WriteLine(content_grpcloture);
 						if (content_grpcloture == "{\"etat\":\"CLO\"}")
@@ -265,10 +260,14 @@ namespace DMS_3
 				try
 				{
 					//API LIVRER OK
-					string _urlb = "http://dmsv3.jeantettransport.com/api/WSV32?codechauffeur=" + userAndsoft + "";
+
 					var webClientb = new WebClient();
 					webClientb.Headers[HttpRequestHeader.ContentType] = "application/json";
 					webClientb.Encoding = System.Text.Encoding.UTF8;
+
+					//webClient.QueryString.Add("codechauffeur", userAndsoft);
+					ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+					string _urlb = prefs.GetString("API_DOMAIN", String.Empty) + "/api/WSV32?codechauffeur=" + userAndsoft + "";
 
 					content_msg = webClientb.DownloadString(_urlb);
 				}
@@ -334,9 +333,13 @@ namespace DMS_3
 				{
 					webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 					webClient.Encoding = System.Text.Encoding.UTF8;
-					System.Uri uri = new System.Uri("http://dmsv3.jeantettransport.com/api/WSV32?codechauffeur=" + userAndsoft + "");
+
+					ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+					System.Uri _url = new System.Uri(prefs.GetString("API_DOMAIN", String.Empty) + "/api/WSV32");
+					Console.WriteLine(_url);
+					webClient.QueryString.Add("codechauffeur", userAndsoft);
 					webClient.UploadStringCompleted += WebClient_UploadStringStatutCompleted;
-					webClient.UploadStringAsync(uri, datajson);
+					webClient.UploadStringAsync(_url, datajson);
 				}
 				catch (Exception e)
 				{
@@ -367,7 +370,8 @@ namespace DMS_3
 				var webClient = new WebClient();
 				webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 				webClient.Encoding = System.Text.Encoding.UTF8;
-				System.Uri uri = new System.Uri("http://dmsv3.jeantettransport.com/api/livraisongroupagev3");
+				ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+				System.Uri uri = new System.Uri(prefs.GetString("API_DOMAIN", String.Empty) + "/api/livraisongroupagev3");
 				try
 				{
 					webClient.UploadStringCompleted += WebClient_UploadStringCompleted;

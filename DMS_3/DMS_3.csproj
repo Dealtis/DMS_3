@@ -175,7 +175,6 @@
     <Compile Include="HockeyCrashManagerSettings.cs" />
     <Compile Include="SignatureActivity.cs" />
     <Compile Include="Class\TimeoutWebclient.cs" />
-    <Compile Include="Class\Webclient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

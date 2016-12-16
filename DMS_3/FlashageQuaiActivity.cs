@@ -390,7 +390,7 @@ namespace DMS_3
 				RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
 				//get infos  WS
 				//string _url = "http://dms.jeantettransport.com/api/flash";
-				string _url = "http://dms.jeantettransport.com/api/flash";
+
 				var webClient = new TimeoutWebclient();
 				webClient.Encoding = System.Text.Encoding.UTF8;
 				webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
@@ -398,6 +398,9 @@ namespace DMS_3
 				webClient.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.CacheIfAvailable);
 				webClient.QueryString.Add("val", num);
 				webClient.QueryString.Add("soc", DBRepository.Instance.GetSociete(Data.userAndsoft));
+
+				ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+				string _url = prefs.GetString("API_DOMAIN", String.Empty) + "/api/flash";
 				string dataWS = "";
 
 				try

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Preferences;
 using Android.Support.V7.App;
 using Android.Telephony;
 using Android.Widget;
@@ -160,20 +161,60 @@ namespace DMS_3
 					{
 						progress += 20;
 						action(progress);
-						string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
+
 						var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
 						var IMEI = telephonyManager.DeviceId;
-						var webClient = new WebClient();
+						var webClient = new TimeoutWebclient();
 						webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 						webClient.QueryString.Add("IMEI", IMEI);
 						string userData = "";
-						userData = webClient.DownloadString(_url);
+						string _url = "";
+						//si pref societe == null
+						ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+						ISharedPreferencesEditor editor = prefs.Edit();
+
+
+						//try jeantet
+						try
+						{
+							_url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
+							userData = webClient.DownloadString(_url);
+
+							if (userData == "[]")
+							{
+								_url = "***URLOVH****";
+								userData = webClient.DownloadString(_url);
+								if (userData != "[]")
+								{
+									//set pref API_LOCATION OVH
+									editor.PutString("API_LOCATION", "OVH");
+									editor.PutString("API_DOMAIN", "http://*****************");
+									editor.Apply();
+									Console.WriteLine("SET OVH");
+								}
+							}
+							else
+							{
+								//set pref API_LOCATION JEANTET
+								editor.PutString("API_LOCATION", "JEANTET");
+								editor.PutString("API_DOMAIN", "http://dmsv3.jeantettransport.com");
+								editor.Apply();
+								Console.WriteLine("SET JEANTET");
+							}
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine(ex);
+						}
+
+
 						if (userData != "[]")
 						{
 							RunOnUiThread(() => traitResponse(userData));
 							RunOnUiThread(() => tableload.Text = "Table chargée");
 							RunOnUiThread(() => tableload.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.Val, 0, 0, 0));
-						}else
+						}
+						else
 						{
 							RunOnUiThread(() => tableload.Text = "Table non chargée");
 							RunOnUiThread(() => tableload.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.Anom, 0, 0, 0));

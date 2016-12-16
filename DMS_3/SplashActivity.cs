@@ -8,6 +8,7 @@ using Android.App;
 using Android.Content;
 using Android.Net;
 using Android.OS;
+using Android.Preferences;
 using Android.Telephony;
 using Android.Widget;
 using DMS_3.BDD;
@@ -28,57 +29,99 @@ namespace DMS_3
 			base.OnResume();
 			Task startupWork = new Task(() =>
 			{
-				
+
 				//CREATION DE LA BDD
 				DBRepository.Instance.CreateDB();
 				//CREATION DES TABLES
 				DBRepository.Instance.CreateTable();
 
-				//TEST DE CONNEXION
-				var connectivityManager = (ConnectivityManager)GetSystemService(ConnectivityService);
-
-				//GetTelId
-				TelephonyManager tel = (TelephonyManager)this.GetSystemService(Context.TelephonyService);
-				var telId = tel.DeviceId;
-				var activeConnection = connectivityManager.ActiveNetworkInfo;
-				if ((activeConnection != null) && activeConnection.IsConnected)
+				try
 				{
-					try
+
+					var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
+					var IMEI = telephonyManager.DeviceId;
+					var webClient = new TimeoutWebclient();
+					webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+					webClient.QueryString.Add("IMEI", IMEI);
+					string userData = "";
+					string _url = "";
+					//si pref societe == null
+					ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+					ISharedPreferencesEditor editor = prefs.Edit();
+
+					if (prefs.GetString("API_LOCATION", String.Empty) != String.Empty)
 					{
-						string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
-						var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
-						var IMEI = telephonyManager.DeviceId;
-						var webClient = new TimeoutWebclient();
-						webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-						string userData = "";
-						webClient.QueryString.Add("IMEI", IMEI);
-						userData = webClient.DownloadString(_url);
-						System.Console.WriteLine("\n Webclient User Terminé ...");
-						//GESTION DU XML
-						JsonArray jsonVal = JsonValue.Parse(userData) as JsonArray;
-						var jsonArr = jsonVal;
-						foreach (var row in jsonArr)
+						switch (prefs.GetString("API_LOCATION", String.Empty))
 						{
-							var checkUser = DBRepository.Instance.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Societe"]);
-							Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
-							if (!checkUser)
+							case "JEANTET":
+								_url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
+								break;
+							case "OVH":
+								_url = "***URLOVH****";
+								break;
+							default:
+								break;
+						}
+						userData = webClient.DownloadString(_url);
+					}
+					else
+					{
+						//try jeantet
+						try
+						{
+							_url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
+							userData = webClient.DownloadString(_url);
+
+							if (userData == "[]")
 							{
-								var IntegUser = DBRepository.Instance.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Usepartic"], row["User_Societe"]);
-								Console.WriteLine("\n" + IntegUser);
+								_url = "***URLOVH****";
+								userData = webClient.DownloadString(_url);
+								if (userData != "[]")
+								{
+									//set pref API_LOCATION OVH
+									editor.PutString("API_LOCATION", "OVH");
+									editor.PutString("API_DOMAIN", "http://*****************");
+									editor.Apply();
+								}
+							}else
+							{
+								//set pref API_LOCATION JEANTET
+								editor.PutString("API_LOCATION", "JEANTET");
+								editor.PutString("API_DOMAIN", "http://dmsv3.jeantettransport.com");
+								editor.Apply();
 							}
 						}
-						//execute de la requete
-						if (userData != "[]")
+						catch (Exception ex)
 						{
-							Data.tableuserload = "true";
+							Console.WriteLine(ex);
 						}
 					}
-					catch (System.Exception ex)
+
+					//GESTION DU JSON
+					JsonArray jsonVal = JsonValue.Parse(userData) as JsonArray;
+					var jsonArr = jsonVal;
+					foreach (var row in jsonArr)
 					{
-						System.Console.WriteLine(ex);
-						Thread.Sleep(5000);
+						var checkUser = DBRepository.Instance.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Societe"]);
+						Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
+						if (!checkUser)
+						{
+							var IntegUser = DBRepository.Instance.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Usepartic"], row["User_Societe"]);
+							Console.WriteLine("\n" + IntegUser);
+						}
+					}
+
+					if (userData != "[]")
+					{
+						Data.tableuserload = "true";
 					}
 				}
+				catch (System.Exception ex)
+				{
+					System.Console.WriteLine(ex);
+					Thread.Sleep(5000);
+				}
+
 
 			});
 			startupWork.ContinueWith(t =>

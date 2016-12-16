@@ -100,45 +100,48 @@ namespace DMS_3.BDD
 		}
 
 		//Insertion des donnes des positions
-		public string insertDataPosition(string codeLivraison, string numCommande, string refClient, string nomPayeur, string nomExpediteur, string adresseExpediteur, string villeExpediteur, string cpExpediteur, string dateExpe, string nomClient, string adresseLivraison, string villeLivraison, string cpLivraison, string dateHeure, string poids, string nbrPallette, string nbrColis, string instrucLivraison, string typeMission, string typeSegment, string groupage, string poidsADR, string poidsQL, string statutLivraison, string cr, int dateBDD, string dateMission, int ordreMission, string planDeTransport, string userAndsoft, string nomClientLivraison, string villeClientLivraison, string imgpath)
+		public string insertDataPosition(string idSegment, string codeLivraison, string numCommande,string nomClient, string refClient, string nomPayeur, string adresseLivraison, string CpLivraison, string villeLivraison, string dateHeure, string nbrColis, string nbrPallette, string poids, string adresseExpediteur, string CpExpediteur, string dateExpe, string villeExpediteur, string nomExpediteur, string instrucLivraison, string GROUPAGE, string poidsADR, string poidsQL, string typeMission, string typeSegment, string statutLivraison, string CR, string ASSIGNE, string dateBDD, string Datemission, string Ordremission, string planDeTransport, string Userandsoft, string nomClientLivraison, string villeClientLivraison, string positionPole, string imgpath)
 		{
 			try
 			{
 				TablePositions item = new TablePositions();
-
+				item.idSegment = idSegment;
 				item.codeLivraison = codeLivraison;
 				item.numCommande = numCommande;
 				item.nomClient = nomClient;
 				item.refClient = refClient;
 				item.nomPayeur = nomPayeur;
 				item.adresseLivraison = adresseLivraison;
-				item.CpLivraison = cpLivraison;
+				item.CpLivraison = CpLivraison;
 				item.villeLivraison = villeLivraison;
 				item.dateHeure = dateHeure;
 				item.nbrColis = nbrColis;
 				item.nbrPallette = nbrPallette;
 				item.poids = poids;
 				item.adresseExpediteur = adresseExpediteur;
-				item.CpExpediteur = cpExpediteur;
+				item.CpExpediteur = CpLivraison;
 				item.dateExpe = dateExpe;
 				item.villeExpediteur = villeExpediteur;
 				item.nomExpediteur = nomExpediteur;
+				item.CpExpediteur = CpExpediteur;
 				item.instrucLivraison = instrucLivraison;
-				item.groupage = groupage;
+				item.groupage = GROUPAGE;
 				item.poidsADR = poidsADR;
 				item.poidsQL = poidsQL;
 				item.typeMission = typeMission;
 				item.typeSegment = typeSegment;
 				item.StatutLivraison = statutLivraison;
-				item.CR = cr;
-				item.dateBDD = dateBDD;
-				item.Datemission = dateMission;
-				item.Ordremission = ordreMission;
+				item.CR = CR;
+				item.ASSIGNE = ASSIGNE;
+				item.dateBDD = DateTime.Now.Day;
+				item.Datemission = Datemission;
+				item.Ordremission = Convert.ToInt32(Ordremission);
 				item.planDeTransport = planDeTransport;
-				item.Userandsoft = userAndsoft;
+				item.Userandsoft = Userandsoft;
 				item.nomClientLivraison = nomClientLivraison;
 				item.villeClientLivraison = villeClientLivraison;
 				item.imgpath = imgpath;
+				item.positionPole = positionPole;
 
 				db.Insert(item);
 				
