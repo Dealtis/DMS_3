@@ -32,15 +32,13 @@ namespace DMS_3
 		string _locationProvider;
 		string stringValues;
 		string stringNotif;
-
-		DBRepository dbr = new DBRepository();
 		#endregion
 
 		//string log_file;
 		public override StartCommandResult OnStartCommand(Android.Content.Intent intent, StartCommandFlags flags, int startId)
 		{
-			userAndsoft = dbr.getUserAndsoft();
-			userTransics = dbr.getUserTransics();
+			userAndsoft = DBRepository.Instance.getUserAndsoft();
+			userTransics = DBRepository.Instance.getUserTransics();
 
 			StartServiceInForeground();
 			Routine();
@@ -112,9 +110,8 @@ namespace DMS_3
 				{
 					while (true)
 					{
-						DBRepository dbr = new DBRepository();
-						userAndsoft = dbr.getUserAndsoft();
-						userTransics = dbr.getUserTransics();
+						userAndsoft = DBRepository.Instance.getUserAndsoft();
+						userTransics = DBRepository.Instance.getUserTransics();
 						var connectivityManager = (ConnectivityManager)GetSystemService(ConnectivityService);
 						var activeConnection = connectivityManager.ActiveNetworkInfo;
 						if (userAndsoft != string.Empty)
@@ -125,7 +122,7 @@ namespace DMS_3
 									() =>
 									{
 										Console.WriteLine("\nHello from ComPosNotifMsg.");
-										//dbr.InsertLogService("",DateTime.Now,"ComPosNotifMsg Start");
+										//DBRepository.Instance.InsertLogService("",DateTime.Now,"ComPosNotifMsg Start");
 										ComPosNotifMsg();
 										Thread.Sleep(500);
 									}
@@ -133,7 +130,7 @@ namespace DMS_3
 									t =>
 									{
 										Console.WriteLine("\nHello from ComWebService.");
-										//dbr.InsertLogService("",DateTime.Now,"ComWebService Start");
+										//DBRepository.Instance.InsertLogService("",DateTime.Now,"ComWebService Start");
 										ComWebService();
 										Thread.Sleep(500);
 									}
@@ -180,14 +177,14 @@ namespace DMS_3
 					stringNotif = string.Empty;
 					foreach (var row in jsonArr)
 					{
-						bool checkpos = dbr.pos_AlreadyExist(row["numCommande"], row["groupage"], row["typeMission"], row["typeSegment"]);
+						bool checkpos = DBRepository.Instance.pos_AlreadyExist(row["numCommande"], row["groupage"], row["typeMission"], row["typeSegment"]);
 						if (!checkpos)
 						{
 							stringValues += " SELECT " + row["idSegment"].ToString() + "," + row["codeLivraison"].ToString() + "," + row["numCommande"].ToString() + "," + row["nomClient"].ToString() + "," + row["refClient"].ToString() + "," + row["nomPayeur"].ToString() + "," + row["adresseLivraison"].ToString() + "," + row["CpLivraison"].ToString() + "," + row["villeLivraison"].ToString() + "," + row["dateExpe"].ToString() + "," + row["nbrColis"].ToString() + "," + row["nbrPallette"].ToString() + "," + row["poids"].ToString() + "," + row["adresseExpediteur"].ToString() + "," + row["CpExpediteur"].ToString() + "," + row["dateExpe"].ToString() + "," + row["villeExpediteur"].ToString() + "," + row["nomExpediteur"].ToString() + "," + row["instrucLivraison"].ToString() + "," + row["groupage"].ToString() + "," + row["PoidsADR"].ToString() + "," + row["PoidsQL"].ToString() + "," + row["typeMission"].ToString() + "," + row["typeSegment"].ToString() + ",0," + row["CR"].ToString() + "," + row["ASSIGNE"].ToString() + "," + DateTime.Now.Day + "," + row["Datemission"].ToString() + "," + row["Ordremission"].ToString() + "," + row["planDeTransport"].ToString() + ",\"" + userAndsoft + "\"," + row["nomClientLivraison"].ToString() + "," + row["villeClientLivraison"].ToString() + "," + row["PositionPole"].ToString() + ",\"null\" UNION ALL";
 
 							foreach (JsonValue item in row["detailColis"])
 							{
-								dbr.InsertDataColis(item["NumColis"], row["numCommande"]);
+								DBRepository.Instance.InsertDataColis(item["NumColis"], row["numCommande"]);
 							}
 						}
 						//NOTIF
@@ -199,7 +196,7 @@ namespace DMS_3
 						stringinsertpos += "TablePositions ( idSegment, codeLivraison, numCommande, nomClient, refClient, nomPayeur, adresseLivraison, CpLivraison, villeLivraison, dateHeure, nbrColis, nbrPallette, poids, adresseExpediteur, CpExpediteur, dateExpe, villeExpediteur, nomExpediteur, instrucLivraison, GROUPAGE, poidsADR, poidsQL, typeMission, typeSegment, statutLivraison, CR, ASSIGNE, dateBDD, Datemission, Ordremission, planDeTransport, Userandsoft, nomClientLivraison, villeClientLivraison, positionPole,imgpath)";
 						stringinsertpos += " ";
 						stringinsertpos += stringValues.Remove(stringValues.Length - 9);
-						var execreq = dbr.Execute(stringinsertpos);
+						var execreq = DBRepository.Instance.Execute(stringinsertpos);
 
 						Console.Out.WriteLine(execreq);
 						//SON
@@ -213,14 +210,14 @@ namespace DMS_3
 					if (stringNotif != string.Empty)
 					{
 						string stringinsertnotif = "INSERT INTO TableNotifications ( statutNotificationMessage, dateNotificationMessage, numMessage, numCommande ) VALUES ('10','" + DateTime.Now + "','1','" + stringNotif.Remove(stringNotif.Length - 1) + "')";
-						var execreqnotif = dbr.Execute(stringinsertnotif);
+						var execreqnotif = DBRepository.Instance.Execute(stringinsertnotif);
 						Console.Out.WriteLine("Execnotif" + execreqnotif);
 					}
 				}
 
 				//select des grp's
 				string content_grpcloture = String.Empty;
-				var tablegroupage = dbr.QueryPositions("SELECT groupage FROM TablePositions group by groupage");
+				var tablegroupage = DBRepository.Instance.QueryPositions("SELECT groupage FROM TablePositions group by groupage");
 				foreach (var row in tablegroupage)
 				{
 					string numGroupage = row.groupage;
@@ -235,7 +232,7 @@ namespace DMS_3
 						if (content_grpcloture == "{\"etat\":\"CLO\"}")
 						{
 							//suppression du groupage en question si clo
-							dbr.QueryPositions("DELETE from TablePositions where groupage = '" + numGroupage + "'");
+							DBRepository.Instance.QueryPositions("DELETE from TablePositions where groupage = '" + numGroupage + "'");
 						}
 					}
 					catch (Exception ex)
@@ -252,7 +249,7 @@ namespace DMS_3
 			}
 
 			//SET des badges
-			dbr.SETBadges(Data.userAndsoft);
+			DBRepository.Instance.SETBadges(Data.userAndsoft);
 			Console.WriteLine("\nTask InsertData done");
 		}
 
@@ -291,7 +288,7 @@ namespace DMS_3
 				}
 
 				//SET des badges
-				dbr.SETBadges(Data.userAndsoft);
+				DBRepository.Instance.SETBadges(Data.userAndsoft);
 
 				String datajson = string.Empty;
 				String datagps = string.Empty;
@@ -300,7 +297,7 @@ namespace DMS_3
 
 				datagps = "{\"posgps\":\"" + gPS + "\",\"userandsoft\":\"" + userAndsoft + "\"}";
 
-				var tableNotif = dbr.QueryNotif("SELECT * FROM TableNotifications");
+				var tableNotif = DBRepository.Instance.QueryNotif("SELECT * FROM TableNotifications");
 
 				//SEND NOTIF
 				foreach (var item in tableNotif)
@@ -309,7 +306,7 @@ namespace DMS_3
 				}
 
 				//SEND MESSAGE
-				var tablemessage = dbr.QueryMessage("SELECT * FROM TableMessages WHERE statutMessage = 2 or statutMessage = 5");
+				var tablemessage = DBRepository.Instance.QueryMessage("SELECT * FROM TableMessages WHERE statutMessage = 2 or statutMessage = 5");
 				foreach (var item in tablemessage)
 				{
 					datamsg += "{\"codeChauffeur\":\"" + item.codeChauffeur + "\",\"texteMessage\":\"" + item.texteMessage + "\",\"utilisateurEmetteur\":\"" + item.utilisateurEmetteur + "\",\"dateImportMessage\":\"" + item.dateImportMessage + "\",\"typeMessage\":\"" + item.typeMessage + "\"},";
@@ -356,7 +353,7 @@ namespace DMS_3
 		void ComWebService()
 		{
 			//récupération des données dans la BDD
-			var table = dbr.QueryStatuPos("Select * FROM TableStatutPositions");
+			var table = DBRepository.Instance.QueryStatuPos("Select * FROM TableStatutPositions");
 			string datajsonArray = string.Empty;
 			datajsonArray += "[";
 			foreach (var item in table)
@@ -389,7 +386,7 @@ namespace DMS_3
 			try
 			{
 				string resultjson = "[" + e.Result + "]";
-				//dbr.InsertLogService(e.Result,DateTime.Now,"WebClient_UploadStringCompleted Response");
+				//DBRepository.Instance.InsertLogService(e.Result,DateTime.Now,"WebClient_UploadStringCompleted Response");
 				if (e.Result != "\"YOLO\"")
 				{
 					JsonArray jsonVal = JsonArray.Parse(resultjson) as JsonArray;
@@ -421,10 +418,10 @@ namespace DMS_3
 					}
 				}
 
-				var tablemessage = dbr.QueryMessage("SELECT * FROM TableMessages WHERE statutMessage = 2 or statutMessage = 5");
+				var tablemessage = DBRepository.Instance.QueryMessage("SELECT * FROM TableMessages WHERE statutMessage = 2 or statutMessage = 5");
 				foreach (var item in tablemessage)
 				{
-					dbr.QueryMessage("UPDATE TableMessages SET statutMessage = 3 WHERE _Id = '" + item.Id + "'");
+					DBRepository.Instance.QueryMessage("UPDATE TableMessages SET statutMessage = 3 WHERE _Id = '" + item.Id + "'");
 				}
 			}
 			catch (Exception ex)
@@ -439,38 +436,38 @@ namespace DMS_3
 			{
 				if (texteMessage.ToString().Length < 9)
 				{
-					dbr.insertDataMessage(codeChauffeur, utilisateurEmetteur, texteMessage, 0, DateTime.Now, 1, numMessage);
-					dbr.InsertDataStatutMessage(0, DateTime.Now, numMessage, "", "");
+					DBRepository.Instance.insertDataMessage(codeChauffeur, utilisateurEmetteur, texteMessage, 0, DateTime.Now, 1, numMessage);
+					DBRepository.Instance.InsertDataStatutMessage(0, DateTime.Now, numMessage, "", "");
 					alertsms();
 				}
 				else {
 					switch (texteMessage.ToString().Substring(0, 9))
 					{
 						case "%%SUPPLIV":
-							dbr.updatePositionSuppliv(texteMessage.Remove(texteMessage.Length - 2).Substring(10));
-							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
-							TablePositions posMsg = dbr.GetPositionsData(dbr.GetidPosition(texteMessage.Remove(texteMessage.Length - 2).Substring(10)));
-							dbr.insertDataMessage(codeChauffeur, utilisateurEmetteur, "La position " + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "de " + posMsg.typeSegment + " a été supprimée de votre tournée", 0, DateTime.Now, 1, numMessage);
-							dbr.SETBadges(Data.userAndsoft);
+							DBRepository.Instance.updatePositionSuppliv(texteMessage.Remove(texteMessage.Length - 2).Substring(10));
+							DBRepository.Instance.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
+							TablePositions posMsg = DBRepository.Instance.GetPositionsData(DBRepository.Instance.GetidPosition(texteMessage.Remove(texteMessage.Length - 2).Substring(10)));
+							DBRepository.Instance.insertDataMessage(codeChauffeur, utilisateurEmetteur, "La position " + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "de " + posMsg.typeSegment + " a été supprimée de votre tournée", 0, DateTime.Now, 1, numMessage);
+							DBRepository.Instance.SETBadges(Data.userAndsoft);
 							break;
 						case "%%RETOLIV":
-							dbr.QueryPositions("UPDATE TablePositions SET imgpath = null WHERE numCommande = '" + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "'");
-							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
+							DBRepository.Instance.QueryPositions("UPDATE TablePositions SET imgpath = null WHERE numCommande = '" + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "'");
+							DBRepository.Instance.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
 							break;
 						case "%%SUPPGRP":
-							dbr.QueryPositions("DELETE from TablePositions where groupage = '" + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "'");
-							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
+							DBRepository.Instance.QueryPositions("DELETE from TablePositions where groupage = '" + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "'");
+							DBRepository.Instance.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
 							break;
 						case "%%RUNTGPS":
 							if (_locationProvider != "")
 							{
 								locMgr.RequestLocationUpdates(_locationProvider, 0, 0, this);
 								Console.Out.Write("Listening for location updates using " + _locationProvider + ".");
-								dbr.insertDataMessage(Data.userAndsoft, "", "Listening for location updates using " + _locationProvider + ".", 5, DateTime.Now, 5, 0);
+								DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", "Listening for location updates using " + _locationProvider + ".", 5, DateTime.Now, 5, 0);
 							}
 							else
 							{
-								dbr.insertDataMessage(Data.userAndsoft, "", "Location provider null", 5, DateTime.Now, 5, 0);
+								DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", "Location provider null", 5, DateTime.Now, 5, 0);
 							}
 							break;
 						case "%%COMMAND":
@@ -480,7 +477,7 @@ namespace DMS_3
 							try
 							{
 								string compImg;
-								string imgpath = dbr.getAnomalieImgPath(texteMessage.Remove(texteMessage.Length - 2).Substring(10));
+								string imgpath = DBRepository.Instance.getAnomalieImgPath(texteMessage.Remove(texteMessage.Length - 2).Substring(10));
 								if (imgpath != string.Empty)
 								{
 									Android.Graphics.Bitmap bmp = Android.Graphics.BitmapFactory.DecodeFile(imgpath);
@@ -493,7 +490,7 @@ namespace DMS_3
 									Thread threadimgpath = new Thread(() => uploadFile("ftp://77.158.93.75", compImg, "DMS", "Linuxr00tn", ""));
 									threadimgpath.Start();
 								}
-								dbr.insertDataMessage(Data.userAndsoft, "", "%%GETAIMG Done", 5, DateTime.Now, 5, 0);
+								DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", "%%GETAIMG Done", 5, DateTime.Now, 5, 0);
 							}
 							catch (Exception ex)
 							{
@@ -509,7 +506,7 @@ namespace DMS_3
 							switch (texteMessageInputSplit[2])
 							{
 								case "TableMessages":
-									var selMesg = dbr.QueryMessage(texteMessageInputSplit[3]);
+									var selMesg = DBRepository.Instance.QueryMessage(texteMessageInputSplit[3]);
 									string rowMsg = "";
 									rowMsg += "[";
 									foreach (var item in selMesg)
@@ -518,10 +515,10 @@ namespace DMS_3
 									}
 									rowMsg.Remove(rowMsg.Length - 1);
 									rowMsg += "]";
-									dbr.insertDataMessage(Data.userAndsoft, "", rowMsg, 5, DateTime.Now, 5, 0);
+									DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", rowMsg, 5, DateTime.Now, 5, 0);
 									break;
 								case "TableNotifications":
-									var selNotif = dbr.QueryNotif(texteMessageInputSplit[3]);
+									var selNotif = DBRepository.Instance.QueryNotif(texteMessageInputSplit[3]);
 									string rowNotif = "";
 									rowNotif += "[";
 									foreach (var item in selNotif)
@@ -530,11 +527,11 @@ namespace DMS_3
 									}
 									rowNotif.Remove(rowNotif.Length - 1);
 									rowNotif += "]";
-									dbr.insertDataMessage(Data.userAndsoft, "", rowNotif, 5, DateTime.Now, 5, 0);
+									DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", rowNotif, 5, DateTime.Now, 5, 0);
 
 									break;
 								case "TablePositions":
-									var selPos = dbr.QueryPositions(texteMessageInputSplit[3]);
+									var selPos = DBRepository.Instance.QueryPositions(texteMessageInputSplit[3]);
 									string rowPos = "";
 									rowPos += "[";
 									foreach (var item in selPos)
@@ -543,24 +540,22 @@ namespace DMS_3
 									}
 									rowPos.Remove(rowPos.Length - 1);
 									rowPos += "]";
-									dbr.insertDataMessage(Data.userAndsoft, "", rowPos, 5, DateTime.Now, 5, 0);
-
+									DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", rowPos, 5, DateTime.Now, 5, 0);
 									break;
 								case "TableColis":
-									var selColis = dbr.QueryColis(texteMessageInputSplit[3]);
+									var selColis = DBRepository.Instance.QueryColis(texteMessageInputSplit[3]);
 									string rowColis = "";
 									rowColis += "[";
 									foreach (var item in selColis)
 									{
-										rowColis += "{" + item.numCommande + "," + item.numColis + "," + item.dateflashage + "," + item.flashage+ "},";
+										rowColis += "{" + item.numCommande + "," + item.numColis + "," + item.dateflashage + "," + item.flashage + "},";
 									}
 									rowColis.Remove(rowColis.Length - 1);
 									rowColis += "]";
-									dbr.insertDataMessage(Data.userAndsoft, "", rowColis, 5, DateTime.Now, 5, 0);
-
+									DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", rowColis, 5, DateTime.Now, 5, 0);
 									break;
 								case "TableStatutPositions":
-									var selStat = dbr.QueryStatuPos(texteMessageInputSplit[3]);
+									var selStat = DBRepository.Instance.QueryStatuPos(texteMessageInputSplit[3]);
 									string rowStatut = "";
 									rowStatut += "[";
 									foreach (var item in selStat)
@@ -569,26 +564,25 @@ namespace DMS_3
 									}
 									rowStatut.Remove(rowStatut.Length - 1);
 									rowStatut += "]";
-									dbr.insertDataMessage(Data.userAndsoft, "", rowStatut, 5, DateTime.Now, 5, 0);
+									DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", rowStatut, 5, DateTime.Now, 5, 0);
 									break;
 								case "REORDER":
-									//string vTest = "7521157-23|7504793-22|7504911-21|7520938-20|7508789-19|7508319-18|7520258-17|7517092-16|7504745-15|7504742-14|7518147-13|7493546-12|7520226-11|7521200-10|7518630-9|7519496-8|7518382-7|7482816-6|7504679-5|7521031-4|7496922-3|7496918-2|7484337-1|";
 									string[] arraySQL = texteMessageInputSplit[3].Split('|');
 									foreach (string item in arraySQL)
 									{
 										var subarrSQL = item.Split('-');
-										dbr.updatePositionOrder(subarrSQL[0].ToString(), Convert.ToInt32(subarrSQL[1]));
+										DBRepository.Instance.updatePositionOrder(subarrSQL[0].ToString(), Convert.ToInt32(subarrSQL[1]));
 									}
 									break;
 								default:
-									var execreq = dbr.Execute(texteMessageInputSplit[3]);
-									dbr.insertDataMessage(Data.userAndsoft, "", execreq + " lignes traitées : " + texteMessageInputSplit[3], 5, DateTime.Now, 5, 0);
+									var execreq = DBRepository.Instance.Execute(texteMessageInputSplit[3]);
+									DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", execreq + " lignes traitées : " + texteMessageInputSplit[3], 5, DateTime.Now, 5, 0);
 									break;
 							}
 							break;
 						default:
-							dbr.insertDataMessage(codeChauffeur, utilisateurEmetteur, texteMessage, 0, DateTime.Now, 1, numMessage);
-							dbr.InsertDataStatutMessage(0, DateTime.Now, numMessage, "", "");
+							DBRepository.Instance.insertDataMessage(codeChauffeur, utilisateurEmetteur, texteMessage, 0, DateTime.Now, 1, numMessage);
+							DBRepository.Instance.InsertDataStatutMessage(0, DateTime.Now, numMessage, "", "");
 							alertsms();
 							Console.WriteLine(numMessage.ToString());
 							break;

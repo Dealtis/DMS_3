@@ -174,6 +174,8 @@
     <Compile Include="BDD\TableColis.cs" />
     <Compile Include="HockeyCrashManagerSettings.cs" />
     <Compile Include="SignatureActivity.cs" />
+    <Compile Include="Class\TimeoutWebclient.cs" />
+    <Compile Include="Class\Webclient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -275,6 +277,7 @@
     <Folder Include="Resources\anim\" />
     <Folder Include="Assets\fonts\" />
     <Folder Include="Resources\Menu\" />
+    <Folder Include="Class\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ItemGroup>

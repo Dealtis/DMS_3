@@ -28,12 +28,11 @@ namespace DMS_3
 			base.OnResume();
 			Task startupWork = new Task(() =>
 			{
-				//INSTANCE DBREPOSITORY
-				DBRepository dbr = new DBRepository();
+				
 				//CREATION DE LA BDD
-				dbr.CreateDB();
+				DBRepository.Instance.CreateDB();
 				//CREATION DES TABLES
-				dbr.CreateTable();
+				DBRepository.Instance.CreateTable();
 
 				//TEST DE CONNEXION
 				var connectivityManager = (ConnectivityManager)GetSystemService(ConnectivityService);
@@ -49,7 +48,7 @@ namespace DMS_3
 						string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
 						var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
 						var IMEI = telephonyManager.DeviceId;
-						var webClient = new WebClient();
+						var webClient = new TimeoutWebclient();
 						webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 						string userData = "";
 						webClient.QueryString.Add("IMEI", IMEI);
@@ -60,11 +59,11 @@ namespace DMS_3
 						var jsonArr = jsonVal;
 						foreach (var row in jsonArr)
 						{
-							var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Societe"]);
+							var checkUser = DBRepository.Instance.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Societe"]);
 							Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
 							if (!checkUser)
 							{
-								var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Usepartic"], row["User_Societe"]);
+								var IntegUser = DBRepository.Instance.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Usepartic"], row["User_Societe"]);
 								Console.WriteLine("\n" + IntegUser);
 							}
 						}
@@ -85,12 +84,11 @@ namespace DMS_3
 			startupWork.ContinueWith(t =>
 			{
 				//Is a user login ?
-				DBRepository dbr = new DBRepository();
-				var user_Login = dbr.is_user_Log_In();
+				var user_Login = DBRepository.Instance.is_user_Log_In();
 				if (!(user_Login == "false"))
 				{
 					//Data.userAndsoft = user_Login;
-					dbr.setUserdata(user_Login);
+					DBRepository.Instance.setUserdata(user_Login);
 
 					//lancement du BgWorker Service
 					StartService(new Intent(this, typeof(ProcessDMS)));
@@ -128,11 +126,11 @@ namespace DMS_3
 							}
 							else {
 								StartService(new Intent(this, typeof(ProcessDMS)));
-								//dbr.InsertLogApp("",DateTime.Now,"Relance du service après 10 min d'inactivité");
+								//DBRepository.Instance.InsertLogApp("",DateTime.Now,"Relance du service après 10 min d'inactivité");
 							}
 						}
 						else {
-							//dbr.InsertLogApp("",DateTime.Now,"Pas de Relance du service");
+							//DBRepository.Instance.InsertLogApp("",DateTime.Now,"Pas de Relance du service");
 						}
 
 					}

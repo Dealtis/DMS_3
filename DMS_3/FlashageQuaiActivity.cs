@@ -391,7 +391,7 @@ namespace DMS_3
 				//get infos  WS
 				//string _url = "http://dms.jeantettransport.com/api/flash";
 				string _url = "http://dms.jeantettransport.com/api/flash";
-				var webClient = new WebClient();
+				var webClient = new TimeoutWebclient();
 				webClient.Encoding = System.Text.Encoding.UTF8;
 				webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 
