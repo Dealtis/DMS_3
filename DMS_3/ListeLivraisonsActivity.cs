@@ -108,13 +108,15 @@ namespace DMS_3
 
 				aButton.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent, .1f);
 
-				if (Convert.ToDouble(item.poidsADR) >= 1000)
+				string poidsADR = item.poidsADR.Replace(".", ",");
+				if (Convert.ToDouble(poidsADR) >= 1000)
 				{
 					aButton.SetBackgroundResource(Resource.Drawable.adr_background);
 				}
 				else
 				{
-					if (Convert.ToDouble(item.poidsQL) >= 8000)
+					string poidsQL = item.poidsQL.Replace(".", ",");
+					if (Convert.ToDouble(poidsQL) >= 8000)
 					{
 						aButton.SetBackgroundResource(Resource.Drawable.row_valide_background);
 					}

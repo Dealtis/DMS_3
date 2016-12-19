@@ -116,14 +116,15 @@ namespace DMS_3
 			{
 				pole.Visibility = ViewStates.Gone;
 			}
-
-			if (Convert.ToDouble(mItems[position].poidsADR) >= 1000)
+			string poidsADR = mItems[position].poidsADR.Replace(".", ",");
+			if (Convert.ToDouble(poidsADR) >= 1000)
 			{
 				ico.SetImageResource(Resource.Drawable.LivADR_100);
 			}
 			else
 			{
-				if (Convert.ToDouble(mItems[position].poidsQL) >= 8000)
+				string poidsQL = mItems[position].poidsQL.Replace(".", ",");
+				if (Convert.ToDouble(poidsQL) >= 8000)
 				{
 					ico.SetImageResource(Resource.Drawable.ql_100);
 				}

@@ -42,7 +42,7 @@ namespace DMS_3
 					var IMEI = telephonyManager.DeviceId;
 					var webClient = new TimeoutWebclient();
 					webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-					webClient.QueryString.Add("IMEI", IMEI);
+ 					webClient.QueryString.Add("IMEI", IMEI);
 					string userData = "";
 					string _url = "";
 					//si pref societe == null
@@ -57,7 +57,7 @@ namespace DMS_3
 								_url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
 								break;
 							case "OVH":
-								_url = "***URLOVH****";
+								_url = "https://dmsws.dealtis.fr/api/authenWsv4";
 								break;
 							default:
 								break;
@@ -74,13 +74,13 @@ namespace DMS_3
 
 							if (userData == "[]")
 							{
-								_url = "***URLOVH****";
+								_url = "https://dmsws.dealtis.fr/api/authenWsv4";
 								userData = webClient.DownloadString(_url);
 								if (userData != "[]")
 								{
 									//set pref API_LOCATION OVH
 									editor.PutString("API_LOCATION", "OVH");
-									editor.PutString("API_DOMAIN", "http://*****************");
+									editor.PutString("API_DOMAIN", "https://dmsws.dealtis.fr");
 									editor.Apply();
 								}
 							}else
