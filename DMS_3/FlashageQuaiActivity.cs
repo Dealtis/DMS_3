@@ -116,6 +116,9 @@ namespace DMS_3
 			btn_pblFlash.Click += delegate
 			{
 				currentPrlFLash++;
+
+				string JSONNOTIF = "{\"codesuiviliv\":\"FLASHAGEIMP\",\"memosuiviliv\":\"" + numCommande + "\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
+				DBRepository.Instance.insertDataStatutpositions("FLASHAGEIMP", "1", "FLASHAGE", numCommande, numCommande, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);
 				int colisFlasher = DBRepository.Instance.CountColisFlash(data.numCommande);
 				int colisPosition = DBRepository.Instance.CountColis(data.numCommande);
 

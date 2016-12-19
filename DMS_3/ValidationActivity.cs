@@ -113,20 +113,25 @@ namespace DMS_3
 		void traitDial() {
 			string title;
 			string typeMo;
+			string num;
 
 			if (data.CR == "" || data.CR == "0")
 			{
 				title = "ASSIGNE";
 				typeMo = "l'assigne";
+				num = data.ASSIGNE;
+
 			}
 			else
 			{
 				title = "CR";
 				typeMo = "le cr";
+				num = data.CR;
 			}
+
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.SetTitle(title);
-			builder.SetMessage("Avez vous perçu " + typeMo + " ?\n Si oui, valider cette livraison ?");
+			builder.SetMessage("Avez vous perçu " + typeMo + " de "+num+" euros ?\n Si oui, valider cette livraison ?");
 			builder.SetCancelable(false);
 			builder.SetPositiveButton("Oui", delegate
 			{
