@@ -658,7 +658,18 @@ namespace DMS_3
 							{
 								rbmp.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg, 100, fs);
 							}
-							Data.Instance.UploadFile("ftp://77.158.93.75", compImg, "DMS", "Linuxr00tn", "");
+							//ftp://77.158.93.75 ftp://10.1.2.75
+							ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+							//if jeantet
+							if (prefs.GetString("API_LOCATION", null) == "JEANTET")
+							{
+								Data.Instance.UploadFile("ftp://77.158.93.75", compImg, "DMS", "Linuxr00tn", "");
+							}
+							else
+							{
+								Data.Instance.UploadFile("ftp://176.31.10.169", compImg, "DMSPHOTO", "DMS25000", "");
+							}
+
 							bmp.Recycle();
 							rbmp.Recycle();
 						}

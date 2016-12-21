@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
+using Android.Preferences;
 using Android.Provider;
 using DMS_3.BDD;
 using Console = System.Console;
@@ -129,8 +130,6 @@ namespace DMS_3
 
 		}
 
-
-
 		public bool UploadFile(string FtpUrl, string fileName, string userName, string password, string UploadDirectory)
 		{
 			try
@@ -149,7 +148,7 @@ namespace DMS_3
 				stream.Write(data, 0, data.Length);
 				stream.Close();
 				FtpWebResponse res = (FtpWebResponse)req.GetResponse();
-				Console.Out.Write("Upload file" + fileName + " good "+res);
+				Console.Out.Write("Upload file" + fileName + " good " + res);
 				return true;
 
 			}
@@ -177,15 +176,31 @@ namespace DMS_3
 						{
 							rbmp.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg, 100, fs);
 						}
-							//ftp://77.158.93.75 ftp://10.1.2.75
+						//ftp://77.158.93.75 ftp://10.1.2.75
+						ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(context);
+						//if jeantet
+						if ( prefs.GetString("API_LOCATION", null) == "JEANTET")
+						{
 							Data.Instance.UploadFile("ftp://77.158.93.75", compImg, "DMS", "Linuxr00tn", "");
+						}
+						else
+						{
+							if (prefs.GetString("API_LOCATION", null) != null)
+							{
+								Data.Instance.UploadFile("ftp://176.31.10.169", compImg, "DMSPHOTO", "DMS25000", "");
+							}else
+							{
+								DBRepository.Instance.InsertDataStatutMessage(11, DateTime.Now, 1, imgpath.numCommande, "");
+							}
+						}
+
 						bmp.Recycle();
 						rbmp.Recycle();
 					}
 					catch (Exception ex)
 					{
 						Console.WriteLine("\n" + ex);
-						DBRepository.Instance.InsertDataStatutMessage(11, DateTime.Now, 1, imgpath.numCommande, "");
+
 					}
 				});
 				threadUpload.Start();

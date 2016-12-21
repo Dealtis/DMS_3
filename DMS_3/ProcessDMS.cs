@@ -491,8 +491,22 @@ namespace DMS_3
 									{
 										rbmp.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg, 100, fs);
 									}
-									Thread threadimgpath = new Thread(() => uploadFile("ftp://77.158.93.75", compImg, "DMS", "Linuxr00tn", ""));
-									threadimgpath.Start();
+									//ftp://77.158.93.75 ftp://10.1.2.75
+									ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+									//if jeantet
+									if (prefs.GetString("API_LOCATION", null) == "JEANTET")
+									{
+										Thread threadimgpath = new Thread(() => Data.Instance.UploadFile("ftp://77.158.93.75", compImg, "DMS", "Linuxr00tn", ""));
+										threadimgpath.Start();
+									}
+									else
+									{
+										if (prefs.GetString("API_LOCATION", null) != null)
+										{
+											Thread threadimgpath = new Thread(() => Data.Instance.UploadFile("ftp://176.31.10.168:54021", compImg, "DMSPHOTO", "DMS25000", ""));
+											threadimgpath.Start();
+										}
+									}
 								}
 								DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", "%%GETAIMG Done", 5, DateTime.Now, 5, 0);
 							}
