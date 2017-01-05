@@ -70,9 +70,6 @@ namespace DMS_3
 			MetricsManager.EnableUserMetrics();
 			CrashManager.Register(this, APP_ID, new HockeyCrashManagerSettings());
 
-			MobileCenter.Start("9f4aa4e8-7eee-46dc-8afe-e6d7531d5426",
-					typeof(Analytics), typeof(Crashes));
-
 			//FONTS
 			txtLivraison.SetTypeface(Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);
 			txtEnlevement.SetTypeface(Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);

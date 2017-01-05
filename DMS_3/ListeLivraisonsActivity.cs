@@ -79,14 +79,29 @@ namespace DMS_3
 				}
 			}
 
-			//Mise dans un Array des Groupage
+			//Mise dans un Array des Groupages
 			if (trait == "false")
 			{
-				grp = DBRepository.Instance.QueryGRP("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft);
+				try
+				{
+					grp = DBRepository.Instance.QueryGRP("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft);
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex);
+				}
 			}
 			else
 			{
-				grp = DBRepository.Instance.QueryGRPTRAIT("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ? OR StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft, tyM, tyS, Data.userAndsoft);
+				try
+				{
+					grp = DBRepository.Instance.QueryGRPTRAIT("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ? OR StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft, tyM, tyS, Data.userAndsoft);
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex);
+				}
+
 			}
 			var allButton = new Button(this);
 			allButton.Text = "#";
@@ -100,7 +115,7 @@ namespace DMS_3
 				btngrpAll_Click();
 			};
 			foreach (var item in grp)
-			{ 
+			{
 				var aButton = new Button(this);
 				aButton.Text = item.groupage;
 				aButton.SetTextColor(Color.DarkGray);
@@ -220,41 +235,48 @@ namespace DMS_3
 
 		public void initListView(string requete)
 		{
-			bodyItems.Clear();
-			var table = DBRepository.Instance.QueryPositions(requete);
-			foreach (var item in table)
+			try
 			{
-				bodyItems.Add(new TablePositions()
+				bodyItems.Clear();
+				var table = DBRepository.Instance.QueryPositions(requete);
+				foreach (var item in table)
 				{
-					Id = item.Id,
-					numCommande = item.numCommande,
-					typeMission = item.typeMission,
-					typeSegment = item.typeSegment,
-					StatutLivraison = item.StatutLivraison,
-					nomClient = item.nomClient,
-					refClient = item.refClient,
-					nomPayeur = item.nomPayeur,
-					nbrColis = item.nbrColis,
-					nbrPallette = item.nbrPallette,
-					poids = item.poids,
-					instrucLivraison = item.instrucLivraison,
-					adresseLivraison = item.adresseLivraison,
-					CpLivraison = item.CpLivraison,
-					villeLivraison = item.villeLivraison,
-					adresseExpediteur = item.adresseExpediteur,
-					CpExpediteur = item.CpExpediteur,
-					villeExpediteur = item.villeLivraison,
-					nomClientLivraison = item.nomClientLivraison,
-					villeClientLivraison = item.villeClientLivraison,
-					imgpath = item.imgpath,
-					poidsQL = item.poidsQL,
-					poidsADR = item.poidsADR,
-					positionPole = item.positionPole,
-					CR = item.CR,
-					ASSIGNE = item.ASSIGNE
-				});
+					bodyItems.Add(new TablePositions()
+					{
+						Id = item.Id,
+						numCommande = item.numCommande,
+						typeMission = item.typeMission,
+						typeSegment = item.typeSegment,
+						StatutLivraison = item.StatutLivraison,
+						nomClient = item.nomClient,
+						refClient = item.refClient,
+						nomPayeur = item.nomPayeur,
+						nbrColis = item.nbrColis,
+						nbrPallette = item.nbrPallette,
+						poids = item.poids,
+						instrucLivraison = item.instrucLivraison,
+						adresseLivraison = item.adresseLivraison,
+						CpLivraison = item.CpLivraison,
+						villeLivraison = item.villeLivraison,
+						adresseExpediteur = item.adresseExpediteur,
+						CpExpediteur = item.CpExpediteur,
+						villeExpediteur = item.villeLivraison,
+						nomClientLivraison = item.nomClientLivraison,
+						villeClientLivraison = item.villeClientLivraison,
+						imgpath = item.imgpath,
+						poidsQL = item.poidsQL,
+						poidsADR = item.poidsADR,
+						positionPole = item.positionPole,
+						CR = item.CR,
+						ASSIGNE = item.ASSIGNE
+					});
 
-				RunOnUiThread(() => adapter.NotifyDataSetChanged());
+					RunOnUiThread(() => adapter.NotifyDataSetChanged());
+				}			
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
 			}
 		}
 

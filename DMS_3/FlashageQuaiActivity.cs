@@ -171,6 +171,8 @@ namespace DMS_3
 			   HandleScanResult(result);
 
 		   };
+
+
 		}
 
 		protected override void OnResume()
@@ -208,33 +210,45 @@ namespace DMS_3
 				barcode.EditableText.Clear();
 			};
 
+			//barcode.KeyPress += (object sender, View.KeyEventArgs e) =>
+			//{
+			//	e.Handled = false;
+			//	if (e.Event.Action == KeyEventActions.Down && e.KeyCode == Keycode.Enter)
+			//	{
+			//		e.Handled = true;
+			//		numero = barcode.Text.ToString();
+			//		ShowProgress(progress => AndHUD.Shared.Show(this, barcode.Text.ToString() + " ... " + progress + "%", progress, MaskType.Clear), barcode.Text.ToString());
+			//		barcode.EditableText.Clear();
+			//	}
+			//};
+
 			barcode.InputType = 0;
 			InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Context.InputMethodService);
 
 			barcode.Click += delegate
-			{
-				inputMethodManager.HideSoftInputFromWindow(barcode.WindowToken, 0);
-			};
+					{
+						inputMethodManager.HideSoftInputFromWindow(barcode.WindowToken, 0);
+					};
 
 			manuedit.Click += delegate
-			{
-				dialog = new Dialog(this);
-				dialog.Window.RequestFeature(WindowFeatures.NoTitle);
-				//dialog.Window.SetBackgroundDrawableResource(Resource.Drawable.bktransbox);
-				dialog.SetContentView(Resource.Layout.BoxManuEdit);
-				Button valid = dialog.FindViewById<Button>(Resource.Id.btn_valid);
-				EditText barrecode = dialog.FindViewById<EditText>(Resource.Id.barrecode);
+						{
+							dialog = new Dialog(this);
+							dialog.Window.RequestFeature(WindowFeatures.NoTitle);
+							//dialog.Window.SetBackgroundDrawableResource(Resource.Drawable.bktransbox);
+							dialog.SetContentView(Resource.Layout.BoxManuEdit);
+							Button valid = dialog.FindViewById<Button>(Resource.Id.btn_valid);
+							EditText barrecode = dialog.FindViewById<EditText>(Resource.Id.barrecode);
 
-				valid.Click += delegate
-				{
-					numero = barrecode.Text;
-					dialog.Dismiss();
-					ShowProgress(progress => AndHUD.Shared.Show(this, barrecode.Text + " ... " + progress + "%", progress, MaskType.Clear), barrecode.Text);
-				};
+							valid.Click += delegate
+								{
+									numero = barrecode.Text;
+									dialog.Dismiss();
+									ShowProgress(progress => AndHUD.Shared.Show(this, barrecode.Text + " ... " + progress + "%", progress, MaskType.Clear), barrecode.Text);
+								};
 
-				dialog.SetCancelable(true);
-				dialog.Show();
-			};
+							dialog.SetCancelable(true);
+							dialog.Show();
+						};
 		}
 
 		//private void ConfigureSyncOptions()

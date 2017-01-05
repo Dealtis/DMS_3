@@ -31,8 +31,6 @@ namespace DMS_3
 		string gPS;
 		Location previousLocation;
 		string _locationProvider;
-		string stringValues;
-		string stringNotif;
 		#endregion
 
 		//string log_file;
@@ -220,7 +218,7 @@ namespace DMS_3
 						var webClientGrp = new WebClient();
 						webClientGrp.Headers[HttpRequestHeader.ContentType] = "application/json";
 
-						webClient.QueryString.Add("voybdx", numGroupage);
+						webClientGrp.QueryString.Add("voybdx", numGroupage);
 						string _urlb = prefs.GetString("API_DOMAIN", String.Empty) + "/api/groupage";
 						content_grpcloture = webClientGrp.DownloadString(_urlb);
 						Console.WriteLine(content_grpcloture);
