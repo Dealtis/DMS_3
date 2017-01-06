@@ -4,9 +4,25 @@ using System.Collections.Generic;
 
 namespace DMS_3.BDD
 {
+	
 	public class DBRepository
 	{
+		//Instance
+		private static DBRepository instance;
+
 		private static SQLiteConnection db;
+
+		public static DBRepository Instance
+		{
+			get
+			{
+				if (instance == null)
+				{
+					instance = new DBRepository();
+				}
+				return instance;
+			}
+		}
 
 		//CREATE BDD
 		public string CreateDB()
@@ -37,7 +53,6 @@ namespace DMS_3.BDD
 				db.CreateTable<TableStatutPositions>();
 				db.CreateTable<TableMessages>();
 				db.CreateTable<TableNotifications>();
-				db.CreateTable<TableLogService>();
 				db.CreateTable<TableColis>();
 				string result = "Tables crées !";
 				
@@ -50,10 +65,10 @@ namespace DMS_3.BDD
 		}
 
 		//VERIF SI USER DEJA INTEGRER
-		public bool user_AlreadyExist(string user_AndsoftUser, string user_TransicsUser, string user_Password, string user_UseSigna)
+		public bool user_AlreadyExist(string user_AndsoftUser, string user_TransicsUser, string user_Password, string user_UseSigna, string user_Societe)
 		{
 			bool output = false;
-			var table = db.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(user_AndsoftUser)).Where(v => v.user_TransicsUser.Equals(user_TransicsUser)).Where(v => v.user_Password.Equals(user_Password)).Where(v => v.user_UseSigna.Equals(user_UseSigna));
+			var table = db.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(user_AndsoftUser)).Where(v => v.user_TransicsUser.Equals(user_TransicsUser)).Where(v => v.user_Password.Equals(user_Password)).Where(v => v.user_UseSigna.Equals(user_UseSigna)).Where(v => v.user_Societe.Equals(user_Societe));
 			foreach (var item in table)
 			{
 				output = true;
@@ -63,7 +78,7 @@ namespace DMS_3.BDD
 		}
 
 		//Insertion des DATS USER
-		public string InsertDataUser(string user_AndsoftUser, string user_TransicsUser, string user_Password, string user_UseSigna, string User_Usepartic)
+		public string InsertDataUser(string user_AndsoftUser, string user_TransicsUser, string user_Password, string user_UseSigna, string User_Usepartic, string user_Societe)
 		{
 			try
 			{
@@ -73,6 +88,7 @@ namespace DMS_3.BDD
 				item.user_Password = user_Password;
 				item.user_UseSigna = user_UseSigna;
 				item.user_UsePartic = User_Usepartic;
+				item.user_Societe = user_Societe;
 				db.Insert(item);
 				
 				return "Insertion" + user_AndsoftUser + " réussite";
@@ -84,45 +100,48 @@ namespace DMS_3.BDD
 		}
 
 		//Insertion des donnes des positions
-		public string insertDataPosition(string codeLivraison, string numCommande, string refClient, string nomPayeur, string nomExpediteur, string adresseExpediteur, string villeExpediteur, string cpExpediteur, string dateExpe, string nomClient, string adresseLivraison, string villeLivraison, string cpLivraison, string dateHeure, string poids, string nbrPallette, string nbrColis, string instrucLivraison, string typeMission, string typeSegment, string groupage, string poidsADR, string poidsQL, string statutLivraison, string cr, int dateBDD, string dateMission, int ordreMission, string planDeTransport, string userAndsoft, string nomClientLivraison, string villeClientLivraison, string imgpath)
+		public string insertDataPosition(string idSegment, string codeLivraison, string numCommande,string nomClient, string refClient, string nomPayeur, string adresseLivraison, string CpLivraison, string villeLivraison, string dateHeure, string nbrColis, string nbrPallette, string poids, string adresseExpediteur, string CpExpediteur, string dateExpe, string villeExpediteur, string nomExpediteur, string instrucLivraison, string GROUPAGE, string poidsADR, string poidsQL, string typeMission, string typeSegment, string statutLivraison, string CR, string ASSIGNE, string dateBDD, string Datemission, string Ordremission, string planDeTransport, string Userandsoft, string nomClientLivraison, string villeClientLivraison, string positionPole, string imgpath)
 		{
 			try
 			{
 				TablePositions item = new TablePositions();
-
+				item.idSegment = idSegment;
 				item.codeLivraison = codeLivraison;
 				item.numCommande = numCommande;
 				item.nomClient = nomClient;
 				item.refClient = refClient;
 				item.nomPayeur = nomPayeur;
 				item.adresseLivraison = adresseLivraison;
-				item.CpLivraison = cpLivraison;
+				item.CpLivraison = CpLivraison;
 				item.villeLivraison = villeLivraison;
 				item.dateHeure = dateHeure;
 				item.nbrColis = nbrColis;
 				item.nbrPallette = nbrPallette;
 				item.poids = poids;
 				item.adresseExpediteur = adresseExpediteur;
-				item.CpExpediteur = cpExpediteur;
+				item.CpExpediteur = CpLivraison;
 				item.dateExpe = dateExpe;
 				item.villeExpediteur = villeExpediteur;
 				item.nomExpediteur = nomExpediteur;
+				item.CpExpediteur = CpExpediteur;
 				item.instrucLivraison = instrucLivraison;
-				item.groupage = groupage;
+				item.groupage = GROUPAGE;
 				item.poidsADR = poidsADR;
 				item.poidsQL = poidsQL;
 				item.typeMission = typeMission;
 				item.typeSegment = typeSegment;
 				item.StatutLivraison = statutLivraison;
-				item.CR = cr;
-				item.dateBDD = dateBDD;
-				item.Datemission = dateMission;
-				item.Ordremission = ordreMission;
+				item.CR = CR;
+				item.ASSIGNE = ASSIGNE;
+				item.dateBDD = DateTime.Now.Day;
+				item.Datemission = Datemission;
+				item.Ordremission = Convert.ToInt32(Ordremission);
 				item.planDeTransport = planDeTransport;
-				item.Userandsoft = userAndsoft;
+				item.Userandsoft = Userandsoft;
 				item.nomClientLivraison = nomClientLivraison;
 				item.villeClientLivraison = villeClientLivraison;
 				item.imgpath = imgpath;
+				item.positionPole = positionPole;
 
 				db.Insert(item);
 				
@@ -440,6 +459,19 @@ namespace DMS_3.BDD
 			return output;
 		}
 
+		internal string GetSociete(string userAndsoft)
+		{
+			string output = "";
+			var query = db.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(userAndsoft));
+			foreach (var item in query)
+			{
+				output = item.user_Societe;
+			}
+
+			return output;
+
+		}
+
 		//setUserdata
 		public string setUserdata(string userAndsoft)
 		{
@@ -640,6 +672,7 @@ namespace DMS_3.BDD
 			data.typeMission = item.typeMission;
 			data.typeSegment = item.typeSegment;
 			data.CR = item.CR;
+			data.ASSIGNE = item.ASSIGNE;
 			data.nomClientLivraison = item.nomClientLivraison;
 			data.villeClientLivraison = item.villeClientLivraison;
 			data.Datemission = item.Datemission;
@@ -774,7 +807,7 @@ namespace DMS_3.BDD
 
 		internal List<TablePositions> QueryGRP(string stringSelect, string tyM, string tyS, string userAndsoft)
 		{
-			var grp = db.Query<TablePositions>(stringSelect, 0, tyM, tyS, Data.userAndsoft);
+			var grp = db.Query<TablePositions>(stringSelect, 0, tyM, tyS, userAndsoft);
 			return grp;
 		}
 
@@ -787,6 +820,12 @@ namespace DMS_3.BDD
 		internal List<TablePositions> QueryPositions(string requete)
 		{
 			var table = db.Query<TablePositions>(requete);
+			return table;
+		}
+
+		internal List<TableColis> QueryColis(string requete)
+		{
+			var table = db.Query<TableColis>(requete);
 			return table;
 		}
 

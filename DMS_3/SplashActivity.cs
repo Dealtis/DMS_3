@@ -8,6 +8,7 @@ using Android.App;
 using Android.Content;
 using Android.Net;
 using Android.OS;
+using Android.Preferences;
 using Android.Telephony;
 using Android.Widget;
 using DMS_3.BDD;
@@ -28,70 +29,109 @@ namespace DMS_3
 			base.OnResume();
 			Task startupWork = new Task(() =>
 			{
-			//INSTANCE DBREPOSITORY
-			DBRepository dbr = new DBRepository();
-			//CREATION DE LA BDD
-			dbr.CreateDB();
-			//CREATION DES TABLES
-			dbr.CreateTable();
 
-			//TEST DE CONNEXION
-			var connectivityManager = (ConnectivityManager)GetSystemService(ConnectivityService);
+				//CREATION DE LA BDD
+				DBRepository.Instance.CreateDB();
+				//CREATION DES TABLES
+				DBRepository.Instance.CreateTable();
 
-			//GetTelId
-			TelephonyManager tel = (TelephonyManager)this.GetSystemService(Context.TelephonyService);
-			var telId = tel.DeviceId;
-			var activeConnection = connectivityManager.ActiveNetworkInfo;
-			if ((activeConnection != null) && activeConnection.IsConnected)
-			{
 				try
 				{
-					string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
+
 					var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
 					var IMEI = telephonyManager.DeviceId;
-					var webClient = new WebClient();
+					var webClient = new TimeoutWebclient();
 					webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+ 					webClient.QueryString.Add("IMEI", IMEI);
 					string userData = "";
-					webClient.QueryString.Add("IMEI", IMEI);
-					userData = webClient.DownloadString(_url);
-					System.Console.WriteLine("\n Webclient User Terminé ...");
-					//GESTION DU XML
+					string _url = "";
+					//si pref societe == null
+					ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+					ISharedPreferencesEditor editor = prefs.Edit();
+
+					if (prefs.GetString("API_LOCATION", String.Empty) != String.Empty)
+					{
+						switch (prefs.GetString("API_LOCATION", String.Empty))
+						{
+							case "JEANTET":
+								_url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
+								break;
+							case "OVH":
+								_url = "https://dmsws.dealtis.fr/api/authenWsv4";
+								break;
+							default:
+								break;
+						}
+						userData = webClient.DownloadString(_url);
+					}
+					else
+					{
+						//try jeantet
+						try
+						{
+							_url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
+							userData = webClient.DownloadString(_url);
+
+							if (userData == "[]")
+							{
+								_url = "https://dmsws.dealtis.fr/api/authenWsv4";
+								userData = webClient.DownloadString(_url);
+								if (userData != "[]")
+								{
+									//set pref API_LOCATION OVH
+									editor.PutString("API_LOCATION", "OVH");
+									editor.PutString("API_DOMAIN", "https://dmsws.dealtis.fr");
+									editor.Apply();
+								}
+							}else
+							{
+								//set pref API_LOCATION JEANTET
+								editor.PutString("API_LOCATION", "JEANTET");
+								editor.PutString("API_DOMAIN", "http://dmsv3.jeantettransport.com");
+								editor.Apply();
+							}
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine(ex);
+						}
+					}
+
+					//GESTION DU JSON
 					JsonArray jsonVal = JsonValue.Parse(userData) as JsonArray;
 					var jsonArr = jsonVal;
 					foreach (var row in jsonArr)
 					{
-						var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"]);
+						var checkUser = DBRepository.Instance.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Societe"]);
 						Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
 						if (!checkUser)
 						{
-							var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"],row["User_Usepartic"]);
-								Console.WriteLine("\n" + IntegUser);
-							}
-						}
-						//execute de la requete
-						if (userData != "[]")
-						{
-							Data.tableuserload = "true";
+							var IntegUser = DBRepository.Instance.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Usepartic"], row["User_Societe"]);
+							Console.WriteLine("\n" + IntegUser);
 						}
 					}
-					catch (System.Exception ex)
+
+					if (userData != "[]")
 					{
-						System.Console.WriteLine(ex);
-						Toast.MakeText(this, "Une erreur c'est produite lors du lancement, réessaie dans 5 secondes", ToastLength.Long).Show();
-						Thread.Sleep(5000);
+						Data.tableuserload = "true";
 					}
 				}
+				catch (System.Exception ex)
+				{
+					System.Console.WriteLine(ex);
+					Thread.Sleep(5000);
+				}
+
 
 			});
 			startupWork.ContinueWith(t =>
 			{
 				//Is a user login ?
-				DBRepository dbr = new DBRepository();
-				var user_Login = dbr.is_user_Log_In();
+				var user_Login = DBRepository.Instance.is_user_Log_In();
 				if (!(user_Login == "false"))
 				{
 					//Data.userAndsoft = user_Login;
-					dbr.setUserdata(user_Login);
+					DBRepository.Instance.setUserdata(user_Login);
 
 					//lancement du BgWorker Service
 					StartService(new Intent(this, typeof(ProcessDMS)));
@@ -129,12 +169,11 @@ namespace DMS_3
 							}
 							else {
 								StartService(new Intent(this, typeof(ProcessDMS)));
-								//dbr.InsertLogApp("",DateTime.Now,"Relance du service après 10 min d'inactivité");
-
+								//DBRepository.Instance.InsertLogApp("",DateTime.Now,"Relance du service après 10 min d'inactivité");
 							}
 						}
 						else {
-							//dbr.InsertLogApp("",DateTime.Now,"Pas de Relance du service");
+							//DBRepository.Instance.InsertLogApp("",DateTime.Now,"Pas de Relance du service");
 						}
 
 					}

@@ -45,8 +45,7 @@ namespace DMS_3
 
 			type = Intent.GetStringExtra("TYPE");
 
-			DBRepository dbr = new DBRepository();
-			data = dbr.GetPositionsData(i);
+			data = DBRepository.Instance.GetPositionsData(i);
 
 			Spinner spinner = FindViewById<Spinner>(Resource.Id.spinnerAnomalie);
 			editText = FindViewById<EditText>(Resource.Id.edittext);
@@ -226,8 +225,6 @@ namespace DMS_3
 						break;
 				}
 
-				DBRepository dbr = new DBRepository();
-
 				//format mémo
 				string formatrem = "";
 				if (codeanomalie != "ECHNCF")
@@ -262,15 +259,15 @@ namespace DMS_3
 				switch (txtspinner)
 				{
 					case "Restaure en non traite":
-						dbr.updatePosition(i, "0", txtspinner, formatrem, codeanomalie, null);
+						DBRepository.Instance.updatePosition(i, "0", txtspinner, formatrem, codeanomalie, null);
 						//if postion pole vider les colis flasher
 						if (data.positionPole != "0")
 						{
-							dbr.resetColis(data.numCommande);
+							DBRepository.Instance.resetColis(data.numCommande);
 						}
 						break;
 					default:
-						dbr.updatePosition(i, "2", txtspinner, formatrem, codeanomalie, null);
+						DBRepository.Instance.updatePosition(i, "2", txtspinner, formatrem, codeanomalie, null);
 						break;
 				}
 
@@ -279,13 +276,13 @@ namespace DMS_3
 				//creation du JSON
 				string JSON = "{\"codesuiviliv\":\"" + codeanomalie + "\",\"memosuiviliv\":\"" + formatrem + "\",\"libellesuiviliv\":\"" + txtspinner + "\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
 				//création de la notification webservice // statut de position
-				dbr.insertDataStatutpositions(codeanomalie, "2", txtspinner, data.numCommande, formatrem, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSON);
+				DBRepository.Instance.insertDataStatutpositions(codeanomalie, "2", txtspinner, data.numCommande, formatrem, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSON);
 
 				if (checkP.Checked)
 				{
 					var typecr = "PARTIC";
 					string JSONPARTIC = "{\"codesuiviliv\":\"" + typecr + "\",\"memosuiviliv\":\"particulier\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
-					dbr.insertDataStatutpositions(typecr, "2", typecr, data.numCommande, formatrem, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONPARTIC);
+					DBRepository.Instance.insertDataStatutpositions(typecr, "2", typecr, data.numCommande, formatrem, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONPARTIC);
 				}
 
 				if (txtspinner != "Restaure en non traite")
@@ -293,9 +290,9 @@ namespace DMS_3
 					Data.Instance.traitImg(i, type, this);
 				}
 
-				dbr.SETBadges(Data.userAndsoft);
+				DBRepository.Instance.SETBadges(Data.userAndsoft);
 
-				bool sign = dbr.is_user_Sign(Data.userAndsoft);
+				bool sign = DBRepository.Instance.is_user_Sign(Data.userAndsoft);
 				if (sign)
 				{
 					Intent intent = new Intent();
@@ -343,7 +340,6 @@ namespace DMS_3
 
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
-			DBRepository dbr = new DBRepository();
 			// Make it available in the gallery
 			Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
 			Uri contentUri = Uri.FromFile(Data._file);
@@ -356,7 +352,7 @@ namespace DMS_3
 			if (Data.bitmap != null)
 			{
 				_imageView.SetImageBitmap(Data.bitmap);
-				dbr.updateposimgpath(i, Data._file.Path);
+				DBRepository.Instance.updateposimgpath(i, Data._file.Path);
 				Data.bitmap = null;
 			}
 			GC.Collect();
@@ -382,8 +378,7 @@ namespace DMS_3
 		{
 			if (Intent.GetBooleanExtra("FLASH", false))
 			{
-				DBRepository dbr = new DBRepository();
-				dbr.resetColis(data.numCommande);
+				DBRepository.Instance.resetColis(data.numCommande);
 				Intent intent = new Intent(this, typeof(FlashageQuaiActivity));
 				intent.PutExtra("ID", Convert.ToString(i));
 				intent.PutExtra("NUMCOM", data.numCommande);
@@ -411,35 +406,6 @@ namespace DMS_3
 				builder.Show();
 			}
 
-		}
-	}
-
-	public static class BitmapHelpers
-	{
-		public static Bitmap LoadAndResizeBitmap(this string fileName, int width, int height)
-		{
-			// First we get the the dimensions of the file on disk
-			BitmapFactory.Options options = new BitmapFactory.Options { InJustDecodeBounds = true };
-			BitmapFactory.DecodeFile(fileName, options);
-
-			// Next we calculate the ratio that we need to resize the image by
-			// in order to fit the requested dimensions.
-			int outHeight = options.OutHeight;
-			int outWidth = options.OutWidth;
-			int inSampleSize = 1;
-
-			if (outHeight > height || outWidth > width)
-			{
-				inSampleSize = outWidth > outHeight
-					? outHeight / height
-					: outWidth / width;
-			}
-			// Now we will load the image and have BitmapFactory resize it for us.
-			options.InSampleSize = inSampleSize;
-			options.InJustDecodeBounds = false;
-			Bitmap resizedBitmap = BitmapFactory.DecodeFile(fileName, options);
-
-			return resizedBitmap;
 		}
 	}
 }

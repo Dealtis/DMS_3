@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Preferences;
 using Android.Support.V7.App;
 using Android.Telephony;
 using Android.Widget;
@@ -79,12 +80,11 @@ namespace DMS_3
 			if (!(user.Text == ""))
 			{
 				//INSTANCE DBREPOSITORY
-				DBRepository dbr = new DBRepository();
-				var usercheck = dbr.user_Check(user.Text.ToUpper(), password.Text);
+				var usercheck = DBRepository.Instance.user_Check(user.Text.ToUpper(), password.Text);
 				if (usercheck)
 				{
 					//UPDATE DE LA BDD AVEC CE USER
-					dbr.setUserdata(user.Text.ToUpper());
+					DBRepository.Instance.setUserdata(user.Text.ToUpper());
 					//lancement du BgWorker Service
 					StartService(new Intent(this, typeof(ProcessDMS)));
 					bgService = new BackgroundWorker();
@@ -140,6 +140,7 @@ namespace DMS_3
 			try
 			{
 				ShowProgress(progress => AndHUD.Shared.Show(this, "Chargement ... " + progress + "%", progress, MaskType.Clear));
+
 			}
 			catch (System.Exception ex)
 			{
@@ -155,54 +156,109 @@ namespace DMS_3
 			try
 			{
 				Task.Factory.StartNew(() =>
-			{
-
-
-				progress += 20;
-				action(progress);
-				DBRepository dbr = new DBRepository();
-				string _url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
-				var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
-				var IMEI = telephonyManager.DeviceId;
-				var webClient = new WebClient();
-				webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-				string userData = "";
-				webClient.QueryString.Add("IMEI", IMEI);
-				userData = webClient.DownloadString(_url);
-				progress += 30;
-				action(progress);
-				System.Console.WriteLine("\n Webclient User Terminé ...");
-
-				//GESTION DU XML
-				JsonArray jsonVal = JsonValue.Parse(userData) as JsonArray;
-				var jsonArr = jsonVal;
-				foreach (var row in jsonArr)
 				{
-					var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_UseSigna"]);
-					Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
-					if (!checkUser)
+					try
 					{
-						var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_UseSigna"], row["User_Usepartic"]);
-						Console.WriteLine("\n" + IntegUser);
-					}
-				}
+						progress += 20;
+						action(progress);
 
-				progress += 50;
-				action(progress);
-				RunOnUiThread(() => tableload.Text = "Table chargée");
-				RunOnUiThread(() => tableload.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.Val, 0, 0, 0));
-				Data.tableuserload = "true";
-				AndHUD.Shared.Dismiss(this);
-				AndHUD.Shared.ShowSuccess(this, "Table mise à jour", MaskType.Black, TimeSpan.FromSeconds(1));
-			});
+						var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
+						var IMEI = telephonyManager.DeviceId;
+						var webClient = new TimeoutWebclient();
+						webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+						webClient.QueryString.Add("IMEI", IMEI);
+						string userData = "";
+						string _url = "";
+						//si pref societe == null
+						ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+						ISharedPreferencesEditor editor = prefs.Edit();
+
+
+						//try jeantet
+						try
+						{
+							_url = "http://dmsv3.jeantettransport.com/api/authenWsv4";
+							userData = webClient.DownloadString(_url);
+
+							if (userData == "[]")
+							{
+								_url = "***URLOVH****";
+								userData = webClient.DownloadString(_url);
+								if (userData != "[]")
+								{
+									//set pref API_LOCATION OVH
+									editor.PutString("API_LOCATION", "OVH");
+									editor.PutString("API_DOMAIN", "http://*****************");
+									editor.Apply();
+									Console.WriteLine("SET OVH");
+								}
+							}
+							else
+							{
+								//set pref API_LOCATION JEANTET
+								editor.PutString("API_LOCATION", "JEANTET");
+								editor.PutString("API_DOMAIN", "http://dmsv3.jeantettransport.com");
+								editor.Apply();
+								Console.WriteLine("SET JEANTET");
+							}
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine(ex);
+						}
+
+
+						if (userData != "[]")
+						{
+							RunOnUiThread(() => traitResponse(userData));
+							RunOnUiThread(() => tableload.Text = "Table chargée");
+							RunOnUiThread(() => tableload.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.Val, 0, 0, 0));
+						}
+						else
+						{
+							RunOnUiThread(() => tableload.Text = "Table non chargée");
+							RunOnUiThread(() => tableload.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.Anom, 0, 0, 0));
+						}
+
+						progress += 80;
+						action(progress);
+
+						System.Console.WriteLine("\n Webclient User Terminé ...");
+
+						AndHUD.Shared.Dismiss(this);
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine(ex);
+						AndHUD.Shared.Dismiss(this);
+					}
+
+
+				});
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
-				progress += 50;
-				action(progress);
+				AndHUD.Shared.Dismiss(this);
 			}
 
+		}
+
+		void traitResponse(string response)
+		{
+			//GESTION DU XML
+			JsonArray jsonVal = JsonValue.Parse(response) as JsonArray;
+			var jsonArr = jsonVal;
+			foreach (var row in jsonArr)
+			{
+				var checkUser = DBRepository.Instance.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Societe"]);
+				Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
+				if (!checkUser)
+				{
+					var IntegUser = DBRepository.Instance.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Usepartic"], row["User_Societe"]);
+					Console.WriteLine("\n" + IntegUser);
+				}
+			}
 		}
 	}
 }

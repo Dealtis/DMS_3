@@ -8,6 +8,9 @@ using DMS_3.BDD;
 using HockeyApp.Android;
 using HockeyApp.Android.Metrics;
 using AlertDialog = Android.Support.V7.App.AlertDialog;
+using Microsoft.Azure.Mobile;
+using Microsoft.Azure.Mobile.Analytics;
+using Microsoft.Azure.Mobile.Crashes;
 
 namespace DMS_3
 {
@@ -65,7 +68,6 @@ namespace DMS_3
 			CrashManager.Register(this, "337f4f12782f47e590a7e84867bc087a");
 			MetricsManager.Register(Application, "337f4f12782f47e590a7e84867bc087a");
 			MetricsManager.EnableUserMetrics();
-
 			CrashManager.Register(this, APP_ID, new HockeyCrashManagerSettings());
 
 			//FONTS
@@ -96,8 +98,7 @@ namespace DMS_3
 			builder.SetPositiveButton("Annuler", delegate { });
 			builder.SetNegativeButton("Déconnexion", delegate
 			{
-				DBRepository dbr = new DBRepository();
-				dbr.logout();
+				DBRepository.Instance.logout();
 				Data.userAndsoft = null;
 				Data.userTransics = null;
 				StopService(new Intent(this, typeof(ProcessDMS)));
@@ -120,9 +121,8 @@ namespace DMS_3
 
 			try
 			{
-				DBRepository dbr = new DBRepository();
-				var user_Login = dbr.is_user_Log_In();
-				dbr.SETBadges(Data.userAndsoft);
+				var user_Login = DBRepository.Instance.is_user_Log_In();
+				DBRepository.Instance.SETBadges(Data.userAndsoft);
 				if (user_Login == "false")
 				{
 					StartActivity(new Intent(Application.Context, typeof(MainActivity)));

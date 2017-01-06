@@ -18,6 +18,8 @@ using DMS_3.BDD;
 using ZXing.Mobile;
 using Uri = Android.Net.Uri;
 using Android.Support.V7.App;
+using Android.Preferences;
+using System.Net.Cache;
 //using Koamtac.Kdc.Sdk;
 
 namespace DMS_3
@@ -60,7 +62,6 @@ namespace DMS_3
 		int currentPrlFLash;
 
 		MobileBarcodeScanner scanner;
-		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -115,8 +116,11 @@ namespace DMS_3
 			btn_pblFlash.Click += delegate
 			{
 				currentPrlFLash++;
-				int colisFlasher = dbr.CountColisFlash(data.numCommande);
-				int colisPosition = dbr.CountColis(data.numCommande);
+
+				string JSONNOTIF = "{\"codesuiviliv\":\"FLASHAGEIMP\",\"memosuiviliv\":\"" + numCommande + "\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
+				DBRepository.Instance.insertDataStatutpositions("FLASHAGEIMP", "1", "FLASHAGE", numCommande, numCommande, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);
+				int colisFlasher = DBRepository.Instance.CountColisFlash(data.numCommande);
+				int colisPosition = DBRepository.Instance.CountColis(data.numCommande);
 
 				RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHES: " + (colisFlasher + currentPrlFLash) + "/" + colisPosition);
 				if ((colisFlasher + currentPrlFLash) == colisPosition)
@@ -167,6 +171,8 @@ namespace DMS_3
 			   HandleScanResult(result);
 
 		   };
+
+
 		}
 
 		protected override void OnResume()
@@ -204,33 +210,45 @@ namespace DMS_3
 				barcode.EditableText.Clear();
 			};
 
+			//barcode.KeyPress += (object sender, View.KeyEventArgs e) =>
+			//{
+			//	e.Handled = false;
+			//	if (e.Event.Action == KeyEventActions.Down && e.KeyCode == Keycode.Enter)
+			//	{
+			//		e.Handled = true;
+			//		numero = barcode.Text.ToString();
+			//		ShowProgress(progress => AndHUD.Shared.Show(this, barcode.Text.ToString() + " ... " + progress + "%", progress, MaskType.Clear), barcode.Text.ToString());
+			//		barcode.EditableText.Clear();
+			//	}
+			//};
+
 			barcode.InputType = 0;
 			InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Context.InputMethodService);
 
 			barcode.Click += delegate
-			{
-				inputMethodManager.HideSoftInputFromWindow(barcode.WindowToken, 0);
-			};
+					{
+						inputMethodManager.HideSoftInputFromWindow(barcode.WindowToken, 0);
+					};
 
 			manuedit.Click += delegate
-			{
-				dialog = new Dialog(this);
-				dialog.Window.RequestFeature(WindowFeatures.NoTitle);
-				//dialog.Window.SetBackgroundDrawableResource(Resource.Drawable.bktransbox);
-				dialog.SetContentView(Resource.Layout.BoxManuEdit);
-				Button valid = dialog.FindViewById<Button>(Resource.Id.btn_valid);
-				EditText barrecode = dialog.FindViewById<EditText>(Resource.Id.barrecode);
+						{
+							dialog = new Dialog(this);
+							dialog.Window.RequestFeature(WindowFeatures.NoTitle);
+							//dialog.Window.SetBackgroundDrawableResource(Resource.Drawable.bktransbox);
+							dialog.SetContentView(Resource.Layout.BoxManuEdit);
+							Button valid = dialog.FindViewById<Button>(Resource.Id.btn_valid);
+							EditText barrecode = dialog.FindViewById<EditText>(Resource.Id.barrecode);
 
-				valid.Click += delegate
-				{
-					numero = barrecode.Text;
-					dialog.Dismiss();
-					ShowProgress(progress => AndHUD.Shared.Show(this, barrecode.Text + " ... " + progress + "%", progress, MaskType.Clear), barrecode.Text);
-				};
+							valid.Click += delegate
+								{
+									numero = barrecode.Text;
+									dialog.Dismiss();
+									ShowProgress(progress => AndHUD.Shared.Show(this, barrecode.Text + " ... " + progress + "%", progress, MaskType.Clear), barrecode.Text);
+								};
 
-				dialog.SetCancelable(true);
-				dialog.Show();
-			};
+							dialog.SetCancelable(true);
+							dialog.Show();
+						};
 		}
 
 		//private void ConfigureSyncOptions()
@@ -298,16 +316,15 @@ namespace DMS_3
 						var numSplit = num.Split('.');
 						num = numSplit[1].Remove(numSplit[1].Length - 1);
 					}
-					var is_colis_in_truck = dbr.is_colis_in_truck(num);
+					var is_colis_in_truck = DBRepository.Instance.is_colis_in_truck(num);
 					if (is_colis_in_truck != int.MinValue)
 					{
-						data = dbr.GetPositionsData(is_colis_in_truck);
-
-						if (dbr.is_colis_in_currentPos(num, numCommande))
+						data = DBRepository.Instance.GetPositionsData(is_colis_in_truck);
+						if (DBRepository.Instance.is_colis_in_currentPos(num, numCommande))
 						{
-							dbr.updateColisFlash(num);
+							DBRepository.Instance.updateColisFlash(num);
 							string JSONNOTIF = "{\"codesuiviliv\":\"FLASHAGE\",\"memosuiviliv\":\"" + num + "\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
-							dbr.insertDataStatutpositions("FLASHAGE", "1", "FLASHAGE", data.numCommande, num, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);
+							DBRepository.Instance.insertDataStatutpositions("FLASHAGE", "1", "FLASHAGE", data.numCommande, num, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);
 							afficherInformations(is_colis_in_truck, data.numCommande);
 						}
 						else
@@ -319,12 +336,11 @@ namespace DMS_3
 							else
 							{
 								RunOnUiThread(() => Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Short).Show());
-								//RunOnUiThread(() => AndHUD.Shared.ShowError(this, "It no worked :(", MaskType.Black, TimeSpan.FromSeconds(2)));
 							}
 						}
 					}
 					else {
-						var is_pos_in_truck = dbr.is_position_in_truck(num);
+						var is_pos_in_truck = DBRepository.Instance.is_position_in_truck(num);
 						if (is_pos_in_truck == int.MinValue)
 						{
 							afficherInformationsWebservice(progress, action, num);
@@ -390,148 +406,140 @@ namespace DMS_3
 			{
 				RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
 				//get infos  WS
-				//string _url = "https://andsoft.jeantettransport.com/dms/api/flash?val=" + num;
-				//string _url = "http://10.1.2.70/MVCDMS/api/flash?val=" + num;
-				string _url = "http://dms.jeantettransport.com/api/flash?val=" + num;
+				//string _url = "http://dms.jeantettransport.com/api/flash";
+
+				var webClient = new TimeoutWebclient();
+				webClient.Encoding = System.Text.Encoding.UTF8;
+				webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+
+				webClient.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.CacheIfAvailable);
+				webClient.QueryString.Add("val", num);
+				webClient.QueryString.Add("soc", DBRepository.Instance.GetSociete(Data.userAndsoft));
+
+				ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+				string _url = prefs.GetString("API_DOMAIN", String.Empty) + "/api/flash";
 				string dataWS = "";
+
 				try
 				{
-					var request = HttpWebRequest.Create(_url);
-					request.ContentType = "application/json";
-					request.Method = "GET";
-					request.Proxy = null;
-
-					using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-					{
-						if (response.StatusCode != HttpStatusCode.OK)
-							Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-						using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-						{
-							dataWS = reader.ReadToEnd();
-							if (string.IsNullOrWhiteSpace(dataWS))
-							{
-								Console.Out.WriteLine("Response contained empty body...");
-							}
-							else {
-								progress += 50;
-								action(progress);
-								string json = @"" + dataWS + "";
-								var bob = Newtonsoft.Json.Linq.JObject.Parse(json);
-								if (bob["FLAOTSNUM"].ToString() != "")
-								{
-									RunOnUiThread(() => infonumero.Visibility = ViewStates.Visible);
-									RunOnUiThread(() => infonumero.Text = (string)bob["FLAOTSNUM"]);
-
-									if (bob["FLANOMDEST"].ToString() != "")
-									{
-										RunOnUiThread(() => infonomdest.Visibility = ViewStates.Visible);
-										RunOnUiThread(() => infonomdest.Text = (string)bob["FLANOMDEST"]);
-									}
-									else
-									{
-										RunOnUiThread(() => infonomdest.Visibility = ViewStates.Gone);
-									}
-
-									if (bob["FLAADRDEST"].ToString() != "")
-									{
-										RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Visible);
-										RunOnUiThread(() => infoadrdest.Text = (string)bob["FLAADRDEST"]);
-									}
-									else
-									{
-										RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Gone);
-									}
-
-									if (bob["FLACPDEST"].ToString() != "")
-									{
-										RunOnUiThread(() => infocpdest.Visibility = ViewStates.Visible);
-										RunOnUiThread(() => infocpdest.Text = (string)bob["FLACPDEST"]);
-									}
-									else
-									{
-										RunOnUiThread(() => infocpdest.Visibility = ViewStates.Gone);
-									}
-
-									if (bob["FLAVILLEDEST"].ToString() != "")
-									{
-										RunOnUiThread(() => infovilledest.Visibility = ViewStates.Visible);
-										RunOnUiThread(() => infovilledest.Text = (string)bob["FLAVILLEDEST"]);
-									}
-									else
-									{
-										RunOnUiThread(() => infovilledest.Visibility = ViewStates.Gone);
-									}
-
-									RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Visible);
-									RunOnUiThread(() => infonbcnbpP.Text = "NB COLIS: " + (string)bob["FLANBCOLIS"] + "NB PAL: " + (string)bob["FLAPAL"] + " POIDS: " + (string)bob["FLAPDS"]);
-									RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
-									RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHEE: " + (string)bob["FLANBFLASHER"] + "/" + (string)bob["FLANBCOLIS"]);
-
-									if (bob["FLAZONEFLASHER"].ToString() != "")
-									{
-										RunOnUiThread(() => zoneflash.Visibility = ViewStates.Visible);
-										RunOnUiThread(() => zoneflash.Text = (string)bob["FLAZONEFLASHER"]);
-									}
-									else
-									{
-										RunOnUiThread(() => zoneflash.Visibility = ViewStates.Gone);
-									}
-									if (bob["FLAZONETHEORIQUE"].ToString() != null)
-									{
-										RunOnUiThread(() => zonetheo.Visibility = ViewStates.Visible);
-										RunOnUiThread(() => zonetheo.Text = (string)bob["FLAZONETHEORIQUE"]);
-									}
-									else
-									{
-										RunOnUiThread(() => zonetheo.Visibility = ViewStates.Gone);
-									}
-
-									TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
-									RunOnUiThread(() => tl.RemoveAllViews());
-
-									foreach (var item in bob["FLAEVE"])
-									{
-										TableRow row = new TableRow(this);
-										TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WrapContent, TableLayout.LayoutParams.WrapContent);
-
-										//layoutParams.SetMargins(5, 5, 5, 5);
-										row.LayoutParameters = layoutParams;
-										row.SetGravity(Android.Views.GravityFlags.Center);
-										TextView b = new TextView(this);
-										b.Gravity = Android.Views.GravityFlags.Center;
-										b.Text = (string)item["EVEDATE"] + " " + (string)item["EVECODE"] + " " + (string)item["EVEOTEVAL1"];
-										row.AddView(b);
-										RunOnUiThread(() => tl.AddView(row));
-									}
-									RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
-
-								}
-								else {
-									RunOnUiThread(() => infonumero.Text = "Pas de résultat");
-									RunOnUiThread(() => infonomdest.Visibility = ViewStates.Gone);
-									RunOnUiThread(() => infocpdest.Visibility = ViewStates.Gone);
-									RunOnUiThread(() => infovilledest.Visibility = ViewStates.Gone);
-									RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Gone);
-									RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Gone);
-									RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Gone);
-									RunOnUiThread(() => zoneflash.Visibility = ViewStates.Gone);
-									RunOnUiThread(() => zonetheo.Visibility = ViewStates.Gone);
-									TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
-									RunOnUiThread(() => tl.RemoveAllViews());
-									RunOnUiThread(() => btn_photo.Visibility = ViewStates.Gone);
-									dialog.Dismiss();
-								}
-							}
-						}
-					}
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine(ex);
+					dataWS = webClient.DownloadString(_url);
 					progress += 50;
 					action(progress);
+					string json = @"" + dataWS + "";
+					var bob = Newtonsoft.Json.Linq.JObject.Parse(json);
+					if (bob["FLAOTSNUM"].ToString() != "")
+					{
+						RunOnUiThread(() => infonumero.Visibility = ViewStates.Visible);
+						RunOnUiThread(() => infonumero.Text = (string)bob["FLAOTSNUM"]);
+
+						if (bob["FLANOMDEST"].ToString() != "")
+						{
+							RunOnUiThread(() => infonomdest.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => infonomdest.Text = (string)bob["FLANOMDEST"]);
+						}
+						else
+						{
+							RunOnUiThread(() => infonomdest.Visibility = ViewStates.Gone);
+						}
+
+						if (bob["FLAADRDEST"].ToString() != "")
+						{
+							RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => infoadrdest.Text = (string)bob["FLAADRDEST"]);
+						}
+						else
+						{
+							RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Gone);
+						}
+
+						if (bob["FLACPDEST"].ToString() != "")
+						{
+							RunOnUiThread(() => infocpdest.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => infocpdest.Text = (string)bob["FLACPDEST"]);
+						}
+						else
+						{
+							RunOnUiThread(() => infocpdest.Visibility = ViewStates.Gone);
+						}
+
+						if (bob["FLAVILLEDEST"].ToString() != "")
+						{
+							RunOnUiThread(() => infovilledest.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => infovilledest.Text = (string)bob["FLAVILLEDEST"]);
+						}
+						else
+						{
+							RunOnUiThread(() => infovilledest.Visibility = ViewStates.Gone);
+						}
+
+						RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Visible);
+						RunOnUiThread(() => infonbcnbpP.Text = "NB COLIS: " + (string)bob["FLANBCOLIS"] + "NB PAL: " + (string)bob["FLAPAL"] + " POIDS: " + (string)bob["FLAPDS"]);
+						RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Visible);
+						RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHEE: " + (string)bob["FLANBFLASHER"] + "/" + (string)bob["FLANBCOLIS"]);
+
+						if (bob["FLAZONEFLASHER"].ToString() != "")
+						{
+							RunOnUiThread(() => zoneflash.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => zoneflash.Text = (string)bob["FLAZONEFLASHER"]);
+						}
+						else
+						{
+							RunOnUiThread(() => zoneflash.Visibility = ViewStates.Gone);
+						}
+						if (bob["FLAZONETHEORIQUE"].ToString() != null)
+						{
+							RunOnUiThread(() => zonetheo.Visibility = ViewStates.Visible);
+							RunOnUiThread(() => zonetheo.Text = (string)bob["FLAZONETHEORIQUE"]);
+						}
+						else
+						{
+							RunOnUiThread(() => zonetheo.Visibility = ViewStates.Gone);
+						}
+
+						TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
+						RunOnUiThread(() => tl.RemoveAllViews());
+
+						foreach (var item in bob["FLAEVE"])
+						{
+							TableRow row = new TableRow(this);
+							TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WrapContent, TableLayout.LayoutParams.WrapContent);
+
+							//layoutParams.SetMargins(5, 5, 5, 5);
+							row.LayoutParameters = layoutParams;
+							row.SetGravity(Android.Views.GravityFlags.Center);
+							TextView b = new TextView(this);
+							b.Gravity = Android.Views.GravityFlags.Center;
+							b.Text = (string)item["EVEDATE"] + " " + (string)item["EVECODE"] + " " + (string)item["EVEOTEVAL1"];
+							row.AddView(b);
+							RunOnUiThread(() => tl.AddView(row));
+						}
+						RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
+
+
+					}
+					else {
+						RunOnUiThread(() => infonumero.Text = "Pas de résultat");
+						RunOnUiThread(() => infonomdest.Visibility = ViewStates.Gone);
+						RunOnUiThread(() => infocpdest.Visibility = ViewStates.Gone);
+						RunOnUiThread(() => infovilledest.Visibility = ViewStates.Gone);
+						RunOnUiThread(() => infoadrdest.Visibility = ViewStates.Gone);
+						RunOnUiThread(() => infonbcnbpP.Visibility = ViewStates.Gone);
+						RunOnUiThread(() => nbcolisflash.Visibility = ViewStates.Gone);
+						RunOnUiThread(() => zoneflash.Visibility = ViewStates.Gone);
+						RunOnUiThread(() => zonetheo.Visibility = ViewStates.Gone);
+						TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
+						RunOnUiThread(() => tl.RemoveAllViews());
+						RunOnUiThread(() => btn_photo.Visibility = ViewStates.Gone);
+						dialog.Dismiss();
+					}
+					AndHUD.Shared.Dismiss(this);
+				}
+				catch (WebException ex)
+				{
+					Console.WriteLine(ex);
+					AndHUD.Shared.Dismiss(this);
 					RunOnUiThread(() => btn_photo.Visibility = ViewStates.Gone);
-					RunOnUiThread(() => Toast.MakeText(this, "Erreur de connexion", ToastLength.Long).Show());
+					RunOnUiThread(() => Toast.MakeText(this, "Erreur de connexion", ToastLength.Short).Show());
 				}
 			}
 			else
@@ -543,8 +551,7 @@ namespace DMS_3
 
 		void afficherInformations(int idPos, string numCommande)
 		{
-			DBRepository dbr = new DBRepository();
-			data = dbr.GetPositionsData(idPos);
+			data = DBRepository.Instance.GetPositionsData(idPos);
 
 			RunOnUiThread(() => btn_detail.Click += delegate
 				{
@@ -574,8 +581,8 @@ namespace DMS_3
 			RunOnUiThread(() => infoadrdest.Text = data.adresseLivraison);
 			RunOnUiThread(() => infonumero.Text = data.numCommande);
 
-			int colisFlasher = dbr.CountColisFlash(data.numCommande);
-			int colisPosition = dbr.CountColis(data.numCommande);
+			int colisFlasher = DBRepository.Instance.CountColisFlash(data.numCommande);
+			int colisPosition = DBRepository.Instance.CountColis(data.numCommande);
 			RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHES: " + (colisFlasher + currentPrlFLash) + "/" + colisPosition);
 			TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
 			RunOnUiThread(() => tl.Visibility = ViewStates.Gone);
@@ -654,10 +661,6 @@ namespace DMS_3
 				Uri contentUri = Uri.FromFile(Data._file);
 				mediaScanIntent.SetData(contentUri);
 				SendBroadcast(mediaScanIntent);
-
-				int height = Resources.DisplayMetrics.HeightPixels;
-				int width = _imageView.Height;
-
 				Thread threadUpload = new Thread(() =>
 					{
 						try
@@ -669,7 +672,18 @@ namespace DMS_3
 							{
 								rbmp.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg, 100, fs);
 							}
-							Data.Instance.UploadFile("ftp://77.158.93.75", compImg, "DMS", "Linuxr00tn", "");
+							//ftp://77.158.93.75 ftp://10.1.2.75
+							ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+							//if jeantet
+							if (prefs.GetString("API_LOCATION", null) == "JEANTET")
+							{
+								Data.Instance.UploadFile("ftp://77.158.93.75", compImg, "DMS", "Linuxr00tn", "");
+							}
+							else
+							{
+								Data.Instance.UploadFile("ftp://176.31.10.169", compImg, "DMSPHOTO", "DMS25000", "");
+							}
+
 							bmp.Recycle();
 							rbmp.Recycle();
 						}
@@ -679,17 +693,6 @@ namespace DMS_3
 						}
 					});
 				threadUpload.Start();
-
-				_imageView.Visibility = Android.Views.ViewStates.Visible;
-				Data.bitmap = Data._file.Path.LoadAndResizeBitmap(width, height);
-				if (Data.bitmap != null)
-				{
-					_imageView.SetImageBitmap(Data.bitmap);
-				}
-				else
-				{
-					_imageView.Visibility = Android.Views.ViewStates.Gone;
-				}
 				GC.Collect();
 			}
 		}

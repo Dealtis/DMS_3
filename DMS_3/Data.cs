@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
+using Android.Preferences;
 using Android.Provider;
 using DMS_3.BDD;
 using Console = System.Console;
@@ -18,8 +19,6 @@ namespace DMS_3
 	{
 		//Instance
 		private static Data instance;
-		DBRepository dbr = new DBRepository();
-
 		//DATA User
 		public static string userAndsoft;
 		public static string userTransics;
@@ -111,7 +110,7 @@ namespace DMS_3
 		}
 		public int isMatdang(string groupage)
 		{
-			var isornot = dbr.CountMatiereDang(groupage);
+			var isornot = DBRepository.Instance.CountMatiereDang(groupage);
 
 			if (Convert.ToInt32(isornot[0].poidsADR) >= 1000)
 			{
@@ -131,8 +130,6 @@ namespace DMS_3
 
 		}
 
-
-
 		public bool UploadFile(string FtpUrl, string fileName, string userName, string password, string UploadDirectory)
 		{
 			try
@@ -151,7 +148,7 @@ namespace DMS_3
 				stream.Write(data, 0, data.Length);
 				stream.Close();
 				FtpWebResponse res = (FtpWebResponse)req.GetResponse();
-				Console.Out.Write("Upload file" + fileName + " good "+res);
+				Console.Out.Write("Upload file" + fileName + " good " + res);
 				return true;
 
 			}
@@ -164,7 +161,7 @@ namespace DMS_3
 
 		internal void traitImg(int i, string type, Context context)
 		{
-			var imgpath = dbr.GetPositionsData(i);
+			var imgpath = DBRepository.Instance.GetPositionsData(i);
 			string compImg = String.Empty;
 			if (imgpath.imgpath != "null")
 			{
@@ -179,15 +176,31 @@ namespace DMS_3
 						{
 							rbmp.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg, 100, fs);
 						}
-							//ftp://77.158.93.75 ftp://10.1.2.75
+						//ftp://77.158.93.75 ftp://10.1.2.75
+						ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(context);
+						//if jeantet
+						if ( prefs.GetString("API_LOCATION", null) == "JEANTET")
+						{
 							Data.Instance.UploadFile("ftp://77.158.93.75", compImg, "DMS", "Linuxr00tn", "");
+						}
+						else
+						{
+							if (prefs.GetString("API_LOCATION", null) != null)
+							{
+								Data.Instance.UploadFile("ftp://176.31.10.169", compImg, "DMSPHOTO", "DMS25000", "");
+							}else
+							{
+								DBRepository.Instance.InsertDataStatutMessage(11, DateTime.Now, 1, imgpath.numCommande, "");
+							}
+						}
+
 						bmp.Recycle();
 						rbmp.Recycle();
 					}
 					catch (Exception ex)
 					{
 						Console.WriteLine("\n" + ex);
-						dbr.InsertDataStatutMessage(11, DateTime.Now, 1, imgpath.numCommande, "");
+
 					}
 				});
 				threadUpload.Start();
@@ -206,6 +219,36 @@ namespace DMS_3
 			{
 				Data._dir.Mkdirs();
 			}
+		}
+	}
+
+	public static class BitmapHelpers
+	{
+		public static Bitmap LoadAndResizeBitmap(this string fileName, int width, int height)
+		{
+			// First we get the the dimensions of the file on disk
+			BitmapFactory.Options options = new BitmapFactory.Options { InJustDecodeBounds = true };
+			BitmapFactory.DecodeFile(fileName, options);
+
+			// Next we calculate the ratio that we need to resize the image by
+			// in order to fit the requested dimensions.
+			int outHeight = options.OutHeight;
+			int outWidth = options.OutWidth;
+			int inSampleSize = 1;
+
+			if (outHeight > height || outWidth > width)
+			{
+				inSampleSize = outWidth > outHeight
+								   ? outHeight / height
+								   : outWidth / width;
+			}
+
+			// Now we will load the image and have BitmapFactory resize it for us.
+			options.InSampleSize = inSampleSize;
+			options.InJustDecodeBounds = false;
+			Bitmap resizedBitmap = BitmapFactory.DecodeFile(fileName, options);
+
+			return resizedBitmap;
 		}
 	}
 }

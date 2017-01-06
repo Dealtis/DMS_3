@@ -43,14 +43,24 @@ namespace DMS_3
 				case "0":
 					if (mItems[position].typeMission == "L")
 					{
-						if (mItems[position].CR == "" || mItems[position].CR == "0" || mItems[position].ASSIGNE == "" || mItems[position].ASSIGNE == "0")
+						if (mItems[position].CR == "" || mItems[position].CR == "0")
 						{
-							xml_type = Resource.Layout.ListeViewRowEuro;
+							xml_type = Resource.Layout.ListeViewRow;
+							if (mItems[position].ASSIGNE == "" || mItems[position].ASSIGNE == "0")
+							{
+								xml_type = Resource.Layout.ListeViewRow;
+							}
+							else
+							{
+								xml_type = Resource.Layout.ListeViewRowEuro;
+							}
 						}
 						else
 						{
-							xml_type = Resource.Layout.ListeViewRow;
+							xml_type = Resource.Layout.ListeViewRowEuro;
+
 						}
+
 					}
 					else {
 						xml_type = Resource.Layout.ListeViewRowEnlevement;
@@ -106,14 +116,15 @@ namespace DMS_3
 			{
 				pole.Visibility = ViewStates.Gone;
 			}
-
-			if (Convert.ToDouble(mItems[position].poidsADR) >= 1000)
+			string poidsADR = mItems[position].poidsADR.Replace(".", ",");
+			if (Convert.ToDouble(poidsADR) >= 1000)
 			{
 				ico.SetImageResource(Resource.Drawable.LivADR_100);
 			}
 			else
 			{
-				if (Convert.ToDouble(mItems[position].poidsQL) >= 8000)
+				string poidsQL = mItems[position].poidsQL.Replace(".", ",");
+				if (Convert.ToDouble(poidsQL) >= 8000)
 				{
 					ico.SetImageResource(Resource.Drawable.ql_100);
 				}

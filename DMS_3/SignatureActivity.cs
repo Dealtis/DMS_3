@@ -1,26 +1,19 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Graphics;
-using Android.Widget;
-using AlertDialog = Android.Support.V7.App.AlertDialog;
-using Android.Support.V7.App;
-using SignaturePad;
-using System.Threading;
 using System.IO;
 using System.Net;
+using System.Threading;
+using Android.App;
+using Android.Content;
+using Android.Graphics;
+using Android.OS;
+using Android.Support.V7.App;
+using Android.Widget;
+using SignaturePad;
+using AlertDialog = Android.Support.V7.App.AlertDialog;
 
 namespace DMS_3
 {
-
 	[Activity(Label = "SignatureActivity", Theme = "@style/MyTheme.Base")]
 	public class SignatureActivity : AppCompatActivity
 	{
