@@ -202,25 +202,30 @@ namespace DMS_3
 
 			barcode.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) =>
 			{
-				if (e.Text.ToString() != string.Empty)
+				//IF TC55 do nothing
+				String model = Build.Model;
+ 				if (model != "TC55")
 				{
-					numero = e.Text.ToString();
-					ShowProgress(progress => AndHUD.Shared.Show(this, e.Text.ToString() + " ... " + progress + "%", progress, MaskType.Clear), e.Text.ToString());
+					if (e.Text.ToString() != string.Empty)
+					{
+						numero = e.Text.ToString();
+						ShowProgress(progress => AndHUD.Shared.Show(this, e.Text.ToString() + " ... " + progress + "%", progress, MaskType.Clear), e.Text.ToString());
+					}
+					barcode.EditableText.Clear();
 				}
-				barcode.EditableText.Clear();
 			};
 
-			//barcode.KeyPress += (object sender, View.KeyEventArgs e) =>
-			//{
-			//	e.Handled = false;
-			//	if (e.Event.Action == KeyEventActions.Down && e.KeyCode == Keycode.Enter)
-			//	{
-			//		e.Handled = true;
-			//		numero = barcode.Text.ToString();
-			//		ShowProgress(progress => AndHUD.Shared.Show(this, barcode.Text.ToString() + " ... " + progress + "%", progress, MaskType.Clear), barcode.Text.ToString());
-			//		barcode.EditableText.Clear();
-			//	}
-			//};
+			barcode.KeyPress += (object sender, View.KeyEventArgs e) =>
+			{
+				e.Handled = false;
+				if (e.Event.Action == KeyEventActions.Down && e.KeyCode == Keycode.Enter)
+				{
+					e.Handled = true;
+					numero = barcode.Text.ToString();
+					ShowProgress(progress => AndHUD.Shared.Show(this, barcode.Text.ToString() + " ... " + progress + "%", progress, MaskType.Clear), barcode.Text.ToString());
+					barcode.EditableText.Clear();
+				}
+			};
 
 			barcode.InputType = 0;
 			InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Context.InputMethodService);

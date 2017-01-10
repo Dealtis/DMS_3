@@ -187,16 +187,15 @@ namespace DMS_3
 								{
 									DBRepository.Instance.InsertDataColis(item["NumColis"], row["numCommande"]);
 								}
+
+								//NOTIF
+								DBRepository.Instance.InsertDataStatutMessage(10, DateTime.Now, 1, row["numCommande"], row["groupage"]);
 							}
 							catch (Exception ex)
 							{
 								Console.WriteLine(ex);
 							}
-
-
 						}
-						//NOTIF
-						DBRepository.Instance.InsertDataStatutMessage(10, DateTime.Now, 1, row["numCommande"], row["groupage"]);
 					}
 
 					//SON
