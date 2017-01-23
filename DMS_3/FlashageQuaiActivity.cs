@@ -21,7 +21,6 @@ using Android.Support.V7.App;
 using Android.Preferences;
 using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
 using System.Net.Cache;
-using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
 
 namespace DMS_3
 {
@@ -205,7 +204,7 @@ namespace DMS_3
 			{
 				//IF TC55 do nothing
 				String model = Build.Model;
- 				if (model != "TC55")
+ 				if (model != "TC55" && model != "TC8000")
 				{
 					if (e.Text.ToString() != string.Empty)
 					{

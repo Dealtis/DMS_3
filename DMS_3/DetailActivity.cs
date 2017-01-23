@@ -75,10 +75,7 @@ namespace DMS_3
 			base.OnResume();
 			try
 			{
-
-
-
-			id = Intent.GetStringExtra("ID");
+				id = Intent.GetStringExtra("ID");
 				i = int.Parse(id);
 				trait = Intent.GetStringExtra("TRAIT");
 				type = Intent.GetStringExtra("TYPE");

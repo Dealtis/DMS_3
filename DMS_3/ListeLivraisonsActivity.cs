@@ -58,7 +58,18 @@ namespace DMS_3
 		protected override void OnResume()
 		{
 			base.OnResume();
+			try
+			{
+				initOnResume();
+			}
+			catch (Exception ex)
+			{
+				RaygunClient.Current.SendInBackground(ex);
+			}
+		}
 
+		void initOnResume()
+		{
 			layout_groupage.RemoveAllViews();
 			type = Intent.GetStringExtra("TYPE");
 			if (type == "RAM")
@@ -174,9 +185,7 @@ namespace DMS_3
 			{
 				initListView("SELECT * FROM TablePositions WHERE StatutLivraison = '1' AND typeMission= '" + tyM + "' AND typeSegment= '" + tyS + "'  AND Userandsoft = '" + Data.userAndsoft + "' OR StatutLivraison = '2' AND typeMission= '" + tyM + "' AND typeSegment= '" + tyS + "'  AND Userandsoft = '" + Data.userAndsoft + "' ORDER BY Ordremission");
 			}
-
 		}
-
 		void MListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
 		{
 			Intent intent = new Intent(this, typeof(DetailActivity));
@@ -276,7 +285,7 @@ namespace DMS_3
 					});
 
 					RunOnUiThread(() => adapter.NotifyDataSetChanged());
-				}			
+				}
 			}
 			catch (Exception ex)
 			{

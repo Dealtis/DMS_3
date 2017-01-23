@@ -12,6 +12,7 @@ using Android.Preferences;
 using Android.Telephony;
 using Android.Widget;
 using DMS_3.BDD;
+using Mindscape.Raygun4Net.Messages;
 using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
 
 namespace DMS_3
@@ -24,8 +25,6 @@ namespace DMS_3
 		public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
 		{
 			base.OnCreate(savedInstanceState, persistentState);
-			// Raygun4Net
-			RaygunClient.Initialize("VXMXLFnw+2LJyuTXX8taYg==").AttachCrashReporting().AttachPulse(this);
 		}
 
 		protected override void OnResume()
@@ -46,7 +45,7 @@ namespace DMS_3
 					var IMEI = telephonyManager.DeviceId;
 					var webClient = new TimeoutWebclient();
 					webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
- 					webClient.QueryString.Add("IMEI", IMEI);
+					webClient.QueryString.Add("IMEI", IMEI);
 					string userData = "";
 					string _url = "";
 					//si pref societe == null
@@ -87,7 +86,8 @@ namespace DMS_3
 									editor.PutString("API_DOMAIN", "https://dmsws.dealtis.fr");
 									editor.Apply();
 								}
-							}else
+							}
+							else
 							{
 								//set pref API_LOCATION JEANTET
 								editor.PutString("API_LOCATION", "JEANTET");
@@ -142,6 +142,17 @@ namespace DMS_3
 					bgService = new BackgroundWorker();
 					bgService.DoWork += new DoWorkEventHandler(bgService_DoWork);
 					bgService.RunWorkerAsync();
+
+					var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
+
+					// Raygun4Net
+					RaygunClient.Initialize("VXMXLFnw+2LJyuTXX8taYg==").AttachCrashReporting().AttachPulse(this);
+					RaygunClient.Current.UserInfo = new RaygunIdentifierMessage(Data.userAndsoft)
+					{
+						IsAnonymous = false,
+						FullName = telephonyManager.DeviceId
+					};
+
 					StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
 				}
 				else {

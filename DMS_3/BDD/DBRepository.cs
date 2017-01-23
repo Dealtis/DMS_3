@@ -1,10 +1,11 @@
 using System;
 using SQLite;
 using System.Collections.Generic;
+using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
 
 namespace DMS_3.BDD
 {
-	
+
 	public class DBRepository
 	{
 		//Instance
@@ -19,10 +20,19 @@ namespace DMS_3.BDD
 				if (instance == null)
 				{
 					instance = new DBRepository();
+					try
+					{
+						instance.CreateDB();
+					}
+					catch (Exception ex)
+					{
+						RaygunClient.Current.SendInBackground(ex);
+					}
 				}
 				return instance;
 			}
 		}
+
 
 		//CREATE BDD
 		public string CreateDB()
@@ -39,6 +49,7 @@ namespace DMS_3.BDD
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
+				RaygunClient.Current.SendInBackground(ex);
 				return "error";
 			}
 		}
@@ -55,11 +66,12 @@ namespace DMS_3.BDD
 				db.CreateTable<TableNotifications>();
 				db.CreateTable<TableColis>();
 				string result = "Tables crées !";
-				
+
 				return result;
 			}
 			catch (SQLiteException ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -73,7 +85,7 @@ namespace DMS_3.BDD
 			{
 				output = true;
 			}
-			
+
 			return output;
 		}
 
@@ -90,17 +102,18 @@ namespace DMS_3.BDD
 				item.user_UsePartic = User_Usepartic;
 				item.user_Societe = user_Societe;
 				db.Insert(item);
-				
+
 				return "Insertion" + user_AndsoftUser + " réussite";
 			}
 			catch (SQLiteException ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
 
 		//Insertion des donnes des positions
-		public string insertDataPosition(string idSegment, string codeLivraison, string numCommande,string nomClient, string refClient, string nomPayeur, string adresseLivraison, string CpLivraison, string villeLivraison, string dateHeure, string nbrColis, string nbrPallette, string poids, string adresseExpediteur, string CpExpediteur, string dateExpe, string villeExpediteur, string nomExpediteur, string instrucLivraison, string GROUPAGE, string poidsADR, string poidsQL, string typeMission, string typeSegment, string statutLivraison, string CR, string ASSIGNE, string dateBDD, string Datemission, string Ordremission, string planDeTransport, string Userandsoft, string nomClientLivraison, string villeClientLivraison, string positionPole, string imgpath)
+		public string insertDataPosition(string idSegment, string codeLivraison, string numCommande, string nomClient, string refClient, string nomPayeur, string adresseLivraison, string CpLivraison, string villeLivraison, string dateHeure, string nbrColis, string nbrPallette, string poids, string adresseExpediteur, string CpExpediteur, string dateExpe, string villeExpediteur, string nomExpediteur, string instrucLivraison, string GROUPAGE, string poidsADR, string poidsQL, string typeMission, string typeSegment, string statutLivraison, string CR, string ASSIGNE, string dateBDD, string Datemission, string Ordremission, string planDeTransport, string Userandsoft, string nomClientLivraison, string villeClientLivraison, string positionPole, string imgpath)
 		{
 			try
 			{
@@ -144,11 +157,12 @@ namespace DMS_3.BDD
 				item.positionPole = positionPole;
 
 				db.Insert(item);
-				
+
 				return "Insertion good";
 			}
 			catch (SQLiteException ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -167,11 +181,12 @@ namespace DMS_3.BDD
 				item.typeMessage = typeMessage;
 				item.numMessage = numMessage;
 				db.Insert(item);
-				
+
 				return "Insertion good";
 			}
 			catch (SQLiteException ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -185,11 +200,12 @@ namespace DMS_3.BDD
 				item.numCommande = numCommande;
 				item.flashage = false;
 				db.Insert(item);
-				
+
 				return "Insertion good";
 			}
 			catch (SQLiteException ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -206,11 +222,12 @@ namespace DMS_3.BDD
 				item.numCommande = numCommande;
 				item.groupage = groupage;
 				db.Insert(item);
-				
+
 				return "\n" + statutNotificationMessage + " " + numCommande;
 			}
 			catch (SQLiteException ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -228,11 +245,12 @@ namespace DMS_3.BDD
 				item.datesuiviliv = datesuiviliv;
 				item.datajson = datajson;
 				db.Insert(item);
-				
+
 				return "Insertion good";
 			}
 			catch (SQLiteException ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -246,11 +264,12 @@ namespace DMS_3.BDD
 				item.date = date;
 				item.description = description;
 				db.Insert(item);
-				
+
 				return "Insertion Log good";
 			}
 			catch (Exception ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -264,11 +283,12 @@ namespace DMS_3.BDD
 				item.date = date;
 				item.description = description;
 				db.Insert(item);
-				
+
 				return "Insertion Log good";
 			}
 			catch (SQLiteException ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -288,13 +308,14 @@ namespace DMS_3.BDD
 					var row = db.Get<TableUser>(item.Id);
 					row.user_IsLogin = true;
 					db.Update(row);
-					
+
 					Console.WriteLine("UPDATE GOOD" + row.user_IsLogin);
 				}
 				return output;
 			}
 			catch (Exception ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				Console.WriteLine(ex);
 				return false;
 			}
@@ -311,12 +332,13 @@ namespace DMS_3.BDD
 				row.codeAnomalie = codeAnomalie;
 				row.libeAnomalie = txtAnomalie;
 				db.Update(row);
-				
+
 				output = "UPDATE POSITIONS " + row.Id;
 				return output;
 			}
 			catch (Exception ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -334,13 +356,14 @@ namespace DMS_3.BDD
 					var row = db.Get<TablePositions>(item.Id);
 					row.imgpath = "SUPPLIV";
 					db.Update(row);
-					
+
 					Console.WriteLine("UPDATE SUPPLIV" + row.numCommande);
 				}
 				return output;
 			}
 			catch (Exception ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -361,7 +384,7 @@ namespace DMS_3.BDD
 					row.dateflashage = DateTime.Now;
 					row.flashage = true;
 					db.Update(row);
-					
+
 					Console.WriteLine("UPDATE COLIS" + row.numColis);
 				}
 				Console.WriteLine(output);
@@ -369,6 +392,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -397,7 +421,7 @@ namespace DMS_3.BDD
 					output = row.Id;
 				}
 			}
-			
+
 			return output;
 		}
 
@@ -413,7 +437,7 @@ namespace DMS_3.BDD
 					output = row.Id;
 				}
 			}
-			
+
 			return output;
 		}
 
@@ -426,7 +450,7 @@ namespace DMS_3.BDD
 			{
 				output = true;
 			}
-			
+
 			return output;
 		}
 
@@ -440,7 +464,7 @@ namespace DMS_3.BDD
 				output = item.user_AndsoftUser;
 				Console.WriteLine("\nUSER CONNECTE" + item.user_AndsoftUser);
 			}
-			
+
 			return output;
 
 		}//USER CHECK SIGNA
@@ -455,7 +479,7 @@ namespace DMS_3.BDD
 					output = true;
 				}
 			}
-			
+
 			return output;
 		}
 
@@ -486,11 +510,12 @@ namespace DMS_3.BDD
 					output = "setUserdata good";
 					Console.WriteLine("\nUSER CONNECTE" + item.user_AndsoftUser);
 				}
-				
+
 				return output;
 			}
 			catch (Exception ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -506,13 +531,13 @@ namespace DMS_3.BDD
 				{
 					output = item.user_AndsoftUser;
 				}
-				
+
 				return output;
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
-				
+				RaygunClient.Current.SendInBackground(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -527,11 +552,12 @@ namespace DMS_3.BDD
 				{
 					output = item.user_TransicsUser;
 				}
-				
+
 				return output;
 			}
 			catch (Exception ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -547,13 +573,13 @@ namespace DMS_3.BDD
 				{
 					output = item.imgpath;
 				}
-				
+
 				return output;
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
-				
+				RaygunClient.Current.SendInBackground(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -568,7 +594,8 @@ namespace DMS_3.BDD
 			return db.Table<TableColis>().Where(v => v.numCommande.Equals(num)).Where(v => v.flashage.Equals(true)).Count();
 		}
 
-		public void resetColis(string num) {
+		public void resetColis(string num)
+		{
 			var query = db.Table<TableColis>().Where(v => v.numCommande.Equals(num));
 			foreach (var item in query)
 			{
@@ -596,11 +623,12 @@ namespace DMS_3.BDD
 					db.Update(row);
 					output = "UPDATE USER LOGOUT " + row.user_AndsoftUser;
 				}
-				
+
 				return output;
 			}
 			catch (Exception ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -616,11 +644,12 @@ namespace DMS_3.BDD
 				{
 					output = true;
 				}
-				
+
 				return output;
 			}
 			catch (Exception ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				Console.WriteLine(ex);
 				return false;
 			}
@@ -633,7 +662,7 @@ namespace DMS_3.BDD
 			{
 				db.Delete<TableNotifications>(id);
 				string result = "delete";
-				
+
 				return result;
 			}
 			catch (SQLiteException ex)
@@ -692,7 +721,7 @@ namespace DMS_3.BDD
 			else {
 				data.poids = item.poids + " tonnes";
 			}
-			
+
 			return data;
 		}
 
@@ -765,7 +794,7 @@ namespace DMS_3.BDD
 			row.imgpath = path;
 			db.Update(row);
 			output = "UPDATE POSITIONS " + row.Id;
-			
+
 			return output;
 		}
 
@@ -779,6 +808,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
+				RaygunClient.Current.SendInBackground(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}

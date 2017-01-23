@@ -62,17 +62,7 @@ namespace DMS_3
 			//btn_Livraison.LongClick += Btn_Livraison_LongClick;
 			btn_Message.Click += delegate { btn_Message_Click(); };
 			btn_Flash.Click += delegate { btn_Flash_Click(); };
-
-			string APP_ID = "337f4f12782f47e590a7e84867bc087a";
-
-			var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
-		
-			RaygunClient.Current.UserInfo = new RaygunIdentifierMessage(Data.userAndsoft)
-			{
-				IsAnonymous = false,
-				FullName = telephonyManager.DeviceId
-			};
-
+	
 			//FONTS
 			txtLivraison.SetTypeface(Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);
 			txtEnlevement.SetTypeface(Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);
