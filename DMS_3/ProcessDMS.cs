@@ -14,6 +14,7 @@ using Android.Net;
 using Android.OS;
 using Android.Preferences;
 using DMS_3.BDD;
+using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
 
 namespace DMS_3
 {
@@ -194,6 +195,7 @@ namespace DMS_3
 							catch (Exception ex)
 							{
 								Console.WriteLine(ex);
+								RaygunClient.Current.SendInBackground(ex);
 							}
 						}
 					}
@@ -231,6 +233,7 @@ namespace DMS_3
 					{
 						content_grpcloture = "[]";
 						Console.WriteLine("\n" + ex);
+						RaygunClient.Current.SendInBackground(ex);
 					}
 				}
 			}
@@ -238,6 +241,7 @@ namespace DMS_3
 			{
 				content_integdata = "[]";
 				Console.WriteLine("\n" + ex);
+				RaygunClient.Current.SendInBackground(ex);
 			}
 
 			//SET des badges
@@ -271,6 +275,7 @@ namespace DMS_3
 				catch (Exception ex)
 				{
 					Console.WriteLine(ex);
+					RaygunClient.Current.SendInBackground(ex);
 					content_msg = "[]";
 				}
 				if (content_msg != "[]")
@@ -341,11 +346,13 @@ namespace DMS_3
 				catch (Exception e)
 				{
 					Console.WriteLine(e);
+					RaygunClient.Current.SendInBackground(e);
 				}
 			}
 			catch (Exception ex)
 			{
 				Console.Out.Write(ex);
+				RaygunClient.Current.SendInBackground(ex);
 			}
 			Console.WriteLine("\nTask ComPosGps done");
 		}
@@ -377,6 +384,7 @@ namespace DMS_3
 				catch (Exception e)
 				{
 					Console.WriteLine(e);
+					RaygunClient.Current.SendInBackground(e);
 				}
 			}
 			Console.WriteLine("\nTask ComWebService done");
@@ -401,6 +409,7 @@ namespace DMS_3
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
+				RaygunClient.Current.SendInBackground(ex);
 			}
 		}
 
@@ -428,6 +437,7 @@ namespace DMS_3
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
+				RaygunClient.Current.SendInBackground(ex);
 			}
 		}
 
@@ -510,6 +520,7 @@ namespace DMS_3
 							catch (Exception ex)
 							{
 								Console.Out.Write("%%GETAIMG Upload file error\n" + ex);
+								RaygunClient.Current.SendInBackground(ex);
 							}
 							break;
 						case "%%STOPSER":
@@ -607,6 +618,7 @@ namespace DMS_3
 			catch (Exception ex)
 			{
 				Console.WriteLine("\n" + ex);
+				RaygunClient.Current.SendInBackground(ex);
 			}
 		}
 		#endregion
@@ -697,6 +709,7 @@ namespace DMS_3
 			catch (Exception ex)
 			{
 				Console.Out.Write("Upload file" + fileName + " error\n" + ex);
+				RaygunClient.Current.SendInBackground(ex);
 				Thread.Sleep(TimeSpan.FromMinutes(2));
 				uploadFile(ftpUrl, fileName, userName, password, uploadDirectory);
 				return false;

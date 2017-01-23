@@ -7,6 +7,7 @@ using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using DMS_3.BDD;
+using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
 namespace DMS_3
 {
 	[Activity(Label = "DetailActivity", Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, NoHistory = true)]
@@ -72,107 +73,116 @@ namespace DMS_3
 		protected override void OnResume()
 		{
 			base.OnResume();
+			try
+			{
+
+
 
 			id = Intent.GetStringExtra("ID");
-			i = int.Parse(id);
-			trait = Intent.GetStringExtra("TRAIT");
-			type = Intent.GetStringExtra("TYPE");
-			flash = Intent.GetBooleanExtra("FLASH",false);
+				i = int.Parse(id);
+				trait = Intent.GetStringExtra("TRAIT");
+				type = Intent.GetStringExtra("TYPE");
+				flash = Intent.GetBooleanExtra("FLASH", false);
 
-			DBRepository dbr = new DBRepository();
-			data = dbr.GetPositionsData(i);
+				DBRepository dbr = new DBRepository();
+				data = dbr.GetPositionsData(i);
 
-			codelivraison.Gravity = GravityFlags.Center;
-			infolivraison.Gravity = GravityFlags.Center;
-			title.Gravity = GravityFlags.Center;
-			infosupp.Gravity = GravityFlags.Center;
-			infoclient.Gravity = GravityFlags.Center;
+				codelivraison.Gravity = GravityFlags.Center;
+				infolivraison.Gravity = GravityFlags.Center;
+				title.Gravity = GravityFlags.Center;
+				infosupp.Gravity = GravityFlags.Center;
+				infoclient.Gravity = GravityFlags.Center;
 
-			//hide Btn Valide
+				//hide Btn Valide
 
-			if (data.StatutLivraison == "1")
-			{
-				btnvalide.Visibility = ViewStates.Gone;
+				if (data.StatutLivraison == "1")
+				{
+					btnvalide.Visibility = ViewStates.Gone;
+				}
+
+				//POLE
+				if (data.positionPole == "0")
+				{
+					boxPole.Visibility = ViewStates.Gone;
+				}
+
+				//SUPPLIV
+				if (data.imgpath == "SUPPLIV")
+				{
+					btnvalide.Visibility = ViewStates.Gone;
+					btnanomalie.Visibility = ViewStates.Gone;
+				}
+
+
+				//TITLE
+				if (data.typeMission == "L")
+				{
+					title.Text = "Livraison";
+				}
+				else {
+					title.Text = "Enlèvement";
+				}
+
+
+				infosupp.Text = data.instrucLivraison;
+				codelivraison.Text = data.numCommande;
+				infolivraison.Text = data.nomPayeur + "\n" + data.adresseLivraison + "\n" + data.CpLivraison + " " + data.villeLivraison + "\n" + data.nbrColis + " COLIS   " + data.nbrPallette + " PALETTE\n" + data.poids + "\n" + data.dateHeure + "\n" + data.CR + data.ASSIGNE;
+				infoclient.Text = "\n" + data.nomClient + "\nRef: " + data.refClient + "\nTournee : " + data.planDeTransport;
+				client.Text = "Client";
+
+				//Gestion dest final
+				destfinal.Visibility = ViewStates.Gone;
+				destfinal.Text = "" + data.nomClientLivraison + "\n" + data.villeClientLivraison + "";
+
+				if (data.typeMission == "C")
+				{
+					destfinal.Visibility = ViewStates.Visible;
+				}
+
+				//Hide box anomalie if no anomalie
+				anomalie.Visibility = ViewStates.Gone;
+				anomaliet.Visibility = ViewStates.Gone;
+
+				//COLOR
+				switch (data.StatutLivraison)
+				{
+					case "1":
+						title.SetBackgroundColor(Color.LightGreen);
+						commande.SetBackgroundColor(Color.LightGreen);
+						client.SetBackgroundColor(Color.LightGreen);
+						_imageView.Visibility = ViewStates.Gone;
+
+						//set IMG
+						_imageView.Visibility = ViewStates.Visible;
+						imgbitmap = data.imgpath.LoadAndResizeBitmap(500, 500);
+						_imageView.SetImageBitmap(imgbitmap);
+						break;
+					case "2":
+						title.SetBackgroundColor(Color.IndianRed);
+						commande.SetBackgroundColor(Color.IndianRed);
+						client.SetBackgroundColor(Color.IndianRed);
+						anomaliet.SetBackgroundColor(Color.IndianRed);
+
+						anomalie.Visibility = ViewStates.Visible;
+						anomaliet.Visibility = ViewStates.Visible;
+						anomalie.Text = data.codeAnomalie + "\n" + data.libeAnomalie + "\n" + data.remarque;
+
+						//set IMG
+						_imageView.Visibility = ViewStates.Visible;
+						imgbitmap = data.imgpath.LoadAndResizeBitmap(500, 500);
+						_imageView.SetImageBitmap(imgbitmap);
+						break;
+					default:
+						title.SetBackgroundColor(Color.CadetBlue);
+						commande.SetBackgroundColor(Color.CadetBlue);
+						client.SetBackgroundColor(Color.CadetBlue);
+						_imageView.Visibility = ViewStates.Gone;
+						break;
+				}
 			}
-
-			//POLE
-			if (data.positionPole == "0")
+			catch (Exception ex)
 			{
-				boxPole.Visibility = ViewStates.Gone;
-			}
-
-			//SUPPLIV
-			if (data.imgpath == "SUPPLIV")
-			{
-				btnvalide.Visibility = ViewStates.Gone;
-				btnanomalie.Visibility = ViewStates.Gone;
-			}
-
-
-			//TITLE
-			if (data.typeMission == "L")
-			{
-				title.Text = "Livraison";
-			}
-			else {
-				title.Text = "Enlèvement";
-			}
-
-
-			infosupp.Text = data.instrucLivraison;
-			codelivraison.Text = data.numCommande;
-			infolivraison.Text = data.nomPayeur + "\n" + data.adresseLivraison + "\n" + data.CpLivraison + " " + data.villeLivraison + "\n" + data.nbrColis + " COLIS   " + data.nbrPallette + " PALETTE\n" + data.poids + "\n" + data.dateHeure + "\n" + data.CR + data.ASSIGNE;
-			infoclient.Text = "\n" + data.nomClient + "\nRef: " + data.refClient + "\nTournee : " + data.planDeTransport;
-			client.Text = "Client";
-
-			//Gestion dest final
-			destfinal.Visibility = ViewStates.Gone;
-			destfinal.Text = "" + data.nomClientLivraison + "\n" + data.villeClientLivraison + "";
-
-			if (data.typeMission == "C")
-			{
-				destfinal.Visibility = ViewStates.Visible;
-			}
-
-			//Hide box anomalie if no anomalie
-			anomalie.Visibility = ViewStates.Gone;
-			anomaliet.Visibility = ViewStates.Gone;
-
-			//COLOR
-			switch (data.StatutLivraison)
-			{
-				case "1":
-					title.SetBackgroundColor(Color.LightGreen);
-					commande.SetBackgroundColor(Color.LightGreen);
-					client.SetBackgroundColor(Color.LightGreen);
-					_imageView.Visibility = ViewStates.Gone;
-
-					//set IMG
-					_imageView.Visibility = ViewStates.Visible;
-					imgbitmap = data.imgpath.LoadAndResizeBitmap(500, 500);
-					_imageView.SetImageBitmap(imgbitmap);
-					break;
-				case "2":
-					title.SetBackgroundColor(Color.IndianRed);
-					commande.SetBackgroundColor(Color.IndianRed);
-					client.SetBackgroundColor(Color.IndianRed);
-					anomaliet.SetBackgroundColor(Color.IndianRed);
-
-					anomalie.Visibility = ViewStates.Visible;
-					anomaliet.Visibility = ViewStates.Visible;
-					anomalie.Text = data.codeAnomalie + "\n" + data.libeAnomalie + "\n" + data.remarque;
-
-					//set IMG
-					_imageView.Visibility = ViewStates.Visible;
-					imgbitmap = data.imgpath.LoadAndResizeBitmap(500, 500);
-					_imageView.SetImageBitmap(imgbitmap);
-					break;
-				default:
-					title.SetBackgroundColor(Color.CadetBlue);
-					commande.SetBackgroundColor(Color.CadetBlue);
-					client.SetBackgroundColor(Color.CadetBlue);
-					_imageView.Visibility = ViewStates.Gone;
-					break;
+				RaygunClient.Current.SendInBackground(ex);
 			}
 		}
 
@@ -284,6 +294,7 @@ namespace DMS_3
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
+				RaygunClient.Current.SendInBackground(ex);
 			}
 			return true;
 		}

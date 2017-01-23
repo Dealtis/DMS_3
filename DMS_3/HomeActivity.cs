@@ -66,9 +66,6 @@ namespace DMS_3
 			string APP_ID = "337f4f12782f47e590a7e84867bc087a";
 
 			var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
-
-			// Raygun4Net
-			RaygunClient.Initialize("VXMXLFnw+2LJyuTXX8taYg==").AttachCrashReporting().AttachPulse(this);
 		
 			RaygunClient.Current.UserInfo = new RaygunIdentifierMessage(Data.userAndsoft)
 			{
@@ -136,6 +133,7 @@ namespace DMS_3
 			catch (System.Exception ex)
 			{
 				System.Console.WriteLine("Erreur sur is_user_Log_In" + ex);
+				RaygunClient.Current.SendInBackground(ex);
 			}
 
 			var version = this.PackageManager.GetPackageInfo(this.PackageName, 0).VersionName;

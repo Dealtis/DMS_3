@@ -11,6 +11,7 @@ using DMS_3.BDD;
 using Android.Support.V7.App;
 using AlertDialog = Android.Support.V7.App.AlertDialog;
 using Uri = Android.Net.Uri;
+using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
 namespace DMS_3
 {
 	[Activity(Label = "AnomalieActivity", Theme = "@style/MyTheme.Base", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]

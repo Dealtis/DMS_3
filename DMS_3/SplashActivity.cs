@@ -12,6 +12,7 @@ using Android.Preferences;
 using Android.Telephony;
 using Android.Widget;
 using DMS_3.BDD;
+using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
 
 namespace DMS_3
 {
@@ -23,6 +24,8 @@ namespace DMS_3
 		public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
 		{
 			base.OnCreate(savedInstanceState, persistentState);
+			// Raygun4Net
+			RaygunClient.Initialize("VXMXLFnw+2LJyuTXX8taYg==").AttachCrashReporting().AttachPulse(this);
 		}
 
 		protected override void OnResume()

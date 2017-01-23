@@ -19,6 +19,7 @@ using ZXing.Mobile;
 using Uri = Android.Net.Uri;
 using Android.Support.V7.App;
 using Android.Preferences;
+using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
 using System.Net.Cache;
 using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
 
@@ -363,6 +364,7 @@ namespace DMS_3
 				catch (System.Exception ex)
 				{
 					Console.WriteLine(ex);
+					RaygunClient.Current.SendInBackground(ex);
 					AndHUD.Shared.Dismiss(this);
 				}
 			});
@@ -401,6 +403,7 @@ namespace DMS_3
 				catch (Exception ex)
 				{
 					Console.WriteLine(ex);
+					RaygunClient.Current.SendInBackground(ex);
 				}
 			});
 		}
@@ -542,6 +545,7 @@ namespace DMS_3
 				catch (WebException ex)
 				{
 					Console.WriteLine(ex);
+					RaygunClient.Current.SendInBackground(ex);
 					AndHUD.Shared.Dismiss(this);
 					RunOnUiThread(() => btn_photo.Visibility = ViewStates.Gone);
 					RunOnUiThread(() => Toast.MakeText(this, "Erreur de connexion", ToastLength.Short).Show());
@@ -695,6 +699,7 @@ namespace DMS_3
 						catch (Exception ex)
 						{
 							Console.WriteLine("\n" + ex);
+							RaygunClient.Current.SendInBackground(ex);
 						}
 					});
 				threadUpload.Start();

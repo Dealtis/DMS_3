@@ -10,6 +10,8 @@ using Android.Widget;
 using AndroidHUD;
 using DMS_3.BDD;
 using AlertDialog = Android.Support.V7.App.AlertDialog;
+using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
+
 namespace DMS_3
 {
 
@@ -89,6 +91,7 @@ namespace DMS_3
 				catch (Exception ex)
 				{
 					Console.WriteLine(ex);
+					RaygunClient.Current.SendInBackground(ex);
 				}
 			}
 			else
@@ -100,6 +103,7 @@ namespace DMS_3
 				catch (Exception ex)
 				{
 					Console.WriteLine(ex);
+					RaygunClient.Current.SendInBackground(ex);
 				}
 
 			}
@@ -277,6 +281,7 @@ namespace DMS_3
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
+				RaygunClient.Current.SendInBackground(ex);
 			}
 		}
 
