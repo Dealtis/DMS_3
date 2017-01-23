@@ -66,126 +66,7 @@ namespace DMS_3
 			global::ZXing.Mobile.Resource.Id.contentFrame = global::DMS_3.Resource.Id.contentFrame;
 			global::ZXing.Mobile.Resource.Layout.zxingscanneractivitylayout = global::DMS_3.Resource.Layout.zxingscanneractivitylayout;
 			global::ZXing.Mobile.Resource.Layout.zxingscannerfragmentlayout = global::DMS_3.Resource.Layout.zxingscannerfragmentlayout;
-			global::HockeyApp.Resource.Color.hockeyapp_background_header = global::DMS_3.Resource.Color.hockeyapp_background_header;
-			global::HockeyApp.Resource.Color.hockeyapp_background_light = global::DMS_3.Resource.Color.hockeyapp_background_light;
-			global::HockeyApp.Resource.Color.hockeyapp_background_white = global::DMS_3.Resource.Color.hockeyapp_background_white;
-			global::HockeyApp.Resource.Color.hockeyapp_button_background = global::DMS_3.Resource.Color.hockeyapp_button_background;
-			global::HockeyApp.Resource.Color.hockeyapp_button_background_pressed = global::DMS_3.Resource.Color.hockeyapp_button_background_pressed;
-			global::HockeyApp.Resource.Color.hockeyapp_button_background_selected = global::DMS_3.Resource.Color.hockeyapp_button_background_selected;
-			global::HockeyApp.Resource.Color.hockeyapp_text_black = global::DMS_3.Resource.Color.hockeyapp_text_black;
-			global::HockeyApp.Resource.Color.hockeyapp_text_light = global::DMS_3.Resource.Color.hockeyapp_text_light;
-			global::HockeyApp.Resource.Color.hockeyapp_text_normal = global::DMS_3.Resource.Color.hockeyapp_text_normal;
-			global::HockeyApp.Resource.Color.hockeyapp_text_white = global::DMS_3.Resource.Color.hockeyapp_text_white;
-			global::HockeyApp.Resource.Drawable.hockeyapp_btn_background = global::DMS_3.Resource.Drawable.hockeyapp_btn_background;
-			global::HockeyApp.Resource.Id.button_add_response = global::DMS_3.Resource.Id.button_add_response;
-			global::HockeyApp.Resource.Id.button_attachment = global::DMS_3.Resource.Id.button_attachment;
-			global::HockeyApp.Resource.Id.button_login = global::DMS_3.Resource.Id.button_login;
-			global::HockeyApp.Resource.Id.button_refresh = global::DMS_3.Resource.Id.button_refresh;
-			global::HockeyApp.Resource.Id.button_send = global::DMS_3.Resource.Id.button_send;
-			global::HockeyApp.Resource.Id.button_update = global::DMS_3.Resource.Id.button_update;
-			global::HockeyApp.Resource.Id.input_email = global::DMS_3.Resource.Id.input_email;
-			global::HockeyApp.Resource.Id.input_message = global::DMS_3.Resource.Id.input_message;
-			global::HockeyApp.Resource.Id.input_name = global::DMS_3.Resource.Id.input_name;
-			global::HockeyApp.Resource.Id.input_password = global::DMS_3.Resource.Id.input_password;
-			global::HockeyApp.Resource.Id.input_subject = global::DMS_3.Resource.Id.input_subject;
-			global::HockeyApp.Resource.Id.label_author = global::DMS_3.Resource.Id.label_author;
-			global::HockeyApp.Resource.Id.label_date = global::DMS_3.Resource.Id.label_date;
-			global::HockeyApp.Resource.Id.label_last_updated = global::DMS_3.Resource.Id.label_last_updated;
-			global::HockeyApp.Resource.Id.label_message = global::DMS_3.Resource.Id.label_message;
-			global::HockeyApp.Resource.Id.label_text = global::DMS_3.Resource.Id.label_text;
-			global::HockeyApp.Resource.Id.label_title = global::DMS_3.Resource.Id.label_title;
-			global::HockeyApp.Resource.Id.label_version = global::DMS_3.Resource.Id.label_version;
-			global::HockeyApp.Resource.Id.list_attachments = global::DMS_3.Resource.Id.list_attachments;
-			global::HockeyApp.Resource.Id.list_feedback_messages = global::DMS_3.Resource.Id.list_feedback_messages;
-			global::HockeyApp.Resource.Id.text_headline = global::DMS_3.Resource.Id.text_headline;
-			global::HockeyApp.Resource.Id.view_header = global::DMS_3.Resource.Id.view_header;
-			global::HockeyApp.Resource.Id.web_update_details = global::DMS_3.Resource.Id.web_update_details;
-			global::HockeyApp.Resource.Id.wrapper_attachments = global::DMS_3.Resource.Id.wrapper_attachments;
-			global::HockeyApp.Resource.Id.wrapper_feedback = global::DMS_3.Resource.Id.wrapper_feedback;
-			global::HockeyApp.Resource.Id.wrapper_feedback_scroll = global::DMS_3.Resource.Id.wrapper_feedback_scroll;
-			global::HockeyApp.Resource.Id.wrapper_messages = global::DMS_3.Resource.Id.wrapper_messages;
-			global::HockeyApp.Resource.Id.wrapper_messages_buttons = global::DMS_3.Resource.Id.wrapper_messages_buttons;
-			global::HockeyApp.Resource.Layout.hockeyapp_activity_expiry_info = global::DMS_3.Resource.Layout.hockeyapp_activity_expiry_info;
-			global::HockeyApp.Resource.Layout.hockeyapp_activity_feedback = global::DMS_3.Resource.Layout.hockeyapp_activity_feedback;
-			global::HockeyApp.Resource.Layout.hockeyapp_activity_login = global::DMS_3.Resource.Layout.hockeyapp_activity_login;
-			global::HockeyApp.Resource.Layout.hockeyapp_activity_update = global::DMS_3.Resource.Layout.hockeyapp_activity_update;
-			global::HockeyApp.Resource.Layout.hockeyapp_fragment_update = global::DMS_3.Resource.Layout.hockeyapp_fragment_update;
-			global::HockeyApp.Resource.Layout.hockeyapp_view_feedback_message = global::DMS_3.Resource.Layout.hockeyapp_view_feedback_message;
-			global::HockeyApp.Resource.String.hockeyapp_crash_dialog_app_name_fallback = global::DMS_3.Resource.String.hockeyapp_crash_dialog_app_name_fallback;
-			global::HockeyApp.Resource.String.hockeyapp_crash_dialog_message = global::DMS_3.Resource.String.hockeyapp_crash_dialog_message;
-			global::HockeyApp.Resource.String.hockeyapp_crash_dialog_negative_button = global::DMS_3.Resource.String.hockeyapp_crash_dialog_negative_button;
-			global::HockeyApp.Resource.String.hockeyapp_crash_dialog_neutral_button = global::DMS_3.Resource.String.hockeyapp_crash_dialog_neutral_button;
-			global::HockeyApp.Resource.String.hockeyapp_crash_dialog_positive_button = global::DMS_3.Resource.String.hockeyapp_crash_dialog_positive_button;
-			global::HockeyApp.Resource.String.hockeyapp_crash_dialog_title = global::DMS_3.Resource.String.hockeyapp_crash_dialog_title;
-			global::HockeyApp.Resource.String.hockeyapp_dialog_error_message = global::DMS_3.Resource.String.hockeyapp_dialog_error_message;
-			global::HockeyApp.Resource.String.hockeyapp_dialog_error_title = global::DMS_3.Resource.String.hockeyapp_dialog_error_title;
-			global::HockeyApp.Resource.String.hockeyapp_dialog_negative_button = global::DMS_3.Resource.String.hockeyapp_dialog_negative_button;
-			global::HockeyApp.Resource.String.hockeyapp_dialog_positive_button = global::DMS_3.Resource.String.hockeyapp_dialog_positive_button;
-			global::HockeyApp.Resource.String.hockeyapp_download_failed_dialog_message = global::DMS_3.Resource.String.hockeyapp_download_failed_dialog_message;
-			global::HockeyApp.Resource.String.hockeyapp_download_failed_dialog_negative_button = global::DMS_3.Resource.String.hockeyapp_download_failed_dialog_negative_button;
-			global::HockeyApp.Resource.String.hockeyapp_download_failed_dialog_positive_button = global::DMS_3.Resource.String.hockeyapp_download_failed_dialog_positive_button;
-			global::HockeyApp.Resource.String.hockeyapp_download_failed_dialog_title = global::DMS_3.Resource.String.hockeyapp_download_failed_dialog_title;
-			global::HockeyApp.Resource.String.hockeyapp_error_no_network_message = global::DMS_3.Resource.String.hockeyapp_error_no_network_message;
-			global::HockeyApp.Resource.String.hockeyapp_expiry_info_text = global::DMS_3.Resource.String.hockeyapp_expiry_info_text;
-			global::HockeyApp.Resource.String.hockeyapp_expiry_info_title = global::DMS_3.Resource.String.hockeyapp_expiry_info_title;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_attach_file = global::DMS_3.Resource.String.hockeyapp_feedback_attach_file;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_attach_picture = global::DMS_3.Resource.String.hockeyapp_feedback_attach_picture;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_attachment_button_text = global::DMS_3.Resource.String.hockeyapp_feedback_attachment_button_text;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_attachment_error = global::DMS_3.Resource.String.hockeyapp_feedback_attachment_error;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_attachment_loading = global::DMS_3.Resource.String.hockeyapp_feedback_attachment_loading;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_email_hint = global::DMS_3.Resource.String.hockeyapp_feedback_email_hint;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_failed_text = global::DMS_3.Resource.String.hockeyapp_feedback_failed_text;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_failed_title = global::DMS_3.Resource.String.hockeyapp_feedback_failed_title;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_fetching_feedback_text = global::DMS_3.Resource.String.hockeyapp_feedback_fetching_feedback_text;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_generic_error = global::DMS_3.Resource.String.hockeyapp_feedback_generic_error;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_last_updated_text = global::DMS_3.Resource.String.hockeyapp_feedback_last_updated_text;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_max_attachments_allowed = global::DMS_3.Resource.String.hockeyapp_feedback_max_attachments_allowed;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_message_hint = global::DMS_3.Resource.String.hockeyapp_feedback_message_hint;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_name_hint = global::DMS_3.Resource.String.hockeyapp_feedback_name_hint;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_refresh_button_text = global::DMS_3.Resource.String.hockeyapp_feedback_refresh_button_text;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_response_button_text = global::DMS_3.Resource.String.hockeyapp_feedback_response_button_text;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_select_file = global::DMS_3.Resource.String.hockeyapp_feedback_select_file;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_select_picture = global::DMS_3.Resource.String.hockeyapp_feedback_select_picture;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_send_button_text = global::DMS_3.Resource.String.hockeyapp_feedback_send_button_text;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_send_generic_error = global::DMS_3.Resource.String.hockeyapp_feedback_send_generic_error;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_send_network_error = global::DMS_3.Resource.String.hockeyapp_feedback_send_network_error;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_sending_feedback_text = global::DMS_3.Resource.String.hockeyapp_feedback_sending_feedback_text;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_subject_hint = global::DMS_3.Resource.String.hockeyapp_feedback_subject_hint;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_title = global::DMS_3.Resource.String.hockeyapp_feedback_title;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_validate_email_empty = global::DMS_3.Resource.String.hockeyapp_feedback_validate_email_empty;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_validate_email_error = global::DMS_3.Resource.String.hockeyapp_feedback_validate_email_error;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_validate_name_error = global::DMS_3.Resource.String.hockeyapp_feedback_validate_name_error;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_validate_subject_error = global::DMS_3.Resource.String.hockeyapp_feedback_validate_subject_error;
-			global::HockeyApp.Resource.String.hockeyapp_feedback_validate_text_error = global::DMS_3.Resource.String.hockeyapp_feedback_validate_text_error;
-			global::HockeyApp.Resource.String.hockeyapp_login_email_hint = global::DMS_3.Resource.String.hockeyapp_login_email_hint;
-			global::HockeyApp.Resource.String.hockeyapp_login_headline_text = global::DMS_3.Resource.String.hockeyapp_login_headline_text;
-			global::HockeyApp.Resource.String.hockeyapp_login_headline_text_email_only = global::DMS_3.Resource.String.hockeyapp_login_headline_text_email_only;
-			global::HockeyApp.Resource.String.hockeyapp_login_login_button_text = global::DMS_3.Resource.String.hockeyapp_login_login_button_text;
-			global::HockeyApp.Resource.String.hockeyapp_login_missing_credentials_toast = global::DMS_3.Resource.String.hockeyapp_login_missing_credentials_toast;
-			global::HockeyApp.Resource.String.hockeyapp_login_password_hint = global::DMS_3.Resource.String.hockeyapp_login_password_hint;
-			global::HockeyApp.Resource.String.hockeyapp_paint_dialog_message = global::DMS_3.Resource.String.hockeyapp_paint_dialog_message;
-			global::HockeyApp.Resource.String.hockeyapp_paint_dialog_negative_button = global::DMS_3.Resource.String.hockeyapp_paint_dialog_negative_button;
-			global::HockeyApp.Resource.String.hockeyapp_paint_dialog_neutral_button = global::DMS_3.Resource.String.hockeyapp_paint_dialog_neutral_button;
-			global::HockeyApp.Resource.String.hockeyapp_paint_dialog_positive_button = global::DMS_3.Resource.String.hockeyapp_paint_dialog_positive_button;
-			global::HockeyApp.Resource.String.hockeyapp_paint_indicator_toast = global::DMS_3.Resource.String.hockeyapp_paint_indicator_toast;
-			global::HockeyApp.Resource.String.hockeyapp_paint_menu_clear = global::DMS_3.Resource.String.hockeyapp_paint_menu_clear;
-			global::HockeyApp.Resource.String.hockeyapp_paint_menu_save = global::DMS_3.Resource.String.hockeyapp_paint_menu_save;
-			global::HockeyApp.Resource.String.hockeyapp_paint_menu_undo = global::DMS_3.Resource.String.hockeyapp_paint_menu_undo;
-			global::HockeyApp.Resource.String.hockeyapp_permission_dialog_negative_button = global::DMS_3.Resource.String.hockeyapp_permission_dialog_negative_button;
-			global::HockeyApp.Resource.String.hockeyapp_permission_dialog_positive_button = global::DMS_3.Resource.String.hockeyapp_permission_dialog_positive_button;
-			global::HockeyApp.Resource.String.hockeyapp_permission_update_message = global::DMS_3.Resource.String.hockeyapp_permission_update_message;
-			global::HockeyApp.Resource.String.hockeyapp_permission_update_title = global::DMS_3.Resource.String.hockeyapp_permission_update_title;
-			global::HockeyApp.Resource.String.hockeyapp_update_button = global::DMS_3.Resource.String.hockeyapp_update_button;
-			global::HockeyApp.Resource.String.hockeyapp_update_dialog_message = global::DMS_3.Resource.String.hockeyapp_update_dialog_message;
-			global::HockeyApp.Resource.String.hockeyapp_update_dialog_negative_button = global::DMS_3.Resource.String.hockeyapp_update_dialog_negative_button;
-			global::HockeyApp.Resource.String.hockeyapp_update_dialog_positive_button = global::DMS_3.Resource.String.hockeyapp_update_dialog_positive_button;
-			global::HockeyApp.Resource.String.hockeyapp_update_dialog_title = global::DMS_3.Resource.String.hockeyapp_update_dialog_title;
-			global::HockeyApp.Resource.String.hockeyapp_update_mandatory_toast = global::DMS_3.Resource.String.hockeyapp_update_mandatory_toast;
-			global::HockeyApp.Resource.String.hockeyapp_update_version_details_label = global::DMS_3.Resource.String.hockeyapp_update_version_details_label;
-			global::HockeyApp.Resource.String.library_name = global::DMS_3.Resource.String.library_name;
-			global::HockeyApp.Resource.Style.HockeyApp_ButtonStyle = global::DMS_3.Resource.Style.HockeyApp_ButtonStyle;
-			global::HockeyApp.Resource.Style.HockeyApp_EditTextStyle = global::DMS_3.Resource.Style.HockeyApp_EditTextStyle;
-			global::HockeyApp.Resource.Style.HockeyApp_SingleLineInputStyle = global::DMS_3.Resource.Style.HockeyApp_SingleLineInputStyle;
+			global::Mindscape.Raygun4Net.Xamarin.Android.Resource.String.library_name = global::DMS_3.Resource.String.library_name;
 		}
 		
 		public partial class Animation
@@ -957,29 +838,29 @@ namespace DMS_3
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f0c0044
-			public const int abc_background_cache_hint_selector_material_dark = 2131492932;
+			// aapt resource value: 0x7f0c003a
+			public const int abc_background_cache_hint_selector_material_dark = 2131492922;
 			
-			// aapt resource value: 0x7f0c0045
-			public const int abc_background_cache_hint_selector_material_light = 2131492933;
+			// aapt resource value: 0x7f0c003b
+			public const int abc_background_cache_hint_selector_material_light = 2131492923;
 			
 			// aapt resource value: 0x7f0c0000
 			public const int abc_input_method_navigation_guard = 2131492864;
 			
-			// aapt resource value: 0x7f0c0046
-			public const int abc_primary_text_disable_only_material_dark = 2131492934;
+			// aapt resource value: 0x7f0c003c
+			public const int abc_primary_text_disable_only_material_dark = 2131492924;
 			
-			// aapt resource value: 0x7f0c0047
-			public const int abc_primary_text_disable_only_material_light = 2131492935;
+			// aapt resource value: 0x7f0c003d
+			public const int abc_primary_text_disable_only_material_light = 2131492925;
 			
-			// aapt resource value: 0x7f0c0048
-			public const int abc_primary_text_material_dark = 2131492936;
+			// aapt resource value: 0x7f0c003e
+			public const int abc_primary_text_material_dark = 2131492926;
 			
-			// aapt resource value: 0x7f0c0049
-			public const int abc_primary_text_material_light = 2131492937;
+			// aapt resource value: 0x7f0c003f
+			public const int abc_primary_text_material_light = 2131492927;
 			
-			// aapt resource value: 0x7f0c004a
-			public const int abc_search_url_text = 2131492938;
+			// aapt resource value: 0x7f0c0040
+			public const int abc_search_url_text = 2131492928;
 			
 			// aapt resource value: 0x7f0c0001
 			public const int abc_search_url_text_normal = 2131492865;
@@ -990,14 +871,14 @@ namespace DMS_3
 			// aapt resource value: 0x7f0c0003
 			public const int abc_search_url_text_selected = 2131492867;
 			
-			// aapt resource value: 0x7f0c004b
-			public const int abc_secondary_text_material_dark = 2131492939;
+			// aapt resource value: 0x7f0c0041
+			public const int abc_secondary_text_material_dark = 2131492929;
 			
-			// aapt resource value: 0x7f0c004c
-			public const int abc_secondary_text_material_light = 2131492940;
+			// aapt resource value: 0x7f0c0042
+			public const int abc_secondary_text_material_light = 2131492930;
 			
-			// aapt resource value: 0x7f0c003f
-			public const int accent = 2131492927;
+			// aapt resource value: 0x7f0c0035
+			public const int accent = 2131492917;
 			
 			// aapt resource value: 0x7f0c0004
 			public const int accent_material_dark = 2131492868;
@@ -1053,8 +934,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0c0015
 			public const int dim_foreground_material_light = 2131492885;
 			
-			// aapt resource value: 0x7f0c0043
-			public const int gray = 2131492931;
+			// aapt resource value: 0x7f0c0039
+			public const int gray = 2131492921;
 			
 			// aapt resource value: 0x7f0c0016
 			public const int highlighted_text_material_dark = 2131492886;
@@ -1067,36 +948,6 @@ namespace DMS_3
 			
 			// aapt resource value: 0x7f0c0019
 			public const int hint_foreground_material_light = 2131492889;
-			
-			// aapt resource value: 0x7f0c0033
-			public const int hockeyapp_background_header = 2131492915;
-			
-			// aapt resource value: 0x7f0c0034
-			public const int hockeyapp_background_light = 2131492916;
-			
-			// aapt resource value: 0x7f0c0035
-			public const int hockeyapp_background_white = 2131492917;
-			
-			// aapt resource value: 0x7f0c0036
-			public const int hockeyapp_button_background = 2131492918;
-			
-			// aapt resource value: 0x7f0c0037
-			public const int hockeyapp_button_background_pressed = 2131492919;
-			
-			// aapt resource value: 0x7f0c0038
-			public const int hockeyapp_button_background_selected = 2131492920;
-			
-			// aapt resource value: 0x7f0c0039
-			public const int hockeyapp_text_black = 2131492921;
-			
-			// aapt resource value: 0x7f0c003a
-			public const int hockeyapp_text_light = 2131492922;
-			
-			// aapt resource value: 0x7f0c003b
-			public const int hockeyapp_text_normal = 2131492923;
-			
-			// aapt resource value: 0x7f0c003c
-			public const int hockeyapp_text_white = 2131492924;
 			
 			// aapt resource value: 0x7f0c001a
 			public const int link_text_material_dark = 2131492890;
@@ -1119,11 +970,11 @@ namespace DMS_3
 			// aapt resource value: 0x7f0c0020
 			public const int material_deep_teal_500 = 2131492896;
 			
-			// aapt resource value: 0x7f0c003d
-			public const int primary = 2131492925;
+			// aapt resource value: 0x7f0c0033
+			public const int primary = 2131492915;
 			
-			// aapt resource value: 0x7f0c003e
-			public const int primaryDark = 2131492926;
+			// aapt resource value: 0x7f0c0034
+			public const int primaryDark = 2131492916;
 			
 			// aapt resource value: 0x7f0c0021
 			public const int primary_dark_material_dark = 2131492897;
@@ -1167,8 +1018,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0c002e
 			public const int secondary_text_disabled_material_light = 2131492910;
 			
-			// aapt resource value: 0x7f0c0041
-			public const int splash_background = 2131492929;
+			// aapt resource value: 0x7f0c0037
+			public const int splash_background = 2131492919;
 			
 			// aapt resource value: 0x7f0c002f
 			public const int switch_thumb_disabled_material_dark = 2131492911;
@@ -1176,11 +1027,11 @@ namespace DMS_3
 			// aapt resource value: 0x7f0c0030
 			public const int switch_thumb_disabled_material_light = 2131492912;
 			
-			// aapt resource value: 0x7f0c004d
-			public const int switch_thumb_material_dark = 2131492941;
+			// aapt resource value: 0x7f0c0043
+			public const int switch_thumb_material_dark = 2131492931;
 			
-			// aapt resource value: 0x7f0c004e
-			public const int switch_thumb_material_light = 2131492942;
+			// aapt resource value: 0x7f0c0044
+			public const int switch_thumb_material_light = 2131492932;
 			
 			// aapt resource value: 0x7f0c0031
 			public const int switch_thumb_normal_material_dark = 2131492913;
@@ -1188,11 +1039,11 @@ namespace DMS_3
 			// aapt resource value: 0x7f0c0032
 			public const int switch_thumb_normal_material_light = 2131492914;
 			
-			// aapt resource value: 0x7f0c0042
-			public const int white = 2131492930;
+			// aapt resource value: 0x7f0c0038
+			public const int white = 2131492920;
 			
-			// aapt resource value: 0x7f0c0040
-			public const int window_background = 2131492928;
+			// aapt resource value: 0x7f0c0036
+			public const int window_background = 2131492918;
 			
 			static Color()
 			{
@@ -1692,115 +1543,112 @@ namespace DMS_3
 			public const int gray_button = 2130837577;
 			
 			// aapt resource value: 0x7f02004a
-			public const int hockeyapp_btn_background = 2130837578;
+			public const int ic_errorstatus = 2130837578;
 			
 			// aapt resource value: 0x7f02004b
-			public const int ic_errorstatus = 2130837579;
+			public const int ic_successstatus = 2130837579;
 			
 			// aapt resource value: 0x7f02004c
-			public const int ic_successstatus = 2130837580;
+			public const int iconapp = 2130837580;
 			
 			// aapt resource value: 0x7f02004d
-			public const int iconapp = 2130837581;
+			public const int keyboard = 2130837581;
 			
 			// aapt resource value: 0x7f02004e
-			public const int keyboard = 2130837582;
+			public const int Liv = 2130837582;
 			
 			// aapt resource value: 0x7f02004f
-			public const int Liv = 2130837583;
+			public const int Liv_100 = 2130837583;
 			
 			// aapt resource value: 0x7f020050
-			public const int Liv_100 = 2130837584;
+			public const int Liv_100_euro = 2130837584;
 			
 			// aapt resource value: 0x7f020051
-			public const int Liv_100_euro = 2130837585;
+			public const int Liv_adr = 2130837585;
 			
 			// aapt resource value: 0x7f020052
-			public const int Liv_adr = 2130837586;
+			public const int Liv_QL = 2130837586;
 			
 			// aapt resource value: 0x7f020053
-			public const int Liv_QL = 2130837587;
+			public const int LivAdr = 2130837587;
 			
 			// aapt resource value: 0x7f020054
-			public const int LivAdr = 2130837588;
+			public const int LivADR_100 = 2130837588;
 			
 			// aapt resource value: 0x7f020055
-			public const int LivADR_100 = 2130837589;
+			public const int logo_pole = 2130837589;
 			
 			// aapt resource value: 0x7f020056
-			public const int logo_pole = 2130837590;
+			public const int logo_pole_50 = 2130837590;
 			
 			// aapt resource value: 0x7f020057
-			public const int logo_pole_50 = 2130837591;
+			public const int Logout = 2130837591;
 			
 			// aapt resource value: 0x7f020058
-			public const int Logout = 2130837592;
+			public const int magnifier13 = 2130837592;
 			
 			// aapt resource value: 0x7f020059
-			public const int magnifier13 = 2130837593;
-			
-			// aapt resource value: 0x7f02005a
-			public const int newMsg = 2130837594;
-			
-			// aapt resource value: 0x7f02006e
-			public const int notification_template_icon_bg = 2130837614;
-			
-			// aapt resource value: 0x7f02005b
-			public const int overlay = 2130837595;
-			
-			// aapt resource value: 0x7f02005c
-			public const int peekup = 2130837596;
-			
-			// aapt resource value: 0x7f02005d
-			public const int ql_ = 2130837597;
-			
-			// aapt resource value: 0x7f02005e
-			public const int ql_100 = 2130837598;
-			
-			// aapt resource value: 0x7f02005f
-			public const int redline = 2130837599;
-			
-			// aapt resource value: 0x7f020060
-			public const int roundedbg = 2130837600;
-			
-			// aapt resource value: 0x7f020061
-			public const int roundedbgdark = 2130837601;
-			
-			// aapt resource value: 0x7f020062
-			public const int row_anomalie_background = 2130837602;
-			
-			// aapt resource value: 0x7f020063
-			public const int row_null_background = 2130837603;
-			
-			// aapt resource value: 0x7f020064
-			public const int row_stroke_background = 2130837604;
-			
-			// aapt resource value: 0x7f020065
-			public const int row_valide_background = 2130837605;
-			
-			// aapt resource value: 0x7f020066
-			public const int SBBadgeBG = 2130837606;
-			
-			// aapt resource value: 0x7f020067
-			public const int SBBadgeBGUP = 2130837607;
-			
-			// aapt resource value: 0x7f020068
-			public const int send = 2130837608;
-			
-			// aapt resource value: 0x7f020069
-			public const int splash_screen = 2130837609;
-			
-			// aapt resource value: 0x7f02006a
-			public const int telephone = 2130837610;
-			
-			// aapt resource value: 0x7f02006b
-			public const int Val = 2130837611;
-			
-			// aapt resource value: 0x7f02006c
-			public const int Valpj = 2130837612;
+			public const int newMsg = 2130837593;
 			
 			// aapt resource value: 0x7f02006d
-			public const int whitefield = 2130837613;
+			public const int notification_template_icon_bg = 2130837613;
+			
+			// aapt resource value: 0x7f02005a
+			public const int overlay = 2130837594;
+			
+			// aapt resource value: 0x7f02005b
+			public const int peekup = 2130837595;
+			
+			// aapt resource value: 0x7f02005c
+			public const int ql_ = 2130837596;
+			
+			// aapt resource value: 0x7f02005d
+			public const int ql_100 = 2130837597;
+			
+			// aapt resource value: 0x7f02005e
+			public const int redline = 2130837598;
+			
+			// aapt resource value: 0x7f02005f
+			public const int roundedbg = 2130837599;
+			
+			// aapt resource value: 0x7f020060
+			public const int roundedbgdark = 2130837600;
+			
+			// aapt resource value: 0x7f020061
+			public const int row_anomalie_background = 2130837601;
+			
+			// aapt resource value: 0x7f020062
+			public const int row_null_background = 2130837602;
+			
+			// aapt resource value: 0x7f020063
+			public const int row_stroke_background = 2130837603;
+			
+			// aapt resource value: 0x7f020064
+			public const int row_valide_background = 2130837604;
+			
+			// aapt resource value: 0x7f020065
+			public const int SBBadgeBG = 2130837605;
+			
+			// aapt resource value: 0x7f020066
+			public const int SBBadgeBGUP = 2130837606;
+			
+			// aapt resource value: 0x7f020067
+			public const int send = 2130837607;
+			
+			// aapt resource value: 0x7f020068
+			public const int splash_screen = 2130837608;
+			
+			// aapt resource value: 0x7f020069
+			public const int telephone = 2130837609;
+			
+			// aapt resource value: 0x7f02006a
+			public const int Val = 2130837610;
+			
+			// aapt resource value: 0x7f02006b
+			public const int Valpj = 2130837611;
+			
+			// aapt resource value: 0x7f02006c
+			public const int whitefield = 2130837612;
 			
 			static Drawable()
 			{
@@ -1827,8 +1675,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0073
 			public const int _imageView = 2131558515;
 			
-			// aapt resource value: 0x7f0d00db
-			public const int action0 = 2131558619;
+			// aapt resource value: 0x7f0d00bf
+			public const int action0 = 2131558591;
 			
 			// aapt resource value: 0x7f0d0040
 			public const int action_bar = 2131558464;
@@ -1854,8 +1702,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0041
 			public const int action_context_bar = 2131558465;
 			
-			// aapt resource value: 0x7f0d00df
-			public const int action_divider = 2131558623;
+			// aapt resource value: 0x7f0d00c3
+			public const int action_divider = 2131558595;
 			
 			// aapt resource value: 0x7f0d0002
 			public const int action_menu_divider = 2131558402;
@@ -1887,8 +1735,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0071
 			public const int anomaliet = 2131558513;
 			
-			// aapt resource value: 0x7f0d00ca
-			public const int back = 2131558602;
+			// aapt resource value: 0x7f0d00ae
+			public const int back = 2131558574;
 			
 			// aapt resource value: 0x7f0d0079
 			public const int barcode = 2131558521;
@@ -1896,23 +1744,23 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d005f
 			public const int barrecode = 2131558495;
 			
-			// aapt resource value: 0x7f0d00b1
-			public const int bdgLiv = 2131558577;
+			// aapt resource value: 0x7f0d0095
+			public const int bdgLiv = 2131558549;
 			
-			// aapt resource value: 0x7f0d00b7
-			public const int bdgRam = 2131558583;
+			// aapt resource value: 0x7f0d009b
+			public const int bdgRam = 2131558555;
 			
 			// aapt resource value: 0x7f0d0013
 			public const int beginning = 2131558419;
 			
-			// aapt resource value: 0x7f0d00c4
-			public const int bodylist = 2131558596;
+			// aapt resource value: 0x7f0d00a8
+			public const int bodylist = 2131558568;
 			
 			// aapt resource value: 0x7f0d006b
 			public const int boxPole = 2131558507;
 			
-			// aapt resource value: 0x7f0d00ec
-			public const int btnSave = 2131558636;
+			// aapt resource value: 0x7f0d00d0
+			public const int btnSave = 2131558608;
 			
 			// aapt resource value: 0x7f0d008a
 			public const int btn_anomalie = 2131558538;
@@ -1926,8 +1774,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0078
 			public const int btn_photo = 2131558520;
 			
-			// aapt resource value: 0x7f0d00c8
-			public const int btn_search = 2131558600;
+			// aapt resource value: 0x7f0d00ac
+			public const int btn_search = 2131558572;
 			
 			// aapt resource value: 0x7f0d0066
 			public const int btn_send = 2131558502;
@@ -1935,8 +1783,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d008b
 			public const int btn_termine = 2131558539;
 			
-			// aapt resource value: 0x7f0d00c6
-			public const int btn_traite = 2131558598;
+			// aapt resource value: 0x7f0d00aa
+			public const int btn_traite = 2131558570;
 			
 			// aapt resource value: 0x7f0d0060
 			public const int btn_valid = 2131558496;
@@ -1947,8 +1795,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0086
 			public const int btngroup = 2131558534;
 			
-			// aapt resource value: 0x7f0d00da
-			public const int btnlogin = 2131558618;
+			// aapt resource value: 0x7f0d00be
+			public const int btnlogin = 2131558590;
 			
 			// aapt resource value: 0x7f0d0062
 			public const int button1 = 2131558498;
@@ -1956,29 +1804,11 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0036
 			public const int buttonPanel = 2131558454;
 			
-			// aapt resource value: 0x7f0d0099
-			public const int button_add_response = 2131558553;
+			// aapt resource value: 0x7f0d00c0
+			public const int cancel_action = 2131558592;
 			
-			// aapt resource value: 0x7f0d0094
-			public const int button_attachment = 2131558548;
-			
-			// aapt resource value: 0x7f0d009e
-			public const int button_login = 2131558558;
-			
-			// aapt resource value: 0x7f0d009a
-			public const int button_refresh = 2131558554;
-			
-			// aapt resource value: 0x7f0d0095
-			public const int button_send = 2131558549;
-			
-			// aapt resource value: 0x7f0d00a2
-			public const int button_update = 2131558562;
-			
-			// aapt resource value: 0x7f0d00dc
-			public const int cancel_action = 2131558620;
-			
-			// aapt resource value: 0x7f0d00f2
-			public const int checkBox1 = 2131558642;
+			// aapt resource value: 0x7f0d00d6
+			public const int checkBox1 = 2131558614;
 			
 			// aapt resource value: 0x7f0d005b
 			public const int checkBoxPartic = 2131558491;
@@ -1986,8 +1816,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0038
 			public const int checkbox = 2131558456;
 			
-			// aapt resource value: 0x7f0d00e2
-			public const int chronometer = 2131558626;
+			// aapt resource value: 0x7f0d00c6
+			public const int chronometer = 2131558598;
 			
 			// aapt resource value: 0x7f0d006f
 			public const int client = 2131558511;
@@ -2001,26 +1831,26 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0017
 			public const int collapseActionView = 2131558423;
 			
-			// aapt resource value: 0x7f0d00ad
-			public const int columnlayout1_1 = 2131558573;
+			// aapt resource value: 0x7f0d0091
+			public const int columnlayout1_1 = 2131558545;
 			
-			// aapt resource value: 0x7f0d00b3
-			public const int columnlayout1_2 = 2131558579;
+			// aapt resource value: 0x7f0d0097
+			public const int columnlayout1_2 = 2131558551;
 			
-			// aapt resource value: 0x7f0d00ba
-			public const int columnlayout2_1 = 2131558586;
+			// aapt resource value: 0x7f0d009e
+			public const int columnlayout2_1 = 2131558558;
 			
-			// aapt resource value: 0x7f0d00bf
-			public const int columnlayout2_2 = 2131558591;
+			// aapt resource value: 0x7f0d00a3
+			public const int columnlayout2_2 = 2131558563;
 			
-			// aapt resource value: 0x7f0d00c1
-			public const int columnlayout4_2 = 2131558593;
+			// aapt resource value: 0x7f0d00a5
+			public const int columnlayout4_2 = 2131558565;
 			
 			// aapt resource value: 0x7f0d0069
 			public const int commande = 2131558505;
 			
-			// aapt resource value: 0x7f0d00f8
-			public const int contentFrame = 2131558648;
+			// aapt resource value: 0x7f0d00dc
+			public const int contentFrame = 2131558620;
 			
 			// aapt resource value: 0x7f0d0031
 			public const int contentPanel = 2131558449;
@@ -2037,11 +1867,11 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0029
 			public const int default_activity_button = 2131558441;
 			
-			// aapt resource value: 0x7f0d00b0
-			public const int deliveryBadge = 2131558576;
+			// aapt resource value: 0x7f0d0094
+			public const int deliveryBadge = 2131558548;
 			
-			// aapt resource value: 0x7f0d00b2
-			public const int deliveryBadgeText = 2131558578;
+			// aapt resource value: 0x7f0d0096
+			public const int deliveryBadgeText = 2131558550;
 			
 			// aapt resource value: 0x7f0d006c
 			public const int destfinal = 2131558508;
@@ -2070,8 +1900,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0014
 			public const int end = 2131558420;
 			
-			// aapt resource value: 0x7f0d00e7
-			public const int end_padder = 2131558631;
+			// aapt resource value: 0x7f0d00cb
+			public const int end_padder = 2131558603;
 			
 			// aapt resource value: 0x7f0d0027
 			public const int expand_activities_button = 2131558439;
@@ -2079,11 +1909,11 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0037
 			public const int expanded_menu = 2131558455;
 			
-			// aapt resource value: 0x7f0d00c5
-			public const int footer = 2131558597;
+			// aapt resource value: 0x7f0d00a9
+			public const int footer = 2131558569;
 			
-			// aapt resource value: 0x7f0d00cc
-			public const int front = 2131558604;
+			// aapt resource value: 0x7f0d00b0
+			public const int front = 2131558576;
 			
 			// aapt resource value: 0x7f0d0004
 			public const int home = 2131558404;
@@ -2091,8 +1921,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d000d
 			public const int homeAsUp = 2131558413;
 			
-			// aapt resource value: 0x7f0d00aa
-			public const int ico_adr = 2131558570;
+			// aapt resource value: 0x7f0d008e
+			public const int ico_adr = 2131558542;
 			
 			// aapt resource value: 0x7f0d002b
 			public const int icon = 2131558443;
@@ -2106,23 +1936,23 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d005c
 			public const int imageView1 = 2131558492;
 			
-			// aapt resource value: 0x7f0d00bd
-			public const int imageView2 = 2131558589;
+			// aapt resource value: 0x7f0d00a1
+			public const int imageView2 = 2131558561;
 			
-			// aapt resource value: 0x7f0d00ab
-			public const int imageView25 = 2131558571;
+			// aapt resource value: 0x7f0d008f
+			public const int imageView25 = 2131558543;
 			
-			// aapt resource value: 0x7f0d00b4
-			public const int imageView27 = 2131558580;
+			// aapt resource value: 0x7f0d0098
+			public const int imageView27 = 2131558552;
 			
-			// aapt resource value: 0x7f0d00ae
-			public const int imageView28 = 2131558574;
+			// aapt resource value: 0x7f0d0092
+			public const int imageView28 = 2131558546;
 			
-			// aapt resource value: 0x7f0d00bb
-			public const int imageView3 = 2131558587;
+			// aapt resource value: 0x7f0d009f
+			public const int imageView3 = 2131558559;
 			
-			// aapt resource value: 0x7f0d00e6
-			public const int info = 2131558630;
+			// aapt resource value: 0x7f0d00ca
+			public const int info = 2131558602;
 			
 			// aapt resource value: 0x7f0d007e
 			public const int infoadrdest = 2131558526;
@@ -2154,44 +1984,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0080
 			public const int infovilledest = 2131558528;
 			
-			// aapt resource value: 0x7f0d0090
-			public const int input_email = 2131558544;
-			
-			// aapt resource value: 0x7f0d0092
-			public const int input_message = 2131558546;
-			
-			// aapt resource value: 0x7f0d008f
-			public const int input_name = 2131558543;
-			
-			// aapt resource value: 0x7f0d009d
-			public const int input_password = 2131558557;
-			
-			// aapt resource value: 0x7f0d0091
-			public const int input_subject = 2131558545;
-			
-			// aapt resource value: 0x7f0d00a4
-			public const int label_author = 2131558564;
-			
-			// aapt resource value: 0x7f0d00a5
-			public const int label_date = 2131558565;
-			
-			// aapt resource value: 0x7f0d0097
-			public const int label_last_updated = 2131558551;
-			
-			// aapt resource value: 0x7f0d008c
-			public const int label_message = 2131558540;
-			
-			// aapt resource value: 0x7f0d00a6
-			public const int label_text = 2131558566;
-			
-			// aapt resource value: 0x7f0d00a0
-			public const int label_title = 2131558560;
-			
-			// aapt resource value: 0x7f0d00a1
-			public const int label_version = 2131558561;
-			
-			// aapt resource value: 0x7f0d00c3
-			public const int layout_groupage = 2131558595;
+			// aapt resource value: 0x7f0d00a7
+			public const int layout_groupage = 2131558567;
 			
 			// aapt resource value: 0x7f0d004f
 			public const int layoutanomalie = 2131558479;
@@ -2199,17 +1993,17 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0063
 			public const int layoutlistlivraison = 2131558499;
 			
-			// aapt resource value: 0x7f0d00c2
-			public const int lblButton8 = 2131558594;
+			// aapt resource value: 0x7f0d00a6
+			public const int lblButton8 = 2131558566;
 			
-			// aapt resource value: 0x7f0d00a9
-			public const int lblTitle = 2131558569;
+			// aapt resource value: 0x7f0d008d
+			public const int lblTitle = 2131558541;
 			
-			// aapt resource value: 0x7f0d00e0
-			public const int line1 = 2131558624;
+			// aapt resource value: 0x7f0d00c4
+			public const int line1 = 2131558596;
 			
-			// aapt resource value: 0x7f0d00e4
-			public const int line3 = 2131558628;
+			// aapt resource value: 0x7f0d00c8
+			public const int line3 = 2131558600;
 			
 			// aapt resource value: 0x7f0d0050
 			public const int linearLayout1 = 2131558480;
@@ -2223,8 +2017,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0077
 			public const int linearLayout4 = 2131558519;
 			
-			// aapt resource value: 0x7f0d00d6
-			public const int linearLayoutScroll = 2131558614;
+			// aapt resource value: 0x7f0d00ba
+			public const int linearLayoutScroll = 2131558586;
 			
 			// aapt resource value: 0x7f0d0009
 			public const int listMode = 2131558409;
@@ -2232,35 +2026,29 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0064
 			public const int listViewBox = 2131558500;
 			
-			// aapt resource value: 0x7f0d00a7
-			public const int list_attachments = 2131558567;
-			
-			// aapt resource value: 0x7f0d009b
-			public const int list_feedback_messages = 2131558555;
-			
 			// aapt resource value: 0x7f0d002a
 			public const int list_item = 2131558442;
 			
-			// aapt resource value: 0x7f0d00d4
-			public const int loadingImage = 2131558612;
+			// aapt resource value: 0x7f0d00b8
+			public const int loadingImage = 2131558584;
 			
-			// aapt resource value: 0x7f0d00d2
-			public const int loadingProgressBar = 2131558610;
+			// aapt resource value: 0x7f0d00b6
+			public const int loadingProgressBar = 2131558582;
 			
-			// aapt resource value: 0x7f0d00d5
-			public const int loadingProgressWheel = 2131558613;
+			// aapt resource value: 0x7f0d00b9
+			public const int loadingProgressWheel = 2131558585;
 			
-			// aapt resource value: 0x7f0d00cd
-			public const int logo_pole = 2131558605;
+			// aapt resource value: 0x7f0d00b1
+			public const int logo_pole = 2131558577;
 			
-			// aapt resource value: 0x7f0d00a8
-			public const int mainLayout = 2131558568;
+			// aapt resource value: 0x7f0d008c
+			public const int mainLayout = 2131558540;
 			
 			// aapt resource value: 0x7f0d007a
 			public const int manuedit = 2131558522;
 			
-			// aapt resource value: 0x7f0d00de
-			public const int media_actions = 2131558622;
+			// aapt resource value: 0x7f0d00c2
+			public const int media_actions = 2131558594;
 			
 			// aapt resource value: 0x7f0d0015
 			public const int middle = 2131558421;
@@ -2274,11 +2062,11 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0019
 			public const int never = 2131558425;
 			
-			// aapt resource value: 0x7f0d00bc
-			public const int newMsgBadge = 2131558588;
+			// aapt resource value: 0x7f0d00a0
+			public const int newMsgBadge = 2131558560;
 			
-			// aapt resource value: 0x7f0d00be
-			public const int newMsgBadgeText = 2131558590;
+			// aapt resource value: 0x7f0d00a2
+			public const int newMsgBadgeText = 2131558562;
 			
 			// aapt resource value: 0x7f0d000e
 			public const int none = 2131558414;
@@ -2295,17 +2083,17 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d002d
 			public const int parentPanel = 2131558445;
 			
-			// aapt resource value: 0x7f0d00f1
-			public const int partic = 2131558641;
+			// aapt resource value: 0x7f0d00d5
+			public const int partic = 2131558613;
 			
-			// aapt resource value: 0x7f0d00d9
-			public const int password = 2131558617;
+			// aapt resource value: 0x7f0d00bd
+			public const int password = 2131558589;
 			
-			// aapt resource value: 0x7f0d00b6
-			public const int peekupBadge = 2131558582;
+			// aapt resource value: 0x7f0d009a
+			public const int peekupBadge = 2131558554;
 			
-			// aapt resource value: 0x7f0d00b8
-			public const int peekupBadgeText = 2131558584;
+			// aapt resource value: 0x7f0d009c
+			public const int peekupBadgeText = 2131558556;
 			
 			// aapt resource value: 0x7f0d0058
 			public const int poids = 2131558488;
@@ -2319,32 +2107,32 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d003a
 			public const int radio = 2131558458;
 			
-			// aapt resource value: 0x7f0d00f7
-			public const int radioButton1 = 2131558647;
+			// aapt resource value: 0x7f0d00db
+			public const int radioButton1 = 2131558619;
 			
-			// aapt resource value: 0x7f0d00f6
-			public const int radioButton2 = 2131558646;
+			// aapt resource value: 0x7f0d00da
+			public const int radioButton2 = 2131558618;
 			
-			// aapt resource value: 0x7f0d00f5
-			public const int radioGroup1 = 2131558645;
+			// aapt resource value: 0x7f0d00d9
+			public const int radioGroup1 = 2131558617;
 			
 			// aapt resource value: 0x7f0d0074
 			public const int relativeLayout1 = 2131558516;
 			
-			// aapt resource value: 0x7f0d00f4
-			public const int relativeLayout2 = 2131558644;
+			// aapt resource value: 0x7f0d00d8
+			public const int relativeLayout2 = 2131558616;
 			
-			// aapt resource value: 0x7f0d00eb
-			public const int rootView = 2131558635;
+			// aapt resource value: 0x7f0d00cf
+			public const int rootView = 2131558607;
 			
-			// aapt resource value: 0x7f0d00ac
-			public const int rowLayout1 = 2131558572;
+			// aapt resource value: 0x7f0d0090
+			public const int rowLayout1 = 2131558544;
 			
-			// aapt resource value: 0x7f0d00b9
-			public const int rowLayout2 = 2131558585;
+			// aapt resource value: 0x7f0d009d
+			public const int rowLayout2 = 2131558557;
 			
-			// aapt resource value: 0x7f0d00c0
-			public const int rowLayout4 = 2131558592;
+			// aapt resource value: 0x7f0d00a4
+			public const int rowLayout4 = 2131558564;
 			
 			// aapt resource value: 0x7f0d001f
 			public const int screen = 2131558431;
@@ -2400,17 +2188,17 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0011
 			public const int showTitle = 2131558417;
 			
-			// aapt resource value: 0x7f0d00ed
-			public const int signatureView = 2131558637;
+			// aapt resource value: 0x7f0d00d1
+			public const int signatureView = 2131558609;
 			
-			// aapt resource value: 0x7f0d00c7
-			public const int space1 = 2131558599;
+			// aapt resource value: 0x7f0d00ab
+			public const int space1 = 2131558571;
 			
 			// aapt resource value: 0x7f0d0051
 			public const int spinnerAnomalie = 2131558481;
 			
-			// aapt resource value: 0x7f0d00ee
-			public const int spinnerSoc = 2131558638;
+			// aapt resource value: 0x7f0d00d2
+			public const int spinnerSoc = 2131558610;
 			
 			// aapt resource value: 0x7f0d0007
 			public const int split_action_bar = 2131558407;
@@ -2424,8 +2212,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0022
 			public const int src_over = 2131558434;
 			
-			// aapt resource value: 0x7f0d00dd
-			public const int status_bar_latest_event_content = 2131558621;
+			// aapt resource value: 0x7f0d00c1
+			public const int status_bar_latest_event_content = 2131558593;
 			
 			// aapt resource value: 0x7f0d004b
 			public const int submit_area = 2131558475;
@@ -2439,53 +2227,50 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0068
 			public const int tableLayout1 = 2131558504;
 			
-			// aapt resource value: 0x7f0d00e9
-			public const int tableRow1 = 2131558633;
+			// aapt resource value: 0x7f0d00cd
+			public const int tableRow1 = 2131558605;
 			
-			// aapt resource value: 0x7f0d00d7
-			public const int tableload = 2131558615;
+			// aapt resource value: 0x7f0d00bb
+			public const int tableload = 2131558587;
 			
-			// aapt resource value: 0x7f0d00f9
-			public const int takeflash = 2131558649;
+			// aapt resource value: 0x7f0d00dd
+			public const int takeflash = 2131558621;
 			
-			// aapt resource value: 0x7f0d00e8
-			public const int tbtnTorch = 2131558632;
+			// aapt resource value: 0x7f0d00cc
+			public const int tbtnTorch = 2131558604;
 			
-			// aapt resource value: 0x7f0d00e5
-			public const int text = 2131558629;
+			// aapt resource value: 0x7f0d00c9
+			public const int text = 2131558601;
 			
-			// aapt resource value: 0x7f0d00e3
-			public const int text2 = 2131558627;
+			// aapt resource value: 0x7f0d00c7
+			public const int text2 = 2131558599;
 			
 			// aapt resource value: 0x7f0d0033
 			public const int textSpacerNoButtons = 2131558451;
 			
-			// aapt resource value: 0x7f0d00cb
-			public const int textView1 = 2131558603;
+			// aapt resource value: 0x7f0d00af
+			public const int textView1 = 2131558575;
 			
-			// aapt resource value: 0x7f0d00d3
-			public const int textViewStatus = 2131558611;
+			// aapt resource value: 0x7f0d00b7
+			public const int textViewStatus = 2131558583;
 			
-			// aapt resource value: 0x7f0d009c
-			public const int text_headline = 2131558556;
-			
-			// aapt resource value: 0x7f0d00f3
-			public const int textcr = 2131558643;
-			
-			// aapt resource value: 0x7f0d00ea
-			public const int textds = 2131558634;
+			// aapt resource value: 0x7f0d00d7
+			public const int textcr = 2131558615;
 			
 			// aapt resource value: 0x7f0d00ce
-			public const int textleft = 2131558606;
+			public const int textds = 2131558606;
 			
-			// aapt resource value: 0x7f0d00d0
-			public const int textmid = 2131558608;
+			// aapt resource value: 0x7f0d00b2
+			public const int textleft = 2131558578;
 			
-			// aapt resource value: 0x7f0d00cf
-			public const int textmidbis = 2131558607;
+			// aapt resource value: 0x7f0d00b4
+			public const int textmid = 2131558580;
 			
-			// aapt resource value: 0x7f0d00e1
-			public const int time = 2131558625;
+			// aapt resource value: 0x7f0d00b3
+			public const int textmidbis = 2131558579;
+			
+			// aapt resource value: 0x7f0d00c5
+			public const int time = 2131558597;
 			
 			// aapt resource value: 0x7f0d002c
 			public const int title = 2131558444;
@@ -2496,20 +2281,20 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d002e
 			public const int topPanel = 2131558446;
 			
-			// aapt resource value: 0x7f0d00b5
-			public const int txtEnlevement = 2131558581;
+			// aapt resource value: 0x7f0d0099
+			public const int txtEnlevement = 2131558553;
 			
-			// aapt resource value: 0x7f0d00af
-			public const int txtLivraison = 2131558575;
+			// aapt resource value: 0x7f0d0093
+			public const int txtLivraison = 2131558547;
 			
-			// aapt resource value: 0x7f0d00c9
-			public const int txtName = 2131558601;
+			// aapt resource value: 0x7f0d00ad
+			public const int txtName = 2131558573;
 			
 			// aapt resource value: 0x7f0d0059
 			public const int txtTonnes = 2131558489;
 			
-			// aapt resource value: 0x7f0d00d1
-			public const int txtright = 2131558609;
+			// aapt resource value: 0x7f0d00b5
+			public const int txtright = 2131558581;
 			
 			// aapt resource value: 0x7f0d0008
 			public const int up = 2131558408;
@@ -2517,47 +2302,26 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0012
 			public const int useLogo = 2131558418;
 			
-			// aapt resource value: 0x7f0d00d8
-			public const int user = 2131558616;
+			// aapt resource value: 0x7f0d00bc
+			public const int user = 2131558588;
 			
 			// aapt resource value: 0x7f0d0075
 			public const int valide = 2131558517;
 			
-			// aapt resource value: 0x7f0d00ef
-			public const int valideSoc = 2131558639;
+			// aapt resource value: 0x7f0d00d3
+			public const int valideSoc = 2131558611;
 			
 			// aapt resource value: 0x7f0d005d
 			public const int valider = 2131558493;
 			
-			// aapt resource value: 0x7f0d00f0
-			public const int velocity_text_view = 2131558640;
-			
-			// aapt resource value: 0x7f0d009f
-			public const int view_header = 2131558559;
-			
-			// aapt resource value: 0x7f0d00a3
-			public const int web_update_details = 2131558563;
+			// aapt resource value: 0x7f0d00d4
+			public const int velocity_text_view = 2131558612;
 			
 			// aapt resource value: 0x7f0d001a
 			public const int withText = 2131558426;
 			
 			// aapt resource value: 0x7f0d001d
 			public const int wrap_content = 2131558429;
-			
-			// aapt resource value: 0x7f0d0093
-			public const int wrapper_attachments = 2131558547;
-			
-			// aapt resource value: 0x7f0d008e
-			public const int wrapper_feedback = 2131558542;
-			
-			// aapt resource value: 0x7f0d008d
-			public const int wrapper_feedback_scroll = 2131558541;
-			
-			// aapt resource value: 0x7f0d0096
-			public const int wrapper_messages = 2131558550;
-			
-			// aapt resource value: 0x7f0d0098
-			public const int wrapper_messages_buttons = 2131558552;
 			
 			// aapt resource value: 0x7f0d0083
 			public const int zoneflash = 2131558531;
@@ -2703,130 +2467,112 @@ namespace DMS_3
 			public const int FlashageQuai = 2130968607;
 			
 			// aapt resource value: 0x7f040020
-			public const int hockeyapp_activity_expiry_info = 2130968608;
+			public const int Home = 2130968608;
 			
 			// aapt resource value: 0x7f040021
-			public const int hockeyapp_activity_feedback = 2130968609;
+			public const int ListeLivraisons = 2130968609;
 			
 			// aapt resource value: 0x7f040022
-			public const int hockeyapp_activity_login = 2130968610;
+			public const int ListeViewDelete = 2130968610;
 			
 			// aapt resource value: 0x7f040023
-			public const int hockeyapp_activity_update = 2130968611;
+			public const int ListeViewRow = 2130968611;
 			
 			// aapt resource value: 0x7f040024
-			public const int hockeyapp_fragment_update = 2130968612;
+			public const int ListeViewRowAnomalie = 2130968612;
 			
 			// aapt resource value: 0x7f040025
-			public const int hockeyapp_view_feedback_message = 2130968613;
+			public const int ListeViewRowAnomaliePJ = 2130968613;
 			
 			// aapt resource value: 0x7f040026
-			public const int Home = 2130968614;
+			public const int ListeViewRowEnlevement = 2130968614;
 			
 			// aapt resource value: 0x7f040027
-			public const int ListeLivraisons = 2130968615;
+			public const int ListeViewRowEuro = 2130968615;
 			
 			// aapt resource value: 0x7f040028
-			public const int ListeViewDelete = 2130968616;
+			public const int ListeViewRowStroke = 2130968616;
 			
 			// aapt resource value: 0x7f040029
-			public const int ListeViewRow = 2130968617;
+			public const int ListeViewRowValide = 2130968617;
 			
 			// aapt resource value: 0x7f04002a
-			public const int ListeViewRowAnomalie = 2130968618;
+			public const int ListeViewRowValidePJ = 2130968618;
 			
 			// aapt resource value: 0x7f04002b
-			public const int ListeViewRowAnomaliePJ = 2130968619;
+			public const int loading = 2130968619;
 			
 			// aapt resource value: 0x7f04002c
-			public const int ListeViewRowEnlevement = 2130968620;
+			public const int loadingimage = 2130968620;
 			
 			// aapt resource value: 0x7f04002d
-			public const int ListeViewRowEuro = 2130968621;
+			public const int loadingprogress = 2130968621;
 			
 			// aapt resource value: 0x7f04002e
-			public const int ListeViewRowStroke = 2130968622;
+			public const int Main = 2130968622;
 			
 			// aapt resource value: 0x7f04002f
-			public const int ListeViewRowValide = 2130968623;
+			public const int notification_media_action = 2130968623;
 			
 			// aapt resource value: 0x7f040030
-			public const int ListeViewRowValidePJ = 2130968624;
+			public const int notification_media_cancel_action = 2130968624;
 			
 			// aapt resource value: 0x7f040031
-			public const int loading = 2130968625;
+			public const int notification_template_big_media = 2130968625;
 			
 			// aapt resource value: 0x7f040032
-			public const int loadingimage = 2130968626;
+			public const int notification_template_big_media_narrow = 2130968626;
 			
 			// aapt resource value: 0x7f040033
-			public const int loadingprogress = 2130968627;
+			public const int notification_template_lines = 2130968627;
 			
 			// aapt resource value: 0x7f040034
-			public const int Main = 2130968628;
+			public const int notification_template_media = 2130968628;
 			
 			// aapt resource value: 0x7f040035
-			public const int notification_media_action = 2130968629;
+			public const int notification_template_part_chronometer = 2130968629;
 			
 			// aapt resource value: 0x7f040036
-			public const int notification_media_cancel_action = 2130968630;
+			public const int notification_template_part_time = 2130968630;
 			
 			// aapt resource value: 0x7f040037
-			public const int notification_template_big_media = 2130968631;
+			public const int overlay = 2130968631;
 			
 			// aapt resource value: 0x7f040038
-			public const int notification_template_big_media_narrow = 2130968632;
+			public const int RowLeft = 2130968632;
 			
 			// aapt resource value: 0x7f040039
-			public const int notification_template_lines = 2130968633;
+			public const int RowRight = 2130968633;
 			
 			// aapt resource value: 0x7f04003a
-			public const int notification_template_media = 2130968634;
+			public const int select_dialog_item_material = 2130968634;
 			
 			// aapt resource value: 0x7f04003b
-			public const int notification_template_part_chronometer = 2130968635;
+			public const int select_dialog_multichoice_material = 2130968635;
 			
 			// aapt resource value: 0x7f04003c
-			public const int notification_template_part_time = 2130968636;
+			public const int select_dialog_singlechoice_material = 2130968636;
 			
 			// aapt resource value: 0x7f04003d
-			public const int overlay = 2130968637;
+			public const int Signature = 2130968637;
 			
 			// aapt resource value: 0x7f04003e
-			public const int RowLeft = 2130968638;
+			public const int societe = 2130968638;
 			
 			// aapt resource value: 0x7f04003f
-			public const int RowRight = 2130968639;
+			public const int support_simple_spinner_dropdown_item = 2130968639;
 			
 			// aapt resource value: 0x7f040040
-			public const int select_dialog_item_material = 2130968640;
+			public const int swipe = 2130968640;
 			
 			// aapt resource value: 0x7f040041
-			public const int select_dialog_multichoice_material = 2130968641;
+			public const int valideDialBox = 2130968641;
 			
 			// aapt resource value: 0x7f040042
-			public const int select_dialog_singlechoice_material = 2130968642;
+			public const int zxingscanneractivitylayout = 2130968642;
 			
 			// aapt resource value: 0x7f040043
-			public const int Signature = 2130968643;
-			
-			// aapt resource value: 0x7f040044
-			public const int societe = 2130968644;
-			
-			// aapt resource value: 0x7f040045
-			public const int support_simple_spinner_dropdown_item = 2130968645;
-			
-			// aapt resource value: 0x7f040046
-			public const int swipe = 2130968646;
-			
-			// aapt resource value: 0x7f040047
-			public const int valideDialBox = 2130968647;
-			
-			// aapt resource value: 0x7f040048
-			public const int zxingscanneractivitylayout = 2130968648;
-			
-			// aapt resource value: 0x7f040049
-			public const int zxingscannerfragmentlayout = 2130968649;
+			public const int zxingscannerfragmentlayout = 2130968643;
 			
 			static Layout()
 			{
@@ -2892,11 +2638,11 @@ namespace DMS_3
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f070066
-			public const int Recherche = 2131165286;
+			// aapt resource value: 0x7f07001f
+			public const int Recherche = 2131165215;
 			
-			// aapt resource value: 0x7f07005e
-			public const int Valider = 2131165278;
+			// aapt resource value: 0x7f070017
+			public const int Valider = 2131165207;
 			
 			// aapt resource value: 0x7f070000
 			public const int abc_action_bar_home_description = 2131165184;
@@ -2949,263 +2695,50 @@ namespace DMS_3
 			// aapt resource value: 0x7f070010
 			public const int abc_toolbar_collapse_description = 2131165200;
 			
-			// aapt resource value: 0x7f07005f
-			public const int all = 2131165279;
-			
-			// aapt resource value: 0x7f070065
-			public const int anomalie = 2131165285;
-			
-			// aapt resource value: 0x7f07005b
-			public const int app_name = 2131165275;
-			
-			// aapt resource value: 0x7f070064
-			public const int client = 2131165284;
-			
-			// aapt resource value: 0x7f070061
-			public const int commande = 2131165281;
-			
-			// aapt resource value: 0x7f070063
-			public const int enlevement = 2131165283;
-			
-			// aapt resource value: 0x7f07005a
-			public const int hello = 2131165274;
-			
-			// aapt resource value: 0x7f070013
-			public const int hockeyapp_crash_dialog_app_name_fallback = 2131165203;
-			
-			// aapt resource value: 0x7f070014
-			public const int hockeyapp_crash_dialog_message = 2131165204;
-			
-			// aapt resource value: 0x7f070015
-			public const int hockeyapp_crash_dialog_negative_button = 2131165205;
-			
-			// aapt resource value: 0x7f070016
-			public const int hockeyapp_crash_dialog_neutral_button = 2131165206;
-			
-			// aapt resource value: 0x7f070017
-			public const int hockeyapp_crash_dialog_positive_button = 2131165207;
-			
 			// aapt resource value: 0x7f070018
-			public const int hockeyapp_crash_dialog_title = 2131165208;
-			
-			// aapt resource value: 0x7f070019
-			public const int hockeyapp_dialog_error_message = 2131165209;
-			
-			// aapt resource value: 0x7f07001a
-			public const int hockeyapp_dialog_error_title = 2131165210;
-			
-			// aapt resource value: 0x7f07001b
-			public const int hockeyapp_dialog_negative_button = 2131165211;
-			
-			// aapt resource value: 0x7f07001c
-			public const int hockeyapp_dialog_positive_button = 2131165212;
-			
-			// aapt resource value: 0x7f07001d
-			public const int hockeyapp_download_failed_dialog_message = 2131165213;
+			public const int all = 2131165208;
 			
 			// aapt resource value: 0x7f07001e
-			public const int hockeyapp_download_failed_dialog_negative_button = 2131165214;
+			public const int anomalie = 2131165214;
 			
-			// aapt resource value: 0x7f07001f
-			public const int hockeyapp_download_failed_dialog_positive_button = 2131165215;
+			// aapt resource value: 0x7f070014
+			public const int app_name = 2131165204;
 			
-			// aapt resource value: 0x7f070020
-			public const int hockeyapp_download_failed_dialog_title = 2131165216;
+			// aapt resource value: 0x7f07001d
+			public const int client = 2131165213;
 			
-			// aapt resource value: 0x7f070021
-			public const int hockeyapp_error_no_network_message = 2131165217;
+			// aapt resource value: 0x7f07001a
+			public const int commande = 2131165210;
 			
-			// aapt resource value: 0x7f070022
-			public const int hockeyapp_expiry_info_text = 2131165218;
+			// aapt resource value: 0x7f07001c
+			public const int enlevement = 2131165212;
 			
-			// aapt resource value: 0x7f070023
-			public const int hockeyapp_expiry_info_title = 2131165219;
-			
-			// aapt resource value: 0x7f070024
-			public const int hockeyapp_feedback_attach_file = 2131165220;
-			
-			// aapt resource value: 0x7f070025
-			public const int hockeyapp_feedback_attach_picture = 2131165221;
-			
-			// aapt resource value: 0x7f070026
-			public const int hockeyapp_feedback_attachment_button_text = 2131165222;
-			
-			// aapt resource value: 0x7f070027
-			public const int hockeyapp_feedback_attachment_error = 2131165223;
-			
-			// aapt resource value: 0x7f070028
-			public const int hockeyapp_feedback_attachment_loading = 2131165224;
-			
-			// aapt resource value: 0x7f070029
-			public const int hockeyapp_feedback_email_hint = 2131165225;
-			
-			// aapt resource value: 0x7f07002a
-			public const int hockeyapp_feedback_failed_text = 2131165226;
-			
-			// aapt resource value: 0x7f07002b
-			public const int hockeyapp_feedback_failed_title = 2131165227;
-			
-			// aapt resource value: 0x7f07002c
-			public const int hockeyapp_feedback_fetching_feedback_text = 2131165228;
-			
-			// aapt resource value: 0x7f07002d
-			public const int hockeyapp_feedback_generic_error = 2131165229;
-			
-			// aapt resource value: 0x7f07002e
-			public const int hockeyapp_feedback_last_updated_text = 2131165230;
-			
-			// aapt resource value: 0x7f07002f
-			public const int hockeyapp_feedback_max_attachments_allowed = 2131165231;
-			
-			// aapt resource value: 0x7f070030
-			public const int hockeyapp_feedback_message_hint = 2131165232;
-			
-			// aapt resource value: 0x7f070031
-			public const int hockeyapp_feedback_name_hint = 2131165233;
-			
-			// aapt resource value: 0x7f070032
-			public const int hockeyapp_feedback_refresh_button_text = 2131165234;
-			
-			// aapt resource value: 0x7f070033
-			public const int hockeyapp_feedback_response_button_text = 2131165235;
-			
-			// aapt resource value: 0x7f070034
-			public const int hockeyapp_feedback_select_file = 2131165236;
-			
-			// aapt resource value: 0x7f070035
-			public const int hockeyapp_feedback_select_picture = 2131165237;
-			
-			// aapt resource value: 0x7f070036
-			public const int hockeyapp_feedback_send_button_text = 2131165238;
-			
-			// aapt resource value: 0x7f070037
-			public const int hockeyapp_feedback_send_generic_error = 2131165239;
-			
-			// aapt resource value: 0x7f070038
-			public const int hockeyapp_feedback_send_network_error = 2131165240;
-			
-			// aapt resource value: 0x7f070039
-			public const int hockeyapp_feedback_sending_feedback_text = 2131165241;
-			
-			// aapt resource value: 0x7f07003a
-			public const int hockeyapp_feedback_subject_hint = 2131165242;
-			
-			// aapt resource value: 0x7f07003b
-			public const int hockeyapp_feedback_title = 2131165243;
-			
-			// aapt resource value: 0x7f07003c
-			public const int hockeyapp_feedback_validate_email_empty = 2131165244;
-			
-			// aapt resource value: 0x7f07003d
-			public const int hockeyapp_feedback_validate_email_error = 2131165245;
-			
-			// aapt resource value: 0x7f07003e
-			public const int hockeyapp_feedback_validate_name_error = 2131165246;
-			
-			// aapt resource value: 0x7f07003f
-			public const int hockeyapp_feedback_validate_subject_error = 2131165247;
-			
-			// aapt resource value: 0x7f070040
-			public const int hockeyapp_feedback_validate_text_error = 2131165248;
-			
-			// aapt resource value: 0x7f070041
-			public const int hockeyapp_login_email_hint = 2131165249;
-			
-			// aapt resource value: 0x7f070042
-			public const int hockeyapp_login_headline_text = 2131165250;
-			
-			// aapt resource value: 0x7f070043
-			public const int hockeyapp_login_headline_text_email_only = 2131165251;
-			
-			// aapt resource value: 0x7f070044
-			public const int hockeyapp_login_login_button_text = 2131165252;
-			
-			// aapt resource value: 0x7f070045
-			public const int hockeyapp_login_missing_credentials_toast = 2131165253;
-			
-			// aapt resource value: 0x7f070046
-			public const int hockeyapp_login_password_hint = 2131165254;
-			
-			// aapt resource value: 0x7f070047
-			public const int hockeyapp_paint_dialog_message = 2131165255;
-			
-			// aapt resource value: 0x7f070048
-			public const int hockeyapp_paint_dialog_negative_button = 2131165256;
-			
-			// aapt resource value: 0x7f070049
-			public const int hockeyapp_paint_dialog_neutral_button = 2131165257;
-			
-			// aapt resource value: 0x7f07004a
-			public const int hockeyapp_paint_dialog_positive_button = 2131165258;
-			
-			// aapt resource value: 0x7f07004b
-			public const int hockeyapp_paint_indicator_toast = 2131165259;
-			
-			// aapt resource value: 0x7f07004c
-			public const int hockeyapp_paint_menu_clear = 2131165260;
-			
-			// aapt resource value: 0x7f07004d
-			public const int hockeyapp_paint_menu_save = 2131165261;
-			
-			// aapt resource value: 0x7f07004e
-			public const int hockeyapp_paint_menu_undo = 2131165262;
-			
-			// aapt resource value: 0x7f07004f
-			public const int hockeyapp_permission_dialog_negative_button = 2131165263;
-			
-			// aapt resource value: 0x7f070050
-			public const int hockeyapp_permission_dialog_positive_button = 2131165264;
-			
-			// aapt resource value: 0x7f070051
-			public const int hockeyapp_permission_update_message = 2131165265;
-			
-			// aapt resource value: 0x7f070052
-			public const int hockeyapp_permission_update_title = 2131165266;
-			
-			// aapt resource value: 0x7f070053
-			public const int hockeyapp_update_button = 2131165267;
-			
-			// aapt resource value: 0x7f070054
-			public const int hockeyapp_update_dialog_message = 2131165268;
-			
-			// aapt resource value: 0x7f070055
-			public const int hockeyapp_update_dialog_negative_button = 2131165269;
-			
-			// aapt resource value: 0x7f070056
-			public const int hockeyapp_update_dialog_positive_button = 2131165270;
-			
-			// aapt resource value: 0x7f070057
-			public const int hockeyapp_update_dialog_title = 2131165271;
-			
-			// aapt resource value: 0x7f070058
-			public const int hockeyapp_update_mandatory_toast = 2131165272;
-			
-			// aapt resource value: 0x7f070059
-			public const int hockeyapp_update_version_details_label = 2131165273;
+			// aapt resource value: 0x7f070013
+			public const int hello = 2131165203;
 			
 			// aapt resource value: 0x7f070012
 			public const int library_name = 2131165202;
 			
-			// aapt resource value: 0x7f070062
-			public const int livraison = 2131165282;
+			// aapt resource value: 0x7f07001b
+			public const int livraison = 2131165211;
 			
-			// aapt resource value: 0x7f07005d
-			public const int password = 2131165277;
+			// aapt resource value: 0x7f070016
+			public const int password = 2131165206;
 			
 			// aapt resource value: 0x7f070011
 			public const int status_bar_notification_info_overflow = 2131165201;
 			
-			// aapt resource value: 0x7f070067
-			public const int tablechargee = 2131165287;
+			// aapt resource value: 0x7f070020
+			public const int tablechargee = 2131165216;
 			
-			// aapt resource value: 0x7f070068
-			public const int takeflash = 2131165288;
+			// aapt resource value: 0x7f070021
+			public const int takeflash = 2131165217;
 			
-			// aapt resource value: 0x7f070060
-			public const int trait = 2131165280;
+			// aapt resource value: 0x7f070019
+			public const int trait = 2131165209;
 			
-			// aapt resource value: 0x7f07005c
-			public const int user = 2131165276;
+			// aapt resource value: 0x7f070015
+			public const int user = 2131165205;
 			
 			static String()
 			{
@@ -3629,19 +3162,10 @@ namespace DMS_3
 			public const int Base_Widget_AppCompat_Toolbar_Button_Navigation = 2131296368;
 			
 			// aapt resource value: 0x7f090124
-			public const int HockeyApp_ButtonStyle = 2131296548;
+			public const int MyTheme_Base = 2131296548;
 			
 			// aapt resource value: 0x7f090125
-			public const int HockeyApp_EditTextStyle = 2131296549;
-			
-			// aapt resource value: 0x7f090126
-			public const int HockeyApp_SingleLineInputStyle = 2131296550;
-			
-			// aapt resource value: 0x7f090127
-			public const int MyTheme_Base = 2131296551;
-			
-			// aapt resource value: 0x7f090128
-			public const int MyTheme_Splash = 2131296552;
+			public const int MyTheme_Splash = 2131296549;
 			
 			// aapt resource value: 0x7f090010
 			public const int Platform_AppCompat = 2131296272;
@@ -4111,8 +3635,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f090123
 			public const int Widget_AppCompat_Toolbar_Button_Navigation = 2131296547;
 			
-			// aapt resource value: 0x7f090129
-			public const int button_text = 2131296553;
+			// aapt resource value: 0x7f090126
+			public const int button_text = 2131296550;
 			
 			static Style()
 			{

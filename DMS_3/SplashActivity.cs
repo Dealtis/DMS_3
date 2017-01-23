@@ -12,6 +12,7 @@ using Android.Preferences;
 using Android.Telephony;
 using Android.Widget;
 using DMS_3.BDD;
+
 namespace DMS_3
 {
 	[Activity(Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]

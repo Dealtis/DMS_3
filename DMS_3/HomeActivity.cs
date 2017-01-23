@@ -1,16 +1,16 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using DMS_3.BDD;
-using HockeyApp.Android;
-using HockeyApp.Android.Metrics;
 using AlertDialog = Android.Support.V7.App.AlertDialog;
-using Microsoft.Azure.Mobile;
-using Microsoft.Azure.Mobile.Analytics;
-using Microsoft.Azure.Mobile.Crashes;
+using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
+using RaygunIdentifierMessage = Mindscape.Raygun4Net.Messages.RaygunIdentifierMessage;
+using Android.Telephony;
+using Android.Bluetooth;
 
 namespace DMS_3
 {
@@ -59,16 +59,22 @@ namespace DMS_3
 			btn_Livraison.Click += delegate { btn_Livraison_Click(); };
 			btn_Enlevement.Click += delegate { btn_Enlevement_Click(); };
 			btn_Config.LongClick += Btn_Config_LongClick;
+			//btn_Livraison.LongClick += Btn_Livraison_LongClick;
 			btn_Message.Click += delegate { btn_Message_Click(); };
 			btn_Flash.Click += delegate { btn_Flash_Click(); };
 
 			string APP_ID = "337f4f12782f47e590a7e84867bc087a";
 
-			//Hockey APP
-			CrashManager.Register(this, "337f4f12782f47e590a7e84867bc087a");
-			MetricsManager.Register(Application, "337f4f12782f47e590a7e84867bc087a");
-			MetricsManager.EnableUserMetrics();
-			CrashManager.Register(this, APP_ID, new HockeyCrashManagerSettings());
+			var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
+
+			// Raygun4Net
+			RaygunClient.Initialize("VXMXLFnw+2LJyuTXX8taYg==").AttachCrashReporting().AttachPulse(this);
+		
+			RaygunClient.Current.UserInfo = new RaygunIdentifierMessage(Data.userAndsoft)
+			{
+				IsAnonymous = false,
+				FullName = telephonyManager.DeviceId
+			};
 
 			//FONTS
 			txtLivraison.SetTypeface(Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);
@@ -83,8 +89,7 @@ namespace DMS_3
 
 		//void Btn_Livraison_LongClick(object sender, View.LongClickEventArgs e)
 		//{
-		//	DBRepository dbr = new DBRepository();
-		//	dbr.resetColis();
+		//	RaygunClient.Current.SendInBackground(new Exception("Something has gone horribly wrong"));
 		//}
 
 		void Btn_Config_LongClick(object sender, View.LongClickEventArgs e)

@@ -20,7 +20,7 @@ using Uri = Android.Net.Uri;
 using Android.Support.V7.App;
 using Android.Preferences;
 using System.Net.Cache;
-//using Koamtac.Kdc.Sdk;
+using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
 
 namespace DMS_3
 {
