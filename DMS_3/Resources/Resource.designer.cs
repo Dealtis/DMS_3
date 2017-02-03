@@ -1663,14 +1663,14 @@ namespace DMS_3
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f0d005a
-			public const int ML = 2131558490;
+			// aapt resource value: 0x7f0d005b
+			public const int ML = 2131558491;
 			
-			// aapt resource value: 0x7f0d0055
-			public const int TxtColis = 2131558485;
+			// aapt resource value: 0x7f0d0056
+			public const int TxtColis = 2131558486;
 			
-			// aapt resource value: 0x7f0d0057
-			public const int TxtPalette = 2131558487;
+			// aapt resource value: 0x7f0d0058
+			public const int TxtPalette = 2131558488;
 			
 			// aapt resource value: 0x7f0d0073
 			public const int _imageView = 2131558515;
@@ -1741,8 +1741,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0079
 			public const int barcode = 2131558521;
 			
-			// aapt resource value: 0x7f0d005f
-			public const int barrecode = 2131558495;
+			// aapt resource value: 0x7f0d0060
+			public const int barrecode = 2131558496;
 			
 			// aapt resource value: 0x7f0d0095
 			public const int bdgLiv = 2131558549;
@@ -1777,8 +1777,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d00ac
 			public const int btn_search = 2131558572;
 			
-			// aapt resource value: 0x7f0d0066
-			public const int btn_send = 2131558502;
+			// aapt resource value: 0x7f0d0068
+			public const int btn_send = 2131558504;
 			
 			// aapt resource value: 0x7f0d008b
 			public const int btn_termine = 2131558539;
@@ -1786,8 +1786,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d00aa
 			public const int btn_traite = 2131558570;
 			
-			// aapt resource value: 0x7f0d0060
-			public const int btn_valid = 2131558496;
+			// aapt resource value: 0x7f0d0061
+			public const int btn_valid = 2131558497;
 			
 			// aapt resource value: 0x7f0d0089
 			public const int btn_valider = 2131558537;
@@ -1798,8 +1798,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d00be
 			public const int btnlogin = 2131558590;
 			
-			// aapt resource value: 0x7f0d0062
-			public const int button1 = 2131558498;
+			// aapt resource value: 0x7f0d0063
+			public const int button1 = 2131558499;
 			
 			// aapt resource value: 0x7f0d0036
 			public const int buttonPanel = 2131558454;
@@ -1810,8 +1810,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d00d6
 			public const int checkBox1 = 2131558614;
 			
-			// aapt resource value: 0x7f0d005b
-			public const int checkBoxPartic = 2131558491;
+			// aapt resource value: 0x7f0d005c
+			public const int checkBoxPartic = 2131558492;
 			
 			// aapt resource value: 0x7f0d0038
 			public const int checkbox = 2131558456;
@@ -1825,8 +1825,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d006a
 			public const int codelivraison = 2131558506;
 			
-			// aapt resource value: 0x7f0d0054
-			public const int colis = 2131558484;
+			// aapt resource value: 0x7f0d0055
+			public const int colis = 2131558485;
 			
 			// aapt resource value: 0x7f0d0017
 			public const int collapseActionView = 2131558423;
@@ -1888,14 +1888,14 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0042
 			public const int edit_query = 2131558466;
 			
-			// aapt resource value: 0x7f0d0065
-			public const int editnewmsg = 2131558501;
+			// aapt resource value: 0x7f0d0067
+			public const int editnewmsg = 2131558503;
 			
-			// aapt resource value: 0x7f0d0061
-			public const int editrecherche = 2131558497;
+			// aapt resource value: 0x7f0d0062
+			public const int editrecherche = 2131558498;
 			
-			// aapt resource value: 0x7f0d0052
-			public const int edittext = 2131558482;
+			// aapt resource value: 0x7f0d0053
+			public const int edittext = 2131558483;
 			
 			// aapt resource value: 0x7f0d0014
 			public const int end = 2131558420;
@@ -1933,8 +1933,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0028
 			public const int image = 2131558440;
 			
-			// aapt resource value: 0x7f0d005c
-			public const int imageView1 = 2131558492;
+			// aapt resource value: 0x7f0d005d
+			public const int imageView1 = 2131558493;
 			
 			// aapt resource value: 0x7f0d00a1
 			public const int imageView2 = 2131558561;
@@ -1990,8 +1990,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d004f
 			public const int layoutanomalie = 2131558479;
 			
-			// aapt resource value: 0x7f0d0063
-			public const int layoutlistlivraison = 2131558499;
+			// aapt resource value: 0x7f0d0064
+			public const int layoutlistlivraison = 2131558500;
 			
 			// aapt resource value: 0x7f0d00a6
 			public const int lblButton8 = 2131558566;
@@ -2005,11 +2005,11 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d00c8
 			public const int line3 = 2131558600;
 			
-			// aapt resource value: 0x7f0d0050
-			public const int linearLayout1 = 2131558480;
+			// aapt resource value: 0x7f0d0066
+			public const int linearLayout1 = 2131558502;
 			
-			// aapt resource value: 0x7f0d0053
-			public const int linearLayout2 = 2131558483;
+			// aapt resource value: 0x7f0d0054
+			public const int linearLayout2 = 2131558484;
 			
 			// aapt resource value: 0x7f0d007b
 			public const int linearLayout3 = 2131558523;
@@ -2023,8 +2023,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0009
 			public const int listMode = 2131558409;
 			
-			// aapt resource value: 0x7f0d0064
-			public const int listViewBox = 2131558500;
+			// aapt resource value: 0x7f0d0065
+			public const int listViewBox = 2131558501;
 			
 			// aapt resource value: 0x7f0d002a
 			public const int list_item = 2131558442;
@@ -2074,11 +2074,11 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d000a
 			public const int normal = 2131558410;
 			
-			// aapt resource value: 0x7f0d005e
-			public const int openCamera = 2131558494;
+			// aapt resource value: 0x7f0d005f
+			public const int openCamera = 2131558495;
 			
-			// aapt resource value: 0x7f0d0056
-			public const int palette = 2131558486;
+			// aapt resource value: 0x7f0d0057
+			public const int palette = 2131558487;
 			
 			// aapt resource value: 0x7f0d002d
 			public const int parentPanel = 2131558445;
@@ -2095,8 +2095,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d009c
 			public const int peekupBadgeText = 2131558556;
 			
-			// aapt resource value: 0x7f0d0058
-			public const int poids = 2131558488;
+			// aapt resource value: 0x7f0d0059
+			public const int poids = 2131558489;
 			
 			// aapt resource value: 0x7f0d0005
 			public const int progress_circular = 2131558405;
@@ -2140,8 +2140,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0032
 			public const int scrollView = 2131558450;
 			
-			// aapt resource value: 0x7f0d0067
-			public const int scrollView1 = 2131558503;
+			// aapt resource value: 0x7f0d0050
+			public const int scrollView1 = 2131558480;
 			
 			// aapt resource value: 0x7f0d0044
 			public const int search_badge = 2131558468;
@@ -2194,8 +2194,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d00ab
 			public const int space1 = 2131558571;
 			
-			// aapt resource value: 0x7f0d0051
-			public const int spinnerAnomalie = 2131558481;
+			// aapt resource value: 0x7f0d0052
+			public const int spinnerAnomalie = 2131558482;
 			
 			// aapt resource value: 0x7f0d00d2
 			public const int spinnerSoc = 2131558610;
@@ -2224,8 +2224,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d0085
 			public const int tableEvenement = 2131558533;
 			
-			// aapt resource value: 0x7f0d0068
-			public const int tableLayout1 = 2131558504;
+			// aapt resource value: 0x7f0d0051
+			public const int tableLayout1 = 2131558481;
 			
 			// aapt resource value: 0x7f0d00cd
 			public const int tableRow1 = 2131558605;
@@ -2290,8 +2290,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d00ad
 			public const int txtName = 2131558573;
 			
-			// aapt resource value: 0x7f0d0059
-			public const int txtTonnes = 2131558489;
+			// aapt resource value: 0x7f0d005a
+			public const int txtTonnes = 2131558490;
 			
 			// aapt resource value: 0x7f0d00b5
 			public const int txtright = 2131558581;
@@ -2311,8 +2311,8 @@ namespace DMS_3
 			// aapt resource value: 0x7f0d00d3
 			public const int valideSoc = 2131558611;
 			
-			// aapt resource value: 0x7f0d005d
-			public const int valider = 2131558493;
+			// aapt resource value: 0x7f0d005e
+			public const int valider = 2131558494;
 			
 			// aapt resource value: 0x7f0d00d4
 			public const int velocity_text_view = 2131558612;

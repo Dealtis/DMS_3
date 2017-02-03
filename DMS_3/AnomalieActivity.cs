@@ -118,6 +118,9 @@ namespace DMS_3
 					palette.Visibility = Android.Views.ViewStates.Gone;
 					poids.Visibility = Android.Views.ViewStates.Gone;
 					ML.Visibility = Android.Views.ViewStates.Gone;
+					txtcolis.Visibility = Android.Views.ViewStates.Gone;
+					txtpalette.Visibility = Android.Views.ViewStates.Gone;
+					txttonnes.Visibility = Android.Views.ViewStates.Gone;
 					break;
 				case "Choisir une anomalie":
 					editText.Visibility = Android.Views.ViewStates.Gone;
@@ -125,6 +128,9 @@ namespace DMS_3
 					palette.Visibility = Android.Views.ViewStates.Gone;
 					poids.Visibility = Android.Views.ViewStates.Gone;
 					ML.Visibility = Android.Views.ViewStates.Gone;
+					txtcolis.Visibility = Android.Views.ViewStates.Gone;
+					txtpalette.Visibility = Android.Views.ViewStates.Gone;
+					txttonnes.Visibility = Android.Views.ViewStates.Gone;
 					break;
 				default:
 					editText.Visibility = Android.Views.ViewStates.Visible;
@@ -132,6 +138,9 @@ namespace DMS_3
 					palette.Visibility = Android.Views.ViewStates.Gone;
 					poids.Visibility = Android.Views.ViewStates.Gone;
 					ML.Visibility = Android.Views.ViewStates.Gone;
+					txtcolis.Visibility = Android.Views.ViewStates.Gone;
+					txtpalette.Visibility = Android.Views.ViewStates.Gone;
+					txttonnes.Visibility = Android.Views.ViewStates.Gone;
 					break;
 			}
 			if (txtspinner == "Restaure en non traite" || txtspinner == "Choisir une anomalie")

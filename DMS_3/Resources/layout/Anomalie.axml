@@ -3,133 +3,130 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:id="@+id/layoutanomalie">
-    <LinearLayout
-        android:orientation="horizontal"
+    android:id="@+id/layoutanomalie"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+    <ScrollView
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayout1" />
-    <Spinner
-        android:id="@+id/spinnerAnomalie"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <EditText
-        android:id="@+id/edittext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:phoneNumber="false"
-        android:password="false"
-        android:inputType="textLongMessage"
-        android:imeOptions="actionNext" />
-    <LinearLayout
-        android:orientation="horizontal"
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayout2">
-        <EditText
-            android:id="@+id/colis"
-            android:visibility="gone"
-            android:password="false"
-            android:phoneNumber="false"
-            android:numeric="integer"
-            android:imeOptions="actionNext"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-        <TextView
-            android:text="Colis"
-            android:id="@+id/TxtColis"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:background="@color/gray"
-            android:layout_weight=".1"
-            android:textColor="#ff424242"
-            android:visibility="gone" />
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayout2">
-        <EditText
-            android:id="@+id/palette"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView1"
+        android:layout_weight=".8">
+        <TableLayout
+            android:minWidth="25px"
+            android:minHeight="25px"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:password="false"
-            android:phoneNumber="false"
-            android:numeric="integer"
-            android:imeOptions="actionNext" />
-        <TextView xmlns:tools="http://schemas.android.com/tools"
-            android:text="Palette"
-            android:id="@+id/TxtPalette"
-            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:background="@color/gray"
-            android:layout_weight=".1"
-            android:textColor="#ff424242"
-            android:visibility="gone" />
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayout2">
-        <EditText xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/poids"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:password="false"
-            android:phoneNumber="false"
-            android:numeric="integer"
-            android:imeOptions="actionNext" />
-        <TextView xmlns:tools="http://schemas.android.com/tools"
-            android:text="Tonnes"
-            android:id="@+id/txtTonnes"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:background="@color/gray"
-            android:layout_weight=".1"
-            android:textColor="#ff424242"
-            android:visibility="gone" />
-    </LinearLayout>
-    <EditText xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/ML"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:password="false"
-        android:phoneNumber="false"
-        android:numeric="integer"
-        android:imeOptions="actionDone" />
-    <CheckBox
-        android:text="Particulier"
-        android:id="@+id/checkBoxPartic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_gravity="center" />
-    <ImageView
-        android:src="@android:drawable/ic_menu_gallery"
-        android:layout_width="match_parent"
-        android:id="@+id/imageView1"
-        android:layout_height="223.9dp" />
+            android:id="@+id/tableLayout1">
+            <Spinner
+                android:id="@+id/spinnerAnomalie"
+                android:minHeight="@dimen/dim35"
+                android:paddingTop="@dimen/dim10"
+                android:paddingBottom="@dimen/dim10" />
+            <EditText
+                android:id="@+id/edittext"
+                android:phoneNumber="false"
+                android:password="false"
+                android:inputType="textLongMessage"
+                android:imeOptions="actionDone" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:id="@+id/linearLayout2">
+                <EditText
+                    android:id="@+id/colis"
+                    android:visibility="gone"
+                    android:password="false"
+                    android:phoneNumber="false"
+                    android:numeric="integer"
+                    android:imeOptions="actionNext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+                <TextView
+                    android:text="Colis"
+                    android:id="@+id/TxtColis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_weight=".1"
+                    android:textColor="#fffafafa"
+                    android:visibility="gone" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:id="@+id/linearLayout2">
+                <EditText
+                    android:id="@+id/palette"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    android:password="false"
+                    android:phoneNumber="false"
+                    android:numeric="integer"
+                    android:imeOptions="actionNext"
+                    android:layout_weight="1" />
+                <TextView xmlns:tools="http://schemas.android.com/tools"
+                    android:text="Palette"
+                    android:id="@+id/TxtPalette"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_weight=".1"
+                    android:textColor="#fffafafa"
+                    android:visibility="gone" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:id="@+id/linearLayout2">
+                <EditText xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/poids"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    android:password="false"
+                    android:phoneNumber="false"
+                    android:numeric="integer"
+                    android:imeOptions="actionNext"
+                    android:layout_weight="1" />
+                <TextView xmlns:tools="http://schemas.android.com/tools"
+                    android:text="Tonnes"
+                    android:id="@+id/txtTonnes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_weight=".1"
+                    android:textColor="#fffafafa"
+                    android:visibility="gone" />
+            </LinearLayout>
+            <EditText xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/ML"
+                android:visibility="gone"
+                android:password="false"
+                android:phoneNumber="false"
+                android:numeric="integer"
+                android:imeOptions="actionDone" />
+            <CheckBox
+                android:text="Particulier"
+                android:id="@+id/checkBoxPartic"
+                android:layout_centerHorizontal="true" />
+            <ImageView
+                android:src="@android:drawable/ic_menu_gallery"
+                android:id="@+id/imageView1"
+                android:layout_height="@dimen/dim200"
+                android:layout_width="wrap_content" />
+        </TableLayout>
+    </ScrollView>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:gravity="bottom"
+        android:layout_height="wrap_content"
+        android:gravity="top"
         android:orientation="horizontal"
         android:weightSum="1.0">
         <Button
