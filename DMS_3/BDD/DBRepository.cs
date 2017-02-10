@@ -2,6 +2,8 @@ using System;
 using SQLite;
 using System.Collections.Generic;
 using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
+using System.Threading.Tasks;
+using Android.Util;
 
 namespace DMS_3.BDD
 {
@@ -9,84 +11,61 @@ namespace DMS_3.BDD
 	public class DBRepository
 	{
 		//Instance
-		private static DBRepository instance;
+		//private static DBRepository instance;
 
-		private static SQLiteConnection db;
+		static readonly string TAG = "X:" + typeof(ProcessDMS).Name;
 
-		public static DBRepository Instance
-		{
-			get
-			{
-				if (instance == null)
-				{
-					instance = new DBRepository();
-					try
-					{
-						instance.CreateDB();
-					}
-					catch (Exception ex)
-					{
-						RaygunClient.Current.SendInBackground(ex);
-					}
-				}
-				return instance;
-			}
-		}
-
-
-		//CREATE BDD
-		public string CreateDB()
-		{
-			try
-			{
-				var output = "";
-				output += "Création de la BDD";
-				db = new SQLiteConnection(System.IO.Path.Combine(Environment.GetFolderPath
-					(Environment.SpecialFolder.Personal), "ormDMS.db3"));
-				output += "\nBDD crée...";
-				return output;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex);
-				RaygunClient.Current.SendInBackground(ex);
-				return "error";
-			}
-		}
+		SQLiteConnectionString Path = new SQLiteConnectionString(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "ormDMS.db3"), true);
 
 		//CREATE TABLE
-		public string CreateTable()
+		public bool CreateTable()
 		{
 			try
 			{
-				db.CreateTable<TableUser>();
-				db.CreateTable<TablePositions>();
-				db.CreateTable<TableStatutPositions>();
-				db.CreateTable<TableMessages>();
-				db.CreateTable<TableNotifications>();
-				db.CreateTable<TableColis>();
-				string result = "Tables crées !";
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
 
-				return result;
+				conn.CreateTable<TableUser>();
+				conn.CreateTable<TablePositions>();
+				conn.CreateTable<TableStatutPositions>();
+				conn.CreateTable<TableMessages>();
+				conn.CreateTable<TableNotifications>();
+				conn.CreateTable<TableColis>();
+
+				conn.Close();
+				Log.Debug(TAG, $"CreateTable done in ${conn.BusyTimeout}");
+				return true;
 			}
 			catch (SQLiteException ex)
 			{
 				RaygunClient.Current.SendInBackground(ex);
-				return "Erreur : " + ex.Message;
+				return false;
 			}
 		}
 
 		//VERIF SI USER DEJA INTEGRER
 		public bool user_AlreadyExist(string user_AndsoftUser, string user_TransicsUser, string user_Password, string user_UseSigna, string user_Societe)
 		{
-			bool output = false;
-			var table = db.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(user_AndsoftUser)).Where(v => v.user_TransicsUser.Equals(user_TransicsUser)).Where(v => v.user_Password.Equals(user_Password)).Where(v => v.user_UseSigna.Equals(user_UseSigna)).Where(v => v.user_Societe.Equals(user_Societe));
-			foreach (var item in table)
+			try
 			{
-				output = true;
-			}
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
 
-			return output;
+				bool output = false;
+				var table = conn.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(user_AndsoftUser)).Where(v => v.user_TransicsUser.Equals(user_TransicsUser)).Where(v => v.user_Password.Equals(user_Password)).Where(v => v.user_UseSigna.Equals(user_UseSigna)).Where(v => v.user_Societe.Equals(user_Societe));
+				foreach (var item in table)
+				{
+					output = true;
+				}
+
+				conn.Close();
+				return output;
+			}
+			catch (Exception ex)
+			{
+				RaygunClient.Current.SendInBackground(ex);
+				return false;
+			}
 		}
 
 		//Insertion des DATS USER
@@ -94,6 +73,9 @@ namespace DMS_3.BDD
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 				TableUser item = new TableUser();
 				item.user_AndsoftUser = user_AndsoftUser;
 				item.user_TransicsUser = user_TransicsUser;
@@ -101,8 +83,9 @@ namespace DMS_3.BDD
 				item.user_UseSigna = user_UseSigna;
 				item.user_UsePartic = User_Usepartic;
 				item.user_Societe = user_Societe;
-				db.Insert(item);
+				conn.Insert(item);
 
+				conn.Close();
 				return "Insertion" + user_AndsoftUser + " réussite";
 			}
 			catch (SQLiteException ex)
@@ -117,6 +100,9 @@ namespace DMS_3.BDD
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 				TablePositions item = new TablePositions();
 				item.idSegment = idSegment;
 				item.codeLivraison = codeLivraison;
@@ -156,8 +142,8 @@ namespace DMS_3.BDD
 				item.imgpath = imgpath;
 				item.positionPole = positionPole;
 
-				db.Insert(item);
-
+				conn.Insert(item);
+				conn.Close();
 				return "Insertion good";
 			}
 			catch (SQLiteException ex)
@@ -172,6 +158,9 @@ namespace DMS_3.BDD
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 				TableMessages item = new TableMessages();
 				item.codeChauffeur = codeChauffeur;
 				item.utilisateurEmetteur = utilisateurEmetteur;
@@ -180,8 +169,9 @@ namespace DMS_3.BDD
 				item.dateImportMessage = dateImportMessage;
 				item.typeMessage = typeMessage;
 				item.numMessage = numMessage;
-				db.Insert(item);
+				conn.Insert(item);
 
+				conn.Close();
 				return "Insertion good";
 			}
 			catch (SQLiteException ex)
@@ -195,12 +185,16 @@ namespace DMS_3.BDD
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 				TableColis item = new TableColis();
 				item.numColis = numColis;
 				item.numCommande = numCommande;
 				item.flashage = false;
-				db.Insert(item);
+				conn.Insert(item);
 
+				conn.Close();
 				return "Insertion good";
 			}
 			catch (SQLiteException ex)
@@ -215,14 +209,18 @@ namespace DMS_3.BDD
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 				TableNotifications item = new TableNotifications();
 				item.statutNotificationMessage = statutNotificationMessage;
 				item.dateNotificationMessage = dateNotificationMessage;
 				item.numMessage = numMessage;
 				item.numCommande = numCommande;
 				item.groupage = groupage;
-				db.Insert(item);
+				conn.Insert(item);
 
+				conn.Close();
 				return "\n" + statutNotificationMessage + " " + numCommande;
 			}
 			catch (SQLiteException ex)
@@ -236,6 +234,9 @@ namespace DMS_3.BDD
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 				TableStatutPositions item = new TableStatutPositions();
 				item.commandesuiviliv = commandesuiviliv;
 				item.codesuiviliv = codesuiviliv;
@@ -244,8 +245,9 @@ namespace DMS_3.BDD
 				item.memosuiviliv = memosuiviliv;
 				item.datesuiviliv = datesuiviliv;
 				item.datajson = datajson;
-				db.Insert(item);
+				conn.Insert(item);
 
+				conn.Close();
 				return "Insertion good";
 			}
 			catch (SQLiteException ex)
@@ -259,12 +261,16 @@ namespace DMS_3.BDD
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 				TableLogService item = new TableLogService();
 				item.exeption = exeption;
 				item.date = date;
 				item.description = description;
-				db.Insert(item);
+				conn.Insert(item);
 
+				conn.Close();
 				return "Insertion Log good";
 			}
 			catch (Exception ex)
@@ -278,12 +284,16 @@ namespace DMS_3.BDD
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 				TableLogApp item = new TableLogApp();
 				item.exeption = exeption;
 				item.date = date;
 				item.description = description;
-				db.Insert(item);
+				conn.Insert(item);
 
+				conn.Close();
 				return "Insertion Log good";
 			}
 			catch (SQLiteException ex)
@@ -298,17 +308,21 @@ namespace DMS_3.BDD
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 				bool output = false;
 
-				var query = db.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(user_AndsoftUserTEXT)).Where(v => v.user_Password.Equals(user_PasswordTEXT));
+				var query = conn.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(user_AndsoftUserTEXT)).Where(v => v.user_Password.Equals(user_PasswordTEXT));
 
 				foreach (var item in query)
 				{
 					output = true;
-					var row = db.Get<TableUser>(item.Id);
+					var row = conn.Get<TableUser>(item.Id);
 					row.user_IsLogin = true;
-					db.Update(row);
+					conn.Update(row);
 
+					conn.Close();
 					Console.WriteLine("UPDATE GOOD" + row.user_IsLogin);
 				}
 				return output;
@@ -325,15 +339,19 @@ namespace DMS_3.BDD
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 				string output = "";
-				var row = db.Get<TablePositions>(idposition);
+				var row = conn.Get<TablePositions>(idposition);
 				row.StatutLivraison = statut;
 				row.remarque = txtRemarque;
 				row.codeAnomalie = codeAnomalie;
 				row.libeAnomalie = txtAnomalie;
-				db.Update(row);
+				conn.Update(row);
 
 				output = "UPDATE POSITIONS " + row.Id;
+				conn.Close();
 				return output;
 			}
 			catch (Exception ex)
@@ -348,17 +366,20 @@ namespace DMS_3.BDD
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 				string output = "";
-				var query = db.Table<TablePositions>().Where(v => v.numCommande.Equals(numCommande));
+				var query = conn.Table<TablePositions>().Where(v => v.numCommande.Equals(numCommande));
 				foreach (var item in query)
 				{
 					output = "YALO";
-					var row = db.Get<TablePositions>(item.Id);
+					var row = conn.Get<TablePositions>(item.Id);
 					row.imgpath = "SUPPLIV";
-					db.Update(row);
-
+					conn.Update(row);
 					Console.WriteLine("UPDATE SUPPLIV" + row.numCommande);
 				}
+				conn.Close();
 				return output;
 			}
 			catch (Exception ex)
@@ -373,21 +394,25 @@ namespace DMS_3.BDD
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 				string output = "";
-				var query = db.Table<TableColis>().Where(v => v.numColis.Equals(numColis));
+				var query = conn.Table<TableColis>().Where(v => v.numColis.Equals(numColis));
 				output = "notexist";
 				foreach (var item in query)
 				{
 					output = "exist";
 
-					var row = db.Get<TableColis>(item.Id);
+					var row = conn.Get<TableColis>(item.Id);
 					row.dateflashage = DateTime.Now;
 					row.flashage = true;
-					db.Update(row);
+					conn.Update(row);
 
 					Console.WriteLine("UPDATE COLIS" + row.numColis);
 				}
 				Console.WriteLine(output);
+				conn.Close();
 				return output;
 			}
 			catch (Exception ex)
@@ -411,67 +436,79 @@ namespace DMS_3.BDD
 
 		public int is_colis_in_truck(string numColis)
 		{
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 			var output = int.MinValue;
-			var query = db.Table<TableColis>().Where(v => v.numColis.Equals(numColis));
+			var query = conn.Table<TableColis>().Where(v => v.numColis.Equals(numColis));
 			foreach (var item in query)
 			{
-				var req = db.Table<TablePositions>().Where(v => v.numCommande.Equals(item.numCommande));
+				var req = conn.Table<TablePositions>().Where(v => v.numCommande.Equals(item.numCommande));
 				foreach (var row in req)
 				{
 					output = row.Id;
 				}
 			}
-
+			conn.Close();
 			return output;
 		}
 
 		internal int is_position_in_truck(string num)
 		{
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 			var output = int.MinValue;
-			var query = db.Table<TableColis>().Where(v => v.numCommande.Equals(num));
+			var query = conn.Table<TablePositions>().Where(v => v.numCommande.Equals(num));
 			foreach (var item in query)
 			{
-				var req = db.Table<TablePositions>().Where(v => v.numCommande.Equals(item.numCommande));
-				foreach (var row in req)
-				{
-					output = row.Id;
-				}
+				output = item.Id;
 			}
 
+			conn.Close();
 			return output;
 		}
 
 		internal bool is_colis_in_currentPos(string numColis, string numCommande)
 		{
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 			bool output = false;
-			var query = db.Table<TableColis>().Where(v => v.numColis.Equals(numColis)).Where(v => v.numCommande.Equals(numCommande));
+			var query = conn.Table<TableColis>().Where(v => v.numColis.Equals(numColis)).Where(v => v.numCommande.Equals(numCommande));
 
 			foreach (var item in query)
 			{
 				output = true;
 			}
 
+			conn.Close();
 			return output;
 		}
 
 		//USER CHECK LOGIN
 		public string is_user_Log_In()
 		{
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 			string output = "false";
-			var query = db.Table<TableUser>().Where(v => v.user_IsLogin.Equals(true));
+			var query = conn.Table<TableUser>().Where(v => v.user_IsLogin.Equals(true));
 			foreach (var item in query)
 			{
 				output = item.user_AndsoftUser;
 				Console.WriteLine("\nUSER CONNECTE" + item.user_AndsoftUser);
 			}
-
+			conn.Close();
 			return output;
 
 		}//USER CHECK SIGNA
 		public bool is_user_Sign(string userAndsoft)
 		{
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
 			bool output = false;
-			var query = db.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(userAndsoft));
+			var query = conn.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(userAndsoft));
 			foreach (var item in query)
 			{
 				if (item.user_UseSigna == "1")
@@ -479,21 +516,24 @@ namespace DMS_3.BDD
 					output = true;
 				}
 			}
-
+			conn.Close();
 			return output;
 		}
 
 		internal string GetSociete(string userAndsoft)
 		{
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 			string output = "";
-			var query = db.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(userAndsoft));
+			var query = conn.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(userAndsoft));
 			foreach (var item in query)
 			{
 				output = item.user_Societe;
 			}
 
+			conn.Close();
 			return output;
-
 		}
 
 		//setUserdata
@@ -501,8 +541,11 @@ namespace DMS_3.BDD
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 				string output = string.Empty;
-				var query = db.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(userAndsoft));
+				var query = conn.Table<TableUser>().Where(v => v.user_AndsoftUser.Equals(userAndsoft));
 				foreach (var item in query)
 				{
 					Data.userAndsoft = item.user_AndsoftUser;
@@ -511,6 +554,7 @@ namespace DMS_3.BDD
 					Console.WriteLine("\nUSER CONNECTE" + item.user_AndsoftUser);
 				}
 
+				conn.Close();
 				return output;
 			}
 			catch (Exception ex)
@@ -525,13 +569,17 @@ namespace DMS_3.BDD
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 				string output = string.Empty;
-				var query = db.Table<TableUser>().Where(v => v.user_IsLogin.Equals(true));
+				var query = conn.Table<TableUser>().Where(v => v.user_IsLogin.Equals(true));
 				foreach (var item in query)
 				{
 					output = item.user_AndsoftUser;
 				}
 
+				conn.Close();
 				return output;
 			}
 			catch (Exception ex)
@@ -546,8 +594,11 @@ namespace DMS_3.BDD
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 				string output = string.Empty;
-				var query = db.Table<TableUser>().Where(v => v.user_IsLogin.Equals(true));
+				var query = conn.Table<TableUser>().Where(v => v.user_IsLogin.Equals(true));
 				foreach (var item in query)
 				{
 					output = item.user_TransicsUser;
@@ -567,8 +618,11 @@ namespace DMS_3.BDD
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 				string output = string.Empty;
-				var query = db.Table<TablePositions>().Where(v => v.numCommande.Equals(numCommande)).Where(v => v.StatutLivraison.Equals("2"));
+				var query = conn.Table<TablePositions>().Where(v => v.numCommande.Equals(numCommande)).Where(v => v.StatutLivraison.Equals("2"));
 				foreach (var item in query)
 				{
 					output = item.imgpath;
@@ -586,44 +640,57 @@ namespace DMS_3.BDD
 
 		internal int CountColis(string num)
 		{
-			return db.Table<TableColis>().Where(v => v.numCommande.Equals(num)).Count();
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
+			return conn.Table<TableColis>().Where(v => v.numCommande.Equals(num)).Count();
 		}
 
 		internal int CountColisFlash(string num)
 		{
-			return db.Table<TableColis>().Where(v => v.numCommande.Equals(num)).Where(v => v.flashage.Equals(true)).Count();
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+			return conn.Table<TableColis>().Where(v => v.numCommande.Equals(num)).Where(v => v.flashage.Equals(true)).Count();
 		}
 
 		public void resetColis(string num)
 		{
-			var query = db.Table<TableColis>().Where(v => v.numCommande.Equals(num));
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
+			var query = conn.Table<TableColis>().Where(v => v.numCommande.Equals(num));
 			foreach (var item in query)
 			{
 				item.flashage = false;
-				db.Update(item);
+				conn.Update(item);
 			}
 
 		}
 
 		public List<TablePositions> CountMatiereDang(string groupage)
 		{
-			return db.Query<TablePositions>("SELECT SUM(poidsADR) as poidsADR, SUM(poidsQL) as poidsQL FROM TablePositions WHERE StatutLivraison ='0' AND groupage = ?", groupage);
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+			return conn.Query<TablePositions>("SELECT SUM(poidsADR) as poidsADR, SUM(poidsQL) as poidsQL FROM TablePositions WHERE StatutLivraison ='0' AND groupage = ?", groupage);
 		}
 
 		public string logout()
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
 				string output = string.Empty;
-				var query = db.Table<TableUser>().Where(v => v.user_IsLogin.Equals(true));
+				var query = conn.Table<TableUser>().Where(v => v.user_IsLogin.Equals(true));
 				foreach (var item in query)
 				{
-					var row = db.Get<TableUser>(item.Id);
+					var row = conn.Get<TableUser>(item.Id);
 					row.user_IsLogin = false;
-					db.Update(row);
+					conn.Update(row);
 					output = "UPDATE USER LOGOUT " + row.user_AndsoftUser;
 				}
 
+				conn.Close();
 				return output;
 			}
 			catch (Exception ex)
@@ -638,13 +705,15 @@ namespace DMS_3.BDD
 		{
 			try
 			{
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
 				bool output = false;
-				var table = db.Table<TablePositions>().Where(v => v.numCommande.Equals(numCommande)).Where(v => v.groupage.Equals(groupage)).Where(v => v.typeMission.Equals(typeMission)).Where(v => v.typeSegment.Equals(typeSegment));
+				var table = conn.Table<TablePositions>().Where(v => v.numCommande.Equals(numCommande)).Where(v => v.groupage.Equals(groupage)).Where(v => v.typeMission.Equals(typeMission)).Where(v => v.typeSegment.Equals(typeSegment));
 				foreach (var item in table)
 				{
 					output = true;
 				}
-
+				conn.Close();
 				return output;
 			}
 			catch (Exception ex)
@@ -660,9 +729,13 @@ namespace DMS_3.BDD
 		{
 			try
 			{
-				db.Delete<TableNotifications>(id);
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
+				conn.Delete<TableNotifications>(id);
 				string result = "delete";
 
+				conn.Close();
 				return result;
 			}
 			catch (SQLiteException ex)
@@ -674,8 +747,11 @@ namespace DMS_3.BDD
 		//SELECT PAR ID
 		public TablePositions GetPositionsData(int id)
 		{
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 			TablePositions data = new TablePositions();
-			var item = db.Get<TablePositions>(id);
+			var item = conn.Get<TablePositions>(id);
 			data.codeLivraison = item.codeLivraison;
 			data.numCommande = item.numCommande;
 			data.nomClient = item.nomClient;
@@ -714,38 +790,52 @@ namespace DMS_3.BDD
 			data.Id = item.Id;
 			data.positionPole = item.positionPole;
 
-			if (Convert.ToDouble(item.poids.Replace('.', ',')) < 1)
+			if (item.poids != "")
 			{
-				data.poids = Convert.ToDouble(item.poids.Replace('.', ',')) * 1000 + " kg";
-			}
-			else {
-				data.poids = item.poids + " tonnes";
+				if (Convert.ToDouble(item.poids.Replace('.', ',')) < 1)
+				{
+					data.poids = Convert.ToDouble(item.poids.Replace('.', ',')) * 1000 + " kg";
+				}
+				else {
+					data.poids = item.poids + " tonnes";
+				}
+
+			}else
+			{
+				data.poids = "Poids inconnu";
 			}
 
+			conn.Close();
 			return data;
 		}
 
 		public int GetidPosition(string numCommande)
 		{
-			int id = 0;
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
 
-			var query = db.Table<TablePositions>().Where(v => v.numCommande.Equals(numCommande));
+			int id = 0;
+			var query = conn.Table<TablePositions>().Where(v => v.numCommande.Equals(numCommande));
 
 			foreach (var row in query)
 			{
 				id = row.Id;
 			}
+			conn.Close();
 			return id;
 		}
 
 		public int GetidPrev(int id)
 		{
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 			int idprev;
 			//get int ordremission
-			var item = db.Get<TablePositions>(id);
+			var item = conn.Get<TablePositions>(id);
 			idprev = (item.Ordremission) - 1;
 			//getordremission -1
-			var query = db.Table<TablePositions>().Where(v => v.Ordremission.Equals(idprev));
+			var query = conn.Table<TablePositions>().Where(v => v.Ordremission.Equals(idprev));
 			//getordremission -1
 			foreach (var row in query)
 			{
@@ -755,16 +845,20 @@ namespace DMS_3.BDD
 			{
 				idprev = 0;
 			}
+			conn.Close();
 			return idprev;
 		}
 
 		public int GetidNext(int id)
 		{
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 			int idnext;
 			//get int ordremission
-			var item = db.Get<TablePositions>(id);
+			var item = conn.Get<TablePositions>(id);
 			idnext = item.Ordremission + 1;
-			var query = db.Table<TablePositions>().Where(v => v.Ordremission.Equals(idnext));
+			var query = conn.Table<TablePositions>().Where(v => v.Ordremission.Equals(idnext));
 			foreach (var row in query)
 			{
 				idnext = row.Id;
@@ -774,27 +868,35 @@ namespace DMS_3.BDD
 			{
 				idnext = 0;
 			}
+			conn.Close();
 			return idnext;
 		}
 
 		internal void updatePositionOrder(string idSegment, int Ordremission)
 		{
-			var query = db.Table<TablePositions>().Where(v => v.idSegment.Equals(idSegment));
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
+			var query = conn.Table<TablePositions>().Where(v => v.idSegment.Equals(idSegment));
 			foreach (var item in query)
 			{
 				item.Ordremission = Ordremission;
-				db.Update(item);
+				conn.Update(item);
 			}
 		}
 
 		public string updateposimgpath(int i, string path)
 		{
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
 			string output = "";
-			var row = db.Get<TablePositions>(i);
+			var row = conn.Get<TablePositions>(i);
 			row.imgpath = path;
-			db.Update(row);
+			conn.Update(row);
 			output = "UPDATE POSITIONS " + row.Id;
 
+			conn.Close();
 			return output;
 		}
 
@@ -802,8 +904,13 @@ namespace DMS_3.BDD
 		{
 			try
 			{
-				db.DeleteAll<TableMessages>();
+				var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+				conn.BusyTimeout = TimeSpan.FromSeconds(2);
+
+				conn.DeleteAll<TableMessages>();
 				string result = "delete";
+
+				conn.Close();
 				return result;
 			}
 			catch (SQLiteException ex)
@@ -816,62 +923,87 @@ namespace DMS_3.BDD
 		//GET NUMBER LIV RAM ET MSG
 		public int SETBadges(string userandsoft)
 		{
-			var cLIV = db.Table<TablePositions>().Where(v => v.Userandsoft.Equals(userandsoft)).Where(v => v.typeMission.Equals("L")).Where(v => v.typeSegment.Equals("LIV")).Where(v => v.StatutLivraison.Equals("0")).Count();
-			var cRam = db.Table<TablePositions>().Where(v => v.Userandsoft.Equals(userandsoft)).Where(v => v.typeMission.Equals("C")).Where(v => v.typeSegment.Equals("RAM")).Where(v => v.StatutLivraison.Equals("0")).Count();
-			var cMsg = db.Table<TableMessages>().Where(v => v.statutMessage.Equals(0)).Count();
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
 
-			var cSUPPLIV = db.Table<TablePositions>().Where(v => v.imgpath.Equals("SUPPLIV")).Count();
+			var cLIV = conn.Table<TablePositions>().Where(v => v.Userandsoft.Equals(userandsoft)).Where(v => v.typeMission.Equals("L")).Where(v => v.typeSegment.Equals("LIV")).Where(v => v.StatutLivraison.Equals("0")).Count();
+			var cRam = conn.Table<TablePositions>().Where(v => v.Userandsoft.Equals(userandsoft)).Where(v => v.typeMission.Equals("C")).Where(v => v.typeSegment.Equals("RAM")).Where(v => v.StatutLivraison.Equals("0")).Count();
+			var cMsg = conn.Table<TableMessages>().Where(v => v.statutMessage.Equals(0)).Count();
+
+			var cSUPPLIV = conn.Table<TablePositions>().Where(v => v.imgpath.Equals("SUPPLIV")).Count();
 
 			Data.Instance.setLivraisonIndicator(cLIV - cSUPPLIV);
 			Data.Instance.setEnlevementIndicator(cRam);
 			Data.Instance.setMessageIndicator(cMsg);
 
+			conn.Close();
 			return 0;
 		}
 
 		internal object Execute(string stringinsertpos)
 		{
-			var exec = db.Execute(stringinsertpos);
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+			var exec = conn.Execute(stringinsertpos);
 			return exec;
 		}
 
 		internal List<TablePositions> QueryGRP(string stringSelect, string tyM, string tyS, string userAndsoft)
 		{
-			var grp = db.Query<TablePositions>(stringSelect, 0, tyM, tyS, userAndsoft);
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+			var grp = conn.Query<TablePositions>(stringSelect, 0, tyM, tyS, userAndsoft);
 			return grp;
 		}
 
 		internal List<TablePositions> QueryGRPTRAIT(string stringSelect, string tyM, string tyS, string userAndsoft, string tyMB, string tySB, string userAndsoftB)
 		{
-			var grp = db.Query<TablePositions>(stringSelect, 1, tyM, tyS, userAndsoft, 2, tyMB, tySB, userAndsoftB);
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+			var grp = conn.Query<TablePositions>(stringSelect, 1, tyM, tyS, userAndsoft, 2, tyMB, tySB, userAndsoftB);
 			return grp;
 		}
 
 		internal List<TablePositions> QueryPositions(string requete)
 		{
-			var table = db.Query<TablePositions>(requete);
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+			var table = conn.Query<TablePositions>(requete);
+			conn.Close();
 			return table;
 		}
 
 		internal List<TableColis> QueryColis(string requete)
 		{
-			var table = db.Query<TableColis>(requete);
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+			var table = conn.Query<TableColis>(requete);
+			conn.Close();
 			return table;
 		}
 
 		internal List<TableNotifications> QueryNotif(string v)
 		{
-			var notifs = db.Query<TableNotifications>(v);
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+			var notifs = conn.Query<TableNotifications>(v);
+			conn.Close();
 			return notifs;
 		}
 		internal List<TableMessages> QueryMessage(string v)
 		{
-			var messages = db.Query<TableMessages>(v);
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+			var messages = conn.Query<TableMessages>(v);
+			conn.Close();
 			return messages;
 		}
 		internal List<TableStatutPositions> QueryStatuPos(string v)
 		{
-			var status = db.Query<TableStatutPositions>(v);
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			conn.BusyTimeout = TimeSpan.FromSeconds(2);
+			var status = conn.Query<TableStatutPositions>(v);
+			conn.Close();
 			return status;
 		}
 	}

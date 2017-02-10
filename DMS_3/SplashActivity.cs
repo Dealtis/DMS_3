@@ -21,6 +21,7 @@ namespace DMS_3
 	public class SplashActivity : Activity
 	{
 		BackgroundWorker bgService;
+		DBRepository dbr = new DBRepository();
 
 		public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
 		{
@@ -32,15 +33,13 @@ namespace DMS_3
 			base.OnResume();
 			Task startupWork = new Task(() =>
 			{
-
 				//CREATION DE LA BDD
-				DBRepository.Instance.CreateDB();
+				DBRepository dbr = new DBRepository();
 				//CREATION DES TABLES
-				DBRepository.Instance.CreateTable();
+				dbr.CreateTable();
 
 				try
 				{
-
 					var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
 					var IMEI = telephonyManager.DeviceId;
 					var webClient = new TimeoutWebclient();
@@ -106,11 +105,11 @@ namespace DMS_3
 					var jsonArr = jsonVal;
 					foreach (var row in jsonArr)
 					{
-						var checkUser = DBRepository.Instance.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Societe"]);
+						var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Societe"]);
 						Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
 						if (!checkUser)
 						{
-							var IntegUser = DBRepository.Instance.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Usepartic"], row["User_Societe"]);
+							var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Usepartic"], row["User_Societe"]);
 							Console.WriteLine("\n" + IntegUser);
 						}
 					}
@@ -131,11 +130,11 @@ namespace DMS_3
 			startupWork.ContinueWith(t =>
 			{
 				//Is a user login ?
-				var user_Login = DBRepository.Instance.is_user_Log_In();
+				var user_Login = dbr.is_user_Log_In();
 				if (!(user_Login == "false"))
 				{
 					//Data.userAndsoft = user_Login;
-					DBRepository.Instance.setUserdata(user_Login);
+					dbr.setUserdata(user_Login);
 
 					//lancement du BgWorker Service
 					StartService(new Intent(this, typeof(ProcessDMS)));
@@ -184,11 +183,11 @@ namespace DMS_3
 							}
 							else {
 								StartService(new Intent(this, typeof(ProcessDMS)));
-								//DBRepository.Instance.InsertLogApp("",DateTime.Now,"Relance du service après 10 min d'inactivité");
+								//dbr.InsertLogApp("",DateTime.Now,"Relance du service après 10 min d'inactivité");
 							}
 						}
 						else {
-							//DBRepository.Instance.InsertLogApp("",DateTime.Now,"Pas de Relance du service");
+							//dbr.InsertLogApp("",DateTime.Now,"Pas de Relance du service");
 						}
 
 					}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -47,6 +47,8 @@ namespace DMS_3
 		public static Typeface LatoLight = Typeface.CreateFromAsset(Application.Context.Assets, "fonts/Lato-Light.ttf");
 		public static Typeface LatoMedium = Typeface.CreateFromAsset(Application.Context.Assets, "fonts/Lato-Medium.ttf");
 		public static Typeface LatoRegular = Typeface.CreateFromAsset(Application.Context.Assets, "fonts/Lato-Regular.ttf");
+
+		DBRepository dbr = new DBRepository();
 
 
 		public static bool Is_Service_Running = false;
@@ -110,7 +112,7 @@ namespace DMS_3
 		}
 		public int isMatdang(string groupage)
 		{
-			var isornot = DBRepository.Instance.CountMatiereDang(groupage);
+			var isornot = dbr.CountMatiereDang(groupage);
 
 			if (Convert.ToInt32(isornot[0].poidsADR) >= 1000)
 			{
@@ -161,7 +163,7 @@ namespace DMS_3
 
 		internal void traitImg(int i, string type, Context context)
 		{
-			var imgpath = DBRepository.Instance.GetPositionsData(i);
+			var imgpath = dbr.GetPositionsData(i);
 			string compImg = String.Empty;
 			if (imgpath.imgpath != "null")
 			{
@@ -190,7 +192,7 @@ namespace DMS_3
 								Data.Instance.UploadFile("ftp://176.31.10.169", compImg, "DMSPHOTO", "DMS25000", "");
 							}else
 							{
-								DBRepository.Instance.InsertDataStatutMessage(11, DateTime.Now, 1, imgpath.numCommande, "");
+								dbr.InsertDataStatutMessage(11, DateTime.Now, 1, imgpath.numCommande, "");
 							}
 						}
 

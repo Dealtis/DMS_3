@@ -29,7 +29,8 @@
                 android:phoneNumber="false"
                 android:password="false"
                 android:inputType="textLongMessage"
-                android:imeOptions="actionDone" />
+                android:imeOptions="actionDone"
+                android:hint="Remarque" />
             <LinearLayout
                 android:orientation="horizontal"
                 android:minWidth="25px"

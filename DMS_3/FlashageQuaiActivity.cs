@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -62,6 +62,7 @@ namespace DMS_3
 		int currentPrlFLash;
 
 		MobileBarcodeScanner scanner;
+		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -118,9 +119,9 @@ namespace DMS_3
 				currentPrlFLash++;
 
 				string JSONNOTIF = "{\"codesuiviliv\":\"FLASHAGEIMP\",\"memosuiviliv\":\"" + numCommande + "\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
-				DBRepository.Instance.insertDataStatutpositions("FLASHAGEIMP", "1", "FLASHAGE", numCommande, numCommande, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);
-				int colisFlasher = DBRepository.Instance.CountColisFlash(data.numCommande);
-				int colisPosition = DBRepository.Instance.CountColis(data.numCommande);
+				dbr.insertDataStatutpositions("FLASHAGEIMP", "1", "FLASHAGE", numCommande, numCommande, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);
+				int colisFlasher = dbr.CountColisFlash(data.numCommande);
+				int colisPosition = dbr.CountColis(data.numCommande);
 
 				RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHES: " + (colisFlasher + currentPrlFLash) + "/" + colisPosition);
 				if ((colisFlasher + currentPrlFLash) == colisPosition)
@@ -222,7 +223,7 @@ namespace DMS_3
 				{
 					e.Handled = true;
 					numero = barcode.Text.ToString();
-					ShowProgress(progress => AndHUD.Shared.Show(this, barcode.Text.ToString() + " ... " + progress + "%", progress, MaskType.Clear), barcode.Text.ToString());
+					ShowProgress(progress => AndHUD.Shared.Show(this, barcode.Text.ToString() + " ... " + progress + "%", progress, MaskType.Clear,null,null,true,() => AndHUD.Shared.Dismiss(this)), barcode.Text.ToString());
 					barcode.EditableText.Clear();
 				}
 			};
@@ -321,15 +322,15 @@ namespace DMS_3
 						var numSplit = num.Split('.');
 						num = numSplit[1].Remove(numSplit[1].Length - 1);
 					}
-					var is_colis_in_truck = DBRepository.Instance.is_colis_in_truck(num);
+					var is_colis_in_truck = dbr.is_colis_in_truck(num);
 					if (is_colis_in_truck != int.MinValue)
 					{
-						data = DBRepository.Instance.GetPositionsData(is_colis_in_truck);
-						if (DBRepository.Instance.is_colis_in_currentPos(num, numCommande))
+						data = dbr.GetPositionsData(is_colis_in_truck);
+						if (dbr.is_colis_in_currentPos(num, numCommande))
 						{
-							DBRepository.Instance.updateColisFlash(num);
+							dbr.updateColisFlash(num);
 							string JSONNOTIF = "{\"codesuiviliv\":\"FLASHAGE\",\"memosuiviliv\":\"" + num + "\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
-							DBRepository.Instance.insertDataStatutpositions("FLASHAGE", "1", "FLASHAGE", data.numCommande, num, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);
+							dbr.insertDataStatutpositions("FLASHAGE", "1", "FLASHAGE", data.numCommande, num, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);
 							afficherInformations(is_colis_in_truck, data.numCommande);
 						}
 						else
@@ -345,7 +346,7 @@ namespace DMS_3
 						}
 					}
 					else {
-						var is_pos_in_truck = DBRepository.Instance.is_position_in_truck(num);
+						var is_pos_in_truck = dbr.is_position_in_truck(num);
 						if (is_pos_in_truck == int.MinValue)
 						{
 							afficherInformationsWebservice(progress, action, num);
@@ -382,19 +383,9 @@ namespace DMS_3
 					progress += 20;
 					action(progress);
 
-					DBRepository dbr = new DBRepository();
-
-					//check is_colis_in_truck
-					var is_colis_in_truck = dbr.is_position_in_truck(num);
-					if (is_colis_in_truck != int.MinValue)
-					{
-						flashinprogress = true;
-						afficherInformations(is_colis_in_truck, numCommande);
-					}
-					else
-					{
-						afficherInformationsWebservice(progress, action, num);
-					}
+					var is_position_in_truck = dbr.is_position_in_truck(num);
+					flashinprogress = true;
+					afficherInformations(is_position_in_truck, numCommande);
 					progress += 30;
 					action(progress);
 					AndHUD.Shared.Dismiss(this);
@@ -421,7 +412,7 @@ namespace DMS_3
 
 				webClient.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.CacheIfAvailable);
 				webClient.QueryString.Add("val", num);
-				webClient.QueryString.Add("soc", DBRepository.Instance.GetSociete(Data.userAndsoft));
+				webClient.QueryString.Add("soc", dbr.GetSociete(Data.userAndsoft));
 
 				ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
 				string _url = prefs.GetString("API_DOMAIN", String.Empty) + "/api/flash";
@@ -429,6 +420,7 @@ namespace DMS_3
 
 				try
 				{
+					webClient.DownloadStringCompleted+= WebClient_DownloadStringCompleted;
 					dataWS = webClient.DownloadString(_url);
 					progress += 50;
 					action(progress);
@@ -521,8 +513,6 @@ namespace DMS_3
 							RunOnUiThread(() => tl.AddView(row));
 						}
 						RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
-
-
 					}
 					else {
 						RunOnUiThread(() => infonumero.Text = "Pas de résultat");
@@ -544,8 +534,8 @@ namespace DMS_3
 				catch (WebException ex)
 				{
 					Console.WriteLine(ex);
-					RaygunClient.Current.SendInBackground(ex);
 					AndHUD.Shared.Dismiss(this);
+					RaygunClient.Current.SendInBackground(ex);
 					RunOnUiThread(() => btn_photo.Visibility = ViewStates.Gone);
 					RunOnUiThread(() => Toast.MakeText(this, "Erreur de connexion", ToastLength.Short).Show());
 				}
@@ -553,13 +543,19 @@ namespace DMS_3
 			else
 			{
 				RunOnUiThread(() => Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Short).Show());
+				AndHUD.Shared.Dismiss(this);
 				//RunOnUiThread(() => AndHUD.Shared.ShowError(this, "It no worked :(", MaskType.Black, TimeSpan.FromSeconds(2)));
 			}
 		}
 
+		void WebClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+		{
+			AndHUD.Shared.Dismiss(this);
+		}
+
 		void afficherInformations(int idPos, string numCommande)
 		{
-			data = DBRepository.Instance.GetPositionsData(idPos);
+			data = dbr.GetPositionsData(idPos);
 
 			RunOnUiThread(() => btn_detail.Click += delegate
 				{
@@ -589,8 +585,8 @@ namespace DMS_3
 			RunOnUiThread(() => infoadrdest.Text = data.adresseLivraison);
 			RunOnUiThread(() => infonumero.Text = data.numCommande);
 
-			int colisFlasher = DBRepository.Instance.CountColisFlash(data.numCommande);
-			int colisPosition = DBRepository.Instance.CountColis(data.numCommande);
+			int colisFlasher = dbr.CountColisFlash(data.numCommande);
+			int colisPosition = dbr.CountColis(data.numCommande);
 			RunOnUiThread(() => nbcolisflash.Text = "NB COLIS FLASHES: " + (colisFlasher + currentPrlFLash) + "/" + colisPosition);
 			TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
 			RunOnUiThread(() => tl.Visibility = ViewStates.Gone);
@@ -623,6 +619,10 @@ namespace DMS_3
 					else
 					{
 						intent = new Intent(this, typeof(AnomalieActivity));
+					}
+					if (colisPosition == 0)
+					{
+						intent.PutExtra("noColis", true);
 					}
 					intent.PutExtra("ID", id);
 					intent.PutExtra("TYPE", type);

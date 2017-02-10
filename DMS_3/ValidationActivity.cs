@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Android.App;
 using Android.Content;
@@ -30,6 +30,8 @@ namespace DMS_3
 		TextView txtCR;
 		EditText mémo;
 		ImageView _imageView;
+
+		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -69,7 +71,7 @@ namespace DMS_3
 		protected override void OnResume()
 		{
 			base.OnResume();
-			data = DBRepository.Instance.GetPositionsData(i);
+			data = dbr.GetPositionsData(i);
 
 			if (data.CR == "" || data.CR == "0" || type == "RAM" || data.ASSIGNE == "" || data.ASSIGNE == "0")
 			{
@@ -151,34 +153,34 @@ namespace DMS_3
 			{
 				typecr = "CHEQUE";
 				string JSONCHEQUE = "{\"codesuiviliv\":\"" + typecr + "\",\"memosuiviliv\":\"cheque\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
-				DBRepository.Instance.insertDataStatutpositions(typecr, "1", typecr, data.numCommande, formatmémo, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONCHEQUE);
+				dbr.insertDataStatutpositions(typecr, "1", typecr, data.numCommande, formatmémo, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONCHEQUE);
 			}
 			if (check1.Checked)
 			{
 				typecr = "ESPECE";
 				string JSONESPECE = "{\"codesuiviliv\":\"" + typecr + "\",\"memosuiviliv\":\"espece\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
-				DBRepository.Instance.insertDataStatutpositions(typecr, "1", typecr, data.numCommande, formatmémo, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONESPECE);
+				dbr.insertDataStatutpositions(typecr, "1", typecr, data.numCommande, formatmémo, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONESPECE);
 			}
 			if (checkP.Checked)
 			{
 				typecr = "PARTIC";
 				string JSONPARTIC = "{\"codesuiviliv\":\"" + typecr + "\",\"memosuiviliv\":\"particulier\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
-				DBRepository.Instance.insertDataStatutpositions(typecr, "1", typecr, data.numCommande, formatmémo, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONPARTIC);
+				dbr.insertDataStatutpositions(typecr, "1", typecr, data.numCommande, formatmémo, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONPARTIC);
 			}
 
 			//mise du statut de la position à 1
-			DBRepository.Instance.updatePosition(i, "1", "Validée", formatmémo, tyValide, null);
+			dbr.updatePosition(i, "1", "Validée", formatmémo, tyValide, null);
 			//creation du JSON
 			string JSON = "{\"codesuiviliv\":\"" + tyValide + "\",\"memosuiviliv\":\"" + (formatmémo).Replace("\"", " ").Replace("\'", " ") + "\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
 			//création de la notification webservice // statut de position
-			DBRepository.Instance.insertDataStatutpositions(tyValide, "1", "Validée", data.numCommande, formatmémo, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSON);
+			dbr.insertDataStatutpositions(tyValide, "1", "Validée", data.numCommande, formatmémo, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSON);
 
 			Data.Instance.traitImg(i, type, this);
 
-			DBRepository.Instance.SETBadges(Data.userAndsoft);
+			dbr.SETBadges(Data.userAndsoft);
 
 			//si user got signature true take signature then go to listliv
-			bool sign = DBRepository.Instance.is_user_Sign(Data.userAndsoft);
+			bool sign = dbr.is_user_Sign(Data.userAndsoft);
 			if (sign)
 			{
 				Intent intent = new Intent(this, typeof(SignatureActivity));
@@ -226,7 +228,7 @@ namespace DMS_3
 			if (Data.bitmap != null)
 			{
 				_imageView.SetImageBitmap(Data.bitmap);
-				DBRepository.Instance.updateposimgpath(i, Data._file.Path);
+				dbr.updateposimgpath(i, Data._file.Path);
 				Data.bitmap = null;
 			}
 			GC.Collect();
@@ -236,9 +238,17 @@ namespace DMS_3
 		{
 			if (Intent.GetBooleanExtra("FLASH", false))
 			{
-				DBRepository.Instance.resetColis(data.numCommande);
+				Intent intent;
+				dbr.resetColis(data.numCommande);
+				if (Intent.GetBooleanExtra("noColis",false))
+				{
+					intent = new Intent(this, typeof(DetailActivity));
+					intent.PutExtra("TRAIT", "false");
+				}else
+				{
+					intent = new Intent(this, typeof(FlashageQuaiActivity));
+				}
 
-				Intent intent = new Intent(this, typeof(FlashageQuaiActivity));
 				intent.PutExtra("ID", Convert.ToString(i));
 				intent.PutExtra("NUMCOM", data.numCommande);
 				intent.PutExtra("TYPE", type);

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Android.App;
 using Android.Content;
@@ -29,6 +29,7 @@ namespace DMS_3
 		string tyM;
 		string trait;
 		List<TablePositions> grp;
+		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -97,7 +98,7 @@ namespace DMS_3
 			{
 				try
 				{
-					grp = DBRepository.Instance.QueryGRP("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft);
+					grp = dbr.QueryGRP("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft);
 				}
 				catch (Exception ex)
 				{
@@ -109,7 +110,7 @@ namespace DMS_3
 			{
 				try
 				{
-					grp = DBRepository.Instance.QueryGRPTRAIT("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ? OR StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft, tyM, tyS, Data.userAndsoft);
+					grp = dbr.QueryGRPTRAIT("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ? OR StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft, tyM, tyS, Data.userAndsoft);
 				}
 				catch (Exception ex)
 				{
@@ -251,7 +252,7 @@ namespace DMS_3
 			try
 			{
 				bodyItems.Clear();
-				var table = DBRepository.Instance.QueryPositions(requete);
+				var table = dbr.QueryPositions(requete);
 				foreach (var item in table)
 				{
 					bodyItems.Add(new TablePositions()

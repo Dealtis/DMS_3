@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Android.App;
 using Android.Content;
@@ -16,6 +16,7 @@ namespace DMS_3
 		private List<TableMessages> mItems;
 		private ListView mListView;
 		public ListeViewMessageAdapter adapter;
+		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle bundle)
 		{
@@ -28,7 +29,7 @@ namespace DMS_3
 
 			mItems = new List<TableMessages>();
 
-			var table = DBRepository.Instance.QueryMessage("SELECT * FROM TableMessages where codeChauffeur='" + Data.userAndsoft + "' and typeMessage != 5");
+			var table = dbr.QueryMessage("SELECT * FROM TableMessages where codeChauffeur='" + Data.userAndsoft + "' and typeMessage != 5");
 			var i = 0;
 
 			foreach (var item in table)
@@ -60,13 +61,13 @@ namespace DMS_3
 			btnsend.Click += Btnsend_Click;
 
 			//STATUT DES MESSAGES RECU TO 1
-			var tablemsgrecu = DBRepository.Instance.QueryMessage("SELECT * FROM TableMessages where statutMessage = 0");
+			var tablemsgrecu = dbr.QueryMessage("SELECT * FROM TableMessages where statutMessage = 0");
 			foreach (var item in tablemsgrecu)
 			{
-				DBRepository.Instance.QueryMessage("UPDATE TableMessages SET statutMessage = 1 WHERE statutMessage = 0");
-				DBRepository.Instance.InsertDataStatutMessage(1, DateTime.Now, item.numMessage, "", "");
+				dbr.QueryMessage("UPDATE TableMessages SET statutMessage = 1 WHERE statutMessage = 0");
+				dbr.InsertDataStatutMessage(1, DateTime.Now, item.numMessage, "", "");
 			}
-			DBRepository.Instance.SETBadges(Data.userAndsoft);
+			dbr.SETBadges(Data.userAndsoft);
 		}
 
 		void Btnsend_Click(object sender, EventArgs e)
@@ -78,7 +79,7 @@ namespace DMS_3
 			}
 			else {
 				string formatmsg = newmessage.Text.Replace("\"", " ").Replace("'", " ");
-				DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", formatmsg, 2, DateTime.Now, 2, 0);
+				dbr.insertDataMessage(Data.userAndsoft, "", formatmsg, 2, DateTime.Now, 2, 0);
 
 			}
 
@@ -90,7 +91,7 @@ namespace DMS_3
 		void Btndeletemsg_Click(object sender, EventArgs e)
 		{
 
-			DBRepository.Instance.DropTableMessage();
+			dbr.DropTableMessage();
 			StartActivity(typeof(MessageActivity));
 
 		}

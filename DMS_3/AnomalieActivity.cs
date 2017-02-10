@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Android.App;
 using Android.Content;
@@ -36,6 +36,8 @@ namespace DMS_3
 		CheckBox checkP;
 		string type;
 
+		DBRepository dbr = new DBRepository();
+
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
@@ -46,7 +48,7 @@ namespace DMS_3
 
 			type = Intent.GetStringExtra("TYPE");
 
-			data = DBRepository.Instance.GetPositionsData(i);
+			data = dbr.GetPositionsData(i);
 
 			Spinner spinner = FindViewById<Spinner>(Resource.Id.spinnerAnomalie);
 			editText = FindViewById<EditText>(Resource.Id.edittext);
@@ -269,15 +271,15 @@ namespace DMS_3
 				switch (txtspinner)
 				{
 					case "Restaure en non traite":
-						DBRepository.Instance.updatePosition(i, "0", txtspinner, formatrem, codeanomalie, null);
+						dbr.updatePosition(i, "0", txtspinner, formatrem, codeanomalie, null);
 						//if postion pole vider les colis flasher
 						if (data.positionPole != "0")
 						{
-							DBRepository.Instance.resetColis(data.numCommande);
+							dbr.resetColis(data.numCommande);
 						}
 						break;
 					default:
-						DBRepository.Instance.updatePosition(i, "2", txtspinner, formatrem, codeanomalie, null);
+						dbr.updatePosition(i, "2", txtspinner, formatrem, codeanomalie, null);
 						break;
 				}
 
@@ -286,13 +288,13 @@ namespace DMS_3
 				//creation du JSON
 				string JSON = "{\"codesuiviliv\":\"" + codeanomalie + "\",\"memosuiviliv\":\"" + formatrem + "\",\"libellesuiviliv\":\"" + txtspinner + "\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
 				//création de la notification webservice // statut de position
-				DBRepository.Instance.insertDataStatutpositions(codeanomalie, "2", txtspinner, data.numCommande, formatrem, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSON);
+				dbr.insertDataStatutpositions(codeanomalie, "2", txtspinner, data.numCommande, formatrem, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSON);
 
 				if (checkP.Checked)
 				{
 					var typecr = "PARTIC";
 					string JSONPARTIC = "{\"codesuiviliv\":\"" + typecr + "\",\"memosuiviliv\":\"particulier\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + data.numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
-					DBRepository.Instance.insertDataStatutpositions(typecr, "2", typecr, data.numCommande, formatrem, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONPARTIC);
+					dbr.insertDataStatutpositions(typecr, "2", typecr, data.numCommande, formatrem, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONPARTIC);
 				}
 
 				if (txtspinner != "Restaure en non traite")
@@ -300,9 +302,9 @@ namespace DMS_3
 					Data.Instance.traitImg(i, type, this);
 				}
 
-				DBRepository.Instance.SETBadges(Data.userAndsoft);
+				dbr.SETBadges(Data.userAndsoft);
 
-				bool sign = DBRepository.Instance.is_user_Sign(Data.userAndsoft);
+				bool sign = dbr.is_user_Sign(Data.userAndsoft);
 				if (sign)
 				{
 					Intent intent = new Intent();
@@ -362,7 +364,7 @@ namespace DMS_3
 			if (Data.bitmap != null)
 			{
 				_imageView.SetImageBitmap(Data.bitmap);
-				DBRepository.Instance.updateposimgpath(i, Data._file.Path);
+				dbr.updateposimgpath(i, Data._file.Path);
 				Data.bitmap = null;
 			}
 			GC.Collect();
@@ -388,8 +390,17 @@ namespace DMS_3
 		{
 			if (Intent.GetBooleanExtra("FLASH", false))
 			{
-				DBRepository.Instance.resetColis(data.numCommande);
-				Intent intent = new Intent(this, typeof(FlashageQuaiActivity));
+				dbr.resetColis(data.numCommande);
+				Intent intent;
+				if (Intent.GetBooleanExtra("noColis", false))
+				{
+					intent = new Intent(this, typeof(DetailActivity));
+					intent.PutExtra("TRAIT", "false");
+				}
+				else
+				{
+					intent = new Intent(this, typeof(FlashageQuaiActivity));
+				}
 				intent.PutExtra("ID", Convert.ToString(i));
 				intent.PutExtra("NUMCOM", data.numCommande);
 				intent.PutExtra("TYPE", type);

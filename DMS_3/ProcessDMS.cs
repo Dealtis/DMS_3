@@ -1,55 +1,75 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Json;
-using System.Linq;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
-using Android.Locations;
 using Android.Media;
 using Android.Net;
 using Android.OS;
 using Android.Preferences;
 using DMS_3.BDD;
 using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
+using String = System.String;
+using Exception = System.Exception;
+using Thread = System.Threading.Thread;
+using Math = System.Math;
+using Android.Util;
+using Android.Gms.Common.Apis;
+using Android.Gms.Common;
+using Android.Gms.Location;
 
 namespace DMS_3
 {
-	[Service]
-	[IntentFilter(new string[] { "com.dealtis.dms_3.ProcessDMS" })]
-	public class ProcessDMS : Service, ILocationListener
+	[Service(Exported = true, Name = "com.dealtis.dms.ProcessDMS")]
+	public class ProcessDMS : Service, GoogleApiClient.IConnectionCallbacks, GoogleApiClient.IOnConnectionFailedListener, Android.Gms.Location.ILocationListener
 	{
 		#region Variables
-		ProcessDMSBinder binder;
 		string datedujour;
-		LocationManager locMgr;
+		string _locationProvider;
 
 		string userAndsoft;
 		string userTransics;
 		string gPS;
-		Location previousLocation;
-		string _locationProvider;
+
+
+		bool isStarted = false;
+		private Handler handler = new Handler();
+		DBRepository dbr = new DBRepository();
+		static readonly string TAG = "X:" + typeof(ProcessDMS).Name;
+
+		GoogleApiClient googleApiClient;
+
 		#endregion
 
 		//string log_file;
 		public override StartCommandResult OnStartCommand(Android.Content.Intent intent, StartCommandFlags flags, int startId)
 		{
-			userAndsoft = DBRepository.Instance.getUserAndsoft();
-			userTransics = DBRepository.Instance.getUserTransics();
-
-			StartServiceInForeground();
-			Routine();
-
-			//initialize location manager
-			InitializeLocationManager();
-
-			if (_locationProvider != "")
+			if (isStarted)
 			{
-				locMgr.RequestLocationUpdates(_locationProvider, 0, 0, this);
-				Console.Out.Write("Listening for location updates using " + _locationProvider + ".");
+				Log.Debug(TAG, $"This service was already started");
+			}
+			else
+			{
+				userAndsoft = dbr.getUserAndsoft();
+				userTransics = dbr.getUserTransics();
+
+				StartServiceInForeground();
+
+				handler.PostDelayed(Routine, 2000);
+
+				//initialize location manager
+				//InitializeLocationManager();
+
+				//Init Google location manager
+				googleApiClient = new GoogleApiClient.Builder(this)
+				.AddApi(Android.Gms.Location.LocationServices.API)
+				.AddConnectionCallbacks(this)
+				.AddOnConnectionFailedListener(this)
+				.Build();
+				googleApiClient.Connect();
+				isStarted = true;
 			}
 
 			return StartCommandResult.Sticky;
@@ -57,30 +77,32 @@ namespace DMS_3
 
 		public override void OnDestroy()
 		{
-			base.OnDestroy();
+			isStarted = false;
 			StopForeground(true);
 			StopSelf();
+			base.OnDestroy();
 		}
 
 		void InitializeLocationManager()
 		{
-			locMgr = (LocationManager)GetSystemService(LocationService);
+			//Criteria locationCriteria = new Criteria();
 
-			Criteria criteriaForLocationService = new Criteria
-			{
-				Accuracy = Accuracy.Fine
-			};
-			IList<string> acceptableLocationProviders = locMgr.GetProviders(criteriaForLocationService, true);
+			//locationCriteria.Accuracy = Accuracy.Coarse;
+			//locationCriteria.PowerRequirement = Power.Medium;
 
-			if (acceptableLocationProviders.Any())
-			{
-				_locationProvider = acceptableLocationProviders.First();
-			}
-			else
-			{
-				_locationProvider = String.Empty;
-			}
-			Console.Out.Write("Using " + _locationProvider + ".");
+			//_locationProvider = locMgr.GetBestProvider(locationCriteria, true);
+
+			//locMgr = (LocationManager)GetSystemService(LocationService);
+
+			//if (_locationProvider != null)
+			//{
+			//	locMgr.RequestLocationUpdates(_locationProvider, 2000, 1, this);
+			//}
+			//else
+			//{
+			//	Log.Info(TAG, "No location providers available");
+			//}
+			//Console.Out.Write("Using " + _locationProvider + ".");
 		}
 
 		void StartServiceInForeground()
@@ -104,52 +126,46 @@ namespace DMS_3
 			notificationManager.Notify(notificationId, notification);
 		}
 
+
 		void Routine()
 		{
-			Task.Factory.StartNew(() =>
+			userAndsoft = dbr.getUserAndsoft();
+			userTransics = dbr.getUserTransics();
+			var connectivityManager = (ConnectivityManager)GetSystemService(ConnectivityService);
+			var activeConnection = connectivityManager.ActiveNetworkInfo;
+			if (userAndsoft != string.Empty)
+			{
+				if ((activeConnection != null) && activeConnection.IsConnected)
 				{
-					while (true)
-					{
-						userAndsoft = DBRepository.Instance.getUserAndsoft();
-						userTransics = DBRepository.Instance.getUserTransics();
-						var connectivityManager = (ConnectivityManager)GetSystemService(ConnectivityService);
-						var activeConnection = connectivityManager.ActiveNetworkInfo;
-						if (userAndsoft != string.Empty)
+					Task.Factory.StartNew(
+						() =>
 						{
-							if ((activeConnection != null) && activeConnection.IsConnected)
-							{
-								Task.Factory.StartNew(
-									() =>
-									{
-										Console.WriteLine("\nHello from ComPosNotifMsg.");
-										ComPosNotifMsg();
-										Thread.Sleep(500);
-									}
-								).ContinueWith(
-									t =>
-									{
-										Console.WriteLine("\nHello from ComWebService.");
-										ComWebService();
-										Thread.Sleep(500);
-									}
-								);
-							}
+							Log.Debug(TAG, $"Hello from ComPosNotifMsg.");
+							ComPosNotifMsg();
+							Thread.Sleep(500);
 						}
+					).ContinueWith(
+						t =>
+						{
+							Log.Debug(TAG, $"Hello from ComWebService.");
+							ComWebService();
+							Thread.Sleep(500);
+						}
+					);
+				}
+			}
 
-						ISharedPreferences pref = Application.Context.GetSharedPreferences("AppInfo", FileCreationMode.Private);
-						ISharedPreferencesEditor edit = pref.Edit();
-						edit.PutLong("Service", DateTime.Now.Ticks);
-						edit.Apply();
-						Console.Out.WriteLine("Service timer :" + pref.GetLong("Service", 0));
-						Thread.Sleep(120000);
-					}
-				});
+			ISharedPreferences pref = Application.Context.GetSharedPreferences("AppInfo", FileCreationMode.Private);
+			ISharedPreferencesEditor edit = pref.Edit();
+			edit.PutLong("Service", DateTime.Now.Ticks);
+			edit.Apply();
+			Console.Out.WriteLine("Service timer :" + pref.GetLong("Service", 0));
+			handler.PostDelayed(Routine, 120000);
 		}
 
-		public override Android.OS.IBinder OnBind(Android.Content.Intent intent)
+		public override IBinder OnBind(Intent intent)
 		{
-			binder = new ProcessDMSBinder(this);
-			return binder;
+			return null;
 		}
 
 		#region Webservice
@@ -171,6 +187,7 @@ namespace DMS_3
 				ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
 				string _url = prefs.GetString("API_DOMAIN", String.Empty) + "/api/commandeWsv4";
 				content_integdata = webClient.DownloadString(_url);
+
 				//intégration des données dans la BDD
 				JsonArray jsonVal = JsonValue.Parse(content_integdata) as JsonArray;
 				var jsonArr = jsonVal;
@@ -178,19 +195,16 @@ namespace DMS_3
 				{
 					foreach (var row in jsonArr)
 					{
-						bool checkpos = DBRepository.Instance.pos_AlreadyExist(row["numCommande"], row["groupage"], row["typeMission"], row["typeSegment"]);
+						bool checkpos = dbr.pos_AlreadyExist(row["numCommande"], row["groupage"], row["typeMission"], row["typeSegment"]);
 						if (!checkpos)
 						{
 							try
 							{
-								DBRepository.Instance.insertDataPosition(row["idSegment"], row["codeLivraison"], row["numCommande"], row["nomClient"], row["refClient"], row["nomPayeur"], row["adresseLivraison"], row["CpLivraison"], row["villeLivraison"], row["dateExpe"], row["nbrColis"], row["nbrPallette"], row["poids"], row["adresseExpediteur"], row["CpExpediteur"], row["dateExpe"], row["villeExpediteur"], row["nomExpediteur"], row["instrucLivraison"], row["groupage"], row["PoidsADR"], row["PoidsQL"], row["typeMission"], row["typeSegment"], "0", row["CR"], row["ASSIGNE"], DateTime.Now.Day.ToString(), row["Datemission"], row["Ordremission"], row["planDeTransport"], userAndsoft, row["nomClientLivraison"], row["villeClientLivraison"], row["PositionPole"], "null");
+								dbr.insertDataPosition(row["idSegment"], row["codeLivraison"], row["numCommande"], row["nomClient"], row["refClient"], row["nomPayeur"], row["adresseLivraison"], row["CpLivraison"], row["villeLivraison"], row["dateExpe"], row["nbrColis"], row["nbrPallette"], row["poids"], row["adresseExpediteur"], row["CpExpediteur"], row["dateExpe"], row["villeExpediteur"], row["nomExpediteur"], row["instrucLivraison"], row["groupage"], row["PoidsADR"], row["PoidsQL"], row["typeMission"], row["typeSegment"], "0", row["CR"], row["ASSIGNE"], DateTime.Now.Day.ToString(), row["Datemission"], row["Ordremission"], row["planDeTransport"], userAndsoft, row["nomClientLivraison"], row["villeClientLivraison"], row["PositionPole"], "null");
 								foreach (JsonValue item in row["detailColis"])
 								{
-									DBRepository.Instance.InsertDataColis(item["NumColis"], row["numCommande"]);
+									dbr.InsertDataColis(item["NumColis"], row["numCommande"]);
 								}
-
-								//NOTIF
-								DBRepository.Instance.InsertDataStatutMessage(10, DateTime.Now, 1, row["numCommande"], row["groupage"]);
 							}
 							catch (Exception ex)
 							{
@@ -198,6 +212,8 @@ namespace DMS_3
 								RaygunClient.Current.SendInBackground(ex);
 							}
 						}
+						//NOTIF
+						dbr.InsertDataStatutMessage(10, DateTime.Now, 1, row["numCommande"], row["groupage"]);
 					}
 
 					//SON
@@ -209,7 +225,7 @@ namespace DMS_3
 
 				//SUPP DES GRP CLO
 				string content_grpcloture = String.Empty;
-				var tablegroupage = DBRepository.Instance.QueryPositions("SELECT groupage FROM TablePositions group by groupage");
+				var tablegroupage = dbr.QueryPositions("SELECT groupage FROM TablePositions group by groupage");
 				foreach (var row in tablegroupage)
 				{
 					string numGroupage = row.groupage;
@@ -226,7 +242,7 @@ namespace DMS_3
 						if (content_grpcloture == "{\"etat\":\"CLO\"}")
 						{
 							//suppression du groupage en question si clo
-							DBRepository.Instance.QueryPositions("DELETE from TablePositions where groupage = '" + numGroupage + "'");
+							dbr.QueryPositions("DELETE from TablePositions where groupage = '" + numGroupage + "'");
 						}
 					}
 					catch (Exception ex)
@@ -245,7 +261,7 @@ namespace DMS_3
 			}
 
 			//SET des badges
-			DBRepository.Instance.SETBadges(Data.userAndsoft);
+			dbr.SETBadges(Data.userAndsoft);
 			Console.WriteLine("\nTask InsertData done");
 		}
 
@@ -289,16 +305,21 @@ namespace DMS_3
 				}
 
 				//SET des badges
-				DBRepository.Instance.SETBadges(Data.userAndsoft);
+				dbr.SETBadges(Data.userAndsoft);
 
 				String datajson = string.Empty;
 				String datagps = string.Empty;
 				String datamsg = string.Empty;
 				String datanotif = string.Empty;
 
+				if (gPS == string.Empty)
+				{
+					//InitializeLocationManager();
+				}
+
 				datagps = "{\"posgps\":\"" + gPS + "\",\"userandsoft\":\"" + userAndsoft + "\"}";
 
-				var tableNotif = DBRepository.Instance.QueryNotif("SELECT * FROM TableNotifications");
+				var tableNotif = dbr.QueryNotif("SELECT * FROM TableNotifications");
 
 				//SEND NOTIF
 				foreach (var item in tableNotif)
@@ -307,7 +328,7 @@ namespace DMS_3
 				}
 
 				//SEND MESSAGE
-				var tablemessage = DBRepository.Instance.QueryMessage("SELECT * FROM TableMessages WHERE statutMessage = 2 or statutMessage = 5");
+				var tablemessage = dbr.QueryMessage("SELECT * FROM TableMessages WHERE statutMessage = 2 or statutMessage = 5");
 				foreach (var item in tablemessage)
 				{
 					datamsg += "{\"codeChauffeur\":\"" + item.codeChauffeur + "\",\"texteMessage\":\"" + item.texteMessage + "\",\"utilisateurEmetteur\":\"" + item.utilisateurEmetteur + "\",\"dateImportMessage\":\"" + item.dateImportMessage + "\",\"typeMessage\":\"" + item.typeMessage + "\"},";
@@ -360,7 +381,7 @@ namespace DMS_3
 		void ComWebService()
 		{
 			//récupération des données dans la BDD
-			var table = DBRepository.Instance.QueryStatuPos("Select * FROM TableStatutPositions");
+			var table = dbr.QueryStatuPos("Select * FROM TableStatutPositions");
 			string datajsonArray = string.Empty;
 			datajsonArray += "[";
 			foreach (var item in table)
@@ -395,7 +416,7 @@ namespace DMS_3
 			try
 			{
 				string resultjson = "[" + e.Result + "]";
-				//DBRepository.Instance.InsertLogService(e.Result,DateTime.Now,"WebClient_UploadStringCompleted Response");
+				//dbr.InsertLogService(e.Result,DateTime.Now,"WebClient_UploadStringCompleted Response");
 				if (e.Result != "\"YOLO\"")
 				{
 					JsonArray jsonVal = JsonArray.Parse(resultjson) as JsonArray;
@@ -428,10 +449,10 @@ namespace DMS_3
 					}
 				}
 
-				var tablemessage = DBRepository.Instance.QueryMessage("SELECT * FROM TableMessages WHERE statutMessage = 2 or statutMessage = 5");
+				var tablemessage = dbr.QueryMessage("SELECT * FROM TableMessages WHERE statutMessage = 2 or statutMessage = 5");
 				foreach (var item in tablemessage)
 				{
-					DBRepository.Instance.QueryMessage("UPDATE TableMessages SET statutMessage = 3 WHERE _Id = '" + item.Id + "'");
+					dbr.QueryMessage("UPDATE TableMessages SET statutMessage = 3 WHERE _Id = '" + item.Id + "'");
 				}
 			}
 			catch (Exception ex)
@@ -447,39 +468,39 @@ namespace DMS_3
 			{
 				if (texteMessage.ToString().Length < 9)
 				{
-					DBRepository.Instance.insertDataMessage(codeChauffeur, utilisateurEmetteur, texteMessage, 0, DateTime.Now, 1, numMessage);
-					DBRepository.Instance.InsertDataStatutMessage(0, DateTime.Now, numMessage, "", "");
+					dbr.insertDataMessage(codeChauffeur, utilisateurEmetteur, texteMessage, 0, DateTime.Now, 1, numMessage);
+					dbr.InsertDataStatutMessage(0, DateTime.Now, numMessage, "", "");
 					alertsms();
 				}
 				else {
 					switch (texteMessage.ToString().Substring(0, 9))
 					{
 						case "%%SUPPLIV":
-							DBRepository.Instance.updatePositionSuppliv(texteMessage.Remove(texteMessage.Length - 2).Substring(10));
-							DBRepository.Instance.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
-							TablePositions posMsg = DBRepository.Instance.GetPositionsData(DBRepository.Instance.GetidPosition(texteMessage.Remove(texteMessage.Length - 2).Substring(10)));
-							DBRepository.Instance.insertDataMessage(codeChauffeur, utilisateurEmetteur, "La position " + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "de " + posMsg.typeSegment + " a été supprimée de votre tournée", 0, DateTime.Now, 1, numMessage);
-							DBRepository.Instance.SETBadges(Data.userAndsoft);
+							dbr.updatePositionSuppliv(texteMessage.Remove(texteMessage.Length - 2).Substring(10));
+							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
+							TablePositions posMsg = dbr.GetPositionsData(dbr.GetidPosition(texteMessage.Remove(texteMessage.Length - 2).Substring(10)));
+							dbr.insertDataMessage(codeChauffeur, utilisateurEmetteur, "La position " + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "de " + posMsg.typeSegment + " a été supprimée de votre tournée", 0, DateTime.Now, 1, numMessage);
+							dbr.SETBadges(Data.userAndsoft);
 							break;
 						case "%%RETOLIV":
-							DBRepository.Instance.QueryPositions("UPDATE TablePositions SET imgpath = null WHERE numCommande = '" + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "'");
-							DBRepository.Instance.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
+							dbr.QueryPositions("UPDATE TablePositions SET imgpath = null WHERE numCommande = '" + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "'");
+							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
 							break;
 						case "%%SUPPGRP":
-							DBRepository.Instance.QueryPositions("DELETE from TablePositions where groupage = '" + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "'");
-							DBRepository.Instance.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
+							dbr.QueryPositions("DELETE from TablePositions where groupage = '" + texteMessage.Remove(texteMessage.Length - 2).Substring(10) + "'");
+							dbr.InsertDataStatutMessage(1, DateTime.Now, numMessage, "", "");
 							break;
 						case "%%RUNTGPS":
-							if (_locationProvider != "")
-							{
-								locMgr.RequestLocationUpdates(_locationProvider, 0, 0, this);
-								Console.Out.Write("Listening for location updates using " + _locationProvider + ".");
-								DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", "Listening for location updates using " + _locationProvider + ".", 5, DateTime.Now, 5, 0);
-							}
-							else
-							{
-								DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", "Location provider null", 5, DateTime.Now, 5, 0);
-							}
+							//if (_locationProvider != "")
+							//{
+							//	locMgr.RequestLocationUpdates(_locationProvider, 0, 0, this);
+							//	Console.Out.Write("Listening for location updates using " + _locationProvider + ".");
+							//	dbr.insertDataMessage(Data.userAndsoft, "", "Listening for location updates using " + _locationProvider + ".", 5, DateTime.Now, 5, 0);
+							//}
+							//else
+							//{
+							//	dbr.insertDataMessage(Data.userAndsoft, "", "Location provider null", 5, DateTime.Now, 5, 0);
+							//}
 							break;
 						case "%%COMMAND":
 							InsertData();
@@ -488,7 +509,7 @@ namespace DMS_3
 							try
 							{
 								string compImg;
-								string imgpath = DBRepository.Instance.getAnomalieImgPath(texteMessage.Remove(texteMessage.Length - 2).Substring(10));
+								string imgpath = dbr.getAnomalieImgPath(texteMessage.Remove(texteMessage.Length - 2).Substring(10));
 								if (imgpath != string.Empty)
 								{
 									Android.Graphics.Bitmap bmp = Android.Graphics.BitmapFactory.DecodeFile(imgpath);
@@ -515,7 +536,7 @@ namespace DMS_3
 										}
 									}
 								}
-								DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", "%%GETAIMG Done", 5, DateTime.Now, 5, 0);
+								dbr.insertDataMessage(Data.userAndsoft, "", "%%GETAIMG Done", 5, DateTime.Now, 5, 0);
 							}
 							catch (Exception ex)
 							{
@@ -532,7 +553,7 @@ namespace DMS_3
 							switch (texteMessageInputSplit[2])
 							{
 								case "TableMessages":
-									var selMesg = DBRepository.Instance.QueryMessage(texteMessageInputSplit[3]);
+									var selMesg = dbr.QueryMessage(texteMessageInputSplit[3]);
 									string rowMsg = "";
 									rowMsg += "[";
 									foreach (var item in selMesg)
@@ -541,10 +562,10 @@ namespace DMS_3
 									}
 									rowMsg.Remove(rowMsg.Length - 1);
 									rowMsg += "]";
-									DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", rowMsg, 5, DateTime.Now, 5, 0);
+									dbr.insertDataMessage(Data.userAndsoft, "", rowMsg, 5, DateTime.Now, 5, 0);
 									break;
 								case "TableNotifications":
-									var selNotif = DBRepository.Instance.QueryNotif(texteMessageInputSplit[3]);
+									var selNotif = dbr.QueryNotif(texteMessageInputSplit[3]);
 									string rowNotif = "";
 									rowNotif += "[";
 									foreach (var item in selNotif)
@@ -553,11 +574,11 @@ namespace DMS_3
 									}
 									rowNotif.Remove(rowNotif.Length - 1);
 									rowNotif += "]";
-									DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", rowNotif, 5, DateTime.Now, 5, 0);
+									dbr.insertDataMessage(Data.userAndsoft, "", rowNotif, 5, DateTime.Now, 5, 0);
 
 									break;
 								case "TablePositions":
-									var selPos = DBRepository.Instance.QueryPositions(texteMessageInputSplit[3]);
+									var selPos = dbr.QueryPositions(texteMessageInputSplit[3]);
 									string rowPos = "";
 									rowPos += "[";
 									foreach (var item in selPos)
@@ -566,10 +587,10 @@ namespace DMS_3
 									}
 									rowPos.Remove(rowPos.Length - 1);
 									rowPos += "]";
-									DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", rowPos, 5, DateTime.Now, 5, 0);
+									dbr.insertDataMessage(Data.userAndsoft, "", rowPos, 5, DateTime.Now, 5, 0);
 									break;
 								case "TableColis":
-									var selColis = DBRepository.Instance.QueryColis(texteMessageInputSplit[3]);
+									var selColis = dbr.QueryColis(texteMessageInputSplit[3]);
 									string rowColis = "";
 									rowColis += "[";
 									foreach (var item in selColis)
@@ -578,10 +599,10 @@ namespace DMS_3
 									}
 									rowColis.Remove(rowColis.Length - 1);
 									rowColis += "]";
-									DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", rowColis, 5, DateTime.Now, 5, 0);
+									dbr.insertDataMessage(Data.userAndsoft, "", rowColis, 5, DateTime.Now, 5, 0);
 									break;
 								case "TableStatutPositions":
-									var selStat = DBRepository.Instance.QueryStatuPos(texteMessageInputSplit[3]);
+									var selStat = dbr.QueryStatuPos(texteMessageInputSplit[3]);
 									string rowStatut = "";
 									rowStatut += "[";
 									foreach (var item in selStat)
@@ -590,25 +611,25 @@ namespace DMS_3
 									}
 									rowStatut.Remove(rowStatut.Length - 1);
 									rowStatut += "]";
-									DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", rowStatut, 5, DateTime.Now, 5, 0);
+									dbr.insertDataMessage(Data.userAndsoft, "", rowStatut, 5, DateTime.Now, 5, 0);
 									break;
 								case "REORDER":
 									string[] arraySQL = texteMessageInputSplit[3].Split('|');
 									foreach (string item in arraySQL)
 									{
 										var subarrSQL = item.Split('-');
-										DBRepository.Instance.updatePositionOrder(subarrSQL[0].ToString(), Convert.ToInt32(subarrSQL[1]));
+										dbr.updatePositionOrder(subarrSQL[0].ToString(), Convert.ToInt32(subarrSQL[1]));
 									}
 									break;
 								default:
-									var execreq = DBRepository.Instance.Execute(texteMessageInputSplit[3]);
-									DBRepository.Instance.insertDataMessage(Data.userAndsoft, "", execreq + " lignes traitées : " + texteMessageInputSplit[3], 5, DateTime.Now, 5, 0);
+									var execreq = dbr.Execute(texteMessageInputSplit[3]);
+									dbr.insertDataMessage(Data.userAndsoft, "", execreq + " lignes traitées : " + texteMessageInputSplit[3], 5, DateTime.Now, 5, 0);
 									break;
 							}
 							break;
 						default:
-							DBRepository.Instance.insertDataMessage(codeChauffeur, utilisateurEmetteur, texteMessage, 0, DateTime.Now, 1, numMessage);
-							DBRepository.Instance.InsertDataStatutMessage(0, DateTime.Now, numMessage, "", "");
+							dbr.insertDataMessage(codeChauffeur, utilisateurEmetteur, texteMessage, 0, DateTime.Now, 1, numMessage);
+							dbr.InsertDataStatutMessage(0, DateTime.Now, numMessage, "", "");
 							alertsms();
 							Console.WriteLine(numMessage.ToString());
 							break;
@@ -624,32 +645,32 @@ namespace DMS_3
 		#endregion
 
 		#region GPS
-		public void OnLocationChanged(Android.Locations.Location location)
-		{
-			if (previousLocation == null)
-			{
-				gPS = location.Latitude + ";" + location.Longitude;
-				Data.GPS = location.Latitude + ";" + location.Longitude;
-				previousLocation = location;
-			}
-			else {
-				if (true)
-				{
-					gPS = location.Latitude + ";" + location.Longitude;
-					Data.GPS = location.Latitude + ";" + location.Longitude;
-					previousLocation = location;
-				}
-			}
-		}
-		public void OnProviderDisabled(string provider)
-		{
-		}
-		public void OnProviderEnabled(string provider)
-		{
-		}
-		public void OnStatusChanged(string provider, Availability status, Bundle extras)
-		{
-		}
+		//public void OnLocationChanged(Android.Locations.Location location)
+		//{
+		//	if (previousLocation == null)
+		//	{
+		//		gPS = location.Latitude + ";" + location.Longitude;
+		//		Data.GPS = location.Latitude + ";" + location.Longitude;
+		//		previousLocation = location;
+		//	}
+		//	else {
+		//		if (true)
+		//		{
+		//			gPS = location.Latitude + ";" + location.Longitude;
+		//			Data.GPS = location.Latitude + ";" + location.Longitude;
+		//			previousLocation = location;
+		//		}
+		//	}
+		//}
+		//public void OnProviderDisabled(string provider)
+		//{
+		//}
+		//public void OnProviderEnabled(string provider)
+		//{
+		//}
+		//public void OnStatusChanged(string provider, Availability status, Bundle extras)
+		//{
+		//}
 
 		public double distance(double lat1, double lng1, double lat2, double lng2)
 		{
@@ -715,25 +736,94 @@ namespace DMS_3
 				return false;
 			}
 		}
-	}
 
-	public class ProcessDMSBinder : Binder
-	{
-		ProcessDMS service;
-
-		public ProcessDMSBinder(ProcessDMS service)
+		public async void OnConnected(Bundle connectionHint)
 		{
-			this.service = service;
+			// Get Last known location
+			var lastLocation = LocationServices.FusedLocationApi.GetLastLocation(googleApiClient);
+
+			gPS = lastLocation == null ? "NULL" : gpsLocation(lastLocation);
+			Data.GPS = lastLocation == null ? "NULL" : gpsLocation(lastLocation);
+
+			await RequestLocationUpdates();
 		}
 
-		public ProcessDMS GetDemoService()
+		public void OnConnectionSuspended(int cause)
 		{
-			return service;
+			//throw new NotImplementedException();
 		}
 
-		public ProcessDMS StopService()
+		public void OnConnectionFailed(ConnectionResult result)
 		{
-			return service;
+			googleApiClient.Connect();
+			//throw new NotImplementedException();
+		}
+
+		async Task RequestLocationUpdates()
+		{
+			// Describe our location request
+			var locationRequest = new LocationRequest()
+				.SetInterval(2000)
+				.SetFastestInterval(1000)
+				.SetPriority(LocationRequest.PriorityHighAccuracy);
+
+			// Check to see if we can request updates first
+			if (await CheckLocationAvailability(locationRequest))
+			{
+
+				// Request updates
+				await LocationServices.FusedLocationApi.RequestLocationUpdates(googleApiClient,
+					locationRequest, this);
+			}
+		}
+
+		async Task<bool> CheckLocationAvailability(LocationRequest locationRequest)
+		{
+			// Build a new request with the given location request
+			var locationSettingsRequest = new LocationSettingsRequest.Builder()
+				.AddLocationRequest(locationRequest)
+				.Build();
+
+			// Ask the Settings API if we can fulfill this request
+			var locationSettingsResult = await LocationServices.SettingsApi.CheckLocationSettingsAsync(googleApiClient, locationSettingsRequest);
+
+
+			// If false, we might be able to resolve it by showing the location settings 
+			// to the user and allowing them to change the settings
+			//if (!locationSettingsResult.Status.IsSuccess)
+			//{
+
+			//	if (locationSettingsResult.Status.StatusCode == LocationSettingsStatusCodes.ResolutionRequired)
+			//		locationSettingsResult.Status.StartResolutionForResult(Application.Context., 101);
+			//	else
+			//		Toast.MakeText(this, "Location Services Not Available for the given request.", ToastLength.Long).Show();
+
+			//	return false;
+			//}
+
+			return true;
+		}
+
+		public void OnLocationChanged(Android.Locations.Location location)
+		{
+			// Show latest location
+			var l = gpsLocation(location);
+
+			gPS = l;
+			Data.GPS = l;
+		}
+
+		string DescribeLocation(Android.Locations.Location location)
+		{
+			return string.Format("{0}: {1}, {2} @ {3}",
+				location.Provider,
+				location.Latitude,
+				location.Longitude,
+				new DateTime(1970, 1, 1, 0, 0, 0).AddMilliseconds(location.Time));
+		}
+		string gpsLocation(Android.Locations.Location location)
+		{
+			return string.Format("{0};{1}", location.Latitude, location.Longitude);
 		}
 	}
 }

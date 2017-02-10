@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Json;
 using System.Net;
@@ -25,6 +25,7 @@ namespace DMS_3
 		EditText password;
 		TextView tableload;
 		BackgroundWorker bgService;
+		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -80,11 +81,11 @@ namespace DMS_3
 			if (!(user.Text == ""))
 			{
 				//INSTANCE DBREPOSITORY
-				var usercheck = DBRepository.Instance.user_Check(user.Text.ToUpper(), password.Text);
+				var usercheck = dbr.user_Check(user.Text.ToUpper(), password.Text);
 				if (usercheck)
 				{
 					//UPDATE DE LA BDD AVEC CE USER
-					DBRepository.Instance.setUserdata(user.Text.ToUpper());
+					dbr.setUserdata(user.Text.ToUpper());
 					//lancement du BgWorker Service
 					StartService(new Intent(this, typeof(ProcessDMS)));
 					bgService = new BackgroundWorker();
@@ -251,11 +252,11 @@ namespace DMS_3
 			var jsonArr = jsonVal;
 			foreach (var row in jsonArr)
 			{
-				var checkUser = DBRepository.Instance.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Societe"]);
+				var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Societe"]);
 				Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
 				if (!checkUser)
 				{
-					var IntegUser = DBRepository.Instance.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Usepartic"], row["User_Societe"]);
+					var IntegUser = dbr.InsertDataUser(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Usepartic"], row["User_Societe"]);
 					Console.WriteLine("\n" + IntegUser);
 				}
 			}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -27,8 +27,7 @@ namespace DMS_3
 		RelativeLayout peekupBadge;
 		RelativeLayout newMsgBadge;
 		System.Timers.Timer indicatorTimer;
-		ProcessDMSBinder binder;
-		ProcessDMSConnection processDMSConnection;
+		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -62,16 +61,12 @@ namespace DMS_3
 			//btn_Livraison.LongClick += Btn_Livraison_LongClick;
 			btn_Message.Click += delegate { btn_Message_Click(); };
 			btn_Flash.Click += delegate { btn_Flash_Click(); };
-	
+
 			//FONTS
 			txtLivraison.SetTypeface(Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);
 			txtEnlevement.SetTypeface(Data.LatoBlack, Android.Graphics.TypefaceStyle.Normal);
-			if (processDMSConnection != null)
-				binder = processDMSConnection.Binder;
 
-			var processServiceIntent = new Intent("com.dealtis.dms_3.ProcessDMS");
-			processDMSConnection = new ProcessDMSConnection(this);
-			ApplicationContext.BindService(processServiceIntent, processDMSConnection, Bind.AutoCreate);
+			StartService(new Intent(this, typeof(ProcessDMS)));
 		}
 
 		//void Btn_Livraison_LongClick(object sender, View.LongClickEventArgs e)
@@ -90,7 +85,7 @@ namespace DMS_3
 			builder.SetPositiveButton("Annuler", delegate { });
 			builder.SetNegativeButton("Déconnexion", delegate
 			{
-				DBRepository.Instance.logout();
+				dbr.logout();
 				Data.userAndsoft = null;
 				Data.userTransics = null;
 				StopService(new Intent(this, typeof(ProcessDMS)));
@@ -113,8 +108,8 @@ namespace DMS_3
 
 			try
 			{
-				var user_Login = DBRepository.Instance.is_user_Log_In();
-				DBRepository.Instance.SETBadges(Data.userAndsoft);
+				var user_Login = dbr.is_user_Log_In();
+				dbr.SETBadges(Data.userAndsoft);
 				if (user_Login == "false")
 				{
 					StartActivity(new Intent(Application.Context, typeof(MainActivity)));
@@ -219,41 +214,6 @@ namespace DMS_3
 		public override void OnBackPressed()
 		{
 			System.Console.WriteLine("Do nothing");
-		}
-
-		class ProcessDMSConnection : Java.Lang.Object, IServiceConnection
-		{
-			HomeActivity activity;
-			ProcessDMSBinder binder;
-
-			public ProcessDMSBinder Binder
-			{
-				get
-				{
-					return binder;
-				}
-			}
-			public ProcessDMSConnection(HomeActivity activity)
-			{
-				this.activity = activity;
-			}
-			public void OnServiceConnected(ComponentName name, IBinder service)
-			{
-				var demoServiceBinder = service as ProcessDMSBinder;
-				if (demoServiceBinder != null)
-				{
-					activity.binder = (ProcessDMSBinder)service;
-					if (Data.userAndsoft != null || Data.userAndsoft != "")
-					{
-						Data.Is_Service_Running = true;
-					}
-					this.binder = (ProcessDMSBinder)service;
-				}
-			}
-			public void OnServiceDisconnected(ComponentName name)
-			{
-				Data.Is_Service_Running = false;
-			}
 		}
 	}
 }
