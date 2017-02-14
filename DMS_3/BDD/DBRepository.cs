@@ -38,7 +38,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				return false;
 			}
 		}
@@ -63,7 +63,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				return false;
 			}
 		}
@@ -90,7 +90,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -148,7 +148,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -176,7 +176,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -199,7 +199,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -225,7 +225,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -252,7 +252,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -275,7 +275,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -298,7 +298,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -329,7 +329,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				Console.WriteLine(ex);
 				return false;
 			}
@@ -356,7 +356,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -384,7 +384,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -417,7 +417,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -559,7 +559,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -585,7 +585,7 @@ namespace DMS_3.BDD
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -608,7 +608,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -633,7 +633,7 @@ namespace DMS_3.BDD
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -695,7 +695,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -718,7 +718,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				Console.WriteLine(ex);
 				return false;
 			}
@@ -915,7 +915,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}

@@ -118,7 +118,7 @@ namespace DMS_3
 			catch (System.Exception ex)
 			{
 				System.Console.WriteLine("Erreur sur is_user_Log_In" + ex);
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 			}
 
 			var version = this.PackageManager.GetPackageInfo(this.PackageName, 0).VersionName;

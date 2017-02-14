@@ -65,7 +65,7 @@ namespace DMS_3
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 			}
 		}
 
@@ -103,7 +103,7 @@ namespace DMS_3
 				catch (Exception ex)
 				{
 					Console.WriteLine(ex);
-					RaygunClient.Current.SendInBackground(ex);
+					RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				}
 			}
 			else
@@ -115,7 +115,7 @@ namespace DMS_3
 				catch (Exception ex)
 				{
 					Console.WriteLine(ex);
-					RaygunClient.Current.SendInBackground(ex);
+					RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				}
 
 			}
@@ -291,7 +291,7 @@ namespace DMS_3
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 			}
 		}
 

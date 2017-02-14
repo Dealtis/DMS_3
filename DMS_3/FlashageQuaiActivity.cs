@@ -373,7 +373,7 @@ namespace DMS_3
 				catch (System.Exception ex)
 				{
 					Console.WriteLine(ex);
-					RaygunClient.Current.SendInBackground(ex);
+					RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 					AndHUD.Shared.Dismiss(this);
 				}
 			});
@@ -402,7 +402,7 @@ namespace DMS_3
 				catch (Exception ex)
 				{
 					Console.WriteLine(ex);
-					RaygunClient.Current.SendInBackground(ex);
+					RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				}
 			});
 		}
@@ -556,7 +556,7 @@ namespace DMS_3
 			{
 				Console.WriteLine(ex);
 				AndHUD.Shared.Dismiss(this);
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 				RunOnUiThread(() => btn_photo.Visibility = ViewStates.Gone);
 				RunOnUiThread(() => Toast.MakeText(this, "Erreur de connexion", ToastLength.Short).Show());
 			}
@@ -712,7 +712,7 @@ namespace DMS_3
 						catch (Exception ex)
 						{
 							Console.WriteLine("\n" + ex);
-							RaygunClient.Current.SendInBackground(ex);
+							RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 						}
 					});
 				threadUpload.Start();

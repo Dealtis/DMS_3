@@ -14,6 +14,11 @@ using Android.Widget;
 using DMS_3.BDD;
 using Mindscape.Raygun4Net.Messages;
 using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
+using Microsoft.Azure.Mobile;
+using Microsoft.Azure.Mobile.Analytics;
+using Microsoft.Azure.Mobile.Crashes;
+using HockeyApp.Android;
+using HockeyApp.Android.Metrics;
 
 namespace DMS_3
 {
@@ -143,6 +148,18 @@ namespace DMS_3
 					bgService.RunWorkerAsync();
 
 					var telephonyManager = (TelephonyManager)GetSystemService(TelephonyService);
+
+					// Hockey App
+					CrashManager.Register(this, "337f4f12782f47e590a7e84867bc087a");
+					MetricsManager.Register(Application, "337f4f12782f47e590a7e84867bc087a");
+
+					//Xamarin
+					Xamarin.Insights.Initialize("982a3c876c6a53932848ed500da432bb3dada603", this);
+					Xamarin.Insights.Identify(Data.userAndsoft, "Name", Data.userAndsoft);
+
+					//Mobile Center
+					MobileCenter.Start("9f4aa4e8-7eee-46dc-8afe-e6d7531d5426",
+					typeof(Analytics), typeof(Crashes));
 
 					// Raygun4Net
 					RaygunClient.Initialize("VXMXLFnw+2LJyuTXX8taYg==").AttachCrashReporting().AttachPulse(this);

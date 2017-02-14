@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -179,7 +179,7 @@ namespace DMS_3
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 			}
 		}
 
@@ -291,7 +291,7 @@ namespace DMS_3
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
-				RaygunClient.Current.SendInBackground(ex);
+				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 			}
 			return true;
 		}
