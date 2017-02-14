@@ -58,7 +58,7 @@ namespace DMS_3
 		string actionP;
 		string type;
 		string trait;
-		bool flashinprogress;
+		bool flashinprogress = false;
 		int currentPrlFLash;
 
 		MobileBarcodeScanner scanner;
@@ -205,7 +205,7 @@ namespace DMS_3
 			{
 				//IF TC55 do nothing
 				String model = Build.Model;
- 				if (model != "TC55" && model != "TC8000")
+				if (model != "TC55" && model != "TC8000")
 				{
 					if (e.Text.ToString() != string.Empty)
 					{
@@ -223,7 +223,7 @@ namespace DMS_3
 				{
 					e.Handled = true;
 					numero = barcode.Text.ToString();
-					ShowProgress(progress => AndHUD.Shared.Show(this, barcode.Text.ToString() + " ... " + progress + "%", progress, MaskType.Clear,null,null,true,() => AndHUD.Shared.Dismiss(this)), barcode.Text.ToString());
+					ShowProgress(progress => AndHUD.Shared.Show(this, barcode.Text.ToString() + " ... " + progress + "%", progress, MaskType.Clear, null, null, true, () => AndHUD.Shared.Dismiss(this)), barcode.Text.ToString());
 					barcode.EditableText.Clear();
 				}
 			};
@@ -317,10 +317,19 @@ namespace DMS_3
 					progress += 20;
 					action(progress);
 					//check is_colis_in_truck
+
 					if (num.IndexOf("POLE") != -1)
 					{
+
 						var numSplit = num.Split('.');
-						num = numSplit[1].Remove(numSplit[1].Length - 1);
+						if (numSplit.Length > 1)
+						{
+							num = numSplit[1].Remove(numSplit[1].Length - 1);
+						}else
+						{
+							num = numSplit[0].Remove(0,4);
+						}
+
 					}
 					var is_colis_in_truck = dbr.is_colis_in_truck(num);
 					if (is_colis_in_truck != int.MinValue)
@@ -398,29 +407,30 @@ namespace DMS_3
 			});
 		}
 
-		void afficherInformationsWebservice(int progress, Action<int> action, string num)
+		public void afficherInformationsWebservice(int progress, Action<int> action, string num)
 		{
-			if (!flashinprogress)
+			try
 			{
-				RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
-				//get infos  WS
-				//string _url = "http://dms.jeantettransport.com/api/flash";
-
-				var webClient = new TimeoutWebclient();
-				webClient.Encoding = System.Text.Encoding.UTF8;
-				webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-
-				webClient.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.CacheIfAvailable);
-				webClient.QueryString.Add("val", num);
-				webClient.QueryString.Add("soc", dbr.GetSociete(Data.userAndsoft));
-
-				ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
-				string _url = prefs.GetString("API_DOMAIN", String.Empty) + "/api/flash";
-				string dataWS = "";
-
-				try
+				if (!flashinprogress)
 				{
-					webClient.DownloadStringCompleted+= WebClient_DownloadStringCompleted;
+					RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
+					//get infos  WS
+					//string _url = "http://dms.jeantettransport.com/api/flash";
+
+					var webClient = new TimeoutWebclient();
+					webClient.Encoding = System.Text.Encoding.UTF8;
+					webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+
+					webClient.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.CacheIfAvailable);
+					webClient.QueryString.Add("val", num);
+					webClient.QueryString.Add("soc", dbr.GetSociete(Data.userAndsoft));
+
+					ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(this);
+					string _url = prefs.GetString("API_DOMAIN", String.Empty) + "/api/flash";
+					string dataWS = "";
+
+
+					webClient.DownloadStringCompleted += WebClient_DownloadStringCompleted;
 					dataWS = webClient.DownloadString(_url);
 					progress += 50;
 					action(progress);
@@ -527,24 +537,28 @@ namespace DMS_3
 						TableLayout tl = (TableLayout)FindViewById(Resource.Id.tableEvenement);
 						RunOnUiThread(() => tl.RemoveAllViews());
 						RunOnUiThread(() => btn_photo.Visibility = ViewStates.Gone);
-						dialog.Dismiss();
+						if (dialog != null)
+						{
+							dialog.Dismiss();
+						}
 					}
 					AndHUD.Shared.Dismiss(this);
+
 				}
-				catch (WebException ex)
+				else
 				{
-					Console.WriteLine(ex);
+					RunOnUiThread(() => Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Short).Show());
 					AndHUD.Shared.Dismiss(this);
-					RaygunClient.Current.SendInBackground(ex);
-					RunOnUiThread(() => btn_photo.Visibility = ViewStates.Gone);
-					RunOnUiThread(() => Toast.MakeText(this, "Erreur de connexion", ToastLength.Short).Show());
+					//RunOnUiThread(() => AndHUD.Shared.ShowError(this, "It no worked :(", MaskType.Black, TimeSpan.FromSeconds(2)));
 				}
 			}
-			else
+			catch (WebException ex)
 			{
-				RunOnUiThread(() => Toast.MakeText(this, "Attention mauvais colis !", ToastLength.Short).Show());
+				Console.WriteLine(ex);
 				AndHUD.Shared.Dismiss(this);
-				//RunOnUiThread(() => AndHUD.Shared.ShowError(this, "It no worked :(", MaskType.Black, TimeSpan.FromSeconds(2)));
+				RaygunClient.Current.SendInBackground(ex);
+				RunOnUiThread(() => btn_photo.Visibility = ViewStates.Gone);
+				RunOnUiThread(() => Toast.MakeText(this, "Erreur de connexion", ToastLength.Short).Show());
 			}
 		}
 
