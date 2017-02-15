@@ -29,7 +29,6 @@ namespace DMS_3
 		string tyM;
 		string trait;
 		List<TablePositions> grp;
-		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -92,12 +91,13 @@ namespace DMS_3
 					btntrait.Text = "Ramasses";
 				}
 			}
-
+			DBRepository dbr = new DBRepository();
 			//Mise dans un Array des Groupages
 			if (trait == "false")
 			{
 				try
 				{
+					
 					grp = dbr.QueryGRP("SELECT SUM(poidsADR) as poidsADR,SUM(poidsQL) as poidsQL, groupage FROM TablePositions WHERE StatutLivraison = ? AND typeMission= ? AND typeSegment= ?  AND Userandsoft = ?  GROUP BY groupage", tyM, tyS, Data.userAndsoft);
 				}
 				catch (Exception ex)
@@ -252,6 +252,7 @@ namespace DMS_3
 			try
 			{
 				bodyItems.Clear();
+				DBRepository dbr = new DBRepository();
 				var table = dbr.QueryPositions(requete);
 				foreach (var item in table)
 				{

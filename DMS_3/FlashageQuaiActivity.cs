@@ -62,7 +62,6 @@ namespace DMS_3
 		int currentPrlFLash;
 
 		MobileBarcodeScanner scanner;
-		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -117,7 +116,7 @@ namespace DMS_3
 			btn_pblFlash.Click += delegate
 			{
 				currentPrlFLash++;
-
+				DBRepository dbr = new DBRepository();
 				string JSONNOTIF = "{\"codesuiviliv\":\"FLASHAGEIMP\",\"memosuiviliv\":\"" + numCommande + "\",\"libellesuiviliv\":\"\",\"commandesuiviliv\":\"" + numCommande + "\",\"groupagesuiviliv\":\"" + data.groupage + "\",\"datesuiviliv\":\"" + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "\",\"posgps\":\"" + Data.GPS + "\"}";
 				dbr.insertDataStatutpositions("FLASHAGEIMP", "1", "FLASHAGE", numCommande, numCommande, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), JSONNOTIF);
 				int colisFlasher = dbr.CountColisFlash(data.numCommande);
@@ -331,6 +330,7 @@ namespace DMS_3
 						}
 
 					}
+					DBRepository dbr = new DBRepository();
 					var is_colis_in_truck = dbr.is_colis_in_truck(num);
 					if (is_colis_in_truck != int.MinValue)
 					{
@@ -391,7 +391,7 @@ namespace DMS_3
 
 					progress += 20;
 					action(progress);
-
+					DBRepository dbr = new DBRepository();
 					var is_position_in_truck = dbr.is_position_in_truck(num);
 					flashinprogress = true;
 					afficherInformations(is_position_in_truck, numCommande);
@@ -416,7 +416,7 @@ namespace DMS_3
 					RunOnUiThread(() => btn_detail.Visibility = ViewStates.Gone);
 					//get infos  WS
 					//string _url = "http://dms.jeantettransport.com/api/flash";
-
+					DBRepository dbr = new DBRepository();
 					var webClient = new TimeoutWebclient();
 					webClient.Encoding = System.Text.Encoding.UTF8;
 					webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
@@ -523,6 +523,10 @@ namespace DMS_3
 							RunOnUiThread(() => tl.AddView(row));
 						}
 						RunOnUiThread(() => btn_photo.Visibility = ViewStates.Visible);
+						if (dialog != null)
+						{
+							dialog.Dismiss();
+						}
 					}
 					else {
 						RunOnUiThread(() => infonumero.Text = "Pas de résultat");
@@ -569,6 +573,7 @@ namespace DMS_3
 
 		void afficherInformations(int idPos, string numCommande)
 		{
+			DBRepository dbr = new DBRepository();
 			data = dbr.GetPositionsData(idPos);
 
 			RunOnUiThread(() => btn_detail.Click += delegate

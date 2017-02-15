@@ -31,8 +31,6 @@ namespace DMS_3
 		EditText mémo;
 		ImageView _imageView;
 
-		DBRepository dbr = new DBRepository();
-
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
@@ -71,6 +69,8 @@ namespace DMS_3
 		protected override void OnResume()
 		{
 			base.OnResume();
+
+			DBRepository dbr = new DBRepository();
 			data = dbr.GetPositionsData(i);
 
 			if (data.CR == "" || data.CR == "0" || type == "RAM" || data.ASSIGNE == "" || data.ASSIGNE == "0")
@@ -101,7 +101,8 @@ namespace DMS_3
 				if (data.ASSIGNE == "" || data.ASSIGNE == "0")
 				{
 					valideAction();
-				}else
+				}
+				else
 				{
 					traitDial();
 				}
@@ -112,7 +113,8 @@ namespace DMS_3
 			}
 		}
 
-		void traitDial() {
+		void traitDial()
+		{
 			string title;
 			string typeMo;
 			string num;
@@ -133,7 +135,7 @@ namespace DMS_3
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.SetTitle(title);
-			builder.SetMessage("Avez vous perçu " + typeMo + " de "+num+" euros ?\n Si oui, valider cette livraison ?");
+			builder.SetMessage("Avez vous perçu " + typeMo + " de " + num + " euros ?\n Si oui, valider cette livraison ?");
 			builder.SetCancelable(false);
 			builder.SetPositiveButton("Oui", delegate
 			{
@@ -145,6 +147,8 @@ namespace DMS_3
 
 		void valideAction()
 		{
+
+			DBRepository dbr = new DBRepository();
 			//format mémo
 			string formatmémo = mémo.Text.Replace("\"", " ").Replace("'", " ");
 			//case btn check
@@ -228,6 +232,7 @@ namespace DMS_3
 			if (Data.bitmap != null)
 			{
 				_imageView.SetImageBitmap(Data.bitmap);
+				DBRepository dbr = new DBRepository();
 				dbr.updateposimgpath(i, Data._file.Path);
 				Data.bitmap = null;
 			}
@@ -236,15 +241,18 @@ namespace DMS_3
 
 		public override void OnBackPressed()
 		{
+
+			DBRepository dbr = new DBRepository();
 			if (Intent.GetBooleanExtra("FLASH", false))
 			{
 				Intent intent;
 				dbr.resetColis(data.numCommande);
-				if (Intent.GetBooleanExtra("noColis",false))
+				if (Intent.GetBooleanExtra("noColis", false))
 				{
 					intent = new Intent(this, typeof(DetailActivity));
 					intent.PutExtra("TRAIT", "false");
-				}else
+				}
+				else
 				{
 					intent = new Intent(this, typeof(FlashageQuaiActivity));
 				}

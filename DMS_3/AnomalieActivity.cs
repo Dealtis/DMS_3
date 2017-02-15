@@ -36,8 +36,6 @@ namespace DMS_3
 		CheckBox checkP;
 		string type;
 
-		DBRepository dbr = new DBRepository();
-
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
@@ -48,6 +46,7 @@ namespace DMS_3
 
 			type = Intent.GetStringExtra("TYPE");
 
+			DBRepository dbr = new DBRepository();
 			data = dbr.GetPositionsData(i);
 
 			Spinner spinner = FindViewById<Spinner>(Resource.Id.spinnerAnomalie);
@@ -268,9 +267,11 @@ namespace DMS_3
 				}
 
 
+				DBRepository dbr = new DBRepository();
 				switch (txtspinner)
 				{
 					case "Restaure en non traite":
+
 						dbr.updatePosition(i, "0", txtspinner, formatrem, codeanomalie, null);
 						//if postion pole vider les colis flasher
 						if (data.positionPole != "0")
@@ -364,6 +365,8 @@ namespace DMS_3
 			if (Data.bitmap != null)
 			{
 				_imageView.SetImageBitmap(Data.bitmap);
+
+				DBRepository dbr = new DBRepository();
 				dbr.updateposimgpath(i, Data._file.Path);
 				Data.bitmap = null;
 			}
@@ -390,6 +393,8 @@ namespace DMS_3
 		{
 			if (Intent.GetBooleanExtra("FLASH", false))
 			{
+
+				DBRepository dbr = new DBRepository();
 				dbr.resetColis(data.numCommande);
 				Intent intent;
 				if (Intent.GetBooleanExtra("noColis", false))

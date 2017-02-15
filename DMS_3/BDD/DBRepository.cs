@@ -38,7 +38,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				return false;
 			}
 		}
@@ -63,7 +63,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				return false;
 			}
 		}
@@ -90,7 +90,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -148,7 +148,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -176,7 +176,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -199,7 +199,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -225,7 +225,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -252,7 +252,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -275,7 +275,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -298,7 +298,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -329,7 +329,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				Console.WriteLine(ex);
 				return false;
 			}
@@ -356,7 +356,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -384,7 +384,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -417,7 +417,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -559,7 +559,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -585,7 +585,7 @@ namespace DMS_3.BDD
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -608,7 +608,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				Console.WriteLine(ex);
 				return "Erreur : " + ex.Message;
 			}
@@ -633,7 +633,7 @@ namespace DMS_3.BDD
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -695,7 +695,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}
@@ -718,7 +718,7 @@ namespace DMS_3.BDD
 			}
 			catch (Exception ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				Console.WriteLine(ex);
 				return false;
 			}
@@ -747,62 +747,67 @@ namespace DMS_3.BDD
 		//SELECT PAR ID
 		public TablePositions GetPositionsData(int id)
 		{
-			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex);
+			var conn = new SQLiteConnectionWithLock(Path, SQLiteOpenFlags.ReadWrite);
 			conn.BusyTimeout = TimeSpan.FromSeconds(2);
 
 			TablePositions data = new TablePositions();
 			var item = conn.Get<TablePositions>(id);
-			data.codeLivraison = item.codeLivraison;
-			data.numCommande = item.numCommande;
-			data.nomClient = item.nomClient;
-			data.refClient = item.refClient;
-			data.nomPayeur = item.nomPayeur;
-			data.adresseLivraison = item.adresseLivraison;
-			data.CpLivraison = item.CpLivraison;
-			data.villeLivraison = item.villeLivraison;
-			data.dateHeure = item.dateHeure;
-			data.dateExpe = item.dateExpe;
-			data.nbrColis = item.nbrColis;
-			data.nbrPallette = item.nbrPallette;
-			data.adresseExpediteur = item.adresseExpediteur;
-			data.CpExpediteur = item.CpExpediteur;
-			data.villeExpediteur = item.villeExpediteur;
-			data.nomExpediteur = item.nomExpediteur;
-			data.StatutLivraison = item.StatutLivraison;
-			data.instrucLivraison = item.instrucLivraison;
-			data.groupage = item.groupage;
-			data.poidsADR = item.poidsADR;
-			data.poidsQL = item.poidsQL;
-			data.planDeTransport = item.planDeTransport;
-			data.typeMission = item.typeMission;
-			data.typeSegment = item.typeSegment;
-			data.CR = item.CR;
-			data.ASSIGNE = item.ASSIGNE;
-			data.nomClientLivraison = item.nomClientLivraison;
-			data.villeClientLivraison = item.villeClientLivraison;
-			data.Datemission = item.Datemission;
-			data.Ordremission = item.Ordremission;
-			data.Userandsoft = item.Userandsoft;
-			data.remarque = item.remarque;
-			data.codeAnomalie = item.codeAnomalie;
-			data.libeAnomalie = item.libeAnomalie;
-			data.imgpath = item.imgpath;
-			data.Id = item.Id;
-			data.positionPole = item.positionPole;
-
-			if (item.poids != "")
+			if (item != null)
 			{
-				if (Convert.ToDouble(item.poids.Replace('.', ',')) < 1)
+				data.codeLivraison = item.codeLivraison;
+				data.numCommande = item.numCommande;
+				data.nomClient = item.nomClient;
+				data.refClient = item.refClient;
+				data.nomPayeur = item.nomPayeur;
+				data.adresseLivraison = item.adresseLivraison;
+				data.CpLivraison = item.CpLivraison;
+				data.villeLivraison = item.villeLivraison;
+				data.dateHeure = item.dateHeure;
+				data.dateExpe = item.dateExpe;
+				data.nbrColis = item.nbrColis;
+				data.nbrPallette = item.nbrPallette;
+				data.adresseExpediteur = item.adresseExpediteur;
+				data.CpExpediteur = item.CpExpediteur;
+				data.villeExpediteur = item.villeExpediteur;
+				data.nomExpediteur = item.nomExpediteur;
+				data.StatutLivraison = item.StatutLivraison;
+				data.instrucLivraison = item.instrucLivraison;
+				data.groupage = item.groupage;
+				data.poidsADR = item.poidsADR;
+				data.poidsQL = item.poidsQL;
+				data.planDeTransport = item.planDeTransport;
+				data.typeMission = item.typeMission;
+				data.typeSegment = item.typeSegment;
+				data.CR = item.CR;
+				data.ASSIGNE = item.ASSIGNE;
+				data.nomClientLivraison = item.nomClientLivraison;
+				data.villeClientLivraison = item.villeClientLivraison;
+				data.Datemission = item.Datemission;
+				data.Ordremission = item.Ordremission;
+				data.Userandsoft = item.Userandsoft;
+				data.remarque = item.remarque;
+				data.codeAnomalie = item.codeAnomalie;
+				data.libeAnomalie = item.libeAnomalie;
+				data.imgpath = item.imgpath;
+				data.Id = item.Id;
+				data.positionPole = item.positionPole;
+
+				if (item.poids != "")
 				{
-					data.poids = Convert.ToDouble(item.poids.Replace('.', ',')) * 1000 + " kg";
+					if (Convert.ToDouble(item.poids.Replace('.', ',')) < 1)
+					{
+						data.poids = Convert.ToDouble(item.poids.Replace('.', ',')) * 1000 + " kg";
+					}
+					else {
+						data.poids = item.poids + " tonnes";
+					}
+
 				}
-				else {
-					data.poids = item.poids + " tonnes";
+				else
+				{
+					data.poids = "Poids inconnu";
 				}
 
-			}else
-			{
-				data.poids = "Poids inconnu";
 			}
 
 			conn.Close();
@@ -915,7 +920,7 @@ namespace DMS_3.BDD
 			}
 			catch (SQLiteException ex)
 			{
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				return "Erreur : " + ex.Message;
 			}
 		}

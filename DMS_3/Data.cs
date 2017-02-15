@@ -48,9 +48,6 @@ namespace DMS_3
 		public static Typeface LatoMedium = Typeface.CreateFromAsset(Application.Context.Assets, "fonts/Lato-Medium.ttf");
 		public static Typeface LatoRegular = Typeface.CreateFromAsset(Application.Context.Assets, "fonts/Lato-Regular.ttf");
 
-		DBRepository dbr = new DBRepository();
-
-
 		public static bool Is_Service_Running = false;
 		public static Data Instance
 		{
@@ -112,6 +109,8 @@ namespace DMS_3
 		}
 		public int isMatdang(string groupage)
 		{
+
+			DBRepository dbr = new DBRepository();
 			var isornot = dbr.CountMatiereDang(groupage);
 
 			if (Convert.ToInt32(isornot[0].poidsADR) >= 1000)
@@ -163,6 +162,7 @@ namespace DMS_3
 
 		internal void traitImg(int i, string type, Context context)
 		{
+			DBRepository dbr = new DBRepository();
 			var imgpath = dbr.GetPositionsData(i);
 			string compImg = String.Empty;
 			if (imgpath.imgpath != "null")

@@ -26,7 +26,6 @@ namespace DMS_3
 	public class SplashActivity : Activity
 	{
 		BackgroundWorker bgService;
-		DBRepository dbr = new DBRepository();
 
 		public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
 		{
@@ -134,6 +133,8 @@ namespace DMS_3
 			});
 			startupWork.ContinueWith(t =>
 			{
+
+				DBRepository dbr = new DBRepository();
 				//Is a user login ?
 				var user_Login = dbr.is_user_Log_In();
 				if (!(user_Login == "false"))

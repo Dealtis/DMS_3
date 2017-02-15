@@ -16,7 +16,6 @@ namespace DMS_3
 		private List<TableMessages> mItems;
 		private ListView mListView;
 		public ListeViewMessageAdapter adapter;
-		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle bundle)
 		{
@@ -29,6 +28,7 @@ namespace DMS_3
 
 			mItems = new List<TableMessages>();
 
+			DBRepository dbr = new DBRepository();
 			var table = dbr.QueryMessage("SELECT * FROM TableMessages where codeChauffeur='" + Data.userAndsoft + "' and typeMessage != 5");
 			var i = 0;
 
@@ -79,6 +79,7 @@ namespace DMS_3
 			}
 			else {
 				string formatmsg = newmessage.Text.Replace("\"", " ").Replace("'", " ");
+				DBRepository dbr = new DBRepository();
 				dbr.insertDataMessage(Data.userAndsoft, "", formatmsg, 2, DateTime.Now, 2, 0);
 
 			}
@@ -90,7 +91,7 @@ namespace DMS_3
 
 		void Btndeletemsg_Click(object sender, EventArgs e)
 		{
-
+			DBRepository dbr = new DBRepository();
 			dbr.DropTableMessage();
 			StartActivity(typeof(MessageActivity));
 

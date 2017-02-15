@@ -36,7 +36,6 @@ namespace DMS_3
 
 		bool isStarted = false;
 		private Handler handler = new Handler();
-		DBRepository dbr = new DBRepository();
 		static readonly string TAG = "X:" + typeof(ProcessDMS).Name;
 
 		GoogleApiClient googleApiClient;
@@ -52,6 +51,7 @@ namespace DMS_3
 			}
 			else
 			{
+				DBRepository dbr = new DBRepository();
 				userAndsoft = dbr.getUserAndsoft();
 				userTransics = dbr.getUserTransics();
 
@@ -129,6 +129,7 @@ namespace DMS_3
 
 		void Routine()
 		{
+			DBRepository dbr = new DBRepository();
 			userAndsoft = dbr.getUserAndsoft();
 			userTransics = dbr.getUserTransics();
 			var connectivityManager = (ConnectivityManager)GetSystemService(ConnectivityService);
@@ -137,21 +138,11 @@ namespace DMS_3
 			{
 				if ((activeConnection != null) && activeConnection.IsConnected)
 				{
-					Task.Factory.StartNew(
-						() =>
-						{
-							Log.Debug(TAG, $"Hello from ComPosNotifMsg.");
-							ComPosNotifMsg();
-							Thread.Sleep(500);
-						}
-					).ContinueWith(
-						t =>
-						{
-							Log.Debug(TAG, $"Hello from ComWebService.");
-							ComWebService();
-							Thread.Sleep(500);
-						}
-					);
+					Log.Debug(TAG, $"Hello from ComPosNotifMsg.");
+					ComPosNotifMsg();
+
+					Log.Debug(TAG, $"Hello from ComWebService.");
+					ComWebService();
 				}
 			}
 
@@ -173,6 +164,7 @@ namespace DMS_3
 		{
 			datedujour = DateTime.Now.ToString("yyyyMMdd");
 
+			DBRepository dbr = new DBRepository();
 			//récupération de donnée via le webservice
 			string content_integdata = String.Empty;
 			try
@@ -268,6 +260,7 @@ namespace DMS_3
 
 		void ComPosNotifMsg()
 		{
+			DBRepository dbr = new DBRepository();
 			//API GPS OK
 			var webClient = new WebClient();
 			try
@@ -380,6 +373,8 @@ namespace DMS_3
 
 		void ComWebService()
 		{
+
+			DBRepository dbr = new DBRepository();
 			//récupération des données dans la BDD
 			var table = dbr.QueryStatuPos("Select * FROM TableStatutPositions");
 			string datajsonArray = string.Empty;
@@ -438,6 +433,7 @@ namespace DMS_3
 		{
 			try
 			{
+				DBRepository dbr = new DBRepository();
 				string resultjson = "[" + e.Result + "]";
 				if (e.Result != "{\"Id\":0,\"codeChauffeur\":null,\"texteMessage\":null,\"utilisateurEmetteur\":null,\"statutMessage\":0,\"dateImportMessage\":\"0001-01-01T00:00:00\",\"typeMessage\":0,\"numMessage\":null}")
 				{
@@ -466,6 +462,7 @@ namespace DMS_3
 		{
 			try
 			{
+				DBRepository dbr = new DBRepository();
 				if (texteMessage.ToString().Length < 9)
 				{
 					dbr.insertDataMessage(codeChauffeur, utilisateurEmetteur, texteMessage, 0, DateTime.Now, 1, numMessage);
@@ -786,21 +783,6 @@ namespace DMS_3
 
 			// Ask the Settings API if we can fulfill this request
 			var locationSettingsResult = await LocationServices.SettingsApi.CheckLocationSettingsAsync(googleApiClient, locationSettingsRequest);
-
-
-			// If false, we might be able to resolve it by showing the location settings 
-			// to the user and allowing them to change the settings
-			//if (!locationSettingsResult.Status.IsSuccess)
-			//{
-
-			//	if (locationSettingsResult.Status.StatusCode == LocationSettingsStatusCodes.ResolutionRequired)
-			//		locationSettingsResult.Status.StartResolutionForResult(Application.Context., 101);
-			//	else
-			//		Toast.MakeText(this, "Location Services Not Available for the given request.", ToastLength.Long).Show();
-
-			//	return false;
-			//}
-
 			return true;
 		}
 

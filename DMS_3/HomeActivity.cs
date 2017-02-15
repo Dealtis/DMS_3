@@ -27,7 +27,6 @@ namespace DMS_3
 		RelativeLayout peekupBadge;
 		RelativeLayout newMsgBadge;
 		System.Timers.Timer indicatorTimer;
-		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -85,6 +84,7 @@ namespace DMS_3
 			builder.SetPositiveButton("Annuler", delegate { });
 			builder.SetNegativeButton("Déconnexion", delegate
 			{
+				DBRepository dbr = new DBRepository();
 				dbr.logout();
 				Data.userAndsoft = null;
 				Data.userTransics = null;
@@ -108,6 +108,7 @@ namespace DMS_3
 
 			try
 			{
+				DBRepository dbr = new DBRepository();
 				var user_Login = dbr.is_user_Log_In();
 				dbr.SETBadges(Data.userAndsoft);
 				if (user_Login == "false")

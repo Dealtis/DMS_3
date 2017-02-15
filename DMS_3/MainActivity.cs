@@ -25,7 +25,6 @@ namespace DMS_3
 		EditText password;
 		TextView tableload;
 		BackgroundWorker bgService;
-		DBRepository dbr = new DBRepository();
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -81,6 +80,7 @@ namespace DMS_3
 			if (!(user.Text == ""))
 			{
 				//INSTANCE DBREPOSITORY
+				DBRepository dbr = new DBRepository();
 				var usercheck = dbr.user_Check(user.Text.ToUpper(), password.Text);
 				if (usercheck)
 				{
@@ -252,6 +252,7 @@ namespace DMS_3
 			var jsonArr = jsonVal;
 			foreach (var row in jsonArr)
 			{
+				DBRepository dbr = new DBRepository();
 				var checkUser = dbr.user_AlreadyExist(row["userandsoft"], row["usertransics"], row["mdpandsoft"], row["User_Usesigna"], row["User_Societe"]);
 				Console.WriteLine("\n" + checkUser + " " + row["userandsoft"]);
 				if (!checkUser)
