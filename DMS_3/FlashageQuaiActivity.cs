@@ -221,9 +221,12 @@ namespace DMS_3
 				if (e.Event.Action == KeyEventActions.Down && e.KeyCode == Keycode.Enter)
 				{
 					e.Handled = true;
-					numero = barcode.Text.ToString();
-					ShowProgress(progress => AndHUD.Shared.Show(this, barcode.Text.ToString() + " ... " + progress + "%", progress, MaskType.Clear, null, null, true, () => AndHUD.Shared.Dismiss(this)), barcode.Text.ToString());
-					barcode.EditableText.Clear();
+					if (barcode.Text != String.Empty)
+					{
+						numero = barcode.Text.ToString();
+						ShowProgress(progress => AndHUD.Shared.Show(this, barcode.Text.ToString() + " ... " + progress + "%", progress, MaskType.Clear, null, null, true, () => AndHUD.Shared.Dismiss(this)), barcode.Text.ToString());
+						barcode.EditableText.Clear();
+					}
 				}
 			};
 
@@ -324,9 +327,10 @@ namespace DMS_3
 						if (numSplit.Length > 1)
 						{
 							num = numSplit[1].Remove(numSplit[1].Length - 1);
-						}else
+						}
+						else
 						{
-							num = numSplit[0].Remove(0,4);
+							num = numSplit[0].Remove(0, 4);
 						}
 
 					}
@@ -373,7 +377,7 @@ namespace DMS_3
 				catch (System.Exception ex)
 				{
 					Console.WriteLine(ex);
-					RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+					RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 					AndHUD.Shared.Dismiss(this);
 				}
 			});
@@ -402,7 +406,7 @@ namespace DMS_3
 				catch (Exception ex)
 				{
 					Console.WriteLine(ex);
-					RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+					RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				}
 			});
 		}
@@ -547,7 +551,6 @@ namespace DMS_3
 						}
 					}
 					AndHUD.Shared.Dismiss(this);
-
 				}
 				else
 				{
@@ -560,7 +563,7 @@ namespace DMS_3
 			{
 				Console.WriteLine(ex);
 				AndHUD.Shared.Dismiss(this);
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 				RunOnUiThread(() => btn_photo.Visibility = ViewStates.Gone);
 				RunOnUiThread(() => Toast.MakeText(this, "Erreur de connexion", ToastLength.Short).Show());
 			}
@@ -717,7 +720,7 @@ namespace DMS_3
 						catch (Exception ex)
 						{
 							Console.WriteLine("\n" + ex);
-							RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+							RaygunClient.Current.SendInBackground(ex); Xamarin.Insights.Report(ex);
 						}
 					});
 				threadUpload.Start();

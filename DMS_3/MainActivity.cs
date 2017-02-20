@@ -183,13 +183,13 @@ namespace DMS_3
 
 							if (userData == "[]")
 							{
-								_url = "***URLOVH****";
+								_url = "https://dmsws.dealtis.fr/api/authenWsv4";
 								userData = webClient.DownloadString(_url);
 								if (userData != "[]")
 								{
 									//set pref API_LOCATION OVH
 									editor.PutString("API_LOCATION", "OVH");
-									editor.PutString("API_DOMAIN", "http://*****************");
+									editor.PutString("API_DOMAIN", "https://dmsws.dealtis.fr/api/authenWsv4");
 									editor.Apply();
 									Console.WriteLine("SET OVH");
 								}

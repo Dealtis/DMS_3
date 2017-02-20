@@ -60,6 +60,17 @@ namespace DMS_3
 			base.OnResume();
 			try
 			{
+				DBRepository dbr = new DBRepository();
+				var user_Login = dbr.is_user_Log_In();
+				if (user_Login == "false")
+				{
+					StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+				}
+				else
+				{
+					dbr.setUserdata(user_Login);
+					dbr.SETBadges(Data.userAndsoft);
+				}
 				initOnResume();
 			}
 			catch (Exception ex)

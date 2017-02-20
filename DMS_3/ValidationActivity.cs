@@ -73,11 +73,20 @@ namespace DMS_3
 			DBRepository dbr = new DBRepository();
 			data = dbr.GetPositionsData(i);
 
-			if (data.CR == "" || data.CR == "0" || type == "RAM" || data.ASSIGNE == "" || data.ASSIGNE == "0")
+			if (data.CR == "" || data.CR == "0" || type == "RAM" )
 			{
-				check1.Visibility = ViewStates.Gone;
-				check2.Visibility = ViewStates.Gone;
-				txtCR.Visibility = ViewStates.Gone;
+				if (data.ASSIGNE == "" || data.ASSIGNE == "0")
+				{
+					check1.Visibility = ViewStates.Gone;
+					check2.Visibility = ViewStates.Gone;
+					txtCR.Visibility = ViewStates.Gone;
+				}else
+				{
+					check1.Visibility = ViewStates.Visible;
+					check2.Visibility = ViewStates.Visible;
+					txtCR.Visibility = ViewStates.Visible;
+					txtCR.Text = data.CR + "" + data.ASSIGNE;
+				}
 			}
 			else {
 				check1.Visibility = ViewStates.Visible;

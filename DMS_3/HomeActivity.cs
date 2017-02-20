@@ -110,16 +110,20 @@ namespace DMS_3
 			{
 				DBRepository dbr = new DBRepository();
 				var user_Login = dbr.is_user_Log_In();
-				dbr.SETBadges(Data.userAndsoft);
 				if (user_Login == "false")
 				{
 					StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+				}else
+				{
+					dbr.setUserdata(user_Login);
+					dbr.SETBadges(Data.userAndsoft);
 				}
 			}
 			catch (System.Exception ex)
 			{
 				System.Console.WriteLine("Erreur sur is_user_Log_In" + ex);
-				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
+				RaygunClient.Current.SendInBackground(ex);
+				Xamarin.Insights.Report(ex);
 			}
 
 			var version = this.PackageManager.GetPackageInfo(this.PackageName, 0).VersionName;
