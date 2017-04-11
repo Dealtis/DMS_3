@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -7,6 +8,7 @@ using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using DMS_3.BDD;
+using RestSharp;
 using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
 namespace DMS_3
 {
@@ -41,6 +43,7 @@ namespace DMS_3
 		Button btnanomalie;
 		string type;
 		Bitmap imgbitmap;
+		ImageButton gMaps;
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -64,9 +67,11 @@ namespace DMS_3
 			boxPole = FindViewById<LinearLayout>(Resource.Id.boxPole);
 			btnvalide = FindViewById<Button>(Resource.Id.valide);
 			btnanomalie = FindViewById<Button>(Resource.Id.anomalie);
+			gMaps = FindViewById<ImageButton>(Resource.Id.gMaps);
 
 			btnvalide.Click += Btnvalide_Click;
 			btnanomalie.Click += Btnanomalie_Click;
+			gMaps.Click += gMaps_Click;
 
 		}
 
@@ -127,6 +132,32 @@ namespace DMS_3
 				infoclient.Text = "\n" + data.nomClient + "\nRef: " + data.refClient + "\nTournee : " + data.planDeTransport;
 				client.Text = "Client";
 
+
+				////gMaps
+				//gMaps.Visibility = ViewStates.Gone;
+				//var RClient = new RestClient("https://maps.googleapis.com/maps/api/geocode/");
+				//string nomConcat = String.Empty;
+				//string adrConcat = String.Empty;
+
+				//foreach (var item in data.nomPayeur.Split(' '))
+				//{
+				//	nomConcat = nomConcat == String.Empty ? String.Concat(nomConcat, item) : String.Concat(nomConcat, String.Format("+{0}",item));
+				//}
+
+				//foreach (var item in data.adresseLivraison.Split(' '))
+				//{
+				//	adrConcat = adrConcat == String.Empty ? String.Concat(adrConcat, item) : String.Concat(adrConcat, String.Format("+{0}",item));
+				//}
+
+				//var request = new RestRequest(String.Format("json?address={0},{1},{2},{3}&key=AIzaSyBOeBriCeuw0BETvQRlKloB4KoooPYzu4g", nomConcat, adrConcat, data.CpLivraison, data.villeLivraison));
+				//RClient.ExecuteAsync(request, response =>
+				//{
+				//	Console.WriteLine(response.Content);
+				//	//if response success
+				//	//gMaps.Visibility = ViewStates.Visible;
+
+				//});
+
 				//Gestion dest final
 				destfinal.Visibility = ViewStates.Gone;
 				destfinal.Text = "" + data.nomClientLivraison + "\n" + data.villeClientLivraison + "";
@@ -182,7 +213,6 @@ namespace DMS_3
 				RaygunClient.Current.SendInBackground(ex);Xamarin.Insights.Report(ex);
 			}
 		}
-
 
 		void Btnvalide_Click(object sender, EventArgs e)
 		{
@@ -246,6 +276,27 @@ namespace DMS_3
 				}
 			}
 		}
+
+		void gMaps_Click(object sender, EventArgs e)
+		{
+			string nomConcat = String.Empty;
+			string adrConcat = String.Empty;
+
+			foreach (var item in data.nomPayeur.Split(' '))
+			{
+				nomConcat = nomConcat == String.Empty ? String.Concat(nomConcat, item) : String.Concat(nomConcat, String.Format("+{0}", item));
+			}
+
+			foreach (var item in data.adresseLivraison.Split(' '))
+			{
+				adrConcat = adrConcat == String.Empty ? String.Concat(adrConcat, item) : String.Concat(adrConcat, String.Format("+{0}", item));
+			}
+
+			var geoUri = Android.Net.Uri.Parse(String.Format("geo:0,0?q={0}+{1}+{2}+{3}",nomConcat,adrConcat,data.CpLivraison,data.villeLivraison));
+			var mapIntent = new Intent(Intent.ActionView, geoUri);
+			StartActivity(mapIntent);
+		}
+
 		public override bool OnTouchEvent(MotionEvent e)
 		{
 			_gestureDetector.OnTouchEvent(e);

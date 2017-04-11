@@ -78,6 +78,10 @@
                 android:textSize="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <ImageButton
+                android:src="@drawable/ico_etat"
+                android:id="@+id/gMaps"
+                android:layout_height="63.5dp" />
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">

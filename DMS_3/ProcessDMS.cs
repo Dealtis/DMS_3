@@ -10,7 +10,6 @@ using Android.Net;
 using Android.OS;
 using Android.Preferences;
 using DMS_3.BDD;
-using RaygunClient = Mindscape.Raygun4Net.RaygunClient;
 using String = System.String;
 using Exception = System.Exception;
 using Thread = System.Threading.Thread;
@@ -19,6 +18,7 @@ using Android.Util;
 using Android.Gms.Common.Apis;
 using Android.Gms.Common;
 using Android.Gms.Location;
+using System.Collections.Generic;
 
 namespace DMS_3
 {
@@ -45,6 +45,9 @@ namespace DMS_3
 		//string log_file;
 		public override StartCommandResult OnStartCommand(Android.Content.Intent intent, StartCommandFlags flags, int startId)
 		{
+			//ISharedPreferences pref = Application.Context.GetSharedPreferences("AppInfo", FileCreationMode.Private);
+			//long servicedate = pref.GetLong("Service", 0L);
+
 			if (isStarted)
 			{
 				Log.Debug(TAG, $"This service was already started");
@@ -54,15 +57,9 @@ namespace DMS_3
 				DBRepository dbr = new DBRepository();
 				userAndsoft = dbr.getUserAndsoft();
 				userTransics = dbr.getUserTransics();
-
 				StartServiceInForeground();
-
 				handler.PostDelayed(Routine, 2000);
 
-				//initialize location manager
-				//InitializeLocationManager();
-
-				//Init Google location manager
 				googleApiClient = new GoogleApiClient.Builder(this)
 				.AddApi(Android.Gms.Location.LocationServices.API)
 				.AddConnectionCallbacks(this)
@@ -81,28 +78,6 @@ namespace DMS_3
 			StopForeground(true);
 			StopSelf();
 			base.OnDestroy();
-		}
-
-		void InitializeLocationManager()
-		{
-			//Criteria locationCriteria = new Criteria();
-
-			//locationCriteria.Accuracy = Accuracy.Coarse;
-			//locationCriteria.PowerRequirement = Power.Medium;
-
-			//_locationProvider = locMgr.GetBestProvider(locationCriteria, true);
-
-			//locMgr = (LocationManager)GetSystemService(LocationService);
-
-			//if (_locationProvider != null)
-			//{
-			//	locMgr.RequestLocationUpdates(_locationProvider, 2000, 1, this);
-			//}
-			//else
-			//{
-			//	Log.Info(TAG, "No location providers available");
-			//}
-			//Console.Out.Write("Using " + _locationProvider + ".");
 		}
 
 		void StartServiceInForeground()
@@ -201,7 +176,6 @@ namespace DMS_3
 							catch (Exception ex)
 							{
 								Console.WriteLine(ex);
-								RaygunClient.Current.SendInBackground(ex);
 							}
 						}
 						//NOTIF
@@ -241,7 +215,6 @@ namespace DMS_3
 					{
 						content_grpcloture = "[]";
 						Console.WriteLine("\n" + ex);
-						RaygunClient.Current.SendInBackground(ex);
 					}
 				}
 			}
@@ -249,7 +222,6 @@ namespace DMS_3
 			{
 				content_integdata = "[]";
 				Console.WriteLine("\n" + ex);
-				RaygunClient.Current.SendInBackground(ex);
 			}
 
 			//SET des badges
@@ -284,7 +256,6 @@ namespace DMS_3
 				catch (Exception ex)
 				{
 					Console.WriteLine(ex);
-					RaygunClient.Current.SendInBackground(ex);
 					content_msg = "[]";
 				}
 				if (content_msg != "[]")
@@ -360,13 +331,11 @@ namespace DMS_3
 				catch (Exception e)
 				{
 					Console.WriteLine(e);
-					RaygunClient.Current.SendInBackground(e);
 				}
 			}
 			catch (Exception ex)
 			{
 				Console.Out.Write(ex);
-				RaygunClient.Current.SendInBackground(ex);
 			}
 			Console.WriteLine("\nTask ComPosGps done");
 		}
@@ -400,7 +369,6 @@ namespace DMS_3
 				catch (Exception e)
 				{
 					Console.WriteLine(e);
-					RaygunClient.Current.SendInBackground(e);
 				}
 			}
 			Console.WriteLine("\nTask ComWebService done");
@@ -425,7 +393,6 @@ namespace DMS_3
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
-				RaygunClient.Current.SendInBackground(ex);
 			}
 		}
 
@@ -454,7 +421,6 @@ namespace DMS_3
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
-				RaygunClient.Current.SendInBackground(ex);
 			}
 		}
 
@@ -538,7 +504,6 @@ namespace DMS_3
 							catch (Exception ex)
 							{
 								Console.Out.Write("%%GETAIMG Upload file error\n" + ex);
-								RaygunClient.Current.SendInBackground(ex);
 							}
 							break;
 						case "%%STOPSER":
@@ -636,38 +601,9 @@ namespace DMS_3
 			catch (Exception ex)
 			{
 				Console.WriteLine("\n" + ex);
-				RaygunClient.Current.SendInBackground(ex);
 			}
 		}
 		#endregion
-
-		#region GPS
-		//public void OnLocationChanged(Android.Locations.Location location)
-		//{
-		//	if (previousLocation == null)
-		//	{
-		//		gPS = location.Latitude + ";" + location.Longitude;
-		//		Data.GPS = location.Latitude + ";" + location.Longitude;
-		//		previousLocation = location;
-		//	}
-		//	else {
-		//		if (true)
-		//		{
-		//			gPS = location.Latitude + ";" + location.Longitude;
-		//			Data.GPS = location.Latitude + ";" + location.Longitude;
-		//			previousLocation = location;
-		//		}
-		//	}
-		//}
-		//public void OnProviderDisabled(string provider)
-		//{
-		//}
-		//public void OnProviderEnabled(string provider)
-		//{
-		//}
-		//public void OnStatusChanged(string provider, Availability status, Bundle extras)
-		//{
-		//}
 
 		public double distance(double lat1, double lng1, double lat2, double lng2)
 		{
@@ -687,7 +623,6 @@ namespace DMS_3
 		{
 			return ang * Math.PI / 180;
 		}
-		#endregion
 
 		public void alert()
 		{
@@ -727,7 +662,6 @@ namespace DMS_3
 			catch (Exception ex)
 			{
 				Console.Out.Write("Upload file" + fileName + " error\n" + ex);
-				RaygunClient.Current.SendInBackground(ex);
 				Thread.Sleep(TimeSpan.FromMinutes(2));
 				uploadFile(ftpUrl, fileName, userName, password, uploadDirectory);
 				return false;

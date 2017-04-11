@@ -129,11 +129,10 @@ namespace DMS_3
 					Thread.Sleep(5000);
 				}
 
-
 			});
+
 			startupWork.ContinueWith(t =>
 			{
-
 				DBRepository dbr = new DBRepository();
 				//Is a user login ?
 				var user_Login = dbr.is_user_Log_In();

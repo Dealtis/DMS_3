@@ -42,3 +42,7 @@ captures/
 
 #obj directory
 DMS_3/obj/*
+
+\.scannerwork/
+
+Components/
